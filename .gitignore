@@ -1,0 +1,65 @@
+# ========================
+# Node.js & JavaScript
+# ========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ========================
+# Build e produção
+# ========================
+dist/
+build/
+.cache/
+.next/
+out/
+tmp/
+temp/
+
+# ========================
+# Logs
+# ========================
+*.log
+logs
+*.pid
+*.seed
+*.pid.lock
+
+# ========================
+# Sistema operacional
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Ambiente e configs sensíveis
+# ========================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+
+# ========================
+# Banco de dados (Prisma, SQLite, etc.)
+# ========================
+prisma/dev.db
+prisma/dev.db-journal
+*.sqlite
+*.sqlite-journal
+
+# ========================
+# Editores/IDE
+# ========================
+.vscode/
+.idea/
+*.swp
+
+# ========================
+# Testes
+# ========================
+coverage/
+*.lcov
