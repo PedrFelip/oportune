@@ -9,7 +9,7 @@ const appRoutes = () => {
     return (
         <Router>
             <Routes>
-                <Router></Router>
+                <Route></Route>
             </Routes>
         </Router>
     )
