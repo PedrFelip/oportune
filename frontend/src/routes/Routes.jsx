@@ -5,12 +5,22 @@ import {
     Navigate,
 } from "react-router-dom";
 import Home from "../pages/Home";
+import Login from "../pages/auth/login";
 
 const AppRoutes = () => {
+    const redirectToHome = <Navigate to="/" />;
+
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
+                {/* Página principal */}
+                <Route path="" element={<Home />} />
+
+                {/* Paginas de login */}
+                <Route path="/login" element={<Login />} />
+
+                {/* Rota Genérica */}
+                <Route path="*" element={redirectToHome} />
             </Routes>
         </Router>
     );
