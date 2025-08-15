@@ -5,7 +5,7 @@ import {
     Navigate,
 } from "react-router-dom";
 import Home from "../pages/Home";
-import Login from "../pages/auth/login";
+import Login from "../pages/auth/Login";
 
 const AppRoutes = () => {
     const redirectToHome = <Navigate to="/" />;
