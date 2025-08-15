@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card.jsx";
 import { Briefcase, Building, Users, GraduationCap, Star } from "lucide-react";
 import "../App.css";
 import Logo from "../assets/logo_oportune.png";
+import { Link } from "react-router-dom";
 
 function Home() {
     return (
@@ -12,7 +13,9 @@ function Home() {
             <header className="flex items-center justify-between px-6 py-4 bg-slate-800/30 backdrop-blur-sm">
                 <div className="flex items-center space-x-2">
                     <img src={Logo} className="h-15 w-15 text-blue-400" />
-                    <span className="text-3xl font-bold">Oportune <span className="text-blue-300">+</span></span>
+                    <span className="text-3xl font-bold">
+                        Oportune <span className="text-blue-300">+</span>
+                    </span>
                 </div>
                 <nav className="hidden md:flex items-center space-x-8">
                     <a
@@ -27,12 +30,12 @@ function Home() {
                     >
                         FAQ
                     </a>
-                    <a
-                        href="#"
+                    <Link
+                        to={"/login"}
                         className="text-gray-300 hover:text-white transition-colors cursor-pointer"
                     >
                         Entrar
-                    </a>
+                    </Link>
                     <Button className="oportune-button-primary cursor-pointer">
                         Criar conta
                     </Button>
@@ -56,15 +59,15 @@ function Home() {
                             <Button
                                 variant="outline"
                                 className="
-                    border-[#1E2A48] 
-                    bg-[#1E2A48] 
-                    text-white
-                    hover:bg-white
-                    hover:text-[#1E2A48]
-                    hover:border-[#1E2A48]
-                    transition-all duration-300 ease-in-out
-                    cursor-pointer
-                    "
+                                    border-[#1E2A48] 
+                                    bg-[#1E2A48] 
+                                    text-white
+                                    hover:bg-white
+                                    hover:text-[#1E2A48]
+                                    hover:border-[#1E2A48]
+                                    transition-all duration-300 ease-in-out
+                                    cursor-pointer
+                                "
                             >
                                 Sou Aluno
                             </Button>
@@ -72,15 +75,15 @@ function Home() {
                             <Button
                                 variant="outline"
                                 className="
-                    border-[#1E2A48] 
-                    bg-[#1E2A48] 
-                    text-white
-                    hover:bg-white
-                    hover:text-[#1E2A48]
-                    hover:border-[#1E2A48]
-                    transition-all duration-300 ease-in-out
-                    cursor-pointer
-                    "
+                                    border-[#1E2A48] 
+                                    bg-[#1E2A48] 
+                                    text-white
+                                    hover:bg-white
+                                    hover:text-[#1E2A48]
+                                    hover:border-[#1E2A48]
+                                    transition-all duration-300 ease-in-out
+                                    cursor-pointer
+                                "
                             >
                                 Sou Empresa
                             </Button>
@@ -88,15 +91,15 @@ function Home() {
                             <Button
                                 variant="outline"
                                 className="
-                    border-[#1E2A48] 
-                    bg-[#1E2A48] 
-                    text-white
-                    hover:bg-white
-                    hover:text-[#1E2A48]
-                    hover:border-[#1E2A48]
-                    transition-all duration-300 ease-in-out
-                    cursor-pointer
-                    "
+                                    border-[#1E2A48] 
+                                    bg-[#1E2A48] 
+                                    text-white
+                                    hover:bg-white
+                                    hover:text-[#1E2A48]
+                                    hover:border-[#1E2A48]
+                                    transition-all duration-300 ease-in-out
+                                    cursor-pointer
+                                "
                             >
                                 Sou Professor
                             </Button>
@@ -165,15 +168,15 @@ function Home() {
                             <Button
                                 variant="outline"
                                 className="
-                    border-[#1E2A48] 
-                    bg-[#1E2A48] 
-                    text-white
-                    hover:bg-white
-                    hover:text-[#1E2A48]
-                    hover:border-[#1E2A48]
-                    transition-all duration-300 ease-in-out
-                    cursor-pointer
-                    "
+                                    border-[#1E2A48] 
+                                    bg-[#1E2A48] 
+                                    text-white
+                                    hover:bg-white
+                                    hover:text-[#1E2A48]
+                                    hover:border-[#1E2A48]
+                                    transition-all duration-300 ease-in-out
+                                    cursor-pointer
+                                "
                             >
                                 Publicar vaga
                             </Button>
