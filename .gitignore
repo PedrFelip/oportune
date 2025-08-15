@@ -50,6 +50,7 @@ prisma/dev.db
 prisma/dev.db-journal
 *.sqlite
 *.sqlite-journal
+generated/prisma
 
 # ========================
 # Editores/IDE
