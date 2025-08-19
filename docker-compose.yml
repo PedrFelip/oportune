@@ -1,0 +1,24 @@
+services:
+  db:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    container_name: db_oportune
+    env_file:
+      - .env.db.local
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - oportune_network
+
+volumes:
+  postgres_data:
+
+networks:
+  oportune_network:
+    driver: bridge
