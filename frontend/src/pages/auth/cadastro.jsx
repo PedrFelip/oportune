@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 
-// --- ÍCONES E COMPONENTES DE UI REUTILIZÁVEIS ---
-
-// Ícone de Verificação para a tela de sucesso
 const CheckIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +16,6 @@ const CheckIcon = () => (
   </svg>
 );
 
-// Cabeçalho do Card, reutilizado em vários passos
 const CardHeader = ({ title, subtitle, showLogo = false }) => (
   <header className="text-center mb-7">
     {showLogo && (
@@ -42,7 +38,7 @@ const FormInput = ({
   placeholder,
   required = true,
 }) => (
-  <div className="mb-4">
+  <div className="mb-3">
     <label
       htmlFor={id}
       className="block mb-2 text-sm font-medium text-[#c4d3e6]"
@@ -118,7 +114,6 @@ const Step1_ProfileSelection = ({ onProfileSelect }) => {
   );
 };
 
-// Passo 2: Informações Básicas de Acesso
 const Step2_BasicInfo = ({ profileType, onNext, onBack }) => {
   const isEmpresa = profileType === "empresa";
 
@@ -181,14 +176,14 @@ const Step2_BasicInfo = ({ profileType, onNext, onBack }) => {
           </div>
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-[#2474e4] to-[#639bec] text-white font-semibold py-3.5 rounded-lg transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2"
+            className="w-full bg-gradient-to-r from-[#2474e4] to-[#639bec] text-white font-semibold py-3.5 rounded-lg transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2 cursor-pointer"
           >
             Continuar
           </button>
           <button
             type="button"
             onClick={onBack}
-            className="w-full bg-[rgba(196,211,230,0.04)] text-[#c4d3e6] font-medium py-3 rounded-lg border border-white/10 mt-3 transition-all hover:bg-[rgba(196,211,230,0.02)] hover:text-white"
+            className="w-full bg-[rgba(196,211,230,0.04)] text-[#c4d3e6] font-medium py-3 rounded-lg border border-white/10 mt-3 transition-all hover:bg-[rgba(196,211,230,0.02)] hover:text-white cursor-pointer"
           >
             Voltar
           </button>
