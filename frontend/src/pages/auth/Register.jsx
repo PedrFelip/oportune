@@ -11,19 +11,35 @@ export default function App() {
     <div className="font-sans text-slate-300 bg-gradient-to-b from-[#0c1a2c] to-[#15223c] min-h-screen flex items-center justify-center p-5 relative">
       <div className="w-full max-w-md animate-fade-in-up">
         <div className="bg-white/5 border border-white/10 rounded-2xl backdrop-blur-lg p-8">
-          <header className="text-center mb-7">
-            <div className="flex justify-center items-center gap-3 font-bold mb-4">
+          <header className="text-center mb-5">
+            <div className="flex justify-center items-center gap-3 font-bold mb-3">
               <LogoIcon />
               <span className="text-2xl text-white">Oportune</span>
             </div>
-            <h1 className="text-2xl font-bold text-white">Acesse sua conta</h1>
+            <h1 className="text-2xl font-bold text-white">Crie sua conta</h1>
             <p className="text-sm text-slate-400 mt-1.5">
-              Bem-vindo de volta! Insira seus dados.
+              Bem-vindo! Insira seus dados.
             </p>
           </header>
 
           <main>
             <form action="#" method="POST" onSubmit={(e) => e.preventDefault()}>
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-slate-400"
+                >
+                  Nome
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="w-full px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white text-base placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                  placeholder="Digite seu nome"
+                  required
+                />
+              </div>
               <div className="mb-4">
                 <label
                   htmlFor="email"
@@ -41,7 +57,7 @@ export default function App() {
                 />
               </div>
 
-              <div className="mb-5">
+              <div className="mb-4">
                 <label
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-slate-400"
@@ -58,20 +74,20 @@ export default function App() {
                 />
               </div>
 
-              <div className="flex justify-end items-center text-xs mb-5 -mt-2">
+              {/* <div className="flex justify-end items-center text-xs mb-5 -mt-2">
                 <Link
                   href="#"
                   className="text-blue-400 hover:text-white hover:underline transition-colors duration-300"
                 >
                   Esqueci minha senha
                 </Link>
-              </div>
+              </div> */}
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#2474e4] to-[#639bec] text-white font-semibold py-3.5 rounded-lg border-none cursor-pointer transition-all duration-300 hover:opacity-90 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(36,116,228,0.2)]"
+                className="w-full bg-gradient-to-r from-[#2474e4] to-[#639bec] text-white font-semibold py-3.5 rounded-lg border-none cursor-pointer transition-all duration-300 hover:opacity-90 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(36,116,228,0.2)] mt-5"
               >
-                Entrar
+                Criar conta
               </button>
             </form>
           </main>
@@ -79,12 +95,12 @@ export default function App() {
           {/* Card Footer Section */}
           <footer className="text-center mt-6 text-sm">
             <p>
-              Não tem uma conta?{" "}
+              Já tem uma conta?{" "}
               <Link
-                to={"/register"}
+                to={"/login"}
                 className="font-semibold text-blue-400 hover:text-white hover:underline transition-colors duration-300"
               >
-                Crie uma agora
+                Faça login
               </Link>
             </p>
           </footer>
@@ -92,7 +108,7 @@ export default function App() {
       </div>
 
       {/* Page Footer */}
-      <footer className="absolute bottom-5 text-center text-xs text-slate-600 w-full">
+      {/* <footer className="absolute bottom-5 text-center text-xs text-slate-600 w-full">
         © Oportune — 2025 |{" "}
         <Link
           to={"/"}
@@ -100,7 +116,7 @@ export default function App() {
         >
           Voltar para o início
         </Link>
-      </footer>
+      </footer> */}
     </div>
   );
 }
