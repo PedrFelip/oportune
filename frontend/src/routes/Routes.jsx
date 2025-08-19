@@ -20,8 +20,8 @@ const AppRoutes = () => {
 
         {/* Paginas de login */}
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/cadastro" element={<Cadastro />} />
+        {/* <Route path="/register" element={<Register />} /> */}
 
         {/* Rota Genérica */}
         <Route path="*" element={redirectToHome} />
