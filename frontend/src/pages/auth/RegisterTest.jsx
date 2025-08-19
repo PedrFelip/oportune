@@ -1,5 +1,5 @@
 import React from "react";
-import MultiStepForm from "../../components/MultiStepForm/MultiStepForm.jsx";
+import MultiStepForm from "../../components/multiStepForm/MultiStepForm.jsx";
 
 export default function RegisterTest(){
     return (

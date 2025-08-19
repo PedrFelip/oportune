@@ -3,7 +3,7 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useFormContext } from "../../contexts/formContext";
 import { stepIcons } from "../../utils/Icon";
 import PersonalInfoStep from "./PersonalInfoStep";
-import AditionalInformationsStep from "./AditionInformationsStep";
+import AditionalInformationsStep from "./AdditionInformationsStep";
 import ReviewStep from "./ReviewStep";
 
 export default function MultiStepForm() {
@@ -72,7 +72,7 @@ export default function MultiStepForm() {
                     >
                       {step.title}
                     </p>
-                    <p
+                    {/* <p
                       className={`text-sm font-bold ${
                         isActive
                           ? "text-blue-600"
@@ -82,7 +82,7 @@ export default function MultiStepForm() {
                       }`}
                     >
                       {step.description}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
                 {index < steps.length - 1 && (
