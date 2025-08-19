@@ -23,6 +23,7 @@ model User {
   tipo      UserType
   estudante Estudante?
   professor Professor?
+  empresa Empresa?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -66,6 +67,26 @@ model Professor {
   updatedAt DateTime @updatedAt
 
   @@map("professores")
+}
+
+model Empresa {
+  id String @id @default(uuid())
+  userId String @unique
+  nomeFantasia String @unique
+  cnpj String @unique
+  phone String?
+  logo String?
+
+  endereco String?
+  site String?
+  descricao String? // Descrição da empresa
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("empresas")
 }
 
 enum UserType {
