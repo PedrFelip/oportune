@@ -7,6 +7,8 @@ import Logo from "../assets/logo_oportune.png";
 import { Link } from "react-router-dom";
 
 function Home() {
+  const linkCadastro = "/cadastro";
+
   return (
     <div className="min-h-screen oportune-gradient text-white">
       {/* Header */}
@@ -36,7 +38,7 @@ function Home() {
           >
             Entrar
           </Link>
-          <Link to={"/cadastro"}>
+          <Link to={linkCadastro}>
             <Button className="oportune-button-primary cursor-pointer">
               Criar conta
             </Button>
@@ -337,9 +339,11 @@ function Home() {
             Crie seu perfil e comece a se candidatar hoje mesmo
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="oportune-button-primary px-8 py-3 cursor-pointer">
-              Criar minha conta
-            </Button>
+            <Link to={linkCadastro}>
+              <Button className="oportune-button-primary px-8 py-3 cursor-pointer">
+                Criar minha conta
+              </Button>
+            </Link>
             <Button
               variant="outline"
               className="

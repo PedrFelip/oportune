@@ -16,7 +16,7 @@ export default function Step3_ProfileDetails({
     aluno: (
       <>
         <CardHeader
-          title="Perfil Académico"
+          title="Perfil Acadêmico"
           subtitle="Ajude-nos a encontrar as melhores oportunidades para si."
         />
         <FormInput

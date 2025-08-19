@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import CheckIcon from "../../components/cadastro/CheckIcon";
-import CardHeader from "../../components/cadastro/CardHeader";
-import FormInput from "../../components/cadastro/FormInput";
 import Step1_ProfileSection from "../../components/formSteps/Step1_ProfileSection";
 import Step2_BasicInfo from "../../components/formSteps/Step2_BasicInfo";
 import Step3_ProfileDetails from "../../components/formSteps/Step3_ProfileDetails";
