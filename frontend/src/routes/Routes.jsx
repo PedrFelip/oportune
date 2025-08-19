@@ -7,6 +7,8 @@ import {
 import Home from "../pages/Home";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import RegisterTest from "../pages/auth/RegisterTest";
+import { FormProvider } from "../contexts/formContext";
 
 const AppRoutes = () => {
   const redirectToHome = <Navigate to="/" />;
@@ -20,6 +22,11 @@ const AppRoutes = () => {
         {/* Paginas de login */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/registertext" element={
+          <FormProvider>
+            <RegisterTest />
+          </FormProvider>
+        } />
 
         {/* Rota Genérica */}
         <Route path="*" element={redirectToHome} />
