@@ -81,7 +81,7 @@ export default function App() {
             <p>
               Não tem uma conta?{" "}
               <Link
-                to={"/register"}
+                to={"/cadastro"}
                 className="font-semibold text-blue-400 hover:text-white hover:underline transition-colors duration-300"
               >
                 Crie uma agora

@@ -36,7 +36,7 @@ function Home() {
           >
             Entrar
           </Link>
-          <Link to={"/register"}>
+          <Link to={"/cadastro"}>
             <Button className="oportune-button-primary cursor-pointer">
               Criar conta
             </Button>
@@ -92,8 +92,7 @@ function Home() {
               <Button
                 variant="outline"
                 className="
-                                    border-[#1E2A48] 
-                                    bg-[#1E2A48] 
+                                    border-[#1E2A48] bg-[#1E2A48] 
                                     text-white
                                     hover:bg-white
                                     hover:text-[#1E2A48]
