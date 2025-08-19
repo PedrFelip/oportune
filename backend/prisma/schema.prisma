@@ -15,18 +15,43 @@ datasource db {
 }
 
 model User {
-  id String @id @default(cuid())
+  id    String @id @default(uuid())
   email String @unique
   senha String
-  nome String
-  tipo UserType
+  nome  String
+
+  tipo      UserType
+  estudante Estudante?
+
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
 
+model Estudante {
+  id           String  @id @default(uuid())
+  userId       String  @unique
+  nomeCompleto String  @unique
+  phone        String?
+  fotoPerfil   String?
+
+  matricula     String  @unique
+  curso         String
+  semestreAtual Int
+  periodoAtual  Periodo
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
 enum UserType {
-  ALUNO
+  ESTUDANTE
   PROFESSOR
   EMPRESA
+}
+
+enum Periodo {
+  MATUTINO
+  VESPERTINO
+  NOTURNO
 }

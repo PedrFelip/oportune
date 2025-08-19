@@ -1,7 +1,7 @@
 enum UserType {
-    ALUNO,
-    PROFESSOR,
-    EMPRESA,
+  ESTUDANTE,
+  PROFESSOR,
+  EMPRESA,
 }
 
 export default UserType;
