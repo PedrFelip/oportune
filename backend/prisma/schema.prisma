@@ -42,6 +42,11 @@ model Estudante {
   periodoAtual  Periodo
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("estudantes")
 }
 
 enum UserType {
