@@ -6,19 +6,30 @@ import Step4_Confirmation from "../../components/formSteps/Step4_Confirmation";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [profileType, setProfileType] = useState("");
+  const [profileType, setProfileType] = useState(""); // Aluno ou Professor ou Empresa
+  // eslint-disable-next-line no-unused-vars
+  const [formData, setFormData] = useState({});
 
   const handleProfileSelect = (type) => {
+    // Seleciona o formulário com base no perfil escolhido
     setProfileType(type);
     setCurrentStep(2);
   };
 
-  const handleNext = () => {
+  const handleNext = (data = {}) => {
+    // Avança
+    setFormData((prev) => ({ ...prev, ...data }));
     setCurrentStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
+    // Retrocede
     setCurrentStep((prev) => prev - 1);
+  };
+
+  const handleFinish = (data) => {
+    setFormData((prev) => ({ ...prev, ...data }));
+    setCurrentStep(4);
   };
 
   const renderStep = () => {
@@ -37,7 +48,7 @@ export default function Cadastro() {
         return (
           <Step3_ProfileDetails
             profileType={profileType}
-            onFinish={handleNext}
+            onFinish={handleFinish}
             onBack={handleBack}
           />
         );

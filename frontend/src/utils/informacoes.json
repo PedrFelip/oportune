@@ -1,0 +1,8 @@
+{
+  "periodo": [
+    { "value": null, "label": "Qual periodo você estuda?" },
+    { "value": "matutino", "label": "Matunino" },
+    { "value": "vespertino", "label": "Vespertino" },
+    { "value": "noturno", "label": "Noturno" }
+  ]
+}

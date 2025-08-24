@@ -1,6 +1,8 @@
 import React from "react";
 import CardHeader from "../cadastro/CardHeader";
 import FormInput from "../cadastro/FormInput";
+import FormSelect from "../cadastro/FormSelect";
+import informacoes from "../../utils/informacoes.json";
 
 export default function Step3_ProfileDetails({
   profileType,
@@ -9,9 +11,39 @@ export default function Step3_ProfileDetails({
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
-    onFinish();
-  };
 
+    if (profileType === "aluno") {
+      const { curso, semestre, matricula } = e.target;
+      const data = {
+        curso: curso.value,
+        semestre: semestre.value,
+        matricula: matricula.value,
+      };
+
+      onFinish(data);
+    } else if (profileType === "professor") {
+      const { area_atuacao, departamento, titulacao, lattes } = e.target;
+
+      const data = {
+        area_atuacao: area_atuacao.value,
+        departamento: departamento.value,
+        titulacao: titulacao.value,
+        lattes: lattes.value,
+      };
+
+      onFinish(data);
+    } else if (profileType === "empresa") {
+      const { cnpj, ramo, descricao } = e.target;
+
+      const data = {
+        cnpj: cnpj.value,
+        ramo: ramo.value,
+        descricao: descricao.value,
+      };
+
+      onFinish(data);
+    }
+  };
   const forms = {
     aluno: (
       <>
@@ -21,30 +53,49 @@ export default function Step3_ProfileDetails({
         />
         <FormInput
           id="curso"
+          name="curso"
           label="Curso"
-          placeholder="Ex: Engenharia de Software"
+          placeholder="Digite seu curso"
         />
         <FormInput
           id="semestre"
+          name="semestre"
           label="Semestre Atual"
           type="number"
-          placeholder="Ex: 5"
+          placeholder="Qual semestre você está atualmente?"
         />
-        <FormInput id="matricula" label="Número de Matrícula" />
+        <FormInput
+          id="matricula"
+          name="matricula"
+          label="Número de Matrícula"
+          placeholder="Qual a sua matricula"
+        />
+        <FormSelect id="periodo" name="periodo" label="Periodo" options={informacoes.periodo} />
       </>
     ),
     empresa: (
       <>
         <CardHeader
           title="Informações da Empresa"
-          subtitle="Registe a sua empresa para encontrar os melhores talentos."
+          subtitle="Registre a sua empresa para encontrar os melhores talentos."
         />
-        <FormInput id="razao-social" label="Razão Social" />
-        <FormInput id="cnpj" label="CNPJ" placeholder="00.000.000/0000-00" />
+        <FormInput
+          id="cnpj"
+          name="cnpj"
+          label="CNPJ"
+          placeholder="Digite o CNPJ (somente números)"
+        />
         <FormInput
           id="ramo"
+          name="ramo"
           label="Ramo de Atividade"
-          placeholder="Ex: Tecnologia da Informação"
+          placeholder="Qual ramo a empresa atua?"
+        />
+        <FormInput
+          id="descricao"
+          name="descricao"
+          label="Descrição"
+          placeholder="Escreva uma breve descrição da empresa"
         />
       </>
     ),
@@ -55,20 +106,29 @@ export default function Step3_ProfileDetails({
           subtitle="Complete o seu perfil para divulgar os seus projetos."
         />
         <FormInput
+          id="area_atuacao"
+          name="area_atuacao"
+          label="Área de Atuação"
+          placeholder="Ex: Professor de Matemática"
+        />
+        <FormInput
           id="departamento"
+          name="departamento"
           label="Departamento"
           placeholder="Ex: Departamento de TI"
         />
         <FormInput
           id="titulacao"
+          name="titulacao"
           label="Titulação"
           placeholder="Ex: Mestre, Doutor"
         />
         <FormInput
           id="lattes"
+          name="lattes"
           label="Link para o Lattes (Opcional)"
           type="url"
-          placeholder="https://..."
+          placeholder="Qual o link do seu curriculo lattes"
           required={false}
         />
       </>

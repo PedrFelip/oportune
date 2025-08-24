@@ -7,7 +7,17 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onNext();
+
+    const { name, email, password, confirm_password } = e.target;
+
+    const data = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      confirm_password: confirm_password.value,
+    };
+
+    onNext(data);
   };
 
   return (
@@ -20,6 +30,7 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack }) {
         <form onSubmit={handleSubmit}>
           <FormInput
             id="name"
+            name="name"
             label={isEmpresa ? "Nome da Empresa" : "Nome Completo"}
             placeholder={
               isEmpresa ? "Ex: Oportune Soluções" : "Ex: João da Silva"
@@ -27,18 +38,21 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack }) {
           />
           <FormInput
             id="email"
+            name="email"
             label="E-mail"
             type="email"
             placeholder="seuemail@dominio.com"
           />
           <FormInput
             id="password"
+            name="password"
             label="Crie uma Senha"
             type="password"
             placeholder="••••••••••"
           />
           <FormInput
             id="confirm-password"
+            name="confirm_password"
             label="Confirme a sua Senha"
             type="password"
             placeholder="••••••••••"
@@ -79,4 +93,4 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack }) {
       </main>
     </div>
   );
-};
+}
