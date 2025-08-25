@@ -55,7 +55,7 @@ export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
         setor: data.setor,
         descricao: data.descricao,
         phone: data.phone,
-        emailContato: data.email,
+        emailContato: data.emailContato,
         redesSociais: [],
         userId: user.id,
       },
