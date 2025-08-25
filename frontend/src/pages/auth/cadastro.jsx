@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Step1_ProfileSection from "../../components/formSteps/Step1_ProfileSection";
 import Step2_BasicInfo from "../../components/formSteps/Step2_BasicInfo";
-import Step3_ProfileDetails from "../../components/formSteps/Step3_ProfileDetails";
-import Step4_Confirmation from "../../components/formSteps/Step4_Confirmation";
+import Step3_AditionalInfo from "../../components/formSteps/Step3_AditionalInfo";
+import Step4_ProfileDetails from "../../components/formSteps/Step4_ProfileDetails";
+import Step4_Confirmation from "../../components/formSteps/Step5_Confirmation";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -19,7 +20,12 @@ export default function Cadastro() {
   const handleNext = (data = {}) => {
     // Avança
     setFormData((prev) => ({ ...prev, ...data }));
-    setCurrentStep((prev) => prev + 1);
+    setCurrentStep((prev) => {
+      if (prev === 2 && profileType === "empresa") {
+        return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
+      }
+      return prev + 1;
+    });
   };
 
   const handleBack = () => {
@@ -28,8 +34,9 @@ export default function Cadastro() {
   };
 
   const handleFinish = (data) => {
+    // Finaliza o formulário e envia os dados
     setFormData((prev) => ({ ...prev, ...data }));
-    setCurrentStep(4);
+    setCurrentStep(5);
   };
 
   const renderStep = () => {
@@ -45,14 +52,16 @@ export default function Cadastro() {
           />
         );
       case 3:
+        return <Step3_AditionalInfo onNext={handleNext} onBack={handleBack} />;
+      case 4:
         return (
-          <Step3_ProfileDetails
+          <Step4_ProfileDetails
             profileType={profileType}
             onFinish={handleFinish}
             onBack={handleBack}
           />
         );
-      case 4:
+      case 5:
         return <Step4_Confirmation />;
       default:
         return <Step1_ProfileSection onProfileSelect={handleProfileSelect} />;

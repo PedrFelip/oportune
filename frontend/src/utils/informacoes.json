@@ -4,5 +4,11 @@
     { "value": "matutino", "label": "Matunino" },
     { "value": "vespertino", "label": "Vespertino" },
     { "value": "noturno", "label": "Noturno" }
+  ],
+  "genero": [
+    {"value": null, "label": "Qual seu gênero?"},
+    {"value": "masculino", "label": "Masculino"},
+    {"value": "feminino", "label": "Feminino"},
+    {"value": null, "label": "Prefiro não dizer"}
   ]
 }
