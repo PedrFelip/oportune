@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import { authRoutes } from "./src/routes/authRoutes";
 
 const app = Fastify({
   logger: {
@@ -12,10 +13,8 @@ const app = Fastify({
   },
 });
 
-app.get("/", async () => {
-  return { message: "check" };
-});
+app.register(authRoutes)
 
 app.listen({ port: 3001 }).then(() => {
-  console.log("rodando na porta 3001");
+  console.log("Servidor iniciado na porta 3001");
 });

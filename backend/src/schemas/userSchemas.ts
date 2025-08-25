@@ -23,7 +23,10 @@ const estudanteSchema = z.object({
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
     .optional(),
 
-  dataNascimento: z.date(),
+  dataNascimento: z.preprocess(
+    (arg) => (typeof arg === "string" ? new Date(arg) : arg),
+    z.date()
+  ),
   genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]),
 
   faculdade: z.string().optional(),
@@ -31,7 +34,10 @@ const estudanteSchema = z.object({
   matricula: z.string(),
   semestreAtual: z.number().int(),
   periodoAtual: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]),
-  dataFormatura: z.date(),
+  dataFormatura: z.preprocess(
+    (arg) => (typeof arg === "string" ? new Date(arg) : arg),
+    z.date()
+  ),
 });
 
 const professorSchema = z.object({
@@ -41,7 +47,10 @@ const professorSchema = z.object({
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
     .optional(),
 
-  dataNascimento: z.date(),
+  dataNascimento: z.preprocess(
+    (arg) => (typeof arg === "string" ? new Date(arg) : arg),
+    z.date()
+  ),
   genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]),
 
   areasInteresse: z.array(z.string()),

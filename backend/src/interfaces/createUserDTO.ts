@@ -39,6 +39,7 @@ interface professorDTO extends baseUserDTO {
 
 interface empresaDTO extends baseUserDTO {
     tipo: "EMPRESA"
+    nomeFantasia: string
 
     cnpj: string
     ramo: string
