@@ -1,14 +1,15 @@
 {
   "periodo": [
     { "value": null, "label": "Qual periodo você estuda?" },
-    { "value": "matutino", "label": "Matunino" },
-    { "value": "vespertino", "label": "Vespertino" },
-    { "value": "noturno", "label": "Noturno" }
+    { "value": "MATUTINO", "label": "Matunino" },
+    { "value": "VESPERTINO", "label": "Vespertino" },
+    { "value": "NOTURNO", "label": "Noturno" }
   ],
   "genero": [
     {"value": null, "label": "Qual seu gênero?"},
-    {"value": "masculino", "label": "Masculino"},
-    {"value": "feminino", "label": "Feminino"},
-    {"value": null, "label": "Prefiro não dizer"}
+    {"value": "MASCULINO", "label": "Masculino"},
+    {"value": "FEMININO", "label": "Feminino"},
+    {"value": "OUTRO", "label": "Outro"},
+    {"value": "PREFIRO NAO DIZER", "label": "Prefiro não dizer"}
   ]
 }
