@@ -23,7 +23,7 @@ model User {
   tipo      UserType
   estudante Estudante?
   professor Professor?
-  empresa Empresa?
+  empresa   Empresa?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -38,7 +38,8 @@ model Estudante {
   phone        String?
   fotoPerfil   String?
 
-  matricula     String  @unique
+  faculdade     String?
+  matricula     String
   curso         String
   semestreAtual Int
   periodoAtual  Periodo
@@ -58,7 +59,7 @@ model Professor {
   phone        String?
   fotoPerfil   String?
 
-  areaAtuacao String
+  areaAtuacao    String
   areasInteresse String[] //Areas de pesquisa/extenção
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -70,15 +71,15 @@ model Professor {
 }
 
 model Empresa {
-  id String @id @default(uuid())
-  userId String @unique
-  nomeFantasia String @unique
-  cnpj String @unique
-  phone String?
-  logo String?
+  id           String  @id @default(uuid())
+  userId       String  @unique
+  nomeFantasia String  @unique
+  cnpj         String  @unique
+  phone        String?
+  logo         String?
 
-  endereco String?
-  site String?
+  endereco  String?
+  site      String?
   descricao String? // Descrição da empresa
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
