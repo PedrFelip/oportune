@@ -44,6 +44,7 @@ model Estudante {
   curso         String
   semestreAtual Int
   periodoAtual  Periodo
+  dataFormatura DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -90,7 +91,9 @@ model Empresa {
 
   endereco  String?
   phone     String?
-  site      String?
+
+  emailContato   String?
+  redesSociais   String[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
