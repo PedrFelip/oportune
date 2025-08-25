@@ -65,3 +65,4 @@ generated/prisma
 # ========================
 coverage/
 *.lcov
+.ai
