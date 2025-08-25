@@ -36,6 +36,9 @@ model Estudante {
   phone        String?
   fotoPerfil   String?
 
+  dataNascimento  DateTime
+  genero  String
+
   faculdade     String?
   matricula     String
   curso         String
@@ -56,8 +59,15 @@ model Professor {
   phone        String?
   fotoPerfil   String?
 
+  dataNascimento  DateTime
+  genero  String
+
+  areasInteresse String[]
+
   areaAtuacao    String
-  areasInteresse String[] //Areas de pesquisa/extenção
+  departamento   String
+  titulacao      String
+  lattes         String
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -71,13 +81,16 @@ model Empresa {
   id           String  @id @default(uuid())
   userId       String  @unique
   nomeFantasia String  @unique
-  cnpj         String  @unique
-  phone        String?
   logo         String?
 
+  cnpj         String  @unique
+  ramo         String
+  setor        String
+  descricao    String?
+
   endereco  String?
+  phone     String?
   site      String?
-  descricao String? // Descrição da empresa
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
