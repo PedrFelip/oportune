@@ -33,6 +33,7 @@ export default function Step3_AditionalInfo({ onNext, onBack }) {
             name="data_nascimento"
             label="Data de Nascimento"
             placeholder="Qual sua data de nascimento"
+            type="date"
           />
           <FormSelect
             id="genero"

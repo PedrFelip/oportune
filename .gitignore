@@ -37,6 +37,7 @@ Thumbs.db
 # Ambiente e configs sensíveis
 # ========================
 .env
+.env.db
 .env.local
 .env.*.local
 .env.development
