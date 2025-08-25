@@ -19,9 +19,9 @@ interface estudanteDTO extends baseUserDTO {
     faculdade?: string
     curso: string
     matricula: string
-    semestreAtual: string
+    semestreAtual: number
     periodoAtual: "MATUTINO" | "VESPERTINO" | "NOTURNO"
-    dataFormaturaPrevista: Date
+    dataFormatura: Date
 }
 
 interface professorDTO extends baseUserDTO {
@@ -39,14 +39,14 @@ interface professorDTO extends baseUserDTO {
 
 interface empresaDTO extends baseUserDTO {
     tipo: "EMPRESA"
+
     cnpj: string
     ramo: string
     setor: string
-    descricao: string
+    descricao?: string
 
-    email: string
-    telefone: string
-    redesSociais: string[]
+    emailContato?: string
+    phone?: string
 }
 
 export type createUserDTO = estudanteDTO | professorDTO | empresaDTO
