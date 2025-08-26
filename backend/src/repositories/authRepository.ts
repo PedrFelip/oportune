@@ -1,5 +1,5 @@
 import prisma from "../../prisma/client.ts";
-import { createUserDTO } from "../interfaces/createUserDTO.ts";
+import { createUserDTO, logUserDTO } from "../interfaces/userDTO.ts";
 
 export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
   // Cria o registro base do usuário
@@ -63,4 +63,27 @@ export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
   }
 
   return user;
+};
+
+export const logarUsuarioRepository = async (data: logUserDTO) => {
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: data.email,
+    },
+    include: {
+      estudante: true,
+      professor: true,
+      empresa: true,
+    },
+  });
+
+  if (user.tipo === "ESTUDANTE") {
+    return { ...user, estudante: user.estudante };
+  } else if (user.tipo === "PROFESSOR") {
+    return { ...user, professor: user.professor };
+  } else if (user.tipo === "EMPRESA") {
+    return { ...user, empresa: user.empresa };
+  }
+
+  return user
 };

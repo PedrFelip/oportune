@@ -1,9 +1,9 @@
 import z from "zod";
 import { formatZodErrors } from "../utils/zodErrorFormatter.ts";
-import { cadastrarUsuarioService } from "../services/authServices.ts";
-import { createUserSchema } from "../schemas/userSchemas.ts";
+import { cadastrarUsuarioService, logarUsuarioService } from "../services/authServices.ts";
+import { createUserSchema, logUserSchema } from "../schemas/userSchemas.ts";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createUserDTO } from "../interfaces/createUserDTO.ts";
+import { createUserDTO, logUserDTO } from "../interfaces/userDTO.ts";
 
 export const cadastrarUsuarioController = async (
   request: FastifyRequest<{ Body: createUserDTO }>,
@@ -27,5 +27,22 @@ export const cadastrarUsuarioController = async (
 
     console.error(err);
     return reply.status(500).send({ message: "Erro interno do servidor" });
+  }
+};
+
+export const loginUsuarioController = async (
+  request: FastifyRequest<{ Body: logUserDTO }>,
+  reply: FastifyReply
+) => {
+  try {
+    const logUsuario = logUserSchema.parse(request.body);
+    const usuarioLogado = await logarUsuarioService(logUsuario);
+
+    return reply.status(200).send({
+      token: usuarioLogado.token,
+      user: usuarioLogado.safeUser
+    })
+  } catch (err: any) {
+    return reply.status(400).send({message: "Credenciais inválidas"})
   }
 };

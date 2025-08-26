@@ -85,3 +85,8 @@ export const createUserSchema = z.discriminatedUnion("tipo", [
   baseUser.extend(professorSchema.shape),
   baseUser.extend(empresaSchema.shape),
 ]);
+
+export const logUserSchema = z.object({
+  email: z.email({ message: FraseErroEmail }),
+  senha: z.string().regex(regex.passwordRegex, FraseErroSenha),
+});

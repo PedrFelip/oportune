@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
-import { cadastrarUsuarioController } from "../controllers/authController.ts";
+import { cadastrarUsuarioController, loginUsuarioController } from "../controllers/authController.ts";
 
 export async function authRoutes(fastify: FastifyInstance) {
-    fastify.post("/users", cadastrarUsuarioController)
+    fastify.post("/createuser", cadastrarUsuarioController)
+    fastify.post("/loguser", loginUsuarioController)
 }
