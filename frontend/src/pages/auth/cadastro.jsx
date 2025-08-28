@@ -3,7 +3,7 @@ import Step1_ProfileSection from "../../components/formSteps/Step1_ProfileSectio
 import Step2_BasicInfo from "../../components/formSteps/Step2_BasicInfo";
 import Step3_AditionalInfo from "../../components/formSteps/Step3_AditionalInfo";
 import Step4_ProfileDetails from "../../components/formSteps/Step4_ProfileDetails";
-import Step4_Confirmation from "../../components/formSteps/Step5_Confirmation";
+import Step_Confirmation from "../../components/formSteps/Step_Confirmation";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -62,7 +62,7 @@ export default function Cadastro() {
           />
         );
       case 5:
-        return <Step4_Confirmation />;
+        return <Step_Confirmation />;
       default:
         return <Step1_ProfileSection onProfileSelect={handleProfileSelect} />;
     }
