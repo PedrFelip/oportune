@@ -1,4 +1,5 @@
 import React from "react";
+import OpSelect from "../OpSelect";
 
 export default function FormSelect({
   id,
@@ -15,23 +16,14 @@ export default function FormSelect({
       >
         {label}
       </label>
-      <select
+      <OpSelect
         name={name}
         id={id}
         required={required}
-        className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
+        className={"w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"}
+        options={options}
       >
-        {options &&
-          options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              className="bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
-            >
-              {option.label}
-            </option>
-          ))}
-      </select>
+      </OpSelect>
     </div>
   );
 }
