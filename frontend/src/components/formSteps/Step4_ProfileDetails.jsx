@@ -4,7 +4,7 @@ import FormInput from "../cadastro/FormInput";
 import FormSelect from "../cadastro/FormSelect";
 import informacoes from "../../utils/informacoes.json";
 
-export default function Step3_ProfileDetails({
+export default function Step4_ProfileDetails({
   profileType,
   onFinish,
   onBack,
@@ -90,6 +90,12 @@ export default function Step3_ProfileDetails({
           name="ramo"
           label="Ramo de Atividade"
           placeholder="Qual ramo a empresa atua?"
+        />
+        <FormInput
+          id="setor"
+          name="setor"
+          label="Setor"
+          placeholder="Escreva o setor da empresa"
         />
         <FormInput
           id="descricao"

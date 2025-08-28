@@ -1,7 +1,7 @@
 import React from "react";
 import CheckIcon from "../cadastro/CheckIcon";
 
-export default function Step4_Confirmation() {
+export default function Step_Confirmation() {
   return (
     <div className="animate-fadeIn text-center">
       <div className="w-16 h-16 mx-auto text-[#639bec]">
