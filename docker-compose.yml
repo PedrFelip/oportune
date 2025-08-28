@@ -6,7 +6,6 @@ services:
     container_name: db_oportune
     env_file:
       - .env.db.local
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
