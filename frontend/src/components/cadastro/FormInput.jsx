@@ -1,6 +1,14 @@
 import React from "react";
+import { InputMask } from "@react-input/mask";
 
-export default function Forminput({id, name, label, type = "text", placeholder, required = true, onChange, value, ...props}) {
+export default function FormInput({ id, name, label, mask, ...props }) {
+  const propsComuns = {
+    id: id,
+    name: name,
+    className:
+      "w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30",
+    ...props,
+  };
   return (
     <div className="mb-3">
       <label
@@ -9,20 +17,12 @@ export default function Forminput({id, name, label, type = "text", placeholder, 
       >
         {label}
       </label>
-      <input
-        type={type}
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
-        required={required}
-        style={{
-          WebkitAppearance: "none"
-        }}
-        value={value}
-        onChange={onChange}
-        {...props}
-      />
+
+      {mask ? (
+        <InputMask mask={mask} replacement={{ _: /\d/ }} {...propsComuns} />
+      ) : (
+        <input {...propsComuns} />
+      )}
     </div>
   );
 }
