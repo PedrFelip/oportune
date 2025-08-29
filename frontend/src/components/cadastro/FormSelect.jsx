@@ -14,7 +14,7 @@ export default function FormSelect({
   return (
     <div className="mb-3">
       <label
-        htmlFor={id}
+        htmlFor={name}
         className="block mb-2 text-sm font-medium text-[#c4d3e6]"
       >
         {label}

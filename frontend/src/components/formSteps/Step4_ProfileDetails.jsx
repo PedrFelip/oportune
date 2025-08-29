@@ -54,7 +54,7 @@ export default function Step4_ProfileDetails({
           name="periodo"
           label="Periodo"
           options={informacoes.periodo}
-          value={formData.periodo}
+          value={formData.periodo || null}
           onChange={(option) => handleSelectChange("periodo", option)}
         />
       </>

@@ -39,7 +39,7 @@ export default function Step3_AditionalInfo({
             name="genero"
             label="Gênero"
             options={dados.genero}
-            value={formData.genero}
+            value={formData.genero || null}
             onChange={(option) => handleSelectChange("genero", option)}
           />
           <Forminput
