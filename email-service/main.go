@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/pedrfelip/oportune/email-service/internal/api"
 )
 
 func main() {
@@ -16,13 +16,8 @@ func main() {
 		log.Fatal("Erro ao carregar .env")
 	}
 
-	app := gin.Default()
+	server := api.SetupRoutesApp()
 
-	app.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "check",
-		})
-	})
-
-	app.Run(":3002")
+	fmt.Printf("Server iniciado na porta 3002")
+	server.Run(":3002")
 }
