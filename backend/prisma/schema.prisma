@@ -68,7 +68,7 @@ model Professor {
   areaAtuacao    String
   departamento   String
   titulacao      String
-  lattes         String
+  lattes         String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -92,8 +92,8 @@ model Empresa {
   endereco  String?
   telefone     String?
 
-  emailContato   String?
-  website         String
+  emailContato   String? // Por padrão, é o mesmo da conta
+  website         String?
   redesSociais   String[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
