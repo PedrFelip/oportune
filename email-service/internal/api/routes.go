@@ -13,5 +13,10 @@ func SetupRoutesApp() *gin.Engine {
 		})
 	})
 
+	api := app.Group("/api")
+	{
+		api.POST("/enviar-confirmacao", EnviarEmailAivacaoHandler)
+	}
+
 	return app
 }
