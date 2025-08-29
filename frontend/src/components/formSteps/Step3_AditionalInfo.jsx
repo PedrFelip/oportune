@@ -4,20 +4,17 @@ import Forminput from "../cadastro/FormInput";
 import FormSelect from "../cadastro/FormSelect";
 import dados from "../../utils/informacoes.json";
 
-export default function Step3_AditionalInfo({ onNext, onBack }) {
-
+export default function Step3_AditionalInfo({
+  onNext,
+  onBack,
+  formData,
+  onChange,
+  onSelectChange,
+}) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { data_nascimento, genero, telefone } = e.target;
-
-    const data = {
-        data_nascimento: data_nascimento.value,
-        genero: genero.value,
-        telefone: telefone.value
-    };
-
-    onNext(data);
+    onNext();
   };
 
   return (
@@ -34,12 +31,16 @@ export default function Step3_AditionalInfo({ onNext, onBack }) {
             label="Data de Nascimento"
             placeholder="Qual sua data de nascimento"
             type="date"
+            value={formData.data_nascimento || ''}
+            onChange={onChange}
           />
           <FormSelect
             id="genero"
             name="genero"
             label="Gênero"
             options={dados.genero}
+            value={formData.genero || null}
+            onChange={(option) => onSelectChange("genero", option)}
           />
           <Forminput
             id="telefone"
@@ -47,6 +48,8 @@ export default function Step3_AditionalInfo({ onNext, onBack }) {
             label="Número de telefone"
             placeholder="Digite seu número de telefone"
             type="tel"
+            value={formData.telefone || ''}
+            onChange={onChange}
           />
           <button
             type="submit"

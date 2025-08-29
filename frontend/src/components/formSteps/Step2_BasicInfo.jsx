@@ -2,22 +2,13 @@ import React from "react";
 import CardHeader from "../cadastro/CardHeader";
 import FormInput from "../cadastro/FormInput";
 
-export default function Step2_BasicInfo({ profileType, onNext, onBack }) {
+export default function Step2_BasicInfo({ profileType, onNext, onBack, formData, handleChange }) {
   const isEmpresa = profileType === "empresa";
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, password, confirm_password } = e.target;
-
-    const data = {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      confirm_password: confirm_password.value,
-    };
-
-    onNext(data);
+    onNext();
   };
 
   return (
@@ -29,12 +20,14 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack }) {
       <main>
         <form onSubmit={handleSubmit}>
           <FormInput
-            id="name"
-            name="name"
+            id="nome"
+            name="nome"
             label={isEmpresa ? "Nome da Empresa" : "Nome Completo"}
             placeholder={
               isEmpresa ? "Ex: Oportune Soluções" : "Ex: João da Silva"
             }
+            value={formData.nome || ''}
+            onChange={handleChange}
           />
           <FormInput
             id="email"
@@ -42,30 +35,39 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack }) {
             label="E-mail"
             type="email"
             placeholder="seuemail@dominio.com"
+            value={formData.email || ''}
+            onChange={handleChange}
           />
           <FormInput
-            id="password"
-            name="password"
+            id="senha"
+            name="senha"
             label="Crie uma Senha"
             type="password"
             placeholder="••••••••••"
+            value={formData.senha || ''}
+            onChange={handleChange}
           />
           <FormInput
-            id="confirm-password"
-            name="confirm_password"
+            id="senha_confirmada"
+            name="senha_confirmada"
             label="Confirme a sua Senha"
             type="password"
             placeholder="••••••••••"
+            value={formData.senha_confirmada || ''}
+            onChange={handleChange}
           />
 
           <div className="flex items-center gap-2.5 text-xs mb-4">
             <input
               type="checkbox"
-              id="terms"
+              id="termos"
+              name="termos"
               className="accent-[#2474e4]"
               required
+              checked={formData.termos || false}
+              onChange={handleChange}
             />
-            <label htmlFor="terms" className="text-[#c4d3e6]">
+            <label htmlFor="termos" className="text-[#c4d3e6]">
               Li e aceito os{" "}
               <a
                 href="#"

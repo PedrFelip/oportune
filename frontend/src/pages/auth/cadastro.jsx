@@ -3,7 +3,9 @@ import Step1_ProfileSection from "../../components/formSteps/Step1_ProfileSectio
 import Step2_BasicInfo from "../../components/formSteps/Step2_BasicInfo";
 import Step3_AditionalInfo from "../../components/formSteps/Step3_AditionalInfo";
 import Step4_ProfileDetails from "../../components/formSteps/Step4_ProfileDetails";
-import Step_Confirmation from "../../components/formSteps/Step_Confirmation";
+import Step5_Socialmedia from "../../components/formSteps/Step5_Socialmedia";
+import Step6_FinalForm from "../../components/formSteps/Step6_FinalForm";
+import Step7_Confirmation from "../../components/formSteps/Step7_Confirmation";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -17,12 +19,30 @@ export default function Cadastro() {
     setCurrentStep(2);
   };
 
+  const handleChange = (e) => {
+    const { nome, valor, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [nome]: type === "checkbox" ? checked : valor,
+    }));
+  };
+
+  const handleSelectChange = (nome, selectedOption) => {
+    setFormData((prev) => ({
+      ...prev,
+      [nome]: selectedOption,
+    }));
+  };
+
   const handleNext = (data = {}) => {
     // Avança
     setFormData((prev) => ({ ...prev, ...data }));
     setCurrentStep((prev) => {
-      if (prev === 2 && profileType === "empresa") {
+      if (prev === 3 && profileType === "empresa") {
         return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
+      }
+      if (prev === 5 && profileType !== "empresa") {
+        return 6; // Pula o passo 5 que só tem o formulário para empresas
       }
       return prev + 1;
     });
@@ -30,13 +50,22 @@ export default function Cadastro() {
 
   const handleBack = () => {
     // Retrocede
-    setCurrentStep((prev) => prev - 1);
+    setCurrentStep((prev) => {
+      if (prev === 4 && profileType === "empresa") {
+        return 2; // Pula o passo 3 que só tem o formulário para pessoas fisicas
+      }
+      if (prev === 6 && profileType !== "empresa") {
+        return 4; // Pula o passo 5 que só tem o formulário para empresas
+      }
+
+      return prev - 1;
+    });
   };
 
   const handleFinish = (data) => {
     // Finaliza o formulário e envia os dados
     setFormData((prev) => ({ ...prev, ...data }));
-    setCurrentStep(5);
+    setCurrentStep(6);
   };
 
   const renderStep = () => {
@@ -49,20 +78,37 @@ export default function Cadastro() {
             profileType={profileType}
             onNext={handleNext}
             onBack={handleBack}
+            handleChange={handleChange}
           />
         );
-      case 3:
-        return <Step3_AditionalInfo onNext={handleNext} onBack={handleBack} />;
+      case 3: // Somente para pessoas fisicas
+        return (
+          <Step3_AditionalInfo
+            onNext={handleNext}
+            onBack={handleBack}
+            handleChange={handleChange}
+            onSelectChange={handleSelectChange}
+          />
+        );
       case 4:
         return (
           <Step4_ProfileDetails
             profileType={profileType}
-            onFinish={handleFinish}
+            onNext={handleNext}
             onBack={handleBack}
+            handleChange={handleChange}
           />
         );
-      case 5:
-        return <Step_Confirmation />;
+      case 5: // Somente para empresas
+        return (
+          <Step5_Socialmedia
+            onNext={handleNext}
+            onBack={handleBack}
+            handleChange={handleChange}
+          />
+        );
+      case 6:
+        return <Step6_FinalForm onBack={handleBack} onFinish={handleFinish} />;
       default:
         return <Step1_ProfileSection onProfileSelect={handleProfileSelect} />;
     }

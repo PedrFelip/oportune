@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Forminput({id, name, label, type = "text", placeholder, required = true}) {
+export default function Forminput({id, name, label, type = "text", placeholder, required = true, onChange, value, ...props}) {
   return (
     <div className="mb-3">
       <label
@@ -19,6 +19,9 @@ export default function Forminput({id, name, label, type = "text", placeholder, 
         style={{
           WebkitAppearance: "none"
         }}
+        value={value}
+        onChange={onChange}
+        {...props}
       />
     </div>
   );

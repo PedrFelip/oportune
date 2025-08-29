@@ -2,20 +2,12 @@ import React from "react";
 import CardHeader from "../cadastro/CardHeader";
 import Forminput from "../cadastro/FormInput";
 
-export default function Step5_Socialmedia({ onNext, onBack }) {
+export default function Step5_Socialmedia({ onNext, onBack, formData, handleChange }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { email_contato, telefone, website } = e.target;
-
-    const data = {
-        email_contato: email_contato.value,
-        telefone: telefone.value,
-        website: website?.value
-    };
-
-    onNext(data);
+    onNext();
   };
 
   return (
@@ -32,6 +24,8 @@ export default function Step5_Socialmedia({ onNext, onBack }) {
             label="Email de contato"
             placeholder="Qual o email para entrar em contato"
             type="email"
+            value={formData.email_contato || ''}
+            onChange={handleChange}
             
           />
           <Forminput
@@ -39,6 +33,8 @@ export default function Step5_Socialmedia({ onNext, onBack }) {
             name="telefone"
             label="Telefone"
             type="tel"
+            value={formData.telefone || ''}
+            onChange={handleChange}
           />
           <Forminput
             id="website"
@@ -47,6 +43,8 @@ export default function Step5_Socialmedia({ onNext, onBack }) {
             placeholder="Site da empresa"
             type="url"
             required="false"
+            value={formData.website || ''}
+            onChange={handleChange}
           />
           <button
             type="submit"
