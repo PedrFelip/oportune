@@ -63,7 +63,7 @@ func Enviar(nome, email, userID string) error {
 
 	m := gomail.NewMessage()
 	m.SetHeader("From", os.Getenv("SMTP_USER"))
-	m.SetHeader("From", os.Getenv("SMTP_USER"))
+	m.SetHeader("To", email)
 	m.SetHeader("Subject", "Bem-vindo ao Oportune+! Confirme seu e-mail")
 	m.SetBody("text/html", bodyEmail)
 
