@@ -18,12 +18,12 @@ export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
       data: {
         telefone: data.telefone,
         dataNascimento: new Date(data.dataNascimento),
-        // genero: data.genero,
+        genero: data.genero,
         // faculdade: data.faculdade, // Ainda não registra
         curso: data.curso,
         matricula: data.matricula,
         semestre: data.semestre,
-        // periodo: data.periodo,
+        periodo: data.periodo,
         userId: user.id,
       },
     });
@@ -35,7 +35,7 @@ export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
         telefone: data.telefone,
         dataNascimento: new Date(data.dataNascimento),
         genero: data.genero,
-        areasInteresse: data.areasInteresse,
+        // areasInteresse: data.areasInteresse, // Não vem com o form de criar conta
         areaAtuacao: data.areaAtuacao,
         departamento: data.departamento,
         titulacao: data.titulacao,
