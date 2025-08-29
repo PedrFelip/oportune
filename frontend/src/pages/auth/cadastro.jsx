@@ -10,33 +10,37 @@ import Step7_Confirmation from "../../components/formSteps/Step7_Confirmation";
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
   const [profileType, setProfileType] = useState(""); // Aluno ou Professor ou Empresa
-  // eslint-disable-next-line no-unused-vars
   const [formData, setFormData] = useState({});
 
   const handleProfileSelect = (type) => {
     // Seleciona o formulário com base no perfil escolhido
     setProfileType(type);
+
+    setFormData((prev) => ({
+      ...prev,
+      tipo: type,
+    }));
+
     setCurrentStep(2);
   };
 
   const handleChange = (e) => {
-    const { nome, valor, type, checked } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [nome]: type === "checkbox" ? checked : valor,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleSelectChange = (nome, selectedOption) => {
+  const handleSelectChange = (name, selectedOption) => {
     setFormData((prev) => ({
       ...prev,
-      [nome]: selectedOption,
+      [name]: selectedOption,
     }));
   };
 
-  const handleNext = (data = {}) => {
+  const handleNext = () => {
     // Avança
-    setFormData((prev) => ({ ...prev, ...data }));
     setCurrentStep((prev) => {
       if (prev === 3 && profileType === "empresa") {
         return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
@@ -62,10 +66,11 @@ export default function Cadastro() {
     });
   };
 
-  const handleFinish = (data) => {
+  const handleFinish = () => {
     // Finaliza o formulário e envia os dados
-    setFormData((prev) => ({ ...prev, ...data }));
-    setCurrentStep(6);
+    // Fazer a chamada da API com o 'formData'
+    console.log("Formulário a ser enviado")
+    setCurrentStep(7);
   };
 
   const renderStep = () => {
@@ -79,6 +84,7 @@ export default function Cadastro() {
             onNext={handleNext}
             onBack={handleBack}
             handleChange={handleChange}
+            formData={formData}
           />
         );
       case 3: // Somente para pessoas fisicas
@@ -88,6 +94,7 @@ export default function Cadastro() {
             onBack={handleBack}
             handleChange={handleChange}
             onSelectChange={handleSelectChange}
+            formData={formData}
           />
         );
       case 4:
@@ -97,6 +104,8 @@ export default function Cadastro() {
             onNext={handleNext}
             onBack={handleBack}
             handleChange={handleChange}
+            handleSelectChange={handleSelectChange}
+            formData={formData}
           />
         );
       case 5: // Somente para empresas
@@ -105,10 +114,20 @@ export default function Cadastro() {
             onNext={handleNext}
             onBack={handleBack}
             handleChange={handleChange}
+            formData={formData}
           />
         );
       case 6:
-        return <Step6_FinalForm onBack={handleBack} onFinish={handleFinish} />;
+        return (
+          <Step6_FinalForm
+            onBack={handleBack}
+            onFinish={handleFinish}
+            formData={formData}
+          />
+        );
+
+      case 7:
+        return <Step7_Confirmation />;
       default:
         return <Step1_ProfileSection onProfileSelect={handleProfileSelect} />;
     }
