@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Step1_ProfileSection from "../../components/formSteps/Step1_ProfileSection";
 import Step2_BasicInfo from "../../components/formSteps/Step2_BasicInfo";
 import Step3_AditionalInfo from "../../components/formSteps/Step3_AditionalInfo";
@@ -11,6 +11,10 @@ export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
   const [profileType, setProfileType] = useState(""); // Aluno ou Professor ou Empresa
   const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    console.log("Estado do formulário atualizado:", formData);
+  }, [formData]);
 
   const handleProfileSelect = (type) => {
     // Seleciona o formulário com base no perfil escolhido
@@ -42,10 +46,10 @@ export default function Cadastro() {
   const handleNext = () => {
     // Avança
     setCurrentStep((prev) => {
-      if (prev === 3 && profileType === "empresa") {
+      if (prev === 2 && profileType === "empresa") {
         return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
       }
-      if (prev === 5 && profileType !== "empresa") {
+      if (prev === 4 && profileType !== "empresa") {
         return 6; // Pula o passo 5 que só tem o formulário para empresas
       }
       return prev + 1;
@@ -93,7 +97,7 @@ export default function Cadastro() {
             onNext={handleNext}
             onBack={handleBack}
             handleChange={handleChange}
-            onSelectChange={handleSelectChange}
+            handleSelectChange={handleSelectChange}
             formData={formData}
           />
         );
@@ -109,6 +113,7 @@ export default function Cadastro() {
           />
         );
       case 5: // Somente para empresas
+        
         return (
           <Step5_Socialmedia
             onNext={handleNext}
@@ -121,7 +126,7 @@ export default function Cadastro() {
         return (
           <Step6_FinalForm
             onBack={handleBack}
-            onFinish={handleFinish}
+            handleFinish={handleFinish}
             formData={formData}
           />
         );

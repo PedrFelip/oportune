@@ -8,8 +8,8 @@ export default function Step3_AditionalInfo({
   onNext,
   onBack,
   formData,
-  onChange,
-  onSelectChange,
+  handleChange,
+  handleSelectChange,
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ export default function Step3_AditionalInfo({
             placeholder="Qual sua data de nascimento"
             type="date"
             value={formData.data_nascimento || ''}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <FormSelect
             id="genero"
@@ -40,7 +40,7 @@ export default function Step3_AditionalInfo({
             label="Gênero"
             options={dados.genero}
             value={formData.genero || null}
-            onChange={(option) => onSelectChange("genero", option)}
+            onChange={(option) => handleSelectChange("genero", option)}
           />
           <Forminput
             id="telefone"
@@ -49,7 +49,8 @@ export default function Step3_AditionalInfo({
             placeholder="Digite seu número de telefone"
             type="tel"
             value={formData.telefone || ''}
-            onChange={onChange}
+            mask={"(__) _____-____"}
+            onChange={handleChange}
           />
           <button
             type="submit"

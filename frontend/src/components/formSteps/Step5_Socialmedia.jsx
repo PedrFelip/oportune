@@ -34,6 +34,7 @@ export default function Step5_Socialmedia({ onNext, onBack, formData, handleChan
             label="Telefone"
             type="tel"
             value={formData.telefone || ''}
+            mask={"(__) _____-____"}
             onChange={handleChange}
           />
           <Forminput
