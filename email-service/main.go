@@ -19,5 +19,7 @@ func main() {
 	server := api.SetupRoutesApp()
 
 	fmt.Printf("Server iniciado na porta 3002")
-	server.Run(":3002")
+	if err := server.Run(":3002"); err != nil {
+		log.Fatalf("Falha ao iniciar o servidor: %v", err)
+	}
 }
