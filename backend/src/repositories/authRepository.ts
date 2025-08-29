@@ -1,7 +1,7 @@
 import prisma from "../../prisma/client.ts";
-import { createUserDTO, logUserDTO } from "../interfaces/userDTO.ts";
+import { createUserCleanDTO, loginUserDTO } from "../schemas/userSchemas.ts";
 
-export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
+export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
   // Cria o registro base do usuário
   const user = await prisma.user.create({
     data: {
@@ -16,15 +16,14 @@ export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
   if (data.tipo === "ESTUDANTE") {
     await prisma.estudante.create({
       data: {
-        phone: data.phone,
+        telefone: data.telefone,
         dataNascimento: new Date(data.dataNascimento),
         genero: data.genero,
-        faculdade: data.faculdade,
+        // faculdade: data.faculdade, // Ainda não registra
         curso: data.curso,
         matricula: data.matricula,
-        semestreAtual: data.semestreAtual,
-        periodoAtual: data.periodoAtual,
-        dataFormatura: new Date(data.dataFormatura),
+        semestre: data.semestre,
+        periodo: data.periodo,
         userId: user.id,
       },
     });
@@ -33,7 +32,7 @@ export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
   if (data.tipo === "PROFESSOR") {
     await prisma.professor.create({
       data: {
-        phone: data.phone,
+        telefone: data.telefone,
         dataNascimento: new Date(data.dataNascimento),
         genero: data.genero,
         areasInteresse: data.areasInteresse,
@@ -54,9 +53,9 @@ export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
         ramo: data.ramo,
         setor: data.setor,
         descricao: data.descricao,
-        phone: data.phone,
+        telefone: data.telefone,
         emailContato: data.emailContato,
-        redesSociais: [],
+        website: data.website,
         userId: user.id,
       },
     });
@@ -65,7 +64,7 @@ export const cadastrarUsuarioRepository = async (data: createUserDTO) => {
   return user;
 };
 
-export const logarUsuarioRepository = async (data: logUserDTO) => {
+export const logarUsuarioRepository = async (data: loginUserDTO) => {
   const user = await prisma.user.findUniqueOrThrow({
     where: {
       email: data.email,

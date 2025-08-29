@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUserDTO, logUserDTO } from "../interfaces/userDTO.ts";
+import { createUserCleanDTO, loginUserDTO } from "../schemas/userSchemas.ts";
 import {
   cadastrarUsuarioRepository,
   logarUsuarioRepository,
@@ -8,7 +8,7 @@ import {
 import { capitalizeFirstLetter } from "../utils/functions.ts";
 import { JWT_SECRET } from "../config/config.ts";
 
-export const cadastrarUsuarioService = async (data: createUserDTO) => {
+export const cadastrarUsuarioService = async (data: createUserCleanDTO) => {
   try {
     const senha_hash = await bcrypt.hash(data.senha, 10);
 
@@ -24,7 +24,7 @@ export const cadastrarUsuarioService = async (data: createUserDTO) => {
   }
 };
 
-export const logarUsuarioService = async (data: logUserDTO) => {
+export const logarUsuarioService = async (data: loginUserDTO) => {
   try {
     const user = await logarUsuarioRepository(data);
 

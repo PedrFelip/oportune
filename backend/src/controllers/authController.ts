@@ -12,9 +12,7 @@ export const cadastrarUsuarioController = async (
   try {
     const novoUsuario = createUserSchema.parse(request.body);
 
-    const {senhaConfirmada, termos, ...dadosUteis} = novoUsuario
-
-    const usuarioCriado = await cadastrarUsuarioService(dadosUteis);
+    const usuarioCriado = await cadastrarUsuarioService(novoUsuario);
 
     return reply.status(201).send(usuarioCriado);
   } catch (err: any) {

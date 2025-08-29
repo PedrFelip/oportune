@@ -44,7 +44,7 @@ model Estudante {
   curso         String
   semestre      Int
   periodo       Periodo
-  dataFormatura DateTime
+  dataFormatura DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

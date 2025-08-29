@@ -80,6 +80,7 @@ const empresaSchema = z.object({
     .optional(),
 
   emailContato: z.email({ message: FraseErroEmail }),
+  website: z.httpUrl({message: "Url inválida"})
 });
 
 // Union discriminado
@@ -93,6 +94,14 @@ export const createUserSchema = z.discriminatedUnion("tipo", [
 });
 
 export type createUserDTO = z.infer<typeof createUserSchema>
+
+export const createUserCleanSchema = createUserSchema.transform((data) => {
+  const { senhaConfirmada, termos, ...rest } = data;
+  return rest;
+});
+
+export type createUserCleanDTO = z.infer<typeof createUserCleanSchema>;
+
 
 export const logUserSchema = z.object({
   email: z.email({ message: FraseErroEmail }),
