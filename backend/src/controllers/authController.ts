@@ -1,18 +1,32 @@
 import z from "zod";
 import { formatZodErrors } from "../utils/zodErrorFormatter.ts";
-import { cadastrarUsuarioService, logarUsuarioService } from "../services/authServices.ts";
-import { createUserSchema, logUserSchema, createUserDTO, loginUserDTO } from "../schemas/userSchemas.ts";
+import {
+  cadastrarUsuarioService,
+  logarUsuarioService,
+} from "../services/authServices.ts";
+import {
+  createUserCleanSchema,
+  logUserSchema,
+  createUserDTO,
+  loginUserDTO,
+} from "../schemas/userSchemas.ts";
 import { FastifyReply, FastifyRequest } from "fastify";
+import { prepareDataForZod } from "../schemas/prepareDataUserSchema.ts";
 
 export const cadastrarUsuarioController = async (
   request: FastifyRequest<{ Body: createUserDTO }>,
   reply: FastifyReply
 ) => {
-  
   try {
-    const novoUsuario = createUserSchema.parse(request.body);
+    const dados = prepareDataForZod(request.body);
+    console.log(dados);
+
+    const novoUsuario = createUserCleanSchema.parse(dados);
+    console.log(novoUsuario);
 
     const usuarioCriado = await cadastrarUsuarioService(novoUsuario);
+
+    console.log(usuarioCriado); // Só pra validar os dados no console
 
     return reply.status(201).send(usuarioCriado);
   } catch (err: any) {
@@ -41,9 +55,9 @@ export const loginUsuarioController = async (
 
     return reply.status(200).send({
       token: usuarioLogado.token,
-      user: usuarioLogado.safeUser
-    })
+      user: usuarioLogado.safeUser,
+    });
   } catch (err: any) {
-    return reply.status(400).send({message: "Credenciais inválidas"})
+    return reply.status(400).send({ message: "Credenciais inválidas" });
   }
 };

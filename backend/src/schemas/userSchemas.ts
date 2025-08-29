@@ -1,4 +1,4 @@
-import z, { number } from "zod";
+import z from "zod";
 import * as regex from "../utils/validators.ts";
 
 const FraseTelefoneInvalidoErro = "Número de telefone inválido";
@@ -30,12 +30,12 @@ const estudanteSchema = z.object({
     (arg) => (typeof arg === "string" ? new Date(arg) : arg),
     z.date()
   ),
-  genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]).optional(),
+  genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]),
   faculdade: z.string().optional(),
   curso: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
   matricula: z.string(),
   semestre: z.coerce.number().min(1).max(12),
-  periodo: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]).optional(),
+  periodo: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]),
   dataFormatura: z
     .preprocess(
       (arg) => (typeof arg === "string" ? new Date(arg) : arg),
@@ -85,16 +85,12 @@ const empresaSchema = z.object({
 });
 
 // Union discriminado
-export const createUserSchema = z
+const createUserSchema = z
   .discriminatedUnion("tipo", [
     baseUser.extend(estudanteSchema.shape),
     baseUser.extend(professorSchema.shape),
     baseUser.extend(empresaSchema.shape),
   ])
-  .refine((data) => data.senha === data.senhaConfirmada, {
-    message: "As senhas não conferem.",
-    path: ["senhaConfirmada"],
-  });
 
 export type createUserDTO = z.infer<typeof createUserSchema>;
 
