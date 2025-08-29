@@ -17,6 +17,10 @@ export const cadastrarUsuarioService = async (data: createUserCleanDTO) => {
     data.senha = senha_hash;
     data.nome = capitalizeName;
 
+    if (data.tipo === "ESTUDANTE"){
+      data.semestre = Number(data.semestre)
+    }
+
     await cadastrarUsuarioRepository(data);
   } catch (err: any) {
     console.log(err);

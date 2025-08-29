@@ -7,7 +7,7 @@ const customStyle = {
     borderBottom: "1px solid white",
     cursor: "pointer",
     color: state.isFocused ? "#111E34" : "white",
-    backgroundColor: state.isFocused ? "white" : "#111E34"
+    backgroundColor: state.isFocused ? "white" : "#111E34",
   }),
   control: (provided) => ({
     ...provided,
@@ -26,11 +26,19 @@ const customStyle = {
   menu: (provided) => ({
     ...provided,
     backgroundColor: "#111E34", // Um fundo escuro para o menu dropdown
-    left: 0
+    left: 0,
   }),
 };
 
-export default function OpSelect({ options, className, id, name, required, style = false }) {
+export default function OpSelect({
+  options,
+  className,
+  id,
+  name,
+  required,
+  style = false,
+  ...rest
+}) {
   return (
     <Select
       options={options}
@@ -39,6 +47,7 @@ export default function OpSelect({ options, className, id, name, required, style
       id={id}
       name={name}
       required={required}
+      {...rest}
     />
   );
 }

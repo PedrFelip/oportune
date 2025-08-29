@@ -37,7 +37,7 @@ export default function Cadastro() {
   const handleSelectChange = (name, selectedOption) => {
     setFormData((prev) => ({
       ...prev,
-      [name]: selectedOption,
+      [name]: selectedOption, // Bugado
     }));
   };
 
@@ -70,7 +70,6 @@ export default function Cadastro() {
 
   // Finaliza o formulário e envia os dados
   const handleFinish = async () => {
-    console.log(formData)
     Swal.fire({
       title: "Enviando os dados...",
       text: "Aguarde um momento, por favor!",

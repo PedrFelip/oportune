@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { number } from "zod";
 import * as regex from "../utils/validators.ts";
 
 const FraseTelefoneInvalidoErro = "Número de telefone inválido";
@@ -11,11 +11,11 @@ const FraseErroSenha =
 
 const baseUser = z.object({
   nome: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
-  email: z.email({message: FraseErroEmail}),
+  email: z.email({ message: FraseErroEmail }),
   senha: z.string().regex(regex.passwordRegex, FraseErroSenha),
   senhaConfirmada: z.string(),
   tipo: z.enum(["ESTUDANTE", "PROFESSOR", "EMPRESA"]),
-  termos: z.boolean()
+  termos: z.boolean(),
 });
 
 // Campos especificos para cada tipo
@@ -30,17 +30,18 @@ const estudanteSchema = z.object({
     (arg) => (typeof arg === "string" ? new Date(arg) : arg),
     z.date()
   ),
-  genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]),
-
+  genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]).optional(),
   faculdade: z.string().optional(),
   curso: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
   matricula: z.string(),
-  semestre: z.number().int(),
-  periodo: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]),
-  dataFormatura: z.preprocess(
-    (arg) => (typeof arg === "string" ? new Date(arg) : arg),
-    z.date()
-  ).optional(),
+  semestre: z.coerce.number().min(1).max(12),
+  periodo: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]).optional(),
+  dataFormatura: z
+    .preprocess(
+      (arg) => (typeof arg === "string" ? new Date(arg) : arg),
+      z.date()
+    )
+    .optional(),
 });
 
 const professorSchema = z.object({
@@ -80,20 +81,22 @@ const empresaSchema = z.object({
     .optional(),
 
   emailContato: z.email({ message: FraseErroEmail }),
-  website: z.httpUrl({message: "Url inválida"})
+  website: z.httpUrl({ message: "Url inválida" }),
 });
 
 // Union discriminado
-export const createUserSchema = z.discriminatedUnion("tipo", [
-  baseUser.extend(estudanteSchema.shape),
-  baseUser.extend(professorSchema.shape),
-  baseUser.extend(empresaSchema.shape),
-]).refine((data) => data.senha !== data.senhaConfirmada, {
-  message: "As senhas não conferem.",
-  path: ["senhaConfirmada"]
-});
+export const createUserSchema = z
+  .discriminatedUnion("tipo", [
+    baseUser.extend(estudanteSchema.shape),
+    baseUser.extend(professorSchema.shape),
+    baseUser.extend(empresaSchema.shape),
+  ])
+  .refine((data) => data.senha === data.senhaConfirmada, {
+    message: "As senhas não conferem.",
+    path: ["senhaConfirmada"],
+  });
 
-export type createUserDTO = z.infer<typeof createUserSchema>
+export type createUserDTO = z.infer<typeof createUserSchema>;
 
 export const createUserCleanSchema = createUserSchema.transform((data) => {
   const { senhaConfirmada, termos, ...rest } = data;
@@ -102,10 +105,9 @@ export const createUserCleanSchema = createUserSchema.transform((data) => {
 
 export type createUserCleanDTO = z.infer<typeof createUserCleanSchema>;
 
-
 export const logUserSchema = z.object({
   email: z.email({ message: FraseErroEmail }),
   senha: z.string().regex(regex.passwordRegex, FraseErroSenha),
 });
 
-export type loginUserDTO = z.infer<typeof logUserSchema>
+export type loginUserDTO = z.infer<typeof logUserSchema>;

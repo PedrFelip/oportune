@@ -15,7 +15,7 @@ export default function Step2_BasicInfo({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.senha !== formData.senha_confirmada) {
+    if (formData.senha !== formData.senhaConfirmada) {
       Swal.fire({
         title: "Erro",
         text: "As senhas não conferem! Tente novamente",
@@ -30,7 +30,6 @@ export default function Step2_BasicInfo({
 
       return
     }
-    delete formData.senhaConfirmada
     onNext();
   };
 

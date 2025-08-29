@@ -18,7 +18,7 @@ export default function Step4_ProfileDetails({
     onNext()
   };
   const forms = {
-    aluno: (
+    ESTUDANTE: (
       <>
         <CardHeader
           title="Perfil Acadêmico"
@@ -54,12 +54,12 @@ export default function Step4_ProfileDetails({
           name="periodo"
           label="Periodo"
           options={informacoes.periodo}
-          value={formData.periodo || null}
+          value={formData.periodo}
           onChange={(option) => handleSelectChange("periodo", option)}
         />
       </>
     ),
-    empresa: (
+    EMPRESA: (
       <>
         <CardHeader
           title="Informações da Empresa"
@@ -99,7 +99,7 @@ export default function Step4_ProfileDetails({
         />
       </>
     ),
-    professor: (
+    PROFESSOR: (
       <>
         <CardHeader
           title="Perfil de Docente"
