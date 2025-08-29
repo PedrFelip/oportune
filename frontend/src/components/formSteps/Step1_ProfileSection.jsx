@@ -5,18 +5,18 @@ import { Link } from "react-router-dom";
 export default function Step1_ProfileSection({ onProfileSelect }) {
   const roles = [
     {
-      type: "aluno",
+      type: "ESTUDANTE",
       title: "Sou Aluno",
       description: "Procurando por estágios, projetos de pesquisa e extensão.",
     },
     {
-      type: "empresa",
+      type: "EMPRESA",
       title: "Sou Empresa",
       description:
         "Buscando por talentos universitários para preencher as minhas vagas.",
     },
     {
-      type: "professor",
+      type: "PROFESSOR",
       title: "Sou Professor",
       description: "Querendo divulgar projetos e recrutar alunos.",
     },

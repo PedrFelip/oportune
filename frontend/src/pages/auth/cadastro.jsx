@@ -6,6 +6,8 @@ import Step4_ProfileDetails from "../../components/formSteps/Step4_ProfileDetail
 import Step5_Socialmedia from "../../components/formSteps/Step5_Socialmedia";
 import Step6_FinalForm from "../../components/formSteps/Step6_FinalForm";
 import Step7_Confirmation from "../../components/formSteps/Step7_Confirmation";
+import { cadastrarUsuario } from "../../api/api";
+import Swal from "sweetalert2";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -67,9 +69,45 @@ export default function Cadastro() {
   };
 
   // Finaliza o formulário e envia os dados
-  const handleFinish = () => {
-    // Fazer a chamada da API com o 'formData'
-    setCurrentStep(7);
+  const handleFinish = async () => {
+    console.log(formData)
+    Swal.fire({
+      title: "Enviando os dados...",
+      text: "Aguarde um momento, por favor!",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
+
+    try {
+      await cadastrarUsuario(formData);
+
+      Swal.fire({
+        title: "Sucesso",
+        text: "Conta criada com sucesso! Agora realize a confirmação por email",
+        icon: "success",
+        confirmButtonText: "Verificar email",
+
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+      setCurrentStep(7);
+    } catch (err) {
+      Swal.fire({
+        title: "Erro ao registrar conta",
+        text: err.message,
+        icon: "error",
+        confirmButtonText: "Tentar novamente",
+        confirmButtonColor: "#2474e4",
+
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    }
   };
 
   const renderStep = () => {
@@ -108,7 +146,6 @@ export default function Cadastro() {
           />
         );
       case 5: // Somente para empresas
-        
         return (
           <Step5_Socialmedia
             onNext={handleNext}

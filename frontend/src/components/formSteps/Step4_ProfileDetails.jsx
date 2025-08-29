@@ -106,11 +106,11 @@ export default function Step4_ProfileDetails({
           subtitle="Complete o seu perfil para divulgar os seus projetos."
         />
         <FormInput
-          id="area_atuacao"
-          name="area_atuacao"
+          id="areaAtuacao"
+          name="areaAtuacao"
           label="Área de Atuação"
           placeholder="Ex: Professor de Matemática"
-          value={formData.area_atuacao || ''}
+          value={formData.areaAtuacao || ''}
           onChange={handleChange}
         />
         <FormInput
@@ -156,7 +156,7 @@ export default function Step4_ProfileDetails({
         <button
           type="button"
           onClick={onBack}
-          className="w-full bg-[rgba(196,211,230,0.04)] text-[#c4d3e6] font-medium py-3 rounded-lg border border-white/10 mt-3 transition-all hover:bg-[rgba(196,211,230,0.02)] hover:text-white"
+          className="w-full bg-[rgba(196,211,230,0.04)] text-[#c4d3e6] font-medium py-3 rounded-lg border border-white/10 mt-3 transition-all hover:bg-[rgba(196,211,230,0.02)] hover:text-white cursor-pointer"
         >
           Voltar
         </button>

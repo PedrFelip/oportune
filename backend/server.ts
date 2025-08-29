@@ -1,5 +1,6 @@
-import Fastify from "fastify";
+import Fastify, { fastify } from "fastify";
 import { authRoutes } from "./src/routes/authRoutes";
+import cors from "@fastify/cors";
 
 const app = Fastify({
   logger: {
@@ -13,8 +14,13 @@ const app = Fastify({
   },
 });
 
-app.register(authRoutes)
+await app.register(cors, {
+  origin: ["http://localhost:5173"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+});
 
-app.listen({ port: 3001 }).then(() => {
+app.register(authRoutes);
+
+await app.listen({ port: 3001 }).then(() => {
   console.log("Servidor iniciado na porta 3001");
 });

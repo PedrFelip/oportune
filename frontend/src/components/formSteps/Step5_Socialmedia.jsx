@@ -19,12 +19,12 @@ export default function Step5_Socialmedia({ onNext, onBack, formData, handleChan
       <main>
         <form onSubmit={handleSubmit}>
           <Forminput
-            id="email_contato"
-            name="email_contato"
+            id="emailContato"
+            name="emailContato"
             label="Email de contato"
             placeholder="Qual o email para entrar em contato"
             type="email"
-            value={formData.email_contato || ''}
+            value={formData.emailContato || ''}
             onChange={handleChange}
             
           />

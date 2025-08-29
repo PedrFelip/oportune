@@ -8,17 +8,20 @@ const FraseErroSenha =
   "A senha precisa de no minimo 8 caracteres, incluindo letras maiúsculas, minúsculas e números";
 
 // Campos comuns a todos os usuários
+
 const baseUser = z.object({
   nome: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
-  email: z.email({ message: FraseErroEmail }),
+  email: z.email({message: FraseErroEmail}),
   senha: z.string().regex(regex.passwordRegex, FraseErroSenha),
+  senhaConfirmada: z.string(),
   tipo: z.enum(["ESTUDANTE", "PROFESSOR", "EMPRESA"]),
+  termos: z.boolean()
 });
 
-// Campos específicos de cada tipo
+// Campos especificos para cada tipo
 const estudanteSchema = z.object({
   tipo: z.literal("ESTUDANTE"),
-  phone: z
+  telefone: z
     .string()
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
     .optional(),
@@ -32,17 +35,17 @@ const estudanteSchema = z.object({
   faculdade: z.string().optional(),
   curso: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
   matricula: z.string(),
-  semestreAtual: z.number().int(),
-  periodoAtual: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]),
+  semestre: z.number().int(),
+  periodo: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]),
   dataFormatura: z.preprocess(
     (arg) => (typeof arg === "string" ? new Date(arg) : arg),
     z.date()
-  ),
+  ).optional(),
 });
 
 const professorSchema = z.object({
   tipo: z.literal("PROFESSOR"),
-  phone: z
+  telefone: z
     .string()
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
     .optional(),
@@ -53,7 +56,7 @@ const professorSchema = z.object({
   ),
   genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]),
 
-  areasInteresse: z.array(z.string()),
+  areasInteresse: z.array(z.string()).optional(),
 
   areaAtuacao: z.string(),
   departamento: z.string(),
@@ -71,7 +74,7 @@ const empresaSchema = z.object({
   descricao: z.string().optional(),
 
   //   endereco: z.string().optional(), Pode ser extraido com CNPJ
-  phone: z
+  telefone: z
     .string()
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
     .optional(),
@@ -84,9 +87,16 @@ export const createUserSchema = z.discriminatedUnion("tipo", [
   baseUser.extend(estudanteSchema.shape),
   baseUser.extend(professorSchema.shape),
   baseUser.extend(empresaSchema.shape),
-]);
+]).refine((data) => data.senha !== data.senhaConfirmada, {
+  message: "As senhas não conferem.",
+  path: ["senhaConfirmada"]
+});
+
+export type createUserDTO = z.infer<typeof createUserSchema>
 
 export const logUserSchema = z.object({
   email: z.email({ message: FraseErroEmail }),
   senha: z.string().regex(regex.passwordRegex, FraseErroSenha),
 });
+
+export type loginUserDTO = z.infer<typeof logUserSchema>

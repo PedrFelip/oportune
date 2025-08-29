@@ -26,12 +26,12 @@ export default function Step3_AditionalInfo({
       <main>
         <form onSubmit={handleSubmit}>
           <Forminput
-            id="data_nascimento"
-            name="data_nascimento"
+            id="dataNascimento"
+            name="dataNascimento"
             label="Data de Nascimento"
             placeholder="Qual sua data de nascimento"
             type="date"
-            value={formData.data_nascimento || ''}
+            value={formData.dataNascimento || ''}
             onChange={handleChange}
           />
           <FormSelect

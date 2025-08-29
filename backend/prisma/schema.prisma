@@ -36,7 +36,7 @@ model Estudante {
   telefone        String?
   fotoPerfil   String?
 
-  data_nascimento  DateTime
+  dataNascimento  DateTime
   genero  String
 
   faculdade     String?
@@ -44,7 +44,7 @@ model Estudante {
   curso         String
   semestre      Int
   periodo       Periodo
-  data_formatura DateTime
+  dataFormatura DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -60,12 +60,12 @@ model Professor {
   telefone        String?
   fotoPerfil   String?
 
-  data_nascimento  DateTime
+  dataNascimento  DateTime
   genero  String
 
-  areas_interesse String[]
+  areasInteresse String[]
 
-  area_atuacao    String
+  areaAtuacao    String
   departamento   String
   titulacao      String
   lattes         String
@@ -92,9 +92,9 @@ model Empresa {
   endereco  String?
   telefone     String?
 
-  email_contato   String?
+  emailContato   String?
   website         String
-  redes_sociais   String[]
+  redesSociais   String[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -1,13 +1,36 @@
 import React from "react";
 import CardHeader from "../cadastro/CardHeader";
 import FormInput from "../cadastro/FormInput";
+import Swal from "sweetalert2";
 
-export default function Step2_BasicInfo({ profileType, onNext, onBack, formData, handleChange }) {
+export default function Step2_BasicInfo({
+  profileType,
+  onNext,
+  onBack,
+  formData,
+  handleChange,
+}) {
   const isEmpresa = profileType === "empresa";
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (formData.senha !== formData.senha_confirmada) {
+      Swal.fire({
+        title: "Erro",
+        text: "As senhas não conferem! Tente novamente",
+        icon: "error",
+        confirmButtonText: "Refazer",
+        confirmButtonColor: "#2474e4",
+
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+
+      return
+    }
+    delete formData.senhaConfirmada
     onNext();
   };
 
@@ -26,7 +49,7 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack, formData,
             placeholder={
               isEmpresa ? "Ex: Oportune Soluções" : "Ex: João da Silva"
             }
-            value={formData.nome || ''}
+            value={formData.nome || ""}
             onChange={handleChange}
           />
           <FormInput
@@ -35,7 +58,7 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack, formData,
             label="E-mail"
             type="email"
             placeholder="seuemail@dominio.com"
-            value={formData.email || ''}
+            value={formData.email || ""}
             onChange={handleChange}
           />
           <FormInput
@@ -44,16 +67,16 @@ export default function Step2_BasicInfo({ profileType, onNext, onBack, formData,
             label="Crie uma Senha"
             type="password"
             placeholder="••••••••••"
-            value={formData.senha || ''}
+            value={formData.senha || ""}
             onChange={handleChange}
           />
           <FormInput
-            id="senha_confirmada"
-            name="senha_confirmada"
+            id="senhaConfirmada"
+            name="senhaConfirmada"
             label="Confirme a sua Senha"
             type="password"
             placeholder="••••••••••"
-            value={formData.senha_confirmada || ''}
+            value={formData.senhaConfirmada || ""}
             onChange={handleChange}
           />
 

@@ -1,17 +1,20 @@
 import z from "zod";
 import { formatZodErrors } from "../utils/zodErrorFormatter.ts";
 import { cadastrarUsuarioService, logarUsuarioService } from "../services/authServices.ts";
-import { createUserSchema, logUserSchema } from "../schemas/userSchemas.ts";
+import { createUserSchema, logUserSchema, createUserDTO, loginUserDTO } from "../schemas/userSchemas.ts";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { createUserDTO, logUserDTO } from "../interfaces/userDTO.ts";
 
 export const cadastrarUsuarioController = async (
   request: FastifyRequest<{ Body: createUserDTO }>,
   reply: FastifyReply
 ) => {
+  
   try {
     const novoUsuario = createUserSchema.parse(request.body);
-    const usuarioCriado = await cadastrarUsuarioService(novoUsuario);
+
+    const {senhaConfirmada, termos, ...dadosUteis} = novoUsuario
+
+    const usuarioCriado = await cadastrarUsuarioService(dadosUteis);
 
     return reply.status(201).send(usuarioCriado);
   } catch (err: any) {
@@ -31,7 +34,7 @@ export const cadastrarUsuarioController = async (
 };
 
 export const loginUsuarioController = async (
-  request: FastifyRequest<{ Body: logUserDTO }>,
+  request: FastifyRequest<{ Body: loginUserDTO }>,
   reply: FastifyReply
 ) => {
   try {
