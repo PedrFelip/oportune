@@ -33,18 +33,18 @@ model User {
 model Estudante {
   id           String  @id @default(uuid())
   userId       String  @unique
-  phone        String?
+  telefone        String?
   fotoPerfil   String?
 
-  dataNascimento  DateTime
+  data_nascimento  DateTime
   genero  String
 
   faculdade     String?
   matricula     String
   curso         String
-  semestreAtual Int
-  periodoAtual  Periodo
-  dataFormatura DateTime
+  semestre      Int
+  periodo       Periodo
+  data_formatura DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -57,15 +57,15 @@ model Estudante {
 model Professor {
   id           String  @id @default(uuid())
   userId       String  @unique
-  phone        String?
+  telefone        String?
   fotoPerfil   String?
 
-  dataNascimento  DateTime
+  data_nascimento  DateTime
   genero  String
 
-  areasInteresse String[]
+  areas_interesse String[]
 
-  areaAtuacao    String
+  area_atuacao    String
   departamento   String
   titulacao      String
   lattes         String
@@ -90,10 +90,11 @@ model Empresa {
   descricao    String?
 
   endereco  String?
-  phone     String?
+  telefone     String?
 
-  emailContato   String?
-  redesSociais   String[]
+  email_contato   String?
+  website         String
+  redes_sociais   String[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
