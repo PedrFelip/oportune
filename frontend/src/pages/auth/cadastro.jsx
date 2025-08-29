@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Step1_ProfileSection from "../../components/formSteps/Step1_ProfileSection";
 import Step2_BasicInfo from "../../components/formSteps/Step2_BasicInfo";
 import Step3_AditionalInfo from "../../components/formSteps/Step3_AditionalInfo";
@@ -11,10 +11,6 @@ export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
   const [profileType, setProfileType] = useState(""); // Aluno ou Professor ou Empresa
   const [formData, setFormData] = useState({});
-
-  useEffect(() => {
-    console.log("Estado do formulário atualizado:", formData);
-  }, [formData]);
 
   const handleProfileSelect = (type) => {
     // Seleciona o formulário com base no perfil escolhido
@@ -70,10 +66,9 @@ export default function Cadastro() {
     });
   };
 
+  // Finaliza o formulário e envia os dados
   const handleFinish = () => {
-    // Finaliza o formulário e envia os dados
     // Fazer a chamada da API com o 'formData'
-    console.log("Formulário a ser enviado")
     setCurrentStep(7);
   };
 
