@@ -43,7 +43,7 @@ export default function Step5_Socialmedia({ onNext, onBack, formData, handleChan
             label="Site da empresa"
             placeholder="Site da empresa"
             type="url"
-            required="false"
+            required={false}
             value={formData.website || ''}
             onChange={handleChange}
           />

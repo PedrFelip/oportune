@@ -10,7 +10,7 @@ export default function Step2_BasicInfo({
   formData,
   handleChange,
 }) {
-  const isEmpresa = profileType === "empresa";
+  const isEmpresa = profileType === "EMPRESA";
 
   const handleSubmit = (e) => {
     e.preventDefault();

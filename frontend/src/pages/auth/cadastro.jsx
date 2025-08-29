@@ -14,6 +14,8 @@ export default function Cadastro() {
   const [profileType, setProfileType] = useState(""); // Aluno ou Professor ou Empresa
   const [formData, setFormData] = useState({});
 
+  const isEmpresa = profileType === "EMPRESA";
+
   const handleProfileSelect = (type) => {
     // Seleciona o formulário com base no perfil escolhido
     setProfileType(type);
@@ -37,17 +39,17 @@ export default function Cadastro() {
   const handleSelectChange = (name, selectedOption) => {
     setFormData((prev) => ({
       ...prev,
-      [name]: selectedOption, // Bugado
+      [name]: selectedOption, // Tratado
     }));
   };
 
   const handleNext = () => {
     // Avança
     setCurrentStep((prev) => {
-      if (prev === 2 && profileType === "empresa") {
+      if (prev === 2 && isEmpresa) {
         return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
       }
-      if (prev === 4 && profileType !== "empresa") {
+      if (prev === 4 && !isEmpresa) {
         return 6; // Pula o passo 5 que só tem o formulário para empresas
       }
       return prev + 1;
@@ -57,10 +59,10 @@ export default function Cadastro() {
   const handleBack = () => {
     // Retrocede
     setCurrentStep((prev) => {
-      if (prev === 4 && profileType === "empresa") {
+      if (prev === 4 && isEmpresa) {
         return 2; // Pula o passo 3 que só tem o formulário para pessoas fisicas
       }
-      if (prev === 6 && profileType !== "empresa") {
+      if (prev === 6 && !isEmpresa) {
         return 4; // Pula o passo 5 que só tem o formulário para empresas
       }
 
@@ -76,9 +78,9 @@ export default function Cadastro() {
       allowOutsideClick: false,
       allowEscapeKey: false,
       didOpen: () => {
-        Swal.showLoading()
-      }
-    })
+        Swal.showLoading();
+      },
+    });
 
     try {
       await cadastrarUsuario(formData);
@@ -89,20 +91,25 @@ export default function Cadastro() {
         icon: "success",
         confirmButtonText: "Verificar email",
 
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: true,
         showConfirmButton: false,
       });
+      setFormData({});
+      setProfileType("");
       setCurrentStep(7);
     } catch (err) {
       Swal.fire({
         title: "Erro ao registrar conta",
-        text: err.message,
+        text:
+          err?.response?.data?.message ||
+          err.message ||
+          "Erro ao criar sua conta, por favor tente novamente",
         icon: "error",
         confirmButtonText: "Tentar novamente",
         confirmButtonColor: "#2474e4",
 
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: true,
         showConfirmButton: false,
       });
