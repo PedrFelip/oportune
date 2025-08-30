@@ -8,6 +8,10 @@ def extracao(dados: dict):
 
     nome_empresa = dados.get("razao_social", "Nome não encontrado")
     nome_fantasia = estabelecimento.get("nome_fantasia", "")
+    
+    if (nome_fantasia == ''):
+        nome_fantasia = nome_empresa
+
     tipo_logradouro = estabelecimento.get('tipo_logradouro', "")
     logradouro = estabelecimento.get("logradouro", "")
     numero = estabelecimento.get("numero", "S/N")
