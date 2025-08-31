@@ -8,6 +8,7 @@ import Home from "../pages/Home";
 import Login from "../pages/auth/Login";
 // import Register from "../pages/auth/Register";
 import Cadastro from "../pages/auth/cadastro";
+import Confirmacao  from "../pages/auth/confirmacao";
 
 const AppRoutes = () => {
   const redirectToHome = <Navigate to="/" />;
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         {/* <Route path="/register" element={<Register />} /> */}
+        <Route path="/confirmacao" element={<Confirmacao />} />
 
         {/* Rota Genérica */}
         <Route path="*" element={redirectToHome} />
