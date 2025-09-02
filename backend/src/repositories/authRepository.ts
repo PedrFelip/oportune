@@ -1,5 +1,5 @@
 import prisma from "../../prisma/client.ts";
-import { createUserCleanDTO, loginUserDTO } from "../schemas/userSchemas.ts";
+import { createUserCleanDTO, loginUserDTO } from "../../../shared/schemas/authSchema.ts";
 
 export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
   // Cria o registro base do usuário

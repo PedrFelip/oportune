@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUserCleanDTO, loginUserDTO } from "../schemas/userSchemas.ts";
+import { createUserCleanDTO, loginUserDTO } from "../../../shared/schemas/authSchema.ts";
 import {
   cadastrarUsuarioRepository,
   logarUsuarioRepository,

@@ -10,7 +10,7 @@ import {
   logUserSchema,
   createUserDTO,
   loginUserDTO,
-} from "../schemas/userSchemas.ts";
+} from "../../../shared/schemas/authSchema.ts";
 import axios from "axios";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { prepareDataForZod } from "../schemas/prepareDataUserSchema.ts";
