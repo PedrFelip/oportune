@@ -10,7 +10,7 @@ export async function cadastrarUsuario(dados: any) {
       throw new Error(`Erro na requisição: ${reply.status}`);
     }
 
-    return await reply.json();
+    return reply.json();
   } catch (error) {
     console.error("Erro ao cadastrar usuário:", error);
     throw error;
