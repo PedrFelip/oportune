@@ -84,5 +84,16 @@ export const logarUsuarioRepository = async (data: loginUserDTO) => {
     return { ...user, empresa: user.empresa };
   }
 
-  return user
+  return user;
+};
+export const confirmarEmailRepository = async (userId: string) => {
+  return await prisma.user.update({
+    where: {
+      id: userId,
+    },
+
+    data: {
+      emailVerificado: true,
+    },
+  });
 };

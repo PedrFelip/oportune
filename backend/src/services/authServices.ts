@@ -4,6 +4,7 @@ import { createUserCleanDTO, loginUserDTO } from "../schemas/userSchemas.ts";
 import {
   cadastrarUsuarioRepository,
   logarUsuarioRepository,
+  confirmarEmailRepository,
 } from "../repositories/authRepository.ts";
 import { capitalizeFirstLetter } from "../utils/functions.ts";
 import { JWT_SECRET } from "../config/config.ts";
@@ -17,11 +18,13 @@ export const cadastrarUsuarioService = async (data: createUserCleanDTO) => {
     data.senha = senha_hash;
     data.nome = capitalizeName;
 
-    if (data.tipo === "ESTUDANTE"){
-      data.semestre = Number(data.semestre)
+    if (data.tipo === "ESTUDANTE") {
+      data.semestre = Number(data.semestre);
     }
 
-    await cadastrarUsuarioRepository(data);
+    const result = await cadastrarUsuarioRepository(data);
+
+    return result;
   } catch (err: any) {
     console.log(err);
     throw new Error("Erro ao registrar o usuário");
@@ -47,5 +50,35 @@ export const logarUsuarioService = async (data: loginUserDTO) => {
     return { token, safeUser };
   } catch (err: any) {
     throw new Error("Erro ao fazer login");
+  }
+};
+
+export const confirmarEmailService = async (token: string) => {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as {
+      sub: string;
+      exp: number;
+    };
+
+    if (!decoded.sub) {
+      throw new Error("Token ausente");
+    }
+
+    if (decoded.exp < Date.now() / 1000) {
+      throw new Error("Token expirado");
+    }
+
+    await confirmarEmailRepository(decoded.sub);
+
+    return { message: "Email confirmado com sucesso!" };
+  } catch (err: any) {
+    if (err.name === "TokenExpiredError") {
+      throw new Error("Token expirado");
+    }
+    if (err.name === "JsonWebTokenError") {
+      throw new Error("Token inválido");
+    }
+    console.error("erro no service de confimacao de email", err);
+    throw new Error("Nao foi possivel verificar email");
   }
 };
