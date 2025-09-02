@@ -1,7 +1,9 @@
 # Estágio de build
-FROM golang:1.21-alpine AS builder
+FROM golang:1.24.6-alpine AS builder
 
 WORKDIR /app
+
+RUN apk add --no-cache git ca-certificates
 
 COPY go.mod go.sum ./
 
@@ -9,7 +11,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 go build -o /email-service . 
+RUN CGO_ENABLED=0 go build -o /email-service .
 
 # Estágio de produção
 FROM alpine:latest
