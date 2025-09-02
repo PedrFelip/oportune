@@ -19,6 +19,8 @@ model User {
   senha String
   nome  String
 
+  emailVerificado Boolean @default(false)
+
   tipo      UserType
   estudante Estudante?
   professor Professor?

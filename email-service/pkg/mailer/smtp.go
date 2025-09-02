@@ -48,12 +48,13 @@ func Enviar(nome, email, userID string) error {
 		return fmt.Errorf("falha ao gerar token: %w", err)
 	}
 
-	url := os.Getenv("")
-	urlConfirmacao := fmt.Sprintf("%s/xxxxx?token=%s", url, token)
+	url := os.Getenv("FRONTEND_URL")
+	urlConfirmacao := fmt.Sprintf("%s/confirmacao?token=%s", url, token)
 
 	template := models.TemplateData{
 		Name:            nome,
 		ConfirmationURL: urlConfirmacao,
+		Email:           email,
 	}
 
 	bodyEmail, err := templateProcess("templates/verificacao_email.html", template)
@@ -79,6 +80,7 @@ func Enviar(nome, email, userID string) error {
 		return fmt.Errorf("falha ao enviar email: %w", err)
 	}
 
-	log.Printf("E-mail de ativação enviado com sucesso para %s", email)
+	log.Printf("E-mail de ativação enviado com sucesso para %s \n", email)
+	log.Printf("Token: %s\n", token)
 	return nil
 }

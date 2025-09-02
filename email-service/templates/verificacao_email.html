@@ -1,9 +1,103 @@
-<html>
-  <body style="font-family: Arial, sans-serif;">
-    <h2>Bem-vindo!</h2>
-    <p>Confirme sua conta clicando abaixo:</p>
-    <a style="background: #000;color:white;padding:10px 20px;text-decoration:none;border-radius:5px;">
-      Confirmar Conta
-    </a>
-  </body>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verificação de Email - Oportune+</title>
+  <style>
+    @media screen and (max-width: 600px) {
+      .container { width: 100% !important; padding: 16px !important; }
+      .header-title { font-size: 24px !important; }
+      .content-text { font-size: 16px !important; }
+      .verify-btn { display: block !important; width: 90% !important; padding: 16px 24px !important; }
+    }
+    
+    .ExternalClass { width: 100%; }
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+      line-height: 100%;
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background:#0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#0f172a;">
+    <tr>
+      <td align="center" style="padding:40px 20px;">
+        <table class="container" role="presentation" cellpadding="0" cellspacing="0" width="600" style="width:600px; max-width:600px; background:#1e293b; border-radius:16px; box-shadow:0 10px 30px rgba(0, 0, 0, 0.3); overflow:hidden; border: 1px solid rgba(148, 163, 184, 0.1);">
+          
+          <tr>
+            <td align="center" style="background:linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding:40px 30px;">
+              <h1 class="header-title" style="margin:0; font-size:32px; font-weight:700; color:#ffffff; line-height:1.2;">
+                Oportune<span style="color:#3b82f6;">+</span>
+              </h1>
+              <p style="margin:8px 0 0; font-size:16px; color:#94a3b8; font-weight:400;">
+                Conectando talentos a oportunidades
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:40px 30px; background:#1e293b;">
+              <div style="text-align: center; margin-bottom: 32px;">
+                <h2 style="margin:0 0 16px; font-size:28px; font-weight:600; color:#ffffff; line-height:1.3;">
+                  Verificação de Email
+                </h2>
+                <p class="content-text" style="margin:0 0 24px; font-size:18px; line-height:1.6; color:#cbd5e1;">
+                  Olá! Bem-vindo(a) ao <strong style="color:#ffffff;">Oportune+</strong>
+                </p>
+              </div>
+
+              <p class="content-text" style="margin:0 0 24px; font-size:16px; line-height:1.6; color:#94a3b8; text-align: center;">
+                Para completar seu cadastro e começar a explorar as melhores oportunidades de carreira, 
+                precisamos verificar seu endereço de email.
+              </p>
+
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
+                <tr>
+                  <td style="padding:24px; background:rgba(30, 41, 59, 0.6); border:1px solid rgba(148, 163, 184, 0.1); border-radius:12px; backdrop-filter: blur(10px);">
+                    <div style="text-align: center;">
+                      <p style="margin:0 0 8px; font-size:14px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">
+                        Email para verificação
+                      </p>
+                      <p style="margin:0; font-size:16px; color:#ffffff; font-weight: 600;">
+                        {{.Email}}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="text-align: center; margin: 32px 0;">
+                <a href="{{.ConfirmationURL}}" class="verify-btn" style="display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); transition: all 0.3s ease;">
+                  ✓ Verificar Email
+                </a>
+              </div>
+
+              <div style="margin-top: 32px; padding: 20px; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);">
+                <p style="margin:0 0 12px; font-size:14px; color:#94a3b8; font-weight: 600;">
+                  Informações de Segurança
+                </p>
+                <ul style="margin:0; padding-left:20px; font-size:13px; color:#94a3b8; line-height:1.5;">
+                  <li>Este link expira em 15 minutos</li>
+                  <li>Nunca compartilhe este link com terceiros</li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:30px; background:#0f172a; text-align: center; border-top: 1px solid rgba(148, 163, 184, 0.1);">
+              <p style="margin:0 0 12px; font-size:14px; color:#64748b;">
+                © 2024 Oportune+. Todos os direitos reservados.
+              </p>
+              <p style="margin:0; font-size:12px; color:#475569;">
+                Conectando talentos a oportunidades • Brasil
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
 </html>
