@@ -29,7 +29,6 @@ async def requisicao(cnpj: str):
 
     except aiohttp.ClientResponseError as http_err:
         print(f"Erro HTTP ocorreu: {http_err} - Status: {http_err.status}")
-        # Tenta ler o corpo da resposta para mais detalhes, se possível
         try:
             error_body = await http_err.request_info.real_url.text()
             print(f"Corpo da resposta: {error_body}")

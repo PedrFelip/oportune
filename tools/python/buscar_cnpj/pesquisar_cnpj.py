@@ -7,7 +7,7 @@ async def main():
     try:
         cnpj = sys.stdin.readline().strip()
 
-        if not cnpj or not cnpj.isdigit():
+        if not cnpj:
             raise ValueError("CNPJ inválido ou não informado!")
         
         result = await requisicao(cnpj)
