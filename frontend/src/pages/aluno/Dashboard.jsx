@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,9 +10,9 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 
-const Dashboard = () => {
+export default function Dashboard() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       <main className="flex-1 p-4 md:p-8">
         <div className="grid gap-8 md:grid-cols-3">
@@ -112,6 +111,4 @@ const Dashboard = () => {
       </main>
     </div>
   );
-};
-
-export default Dashboard;
+}

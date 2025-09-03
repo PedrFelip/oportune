@@ -6,7 +6,7 @@ const LogoIcon = () => (
   <img src={Logo} className="max-w-20" alt="Logo da Oportune" />
 );
 
-export default function App() {
+export default function Login() {
   return (
     <div className="font-sans text-slate-300 bg-gradient-to-b from-[#0c1a2c] to-[#15223c] min-h-screen flex items-center justify-center p-5 relative">
       <div className="w-full max-w-md animate-fade-in-up">
