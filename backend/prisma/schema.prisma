@@ -126,6 +126,19 @@ model Vaga {
 
   empresa  Empresa?  @relation(fields: [empresaId], references: [id], onDelete: SetNull)
   professor Professor? @relation(fields: [professorId], references: [id], onDelete: SetNull)
+
+  candidaturas Candidatura[]
+}
+
+model Candidatura {
+  id String @id @default(uuid())
+  vagaId String
+}
+
+enum StatusCandidatura {
+  PENDENTE
+  ACEITA
+  RECUSADA
 }
 
 enum TipoVaga {
