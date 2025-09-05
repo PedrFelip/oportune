@@ -50,6 +50,8 @@ model Estudante {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  candidaturas Candidatura[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -132,7 +134,17 @@ model Vaga {
 
 model Candidatura {
   id String @id @default(uuid())
+
   vagaId String
+  estudanteId String
+
+  dataCandidatura DateTime @default(now())
+
+  vaga Vaga @relation(fields: [vagaId], references: [id], onDelete: Cascade)
+  estudante Estudante @relation(fields: [estudanteId], references: [id], onDelete: Cascade)
+
+  status StatusCandidatura @default(PENDENTE)
+
 }
 
 enum StatusCandidatura {
