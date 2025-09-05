@@ -130,6 +130,9 @@ model Vaga {
   professor Professor? @relation(fields: [professorId], references: [id], onDelete: SetNull)
 
   candidaturas Candidatura[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Candidatura {
@@ -139,12 +142,13 @@ model Candidatura {
   estudanteId String
 
   dataCandidatura DateTime @default(now())
-
+  status StatusCandidatura @default(PENDENTE)
+  
   vaga Vaga @relation(fields: [vagaId], references: [id], onDelete: Cascade)
   estudante Estudante @relation(fields: [estudanteId], references: [id], onDelete: Cascade)
 
-  status StatusCandidatura @default(PENDENTE)
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum StatusCandidatura {
