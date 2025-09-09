@@ -11,13 +11,12 @@ import Swal from "sweetalert2";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [profileType, setProfileType] = useState(""); // Aluno ou Professor ou Empresa
+  const [profileType, setProfileType] = useState("");
   const [formData, setFormData] = useState({});
 
   const isEmpresa = profileType === "EMPRESA";
 
   const handleProfileSelect = (type) => {
-    // Seleciona o formulário com base no perfil escolhido
     setProfileType(type);
 
     setFormData((prev) => ({
@@ -39,38 +38,35 @@ export default function Cadastro() {
   const handleSelectChange = (name, selectedOption) => {
     setFormData((prev) => ({
       ...prev,
-      [name]: selectedOption, // Tratado
+      [name]: selectedOption,
     }));
   };
 
   const handleNext = () => {
-    // Avança
     setCurrentStep((prev) => {
       if (prev === 2 && isEmpresa) {
-        return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
+  return 4;
       }
       if (prev === 4 && !isEmpresa) {
-        return 6; // Pula o passo 5 que só tem o formulário para empresas
+  return 6;
       }
       return prev + 1;
     });
   };
 
   const handleBack = () => {
-    // Retrocede
     setCurrentStep((prev) => {
       if (prev === 4 && isEmpresa) {
-        return 2; // Pula o passo 3 que só tem o formulário para pessoas fisicas
+  return 2;
       }
       if (prev === 6 && !isEmpresa) {
-        return 4; // Pula o passo 5 que só tem o formulário para empresas
+  return 4;
       }
 
       return prev - 1;
     });
   };
 
-  // Finaliza o formulário e envia os dados
   const handleFinish = async () => {
     Swal.fire({
       title: "Enviando os dados...",
@@ -130,7 +126,7 @@ export default function Cadastro() {
             formData={formData}
           />
         );
-      case 3: // Somente para pessoas fisicas
+      case 3:
         return (
           <Step3_AditionalInfo
             onNext={handleNext}
@@ -149,9 +145,10 @@ export default function Cadastro() {
             handleChange={handleChange}
             handleSelectChange={handleSelectChange}
             formData={formData}
+            setFormData={setFormData} 
           />
         );
-      case 5: // Somente para empresas
+      case 5:
         return (
           <Step5_Socialmedia
             onNext={handleNext}
