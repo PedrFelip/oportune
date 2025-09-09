@@ -11,12 +11,13 @@ import Swal from "sweetalert2";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [profileType, setProfileType] = useState("");
+  const [profileType, setProfileType] = useState(""); // Aluno ou Professor ou Empresa
   const [formData, setFormData] = useState({});
 
   const isEmpresa = profileType === "EMPRESA";
 
   const handleProfileSelect = (type) => {
+    // Seleciona o formulário com base no perfil escolhido
     setProfileType(type);
 
     setFormData((prev) => ({
@@ -38,35 +39,38 @@ export default function Cadastro() {
   const handleSelectChange = (name, selectedOption) => {
     setFormData((prev) => ({
       ...prev,
-      [name]: selectedOption,
+      [name]: selectedOption, // Tratado
     }));
   };
 
   const handleNext = () => {
+    // Avança
     setCurrentStep((prev) => {
       if (prev === 2 && isEmpresa) {
-  return 4;
+        return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
       }
       if (prev === 4 && !isEmpresa) {
-  return 6;
+        return 6; // Pula o passo 5 que só tem o formulário para empresas
       }
       return prev + 1;
     });
   };
 
   const handleBack = () => {
+    // Retrocede
     setCurrentStep((prev) => {
       if (prev === 4 && isEmpresa) {
-  return 2;
+        return 2; // Pula o passo 3 que só tem o formulário para pessoas fisicas
       }
       if (prev === 6 && !isEmpresa) {
-  return 4;
+        return 4; // Pula o passo 5 que só tem o formulário para empresas
       }
 
       return prev - 1;
     });
   };
 
+  // Finaliza o formulário e envia os dados
   const handleFinish = async () => {
     Swal.fire({
       title: "Enviando os dados...",
@@ -126,7 +130,7 @@ export default function Cadastro() {
             formData={formData}
           />
         );
-      case 3:
+      case 3: // Somente para pessoas fisicas
         return (
           <Step3_AditionalInfo
             onNext={handleNext}
@@ -148,7 +152,7 @@ export default function Cadastro() {
             setFormData={setFormData} 
           />
         );
-      case 5:
+      case 5: // Somente para empresas
         return (
           <Step5_Socialmedia
             onNext={handleNext}

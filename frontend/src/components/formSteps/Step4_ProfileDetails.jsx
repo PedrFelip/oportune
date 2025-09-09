@@ -87,8 +87,6 @@ export default function Step4_ProfileDetails({
           placeholder={isLoading ? "Carregando..." : "Preenchido automaticamente"}
           value={formData.ramo || ''}
           onChange={handleChange}
-          readOnly
-          className="bg-white/10 cursor-not-allowed"
         />
         <FormInput
           id="setor"
@@ -97,8 +95,6 @@ export default function Step4_ProfileDetails({
           placeholder={isLoading ? "Carregando..." : "Preenchido automaticamente"}
           value={formData.setor || ''}
           onChange={handleChange}
-          readOnly
-          className="bg-white/10 cursor-not-allowed"
         />
         <FormInput
           id="descricao"

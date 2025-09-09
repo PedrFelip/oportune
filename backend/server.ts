@@ -18,7 +18,7 @@ const app = Fastify({
 
 // A sua configuração de CORS já está ótima e vai funcionar para a nova rota.
 await app.register(cors, {
-  origin: ["http://localhost:5174"], // O endereço do seu front-end React/Vite
+  origin: ["http://localhost:5173"], // O endereço do seu front-end React/Vite
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 } );
 
