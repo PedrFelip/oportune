@@ -46,9 +46,9 @@ export function prepareDataForZod(rawData: any) {
       return {
         ...baseData,
         nomeFantasia: rawData.nome,
-        cnpj: rawData.cnpj,
         ramo: rawData.ramo,
         setor: rawData.setor,
+        cnpj: rawData.cnpj,
         descricao: rawData.descricao,
         emailContato: rawData.emailContato,
         telefone: rawData.telefone,
