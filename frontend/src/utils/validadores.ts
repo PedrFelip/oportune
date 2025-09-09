@@ -7,7 +7,9 @@ export const onlyLettersRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ ]+$/;
 
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-const verificarIdadeMinima = (dataNascimentoStr: string, idadeMinima = 16) => {
+export const lattesRegex = /^https?:\/\/(?:www\.)?lattes\.cnpq\.br\/\d{16}\/?$/
+
+export const verificarIdadeMinima = (dataNascimentoStr: string, idadeMinima = 16) => {
   const hoje = new Date();
   const dataNascimento = new Date(dataNascimentoStr);
 

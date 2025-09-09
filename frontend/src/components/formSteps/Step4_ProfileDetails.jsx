@@ -3,6 +3,8 @@ import CardHeader from "../cadastro/CardHeader";
 import FormInput from "../cadastro/FormInput";
 import FormSelect from "../cadastro/FormSelect";
 import informacoes from "../../utils/informacoes.json";
+import { lattesRegex, onlyLettersRegex } from "../../utils/validadores";
+import { mostrarErro } from "../../utils/mostrarErro";
 
 export default function Step4_ProfileDetails({
   profileType,
@@ -15,7 +17,27 @@ export default function Step4_ProfileDetails({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onNext()
+    if (!lattesRegex.test(formData.lattes)) {
+      mostrarErro("Link do lattes inválido");
+      return;
+    }
+    const fraseApenasLetra = "Departamento deve conter apenas letras";
+    if (!onlyLettersRegex.test(formData.areaAtuacao)) {
+      mostrarErro(fraseApenasLetra);
+      return;
+    }
+
+    if (!onlyLettersRegex.test(formData.departamento)) {
+      mostrarErro(fraseApenasLetra);
+      return;
+    }
+
+    if (!onlyLettersRegex.test(formData.titulacao)) {
+      mostrarErro(fraseApenasLetra);
+      return;
+    }
+
+    onNext();
   };
   const forms = {
     ESTUDANTE: (
@@ -24,13 +46,13 @@ export default function Step4_ProfileDetails({
           title="Perfil Acadêmico"
           subtitle="Ajude-nos a encontrar as melhores oportunidades para si."
         />
-        <FormInput
+        <FormSelect
           id="curso"
           name="curso"
           label="Curso"
-          placeholder="Digite seu curso"
-          value={formData.curso || ''}
-          onChange={handleChange}
+          options={informacoes.cursos}
+          value={formData.curso || ""}
+          onChange={(option) => handleSelectChange("curso", option)}
         />
         <FormInput
           id="semestre"
@@ -38,7 +60,9 @@ export default function Step4_ProfileDetails({
           label="Semestre Atual"
           type="number"
           placeholder="Qual semestre você está atualmente?"
-          value={formData.semestre || ''}
+          value={formData.semestre || ""}
+          min={1}
+          max={12}
           onChange={handleChange}
         />
         <FormInput
@@ -46,7 +70,7 @@ export default function Step4_ProfileDetails({
           name="matricula"
           label="Número de Matrícula"
           placeholder="Qual a sua matricula"
-          value={formData.matricula || ''}
+          value={formData.matricula || ""}
           onChange={handleChange}
         />
         <FormSelect
@@ -70,7 +94,7 @@ export default function Step4_ProfileDetails({
           name="cnpj"
           label="CNPJ"
           placeholder="Digite o CNPJ (somente números)"
-          value={formData.cnpj || ''}
+          value={formData.cnpj || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -78,7 +102,7 @@ export default function Step4_ProfileDetails({
           name="ramo"
           label="Ramo de Atividade"
           placeholder="Qual ramo a empresa atua?"
-          value={formData.ramo || ''}
+          value={formData.ramo || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -86,7 +110,7 @@ export default function Step4_ProfileDetails({
           name="setor"
           label="Setor"
           placeholder="Escreva o setor da empresa"
-          value={formData.setor || ''}
+          value={formData.setor || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -94,7 +118,7 @@ export default function Step4_ProfileDetails({
           name="descricao"
           label="Descrição"
           placeholder="Escreva uma breve descrição da empresa"
-          value={formData.descricao || ''}
+          value={formData.descricao || ""}
           onChange={handleChange}
         />
       </>
@@ -110,7 +134,7 @@ export default function Step4_ProfileDetails({
           name="areaAtuacao"
           label="Área de Atuação"
           placeholder="Ex: Professor de Matemática"
-          value={formData.areaAtuacao || ''}
+          value={formData.areaAtuacao || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -118,7 +142,7 @@ export default function Step4_ProfileDetails({
           name="departamento"
           label="Departamento"
           placeholder="Ex: Departamento de TI"
-          value={formData.departamento || ''}
+          value={formData.departamento || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -126,7 +150,7 @@ export default function Step4_ProfileDetails({
           name="titulacao"
           label="Titulação"
           placeholder="Ex: Mestre, Doutor"
-          value={formData.titulacao || ''}
+          value={formData.titulacao || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -136,7 +160,7 @@ export default function Step4_ProfileDetails({
           type="url"
           placeholder="Qual o link do seu curriculo lattes"
           required={false}
-          value={formData.lattes || ''}
+          value={formData.lattes || ""}
           onChange={handleChange}
         />
       </>
