@@ -7,7 +7,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --watch server.ts"
+    "dev": "tsx --watch server.ts",
+    "start": "npx tsx server.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
