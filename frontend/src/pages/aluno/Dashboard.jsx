@@ -4,8 +4,7 @@ import PerfilCard from '../../components/dashboard/aluno/PerfilCard';
 
 export default function Dashboard() {
   return (
-    <>
-      <div className="min-h-screen bg-slate-900 grid" style={{
+    <div className="min-h-screen bg-slate-900 grid" style={{
         gridTemplateAreas: `
           "sidebar header"
           "sidebar main"
@@ -13,9 +12,8 @@ export default function Dashboard() {
         gridTemplateColumns: '260px 1fr',
         gridTemplateRows: 'auto 1fr',
       }}>
-        <Sidebar />
-        <HeaderAluno />
-      </div>
+      <Sidebar />
+      <HeaderAluno />
       <main style={{ gridArea: 'main' }} className="p-6 overflow-auto">
         <div className="grid grid-cols-3 gap-6">
           {/* Coluna Principal */}
@@ -28,6 +26,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }
