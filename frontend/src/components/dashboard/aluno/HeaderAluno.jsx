@@ -23,7 +23,7 @@ const HeaderAluno = () => (
       </div>
  
       <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-slate-800 font-bold">
-        F
+        PF
       </div>
     </div>
   </header>
