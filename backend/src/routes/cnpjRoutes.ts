@@ -1,6 +1,6 @@
 
 import { FastifyInstance } from 'fastify';
-import { consultarCnpjController } from '../controllers/cnpjController';
+import { consultarCnpjController } from '../controllers/cnpjController.ts';
 
 export async function cnpjRoutes(app: FastifyInstance) {
   
