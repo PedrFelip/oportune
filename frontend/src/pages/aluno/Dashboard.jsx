@@ -1,6 +1,7 @@
 import Sidebar from '../../components/dashboard/aluno/Sidebar';
 import HeaderAluno from '../../components/dashboard/aluno/HeaderAluno';
 import PerfilCard from '../../components/dashboard/aluno/PerfilCard';
+import StatusCard from '../../components/dashboard/aluno/StatusCard';
 
 export default function Dashboard() {
   return (
@@ -19,6 +20,7 @@ export default function Dashboard() {
           {/* Coluna Principal */}
           <div className="col-span-3 lg:col-span-2 space-y-6">
             <PerfilCard />
+            <StatusCard />
           </div>
           {/* Coluna 'Lateral' */}
           <div className="col-span-3 lg:col-span-1">
