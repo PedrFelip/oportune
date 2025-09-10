@@ -38,3 +38,5 @@ const StatusCard = () => {
         </div>
     );
 };
+
+export default StatusCard;
