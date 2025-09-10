@@ -1,12 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../assets/logo_oportune.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logarUsuario } from "../../api/api";
 
 const LogoIcon = () => (
   <img src={Logo} className="max-w-20" alt="Logo da Oportune" />
 );
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const data = await logarUsuario({ email, senha: password });
+      const { token, user } = data;
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      if (user.emailVerificado === false) {
+        navigate("/confirmacao");
+        return;
+      }
+
+      switch (user.tipo) {
+        case "ESTUDANTE":
+          navigate("/aluno/dashboard");
+          break;
+        case "PROFESSOR":
+          navigate("/professor/dashboard");
+          break;
+        case "EMPRESA":
+          navigate("/empresa/dashboard");
+          break;
+        default:
+          navigate("/");
+      }
+    } catch (err) {
+      setError(err.message || "Erro ao fazer login");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="font-sans text-slate-300 bg-gradient-to-b from-[#0c1a2c] to-[#15223c] min-h-screen flex items-center justify-center p-5 relative">
       <div className="w-full max-w-md animate-fade-in-up">
@@ -23,7 +64,7 @@ export default function Login() {
           </header>
 
           <main>
-            <form action="#" method="POST" onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label
                   htmlFor="email"
@@ -35,6 +76,8 @@ export default function Login() {
                   type="email"
                   id="email"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white text-base placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   placeholder="Digite seu email"
                   required
@@ -52,6 +95,8 @@ export default function Login() {
                   type="password"
                   id="password"
                   name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white text-base placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   placeholder="Digite sua senha"
                   required
@@ -69,10 +114,14 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#2474e4] to-[#639bec] text-white font-semibold py-3.5 rounded-lg border-none cursor-pointer transition-all duration-300 hover:opacity-90 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(36,116,228,0.2)]"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-[#2474e4] to-[#639bec] text-white font-semibold py-3.5 rounded-lg border-none cursor-pointer transition-all duration-300 hover:opacity-90 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(36,116,228,0.2)] disabled:opacity-50"
               >
-                Entrar
+                {loading ? "Entrando..." : "Entrar"}
               </button>
+              {error && (
+                <p className="text-red-400 text-sm mt-3 text-center">{error}</p>
+              )}
             </form>
           </main>
 
