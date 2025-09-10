@@ -19,7 +19,7 @@ tmp/
 temp/
 
 # ========================
-# Logs
+# Logs 
 # ========================
 *.log
 logs
@@ -66,3 +66,5 @@ generated/prisma
 coverage/
 *.lcov
 .ai
+
+*.exe

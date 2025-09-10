@@ -62,7 +62,7 @@ const professorSchema = z.object({
   areaAtuacao: z.string(),
   departamento: z.string(),
   titulacao: z.string(),
-  lattes: z.string(),
+  lattes: z.string().optional(),
 });
 
 const empresaSchema = z.object({

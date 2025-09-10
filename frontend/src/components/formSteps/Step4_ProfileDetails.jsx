@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import CardHeader from "../cadastro/CardHeader";
 import FormInput from "../cadastro/FormInput";
 import FormSelect from "../cadastro/FormSelect";
 import informacoes from "../../utils/informacoes.json";
+import { lattesRegex, onlyLettersRegex } from "../../utils/validadores";
+import { mostrarErro } from "../../utils/mostrarErro";
 
 export default function Step4_ProfileDetails({
   profileType,
@@ -11,12 +13,66 @@ export default function Step4_ProfileDetails({
   formData,
   handleChange,
   handleSelectChange,
+  setFormData,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [cnpjError, setCnpjError] = useState("");
+
+  const handleCnpjBlur = async (e) => {
+    const cnpj = e.target.value.replace(/\D/g, '');
+    if (cnpj.length !== 14) {
+      setFormData((prev) => ({ ...prev, ramo: "", setor: "" }));
+      return;
+    }
+    setIsLoading(true);
+    setCnpjError("");
+    try {
+      const response = await fetch(`http://localhost:3001/cnpj/${cnpj}` );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Não foi possível consultar o CNPJ.");
+      }
+      setFormData((prevData) => ({
+        ...prevData,
+        ramo: data.ramo || "",
+        setor: data.setor || "",
+      }));
+    } catch (error) {
+      console.error("Erro ao buscar CNPJ:", error);
+      setCnpjError(error.message);
+      setFormData((prev) => ({ ...prev, ramo: "", setor: "" }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    onNext();
 
-    onNext()
+    if (!lattesRegex.test(formData.lattes)) {
+      mostrarErro("Link do lattes inválido");
+      return;
+    }
+    const fraseApenasLetra = "Departamento deve conter apenas letras";
+    if (!onlyLettersRegex.test(formData.areaAtuacao)) {
+      mostrarErro(fraseApenasLetra);
+      return;
+    }
+
+    if (!onlyLettersRegex.test(formData.departamento)) {
+      mostrarErro(fraseApenasLetra);
+      return;
+    }
+
+    if (!onlyLettersRegex.test(formData.titulacao)) {
+      mostrarErro(fraseApenasLetra);
+      return;
+    }
+
+    onNext();
   };
+
   const forms = {
     ESTUDANTE: (
       <>
@@ -24,13 +80,46 @@ export default function Step4_ProfileDetails({
           title="Perfil Acadêmico"
           subtitle="Ajude-nos a encontrar as melhores oportunidades para si."
         />
-        <FormInput
+        <FormInput 
+          id="curso" 
+          name="curso" 
+          label="Curso" 
+          placeholder="Digite seu curso" 
+          value={formData.curso || ''} 
+          onChange={handleChange} 
+        />
+        <FormInput 
+          id="semestre" 
+          name="semestre" 
+          label="Semestre Atual" 
+          type="number" 
+          placeholder="Qual semestre você está atualmente?" 
+          value={formData.semestre || ''} 
+          onChange={handleChange} 
+        />
+        <FormInput 
+          id="matricula" 
+          name="matricula" 
+          label="Número de Matrícula" 
+          placeholder="Qual a sua matricula" 
+          value={formData.matricula || ''} 
+          onChange={handleChange} 
+        />
+        <FormSelect 
+          id="periodo" 
+          name="periodo" 
+          label="Periodo" 
+          options={informacoes.periodo} 
+          value={formData.periodo || null} 
+          onChange={(option) => handleSelectChange("periodo", option)} 
+        />
+        <FormSelect
           id="curso"
           name="curso"
           label="Curso"
-          placeholder="Digite seu curso"
-          value={formData.curso || ''}
-          onChange={handleChange}
+          options={informacoes.cursos}
+          value={formData.curso || ""}
+          onChange={(option) => handleSelectChange("curso", option)}
         />
         <FormInput
           id="semestre"
@@ -38,7 +127,9 @@ export default function Step4_ProfileDetails({
           label="Semestre Atual"
           type="number"
           placeholder="Qual semestre você está atualmente?"
-          value={formData.semestre || ''}
+          value={formData.semestre || ""}
+          min={1}
+          max={12}
           onChange={handleChange}
         />
         <FormInput
@@ -46,7 +137,7 @@ export default function Step4_ProfileDetails({
           name="matricula"
           label="Número de Matrícula"
           placeholder="Qual a sua matricula"
-          value={formData.matricula || ''}
+          value={formData.matricula || ""}
           onChange={handleChange}
         />
         <FormSelect
@@ -69,15 +160,19 @@ export default function Step4_ProfileDetails({
           id="cnpj"
           name="cnpj"
           label="CNPJ"
-          placeholder="Digite o CNPJ (somente números)"
+          placeholder="Digite o CNPJ e aguarde"
           value={formData.cnpj || ''}
           onChange={handleChange}
+          onBlur={handleCnpjBlur}
+          disabled={isLoading}
         />
+        {isLoading && <p className="text-sm text-blue-400 mt-1 animate-pulse">Buscando dados do CNPJ...</p>}
+        {cnpjError && <p className="text-sm text-red-500 mt-1">{cnpjError}</p>}
         <FormInput
           id="ramo"
           name="ramo"
           label="Ramo de Atividade"
-          placeholder="Qual ramo a empresa atua?"
+          placeholder={isLoading ? "Carregando..." : "Preenchido automaticamente"}
           value={formData.ramo || ''}
           onChange={handleChange}
         />
@@ -85,8 +180,8 @@ export default function Step4_ProfileDetails({
           id="setor"
           name="setor"
           label="Setor"
-          placeholder="Escreva o setor da empresa"
-          value={formData.setor || ''}
+          placeholder={isLoading ? "Carregando..." : "Preenchido automaticamente"}
+          value={formData.setor || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -94,7 +189,7 @@ export default function Step4_ProfileDetails({
           name="descricao"
           label="Descrição"
           placeholder="Escreva uma breve descrição da empresa"
-          value={formData.descricao || ''}
+          value={formData.descricao || ""}
           onChange={handleChange}
         />
       </>
@@ -105,12 +200,16 @@ export default function Step4_ProfileDetails({
           title="Perfil de Docente"
           subtitle="Complete o seu perfil para divulgar os seus projetos."
         />
+        <FormInput id="areaAtuacao" name="areaAtuacao" label="Área de Atuação" placeholder="Ex: Professor de Matemática" value={formData.areaAtuacao || ''} onChange={handleChange} />
+        <FormInput id="departamento" name="departamento" label="Departamento" placeholder="Ex: Departamento de TI" value={formData.departamento || ''} onChange={handleChange} />
+        <FormInput id="titulacao" name="titulacao" label="Titulação" placeholder="Ex: Mestre, Doutor" value={formData.titulacao || ''} onChange={handleChange} />
+        <FormInput id="lattes" name="lattes" label="Link para o Lattes (Opcional)" type="url" placeholder="Qual o link do seu curriculo lattes" required={false} value={formData.lattes || ''} onChange={handleChange} />
         <FormInput
           id="areaAtuacao"
           name="areaAtuacao"
           label="Área de Atuação"
           placeholder="Ex: Professor de Matemática"
-          value={formData.areaAtuacao || ''}
+          value={formData.areaAtuacao || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -118,7 +217,7 @@ export default function Step4_ProfileDetails({
           name="departamento"
           label="Departamento"
           placeholder="Ex: Departamento de TI"
-          value={formData.departamento || ''}
+          value={formData.departamento || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -126,7 +225,7 @@ export default function Step4_ProfileDetails({
           name="titulacao"
           label="Titulação"
           placeholder="Ex: Mestre, Doutor"
-          value={formData.titulacao || ''}
+          value={formData.titulacao || ""}
           onChange={handleChange}
         />
         <FormInput
@@ -136,7 +235,7 @@ export default function Step4_ProfileDetails({
           type="url"
           placeholder="Qual o link do seu curriculo lattes"
           required={false}
-          value={formData.lattes || ''}
+          value={formData.lattes || ""}
           onChange={handleChange}
         />
       </>

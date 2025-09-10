@@ -39,16 +39,16 @@ export function prepareDataForZod(rawData: any) {
         areaAtuacao: rawData.areaAtuacao,
         departamento: rawData.departamento,
         titulacao: rawData.titulacao,
-        lattes: rawData.lattes,
+        lattes: rawData.lattes ? rawData.lattes : null,
       };
 
     case "EMPRESA":
       return {
         ...baseData,
         nomeFantasia: rawData.nome,
-        cnpj: rawData.cnpj,
         ramo: rawData.ramo,
         setor: rawData.setor,
+        cnpj: rawData.cnpj,
         descricao: rawData.descricao,
         emailContato: rawData.emailContato,
         telefone: rawData.telefone,

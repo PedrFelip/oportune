@@ -1,7 +1,8 @@
 import React from "react";
 import CardHeader from "../cadastro/CardHeader";
 import FormInput from "../cadastro/FormInput";
-import Swal from "sweetalert2";
+import { mostrarErro } from "../../utils/mostrarErro";
+import { passwordRegex, emailRegex, onlyLettersRegex } from "../../utils/validadores";
 
 export default function Step2_BasicInfo({
   profileType,
@@ -15,20 +16,24 @@ export default function Step2_BasicInfo({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.senha !== formData.senhaConfirmada) {
-      Swal.fire({
-        title: "Erro",
-        text: "As senhas não conferem! Tente novamente",
-        icon: "error",
-        confirmButtonText: "Refazer",
-        confirmButtonColor: "#2474e4",
-
-        timer: 2000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-
+    if (!onlyLettersRegex.test(formData.nome)){
+      mostrarErro("Nomes não podem conter números")
       return
+    }
+
+    if (!emailRegex.test(formData.email)) {
+      mostrarErro("Email inválido");
+      return;
+    }
+    if (!passwordRegex.test(formData.senha)) {
+      mostrarErro(
+        "A senha precisa de no minimo 8 caracteres, incluindo letras maiúsculas, minúsculas e números"
+      );
+      return
+    }
+    if (formData.senha !== formData.senhaConfirmada) {
+      mostrarErro("As senhas não conferem");
+      return;
     }
     onNext();
   };

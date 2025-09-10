@@ -1,8 +1,10 @@
 import React from "react";
 import CardHeader from "../cadastro/CardHeader";
-import Forminput from "../cadastro/FormInput";
+import FormInput from "../cadastro/FormInput";
 import FormSelect from "../cadastro/FormSelect";
 import dados from "../../utils/informacoes.json";
+import { mostrarErro } from "../../utils/mostrarErro";
+import { verificarIdadeMinima, phoneRegex } from "../../utils/validadores";
 
 export default function Step3_AditionalInfo({
   onNext,
@@ -13,6 +15,24 @@ export default function Step3_AditionalInfo({
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      !formData.dataNascimento ||
+      !verificarIdadeMinima(formData.dataNascimento)
+    ) {
+      mostrarErro("Você precisa ter mais de 16 anos para criar a conta");
+      return;
+    }
+    if (formData.genero === null){
+      mostrarErro("Selecione um gênero válido")
+      return
+    }
+    if (formData.telefone){
+      if(!phoneRegex.test(formData.telefone)){
+        mostrarErro("Número de telefone inválido")
+        return
+      }
+    }
 
     onNext();
   };
@@ -25,13 +45,14 @@ export default function Step3_AditionalInfo({
       />
       <main>
         <form onSubmit={handleSubmit}>
-          <Forminput
+          <FormInput
             id="dataNascimento"
             name="dataNascimento"
             label="Data de Nascimento"
             placeholder="Qual sua data de nascimento"
             type="date"
-            value={formData.dataNascimento || ''}
+            max={new Date().toISOString().split("T")[0]}
+            value={formData.dataNascimento || ""}
             onChange={handleChange}
           />
           <FormSelect
@@ -42,13 +63,13 @@ export default function Step3_AditionalInfo({
             value={formData.genero || null}
             onChange={(option) => handleSelectChange("genero", option)}
           />
-          <Forminput
+          <FormInput
             id="telefone"
             name="telefone"
             label="Número de telefone"
             placeholder="Digite seu número de telefone"
             type="tel"
-            value={formData.telefone || ''}
+            value={formData.telefone || ""}
             mask={"(__) _____-____"}
             onChange={handleChange}
           />

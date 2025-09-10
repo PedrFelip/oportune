@@ -33,13 +33,13 @@ model User {
 }
 
 model Estudante {
-  id           String  @id @default(uuid())
-  userId       String  @unique
-  telefone        String?
-  fotoPerfil   String?
+  id         String  @id @default(uuid())
+  userId     String  @unique
+  telefone   String?
+  fotoPerfil String?
 
-  dataNascimento  DateTime
-  genero  String
+  dataNascimento DateTime
+  genero         String
 
   faculdade     String?
   matricula     String
@@ -50,6 +50,8 @@ model Estudante {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  candidaturas Candidatura[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -57,22 +59,24 @@ model Estudante {
 }
 
 model Professor {
-  id           String  @id @default(uuid())
-  userId       String  @unique
-  telefone        String?
-  fotoPerfil   String?
+  id         String  @id @default(uuid())
+  userId     String  @unique
+  telefone   String?
+  fotoPerfil String?
 
-  dataNascimento  DateTime
-  genero  String
+  dataNascimento DateTime
+  genero         String
 
   areasInteresse String[]
 
-  areaAtuacao    String
-  departamento   String
-  titulacao      String
-  lattes         String?
+  areaAtuacao  String
+  departamento String
+  titulacao    String
+  lattes       String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  vagas Vaga[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -86,24 +90,77 @@ model Empresa {
   nomeFantasia String  @unique
   logo         String?
 
-  cnpj         String  @unique
-  ramo         String
-  setor        String
-  descricao    String?
+  cnpj      String  @unique
+  ramo      String
+  setor     String
+  descricao String?
 
-  endereco  String?
-  telefone     String?
+  endereco String?
+  telefone String?
 
-  emailContato   String? // Por padrão, é o mesmo da conta
-  website         String?
-  redesSociais   String[]
+  emailContato String? // Por padrão, é o mesmo da conta
+  website      String?
+  redesSociais String[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  vagas Vaga[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("empresas")
+}
+
+model Vaga {
+  id String @id @default(uuid())
+  empresaId String?
+  professorId String?
+
+  titulo       String
+  descricao    String
+  tipo         TipoVaga
+  requisitos   String[]
+
+  prazoInscricao DateTime
+  cursosAlvo String?
+  semestreMinimo Int?
+
+  empresa  Empresa?  @relation(fields: [empresaId], references: [id], onDelete: SetNull)
+  professor Professor? @relation(fields: [professorId], references: [id], onDelete: SetNull)
+
+  candidaturas Candidatura[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Candidatura {
+  id String @id @default(uuid())
+
+  vagaId String
+  estudanteId String
+
+  dataCandidatura DateTime @default(now())
+  status StatusCandidatura @default(PENDENTE)
+  
+  vaga Vaga @relation(fields: [vagaId], references: [id], onDelete: Cascade)
+  estudante Estudante @relation(fields: [estudanteId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum StatusCandidatura {
+  PENDENTE
+  ACEITA
+  RECUSADA
+}
+
+enum TipoVaga {
+  ESTAGIO
+  PESQUISA
+  EXTENSAO
 }
 
 enum UserType {
