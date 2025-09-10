@@ -11,6 +11,32 @@ services:
     networks:
       - oportune_network
 
+  backend:
+    build: ./backend
+    container_name: backend_oportune
+    ports:
+      - 3001:3001
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    
+    networks:
+      - oportune_network
+
+  go-service:
+    build: ./email-service
+    container_name: go_service_oportune
+    ports:
+      - 3002:3002
+    env_file:
+      - ./email-service/.env
+    depends_on:
+      - backend
+
+    networks:
+      - oportune_network
+
 volumes:
   postgres_data:
 
