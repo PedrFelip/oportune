@@ -2,6 +2,8 @@ import Sidebar from '../../components/dashboard/aluno/Sidebar';
 import HeaderAluno from '../../components/dashboard/aluno/HeaderAluno';
 import PerfilCard from '../../components/dashboard/aluno/PerfilCard';
 import StatusCard from '../../components/dashboard/aluno/StatusCard';
+import VagasRecomendadas from '../../components/dashboard/aluno/VagasRecomendadas';
+
 
 export default function Dashboard() {
   return (
@@ -24,7 +26,7 @@ export default function Dashboard() {
           </div>
           {/* Coluna 'Lateral' */}
           <div className="col-span-3 lg:col-span-1">
-            {/*...*/}
+            <VagasRecomendadas />
           </div>
         </div>
       </main>

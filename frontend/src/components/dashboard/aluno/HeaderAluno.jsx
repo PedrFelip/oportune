@@ -5,10 +5,8 @@ const SearchIcon = ({ className }) => (
   </svg>
 );
 
-
-
 const HeaderAluno = ({ user }) => {
-  // Helper to get initials from user name
+
   const getInitials = (name) => {
     if (!name) return '';
     const parts = name.trim().split(' ');
