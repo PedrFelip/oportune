@@ -1,11 +1,22 @@
-const PerfilCard = () => (
+import React from 'react';
+
+function getInitials(name) {
+  if (!name) return '';
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .map(word => word[0].toUpperCase())
+    .join('');
+}
+
+const PerfilCard = ({ name = "Pedro Felipe" }) => (
   <div className="bg-slate-800 p-6 rounded-lg">
     <div className="flex items-center gap-4">
       <div className="w-20 h-20 rounded-full bg-blue-400 flex items-center justify-center text-slate-800 text-3xl font-bold border-4 border-slate-700">
-        PF
+        {getInitials(name)}
       </div>
       <div>
-        <h2 className="text-2xl font-bold text-white">Pedro Felipe</h2>
+        <h2 className="text-2xl font-bold text-white">{name}</h2>
         <p className="text-slate-400">Engenharia de Software - 5º Semestre</p>
       </div>
     </div>
