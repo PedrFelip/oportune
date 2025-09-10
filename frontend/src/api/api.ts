@@ -37,3 +37,24 @@ export async function confirmarEmail(token: string) {
     throw error;
   }
 }
+
+// Login de usuário
+export async function logarUsuario(dados: { email: string; senha: string }) {
+  try {
+    const reply = await fetch("http://localhost:3001/loguser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    });
+
+    if (!reply.ok) {
+      const errorData = await reply.json().catch(() => ({}));
+      throw new Error(errorData.message || `Erro na requisição: ${reply.status}`);
+    }
+
+    return await reply.json(); // { token, user }
+  } catch (error) {
+    console.error("Erro ao logar usuário:", error);
+    throw error;
+  }
+}

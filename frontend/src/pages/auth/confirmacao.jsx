@@ -3,7 +3,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { confirmarEmail } from "../../api/api"; // Importa a função da API
 
-const Confirmacao = () => {
+export default function Confirmacao() {
   const [status, setStatus] = useState("verifying"); // 'verifying', 'success', 'error'
   const [errorMessage, setErrorMessage] = useState("");
   const location = useLocation();
@@ -107,6 +107,4 @@ const Confirmacao = () => {
       </div>
     </div>
   );
-};
-
-export default Confirmacao;
+}
