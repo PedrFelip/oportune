@@ -12,7 +12,10 @@ services:
       - oportune_network
 
   backend:
-    build: ./backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+
     container_name: backend_oportune
     ports:
       - 3001:3001
@@ -25,7 +28,10 @@ services:
       - oportune_network
 
   go-service:
-    build: ./email-service
+    build:
+      context: ./email-service
+      dockerfile: Dockerfile
+      
     container_name: go_service_oportune
     ports:
       - 3002:3002
