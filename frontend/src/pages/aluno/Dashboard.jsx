@@ -1,5 +1,6 @@
 import Sidebar from '../../components/dashboard/aluno/Sidebar';
 import HeaderAluno from '../../components/dashboard/aluno/HeaderAluno';
+import PerfilCard from '../../components/dashboard/aluno/PerfilCard';
 
 export default function Dashboard() {
   return (
@@ -15,9 +16,17 @@ export default function Dashboard() {
         <Sidebar />
         <HeaderAluno />
       </div>
-      <main style={{ gridArea: 'main' }} className="p-6 text-slate-300">
-        <h2 className="text-2xl font-bold mb-4">Bem-vindo ao Dashboard do Aluno</h2>
-        <p>Aqui você pode gerenciar suas candidaturas, ver oportunidades e atualizar seu perfil.</p>
+      <main style={{ gridArea: 'main' }} className="p-6 overflow-auto">
+        <div className="grid grid-cols-3 gap-6">
+          {/* Coluna Principal */}
+          <div className="col-span-3 lg:col-span-2 space-y-6">
+            <PerfilCard />
+          </div>
+          {/* Coluna 'Lateral' */}
+          <div className="col-span-3 lg:col-span-1">
+            {/*...*/}
+          </div>
+        </div>
       </main>
     </>
   );
