@@ -21,7 +21,8 @@ WORKDIR /app
 # Copia o binário compilado do estágio de build
 COPY --from=builder /email-service .
 
-COPY templates ./templates
+COPY --from=builder /app/.env .
+COPY --from=builder /app/templates ./templates
 
 EXPOSE 3002
 
