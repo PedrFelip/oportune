@@ -1,11 +1,22 @@
 const SearchIcon = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="11" cy="11" r="8" />
     <path d="m21 21-4.3-4.3" />
   </svg>
 );
 
-const HeaderAluno = ({ user }) => {
+export default function Header({ user, title }) {
 
   const getInitials = (name) => {
     if (!name) return '';
@@ -15,9 +26,14 @@ const HeaderAluno = ({ user }) => {
   };
 
   return (
-    <header style={{ gridArea: 'header' }} className="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
+    <header
+      style={{ gridArea: "header" }}
+      className="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center"
+    >
       <div className="relative w-full max-w-md">
-        <h1 className="text-2xl font-bold text-white">Bem-Vindo, {user?.name || 'Usuário'}</h1>
+        <h1 className="text-2xl font-bold text-white">
+          {title ? title : "Bem-Vindo, " + (user?.name || "Usuário")}
+        </h1>
       </div>
       <div className="flex items-center gap-4">
         <div className="relative w-full max-w-md">
@@ -30,11 +46,9 @@ const HeaderAluno = ({ user }) => {
         </div>
 
         <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-slate-800 font-bold">
-          {getInitials(user?.name || '')}
+          {getInitials(user?.name || "")}
         </div>
       </div>
     </header>
   );
-};
-
-export default HeaderAluno;
+}

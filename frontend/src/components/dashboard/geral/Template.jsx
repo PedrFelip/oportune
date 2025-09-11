@@ -1,7 +1,7 @@
 import SidebarAluno from "./Sidebar";
-import HeaderAluno from "./HeaderAluno";
+import HeaderAluno from "./Header";
 
-export function Template({ children }) {
+export function Template({ children, title }) {
   return (
     <div
       className="min-h-screen bg-slate-900 grid"
@@ -15,8 +15,10 @@ export function Template({ children }) {
       }}
     >
       <SidebarAluno />
-      <HeaderAluno />
-      { children }
+      <HeaderAluno title={title} />
+      <main style={{ gridArea: "main" }} className="p-6 overflow-auto">
+        {children}
+      </main>
     </div>
   );
 }
