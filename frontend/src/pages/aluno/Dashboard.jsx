@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuthGuard } from '../../hooks/useAuthGuard';
 import Sidebar from '../../components/dashboard/aluno/Sidebar';
 import HeaderAluno from '../../components/dashboard/aluno/HeaderAluno';
 import PerfilCard from '../../components/dashboard/aluno/PerfilCard';
@@ -8,6 +9,7 @@ import { buscarDashboardAluno } from '../../api/api';
 
 
 export default function Dashboard() {
+  const { carregando } = useAuthGuard({ redirectTo: '/login', requireRole: 'ESTUDANTE' });
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +31,7 @@ export default function Dashboard() {
     carregarDados();
   }, []);
 
-  if (loading) {
+  if (carregando || loading) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-white text-lg">Carregando...</div>
