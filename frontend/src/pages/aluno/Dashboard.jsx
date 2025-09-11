@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAuthGuard } from '../../hooks/useAuthGuard';
-import Sidebar from '../../components/dashboard/aluno/Sidebar';
-import HeaderAluno from '../../components/dashboard/aluno/HeaderAluno';
 import PerfilCard from '../../components/dashboard/aluno/PerfilCard';
 import StatusCard from '../../components/dashboard/aluno/StatusCard';
 import VagasRecomendadas from '../../components/dashboard/aluno/VagasRecomendadas';
-import { buscarDashboardAluno } from '../../api/api';
+import { Template } from '../../components/dashboard/geral/Template';
 
 
 export default function Dashboard() {
@@ -48,16 +46,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 grid" style={{
-        gridTemplateAreas: `
-          "sidebar header"
-          "sidebar main"
-        `,
-        gridTemplateColumns: '260px 1fr',
-        gridTemplateRows: 'auto 1fr',
-      }}>
-      <Sidebar />
-      <HeaderAluno />
+    <Template>
       <main style={{ gridArea: 'main' }} className="p-6 overflow-auto">
         <div className="grid grid-cols-3 gap-6">
           {/* Coluna Principal */}
@@ -71,6 +60,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-    </div>
+    </Template>
   );
 }
