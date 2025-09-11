@@ -7,26 +7,34 @@ export default function Authentication(
   reply: FastifyReply
 ) {
   try {
-    const token = request.headers.authorization?.split(" ")[1];
+    const authHeader = request.headers.authorization;
+    console.log("Authorization header:", authHeader);
+    
+    const token = authHeader?.split(" ")[1];
+    console.log("Token extraído:", token ? "Token presente" : "Token ausente");
 
     if (!token) {
       return reply.status(401).send({ err: "Token não encontrado" });
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
+    console.log("Token decodificado:", decoded);
 
     if (
       typeof decoded === "object" &&
       decoded !== null &&
       "sub" in decoded &&
-      "tipo" in decoded &&
-      (decoded.tipo === "ESTUDANTE" || decoded.tipo === "PROFESSOR" || decoded.tipo === "EMPRESA")
+      "role" in decoded &&
+      (decoded.role === "ESTUDANTE" || decoded.role === "PROFESSOR" || decoded.role === "EMPRESA")
     ) {
       request.user = decoded as { sub: string; tipo: "ESTUDANTE" | "PROFESSOR" | "EMPRESA" };
+      request.user.tipo = decoded.role as "ESTUDANTE" | "PROFESSOR" | "EMPRESA";
+      console.log("Usuário autenticado:", request.user);
     } else {
       return reply.status(401).send({ error: "Token inválido" });
     }
   } catch (err: any) {
+    console.error("Erro na validação do token:", err);
     if (err.message.includes("Chave secreta não informada")) {
       return reply.status(500).send({ error: err });
     }

@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import { authRoutes } from "./src/routes/authRoutes";
 import { cnpjRoutes } from "./src/routes/cnpjRoutes";
+import { alunoRoutes } from "./src/routes/alunoRoutes";
 import cors from "@fastify/cors";
 
 const app = Fastify({
@@ -29,6 +30,8 @@ app.get("/healthcheck", async () => {
 app.register(authRoutes);
 
 app.register(cnpjRoutes);
+
+app.register(alunoRoutes);
 
 await app.listen({ port: 3001, host: '0.0.0.0' });
 console.log("Servidor iniciado na porta 3001");

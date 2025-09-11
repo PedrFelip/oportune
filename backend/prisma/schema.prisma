@@ -123,6 +123,7 @@ model Vaga {
   requisitos   String[]
 
   prazoInscricao DateTime
+  statusVaga     StatusVaga @default(ATIVA)
   cursosAlvo String?
   semestreMinimo Int?
 
@@ -161,6 +162,12 @@ enum TipoVaga {
   ESTAGIO
   PESQUISA
   EXTENSAO
+}
+
+enum StatusVaga {
+  ATIVA
+  INATIVA
+  ENCERRADA
 }
 
 enum UserType {
