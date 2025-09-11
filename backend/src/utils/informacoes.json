@@ -1,0 +1,49 @@
+{
+  "periodo": [
+    { "value": null, "label": "Qual periodo você estuda?" },
+    { "value": "MATUTINO", "label": "Matutino" },
+    { "value": "VESPERTINO", "label": "Vespertino" },
+    { "value": "NOTURNO", "label": "Noturno" }
+  ],
+  "genero": [
+    { "value": null, "label": "Qual seu gênero?" },
+    { "value": "MASCULINO", "label": "Masculino" },
+    { "value": "FEMININO", "label": "Feminino" },
+    { "value": "OUTRO", "label": "Outro" },
+    { "value": "PREFIRO NAO DIZER", "label": "Prefiro não dizer" }
+  ],
+  "cursos": [
+    { "value": null, "label": "Qual seu curso?" },
+    { "value": "administracao", "label": "Administração" },
+    {
+      "value": "analise_desenvolvimento_sistemas",
+      "label": "Análise e Desenvolvimento de Sistemas"
+    },
+    { "value": "arquitetura_urbanismo", "label": "Arquitetura e Urbanismo" },
+    { "value": "ciencia_computacao", "label": "Ciência da Computação" },
+    { "value": "ciencias_contabeis", "label": "Ciências Contábeis" },
+    { "value": "direito", "label": "Direito" },
+    { "value": "educacao_fisica", "label": "Educação Física" },
+    { "value": "enfermagem", "label": "Enfermagem" },
+    { "value": "biomedicina", "label": "Biomedicina" },
+    { "value": "farmacia", "label": "Farmácia" },
+    { "value": "gestao_empresarial", "label": "Gestão Empresarial" },
+    { "value": "gestao_financeira", "label": "Gestão Financeira" },
+    {
+      "value": "marketing_gestao_clientes",
+      "label": "Marketing e Gestão de Clientes"
+    },
+    { "value": "saude_publica", "label": "Saúde Pública" },
+    { "value": "seguranca_informacao", "label": "Segurança da Informação" },
+    {
+      "value": "tecnologias_educacao_distancia",
+      "label": "Tecnologias e Educação a Distância"
+    },
+    {
+      "value": "marketing_digital_ciencia_dados",
+      "label": "Marketing Digital e Ciência de Dados"
+    },
+    { "value": "processos_gerenciais", "label": "Processos Gerenciais" },
+    { "value": "terapia_ocupacional", "label": "Terapia Ocupacional" }
+  ]
+}

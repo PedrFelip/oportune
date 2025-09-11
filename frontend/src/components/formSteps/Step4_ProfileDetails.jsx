@@ -48,7 +48,7 @@ export default function Step4_ProfileDetails({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onNext();
+    // Estudante não precisa verificar (por enquanto)
     if (profileType === "PROFESSOR") {
       if (!lattesRegex.test(formData.lattes)) {
         mostrarErro("Link do lattes inválido");
@@ -175,40 +175,6 @@ export default function Step4_ProfileDetails({
         <CardHeader
           title="Perfil de Docente"
           subtitle="Complete o seu perfil para divulgar os seus projetos."
-        />
-        <FormInput
-          id="areaAtuacao"
-          name="areaAtuacao"
-          label="Área de Atuação"
-          placeholder="Ex: Professor de Matemática"
-          value={formData.areaAtuacao || ""}
-          onChange={handleChange}
-        />
-        <FormInput
-          id="departamento"
-          name="departamento"
-          label="Departamento"
-          placeholder="Ex: Departamento de TI"
-          value={formData.departamento || ""}
-          onChange={handleChange}
-        />
-        <FormInput
-          id="titulacao"
-          name="titulacao"
-          label="Titulação"
-          placeholder="Ex: Mestre, Doutor"
-          value={formData.titulacao || ""}
-          onChange={handleChange}
-        />
-        <FormInput
-          id="lattes"
-          name="lattes"
-          label="Link para o Lattes (Opcional)"
-          type="url"
-          placeholder="Qual o link do seu curriculo lattes"
-          required={false}
-          value={formData.lattes || ""}
-          onChange={handleChange}
         />
         <FormInput
           id="areaAtuacao"

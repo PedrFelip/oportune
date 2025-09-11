@@ -1,5 +1,15 @@
 import z from "zod";
 import * as regex from "../utils/validators.ts";
+import informacoes from "../utils/informacoes.json" with {type: "json"};
+
+const listaCursos: string[] = (informacoes.cursos as any[])
+  .map(c => c.value ?? Object.values(c)[0])
+  .filter(Boolean) as string[];
+
+// Esquema para curso (valida contra a lista dinâmica)
+const cursoSchema = z.string().refine(v => listaCursos.includes(v), {
+  message: "Curso inválido"
+});
 
 const FraseTelefoneInvalidoErro = "Número de telefone inválido";
 const FraseErroEmail = "Email inválido";
@@ -32,7 +42,7 @@ const estudanteSchema = z.object({
   ),
   genero: z.enum(["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]),
   faculdade: z.string().optional(),
-  curso: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
+  curso: z.enum(listaCursos),
   matricula: z.string(),
   semestre: z.coerce.number().min(1).max(12),
   periodo: z.enum(["MATUTINO", "VESPERTINO", "NOTURNO"]),
