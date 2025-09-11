@@ -6,6 +6,7 @@
   "compilerOptions": {
     "lib": ["es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
     "module": "nodenext",
+    "resolveJsonModule": true,
     "target": "es2022",
 
     "allowImportingTsExtensions": true,
