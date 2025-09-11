@@ -45,5 +45,20 @@
     },
     { "value": "processos_gerenciais", "label": "Processos Gerenciais" },
     { "value": "terapia_ocupacional", "label": "Terapia Ocupacional" }
+  ],
+
+  "tipos": [
+
+  ],
+
+  "semestre": [
+
+  ],
+
+  "modalidade": [
+    {"value": null, "label": "Modalidade"},
+    {"value": "presencial", "label": "Presencial"},
+    {"value": "hibrido", "label": "Híbrido"},
+    {"value": "remoto", "label": "Remoto"}
   ]
 }
