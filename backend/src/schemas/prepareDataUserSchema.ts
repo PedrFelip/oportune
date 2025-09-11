@@ -18,7 +18,9 @@ export function prepareDataForZod(rawData: any) {
             ? rawData.genero.toUpperCase()
             : rawData.genero?.value.toUpperCase(),
         telefone: rawData.telefone,
-        curso: rawData.curso,
+        curso: typeof rawData.curso === "string" 
+          ? rawData.curso 
+          : rawData.curso?.value,
         matricula: rawData.matricula,
         semestre: rawData.semestre,
         periodo:
