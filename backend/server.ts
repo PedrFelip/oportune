@@ -16,14 +16,19 @@ const app = Fastify({
 });
 
 await app.register(cors, {
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:8080", "http://localhost:5173", "http://frontend_oportune:8080"],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-} );
+});
+
+app.get("/healthcheck", async () => {
+  return {
+    status: "ok",
+  };
+});
 
 app.register(authRoutes);
 
 app.register(cnpjRoutes);
 
-await app.listen({ port: 3001 }).then(() => {
-  console.log("Servidor iniciado na porta 3001");
-});
+await app.listen({ port: 3001, host: '0.0.0.0' });
+console.log("Servidor iniciado na porta 3001");
