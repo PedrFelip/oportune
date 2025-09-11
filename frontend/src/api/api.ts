@@ -58,3 +58,32 @@ export async function logarUsuario(dados: { email: string; senha: string }) {
     throw error;
   }
 }
+
+// Buscar dados do dashboard do aluno
+export async function buscarDashboardAluno() {
+  try {
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      throw new Error("Token não encontrado");
+    }
+
+    const reply = await fetch("/api/dashboard", {
+      method: "GET",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+
+    if (!reply.ok) {
+      const errorData = await reply.json().catch(() => ({}));
+      throw new Error(errorData.message || `Erro na requisição: ${reply.status}`);
+    }
+
+    return await reply.json();
+  } catch (error) {
+    console.error("Erro ao buscar dashboard:", error);
+    throw error;
+  }
+}
