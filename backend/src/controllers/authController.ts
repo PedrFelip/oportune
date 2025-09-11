@@ -29,7 +29,7 @@ export const cadastrarUsuarioController = async (
     const usuarioCriado = await cadastrarUsuarioService(novoUsuario);
 
     try {
-      await axios.post("http://localhost:3002/api/enviar-confirmacao", {
+      await axios.post("http://go-service:3002/api/enviar-confirmacao", {
         name: usuarioCriado.nome,
         email: usuarioCriado.email,
         userID: usuarioCriado.id,
