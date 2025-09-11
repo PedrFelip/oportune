@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { getDashboardService } from '../services/dashboardService.ts';
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { getDashboardService } from '../services/dashboardService.ts'
 
 export const alunoController = async (
   request: FastifyRequest,
@@ -9,14 +9,14 @@ export const alunoController = async (
     const userId = request.user?.sub;
     
     if (!userId) {
-      return reply.status(401).send({ message: "Usuário não autenticado" });
+      return reply.status(401).send({ message: 'Usuário não autenticado' })
     }
 
-    const dashboardData = await getDashboardService(userId);
+    const dashboardData = await getDashboardService(userId)
     
-    return reply.status(200).send(dashboardData);
+    return reply.status(200).send(dashboardData)
   } catch (error: any) {
-    console.error("Erro no dashboard do aluno:", error);
-    return reply.status(500).send({ message: "Erro interno do servidor" });
+    console.error('Erro no dashboard do aluno:', error)
+    return reply.status(500).send({ message: 'Erro interno do servidor' })
   }
 };
