@@ -62,7 +62,7 @@ export async function logarUsuario(dados: { email: string; senha: string }) {
 // Buscar dados do dashboard do aluno
 export async function buscarDashboardAluno() {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     
     if (!token) {
       throw new Error("Token não encontrado");
