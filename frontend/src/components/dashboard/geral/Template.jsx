@@ -1,7 +1,8 @@
 import SidebarAluno from "./Sidebar";
 import HeaderAluno from "./Header";
 
-export function Template({ children, title }) {
+export default function Template({ children, title }) {
+  
   return (
     <div
       className="min-h-screen bg-slate-900 grid"
