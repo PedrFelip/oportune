@@ -10,6 +10,7 @@ import Login from "../pages/auth/Login";
 import Cadastro from "../pages/auth/cadastro";
 import Confirmacao from "../pages/auth/confirmacao";
 import Dashboard from "../pages/aluno/Dashboard";
+import { Vagas } from "../pages/aluno/Vagas";
 
 const AppRoutes = () => {
   const redirectToHome = <Navigate to="/" />;
@@ -28,6 +29,7 @@ const AppRoutes = () => {
 
         {/* Rota do aluno */}
         <Route path="/aluno/dashboard" element={<Dashboard />} />
+        <Route path="/aluno/vagas" element={<Vagas />} />
 
         {/* Rota Genérica */}
         <Route path="*" element={redirectToHome} />
