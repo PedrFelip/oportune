@@ -1,7 +1,7 @@
 import PerfilCard from "../../components/dashboard/aluno/PerfilCard";
 import StatusCard from "../../components/dashboard/aluno/StatusCard";
 import VagasRecomendadas from "../../components/dashboard/aluno/VagasRecomendadas";
-import { Template } from "../../components/dashboard/geral/template";
+import Template from "../../components/dashboard/geral/template";
 
 export default function Dashboard() {
   return (

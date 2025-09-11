@@ -10,7 +10,7 @@ import Login from "../pages/auth/Login";
 import Cadastro from "../pages/auth/cadastro";
 import Confirmacao from "../pages/auth/confirmacao";
 import Dashboard from "../pages/aluno/Dashboard";
-import { Vagas } from "../pages/aluno/Vagas";
+import Vagas from "../pages/aluno/Vagas";
 
 const AppRoutes = () => {
   const redirectToHome = <Navigate to="/" />;
