@@ -9,12 +9,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - oportune_network
-    
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   backend:
     build: 
@@ -25,8 +19,7 @@ services:
       - ./backend/.env
     
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     
     networks:
       - oportune_network
@@ -38,7 +31,7 @@ services:
     container_name: go_service_oportune
     env_file:
       - ./email-service/.env
-          
+
     networks:
       - oportune_network
   
