@@ -6,7 +6,7 @@ export const getDashboardData = async (userId: string): Promise<{
   VagasRecomendadas: any
 }> => {
   const estudanteData = await prisma.estudante.findUnique({
-    where: { id: userId },
+    where: { userId: userId },
     include: {
       user: {
         select: { nome: true }
@@ -18,7 +18,7 @@ export const getDashboardData = async (userId: string): Promise<{
     throw new Error("Estudante não encontrado");
   }
   const candidaturasEstudante = await prisma.candidatura.findMany({
-    where: { estudanteId: userId },
+    where: { estudanteId: estudanteData.id },
     orderBy: { dataCandidatura: 'desc' },
     take: 3,
     include: {
