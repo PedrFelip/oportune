@@ -15,5 +15,5 @@
     "skipLibCheck": true,
     "moduleResolution": "node16"
   },
-  "include": ["src", "prisma/client.ts"]
+  "include": ["src", "prisma/client.ts", "prisma/seed.ts"]
 }
