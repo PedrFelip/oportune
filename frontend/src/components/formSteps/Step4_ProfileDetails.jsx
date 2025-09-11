@@ -19,7 +19,7 @@ export default function Step4_ProfileDetails({
   const [cnpjError, setCnpjError] = useState("");
 
   const handleCnpjBlur = async (e) => {
-    const cnpj = e.target.value.replace(/\D/g, '');
+    const cnpj = e.target.value.replace(/\D/g, "");
     if (cnpj.length !== 14) {
       setFormData((prev) => ({ ...prev, ramo: "", setor: "" }));
       return;
@@ -27,7 +27,7 @@ export default function Step4_ProfileDetails({
     setIsLoading(true);
     setCnpjError("");
     try {
-      const response = await fetch(`http://localhost:3001/cnpj/${cnpj}` );
+      const response = await fetch(`http://localhost:3001/cnpj/${cnpj}`);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || "Não foi possível consultar o CNPJ.");
@@ -49,25 +49,26 @@ export default function Step4_ProfileDetails({
   const handleSubmit = (e) => {
     e.preventDefault();
     onNext();
+    if (profileType === "PROFESSOR") {
+      if (!lattesRegex.test(formData.lattes)) {
+        mostrarErro("Link do lattes inválido");
+        return;
+      }
+      const fraseApenasLetra = "deve conter apenas letras";
+      if (!onlyLettersRegex.test(formData.areaAtuacao)) {
+        mostrarErro("Área de atuação " + fraseApenasLetra);
+        return;
+      }
 
-    if (!lattesRegex.test(formData.lattes)) {
-      mostrarErro("Link do lattes inválido");
-      return;
-    }
-    const fraseApenasLetra = "Departamento deve conter apenas letras";
-    if (!onlyLettersRegex.test(formData.areaAtuacao)) {
-      mostrarErro(fraseApenasLetra);
-      return;
-    }
+      if (!onlyLettersRegex.test(formData.departamento)) {
+        mostrarErro("Departamento " + fraseApenasLetra);
+        return;
+      }
 
-    if (!onlyLettersRegex.test(formData.departamento)) {
-      mostrarErro(fraseApenasLetra);
-      return;
-    }
-
-    if (!onlyLettersRegex.test(formData.titulacao)) {
-      mostrarErro(fraseApenasLetra);
-      return;
+      if (!onlyLettersRegex.test(formData.titulacao)) {
+        mostrarErro("Titulação " + fraseApenasLetra);
+        return;
+      }
     }
 
     onNext();
@@ -79,39 +80,6 @@ export default function Step4_ProfileDetails({
         <CardHeader
           title="Perfil Acadêmico"
           subtitle="Ajude-nos a encontrar as melhores oportunidades para si."
-        />
-        <FormInput 
-          id="curso" 
-          name="curso" 
-          label="Curso" 
-          placeholder="Digite seu curso" 
-          value={formData.curso || ''} 
-          onChange={handleChange} 
-        />
-        <FormInput 
-          id="semestre" 
-          name="semestre" 
-          label="Semestre Atual" 
-          type="number" 
-          placeholder="Qual semestre você está atualmente?" 
-          value={formData.semestre || ''} 
-          onChange={handleChange} 
-        />
-        <FormInput 
-          id="matricula" 
-          name="matricula" 
-          label="Número de Matrícula" 
-          placeholder="Qual a sua matricula" 
-          value={formData.matricula || ''} 
-          onChange={handleChange} 
-        />
-        <FormSelect 
-          id="periodo" 
-          name="periodo" 
-          label="Periodo" 
-          options={informacoes.periodo} 
-          value={formData.periodo || null} 
-          onChange={(option) => handleSelectChange("periodo", option)} 
         />
         <FormSelect
           id="curso"
@@ -161,26 +129,34 @@ export default function Step4_ProfileDetails({
           name="cnpj"
           label="CNPJ"
           placeholder="Digite o CNPJ e aguarde"
-          value={formData.cnpj || ''}
+          value={formData.cnpj || ""}
           onChange={handleChange}
           onBlur={handleCnpjBlur}
           disabled={isLoading}
         />
-        {isLoading && <p className="text-sm text-blue-400 mt-1 animate-pulse">Buscando dados do CNPJ...</p>}
+        {isLoading && (
+          <p className="text-sm text-blue-400 mt-1 animate-pulse">
+            Buscando dados do CNPJ...
+          </p>
+        )}
         {cnpjError && <p className="text-sm text-red-500 mt-1">{cnpjError}</p>}
         <FormInput
           id="ramo"
           name="ramo"
           label="Ramo de Atividade"
-          placeholder={isLoading ? "Carregando..." : "Preenchido automaticamente"}
-          value={formData.ramo || ''}
+          placeholder={
+            isLoading ? "Carregando..." : "Preenchido automaticamente"
+          }
+          value={formData.ramo || ""}
           onChange={handleChange}
         />
         <FormInput
           id="setor"
           name="setor"
           label="Setor"
-          placeholder={isLoading ? "Carregando..." : "Preenchido automaticamente"}
+          placeholder={
+            isLoading ? "Carregando..." : "Preenchido automaticamente"
+          }
           value={formData.setor || ""}
           onChange={handleChange}
         />
@@ -200,10 +176,40 @@ export default function Step4_ProfileDetails({
           title="Perfil de Docente"
           subtitle="Complete o seu perfil para divulgar os seus projetos."
         />
-        <FormInput id="areaAtuacao" name="areaAtuacao" label="Área de Atuação" placeholder="Ex: Professor de Matemática" value={formData.areaAtuacao || ''} onChange={handleChange} />
-        <FormInput id="departamento" name="departamento" label="Departamento" placeholder="Ex: Departamento de TI" value={formData.departamento || ''} onChange={handleChange} />
-        <FormInput id="titulacao" name="titulacao" label="Titulação" placeholder="Ex: Mestre, Doutor" value={formData.titulacao || ''} onChange={handleChange} />
-        <FormInput id="lattes" name="lattes" label="Link para o Lattes (Opcional)" type="url" placeholder="Qual o link do seu curriculo lattes" required={false} value={formData.lattes || ''} onChange={handleChange} />
+        <FormInput
+          id="areaAtuacao"
+          name="areaAtuacao"
+          label="Área de Atuação"
+          placeholder="Ex: Professor de Matemática"
+          value={formData.areaAtuacao || ""}
+          onChange={handleChange}
+        />
+        <FormInput
+          id="departamento"
+          name="departamento"
+          label="Departamento"
+          placeholder="Ex: Departamento de TI"
+          value={formData.departamento || ""}
+          onChange={handleChange}
+        />
+        <FormInput
+          id="titulacao"
+          name="titulacao"
+          label="Titulação"
+          placeholder="Ex: Mestre, Doutor"
+          value={formData.titulacao || ""}
+          onChange={handleChange}
+        />
+        <FormInput
+          id="lattes"
+          name="lattes"
+          label="Link para o Lattes (Opcional)"
+          type="url"
+          placeholder="Qual o link do seu curriculo lattes"
+          required={false}
+          value={formData.lattes || ""}
+          onChange={handleChange}
+        />
         <FormInput
           id="areaAtuacao"
           name="areaAtuacao"

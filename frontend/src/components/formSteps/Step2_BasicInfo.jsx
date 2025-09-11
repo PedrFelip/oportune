@@ -17,7 +17,7 @@ export default function Step2_BasicInfo({
     e.preventDefault();
 
     if (!onlyLettersRegex.test(formData.nome)){
-      mostrarErro("Nomes não podem conter números")
+      mostrarErro("Nome inválido")
       return
     }
 
