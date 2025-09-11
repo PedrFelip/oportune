@@ -149,7 +149,6 @@ export default function Cadastro() {
             handleChange={handleChange}
             handleSelectChange={handleSelectChange}
             formData={formData}
-            setFormData={setFormData} 
           />
         );
       case 5: // Somente para empresas
