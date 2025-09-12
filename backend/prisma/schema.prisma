@@ -134,6 +134,8 @@ model Vaga {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  @@map("vagas")
 }
 
 model Candidatura {
@@ -150,6 +152,8 @@ model Candidatura {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("candidaturas")
 }
 
 enum StatusCandidatura {
