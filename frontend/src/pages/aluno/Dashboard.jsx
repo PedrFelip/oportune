@@ -19,11 +19,22 @@ export default function Dashboard() {
     const carregarDados = async () => {
       try {
         setLoading(true);
+        setError(null);
+        console.log("Iniciando carregamento do dashboard...");
         const dados = await buscarDashboardAluno();
+        console.log("Dados do dashboard carregados:", dados);
         setDashboardData(dados);
       } catch (err) {
-        setError(err.message);
         console.error("Erro ao carregar dashboard:", err);
+        if (err.message.includes('404')) {
+          setError("Perfil de estudante não encontrado. Complete seu cadastro.");
+        } else if (err.message.includes('401')) {
+          setError("Sessão expirada. Faça login novamente.");
+        } else if (err.message.includes('504')) {
+          setError("Servidor demorou para responder. Tente novamente.");
+        } else {
+          setError(err.message || "Erro ao carregar dados do dashboard");
+        }
       } finally {
         setLoading(false);
       }

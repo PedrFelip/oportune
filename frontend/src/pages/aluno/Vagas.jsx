@@ -1,4 +1,4 @@
-import Template from "../../components/dashboard/geral/template";
+import Template from "../../components/dashboard/geral/Template";
 import FilterBox from "../../components/dashboard/geral/FilterBox";
 import informacoes from "../../utils/informacoes.json";
 import { useState } from "react";
@@ -41,9 +41,7 @@ export default function Vagas() {
             options={informacoes.modalidade}
           />
         </div>
-        <Oportunidade>
-        
-        </Oportunidade>
+        <Oportunidade/>
       </div>
     </Template>
   );
