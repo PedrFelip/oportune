@@ -59,7 +59,7 @@ export async function logarUsuario(dados: { email: string; senha: string }) {
   }
 }
 
-// Buscar dados do dashboard do aluno
+// Buscar dados do dashboard do aluno (completo)
 export async function buscarDashboardAluno() {
   try {
     const token = localStorage.getItem("authToken");
@@ -84,6 +84,93 @@ export async function buscarDashboardAluno() {
     return await reply.json();
   } catch (error) {
     console.error("Erro ao buscar dashboard:", error);
+    throw error;
+  }
+}
+
+// Buscar apenas dados do perfil (carregamento inicial)
+export async function buscarPerfilAluno() {
+  try {
+    const token = localStorage.getItem("authToken");
+    
+    if (!token) {
+      throw new Error("Token não encontrado");
+    }
+
+    const reply = await fetch("/api/dashboard/perfil", {
+      method: "GET",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+
+    if (!reply.ok) {
+      const errorData = await reply.json().catch(() => ({}));
+      throw new Error(errorData.message || `Erro na requisição: ${reply.status}`);
+    }
+
+    return await reply.json();
+  } catch (error) {
+    console.error("Erro ao buscar perfil:", error);
+    throw error;
+  }
+}
+
+// Buscar apenas candidaturas (carregamento assíncrono)
+export async function buscarCandidaturasAluno() {
+  try {
+    const token = localStorage.getItem("authToken");
+    
+    if (!token) {
+      throw new Error("Token não encontrado");
+    }
+
+    const reply = await fetch("/api/dashboard/candidaturas", {
+      method: "GET",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+
+    if (!reply.ok) {
+      const errorData = await reply.json().catch(() => ({}));
+      throw new Error(errorData.message || `Erro na requisição: ${reply.status}`);
+    }
+
+    return await reply.json();
+  } catch (error) {
+    console.error("Erro ao buscar candidaturas:", error);
+    throw error;
+  }
+}
+
+// Buscar apenas vagas recomendadas (carregamento assíncrono)
+export async function buscarVagasRecomendadasAluno() {
+  try {
+    const token = localStorage.getItem("authToken");
+    
+    if (!token) {
+      throw new Error("Token não encontrado");
+    }
+
+    const reply = await fetch("/api/dashboard/vagas-recomendadas", {
+      method: "GET",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    });
+
+    if (!reply.ok) {
+      const errorData = await reply.json().catch(() => ({}));
+      throw new Error(errorData.message || `Erro na requisição: ${reply.status}`);
+    }
+
+    return await reply.json();
+  } catch (error) {
+    console.error("Erro ao buscar vagas recomendadas:", error);
     throw error;
   }
 }
