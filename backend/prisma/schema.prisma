@@ -134,7 +134,8 @@ model Vaga {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
+  @@index([cursosAlvo])
   @@map("vagas")
 }
 
