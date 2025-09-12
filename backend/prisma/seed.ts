@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Criar usuário estudante
-  const senhaHash = await bcrypt.hash('senha123', 10)
+  const senhaHash = await bcrypt.hash('senha123#', 10)
   
   const aluno = await prisma.user.create({
     data: {
