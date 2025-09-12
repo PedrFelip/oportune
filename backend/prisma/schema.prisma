@@ -124,7 +124,7 @@ model Vaga {
 
   prazoInscricao DateTime
   statusVaga     StatusVaga @default(ATIVA)
-  cursosAlvo String?
+  cursosAlvo String[]
   semestreMinimo Int?
 
   empresa  Empresa?  @relation(fields: [empresaId], references: [id], onDelete: SetNull)
@@ -135,7 +135,6 @@ model Vaga {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([cursosAlvo])
   @@map("vagas")
 }
 
