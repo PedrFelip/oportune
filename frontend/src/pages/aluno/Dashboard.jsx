@@ -108,16 +108,8 @@ export default function Dashboard() {
         const dados = await buscarVagasRecomendadasAluno();
         setVagasRecomendadas(dados.vagasRecomendadas);
       } catch (err) {
-        console.error("Erro ao carregar dashboard:", err);
-        if (err.message.includes('404')) {
-          setError("Perfil de estudante não encontrado. Complete seu cadastro.");
-        } else if (err.message.includes('401')) {
-          setError("Sessão expirada. Faça login novamente.");
-        } else if (err.message.includes('504')) {
-          setError("Servidor demorou para responder. Tente novamente.");
-        } else {
-          setError(err.message || "Erro ao carregar dados do dashboard");
-        }
+        setErrorVagas(err.message);
+        console.error("Erro ao carregar vagas recomendadas:", err);
       } finally {
         setLoadingVagas(false);
       }
@@ -147,25 +139,50 @@ export default function Dashboard() {
         <div className="col-span-3 lg:col-span-2 space-y-6">
           {/* Perfil - carrega primeiro */}
           {loadingPerfil ? (
-            <div className="bg-slate-800 p-6 rounded-lg">
-              <div className="text-slate-400">Carregando perfil...</div>
+            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">
+              <div className="flex items-center space-x-4">
+                <div className="w-16 h-16 bg-slate-700 rounded-full"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-slate-700 rounded w-32"></div>
+                  <div className="h-3 bg-slate-700 rounded w-24"></div>
+                </div>
+              </div>
+              <div className="mt-4 text-slate-400 text-center">Carregando perfil...</div>
             </div>
           ) : errorPerfil ? (
-            <div className="bg-slate-800 p-6 rounded-lg">
-              <div className="text-red-400">Erro ao carregar perfil: {errorPerfil}</div>
+            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
+              <div className="text-red-400 text-center">
+                <p className="font-semibold">Erro ao carregar perfil</p>
+                <p className="text-sm mt-1">{errorPerfil}</p>
+              </div>
             </div>
           ) : (
             <PerfilCard perfil={perfil} />
           )}
 
-          {/* Candidaturas - carrega depois do perfil */}
+          {/* Candidaturas - carrega independente com delay */}
           {loadingCandidaturas ? (
-            <div className="bg-slate-800 p-6 rounded-lg">
-              <div className="text-slate-400">Carregando candidaturas...</div>
+            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">
+              <div className="flex justify-between items-center mb-4">
+                <div className="h-5 bg-slate-700 rounded w-48"></div>
+                <div className="h-4 bg-slate-700 rounded w-20"></div>
+              </div>
+              <div className="space-y-3">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="p-3 bg-slate-700 rounded">
+                    <div className="h-4 bg-slate-600 rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-slate-600 rounded w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 text-slate-400 text-center">Carregando candidaturas...</div>
             </div>
           ) : errorCandidaturas ? (
-            <div className="bg-slate-800 p-6 rounded-lg">
-              <div className="text-red-400">Erro ao carregar candidaturas: {errorCandidaturas}</div>
+            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
+              <div className="text-red-400 text-center">
+                <p className="font-semibold">Erro ao carregar candidaturas</p>
+                <p className="text-sm mt-1">{errorCandidaturas}</p>
+              </div>
             </div>
           ) : (
             <StatusCard candidaturasRecentes={candidaturas} />
@@ -174,14 +191,27 @@ export default function Dashboard() {
 
         {/* Coluna Lateral */}
         <div className="col-span-3 lg:col-span-1">
-          {/* Vagas Recomendadas - carrega por último */}
+          {/* Vagas Recomendadas - carrega independente por último */}
           {loadingVagas ? (
-            <div className="p-6 rounded-lg">
-              <div className="text-slate-400">Carregando vagas recomendadas...</div>
+            <div className="p-6 rounded-lg animate-pulse">
+              <div className="h-5 bg-slate-700 rounded w-40 mx-auto mb-4"></div>
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="p-4 bg-slate-800 border border-slate-700 rounded-lg">
+                    <div className="h-4 bg-slate-700 rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-slate-700 rounded w-1/2 mb-3"></div>
+                    <div className="h-3 bg-slate-700 rounded w-20"></div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 text-slate-400 text-center">Carregando vagas recomendadas...</div>
             </div>
           ) : errorVagas ? (
-            <div className="p-6 rounded-lg">
-              <div className="text-red-400">Erro ao carregar vagas: {errorVagas}</div>
+            <div className="p-6 rounded-lg border border-red-500/20">
+              <div className="text-red-400 text-center">
+                <p className="font-semibold">Erro ao carregar vagas</p>
+                <p className="text-sm mt-1">{errorVagas}</p>
+              </div>
             </div>
           ) : (
             <VagasRecomendadas vagasRecomendadas={vagasRecomendadas} />
