@@ -32,7 +32,7 @@ const PerfilCard = ({ perfil }) => {
       <div className="mt-6">
         <div className="flex justify-between items-center mb-1">
           <span className="text-sm text-slate-400">Perfil Completo</span>
-          <span className="text-sm font-semibold text-white">{perfil.porcentagem}%</span>
+          <span className="text-sm font-semibold text-white">{perfil.porcentagem || 75}%</span>
         </div>
         <div className="w-full bg-slate-700 rounded-full h-2">
           <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${perfil.porcentagem}%` }}></div>

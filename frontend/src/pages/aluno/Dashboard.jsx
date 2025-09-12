@@ -16,7 +16,7 @@ const mockPerfil = {
   nome: "Giovanni ",
   fotoUrl: "https://i.pravatar.cc/150?img=25", // Imagem de placeholder
   curso: "Análise e Desenvolvimento de Sistemas",
-  semestre: "4º Semestre",
+  semestre: "4",
   universidade: "UNICEPLAC",
 };
 
@@ -121,7 +121,7 @@ export default function Dashboard() {
           ) : errorCandidaturas ? (
             <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">{/* Error State */}</div>
           ) : (
-            <StatusCard candidaturasRecentes={candidaturas} />
+            <StatusCard candidaturasRecentes={mockCandidaturas} />
           )}
         </div>
 
