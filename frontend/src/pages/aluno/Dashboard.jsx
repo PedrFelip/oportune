@@ -27,6 +27,49 @@ export default function Dashboard() {
   const [errorCandidaturas, setErrorCandidaturas] = useState(null);
   const [errorVagas, setErrorVagas] = useState(null);
 
+  // Funções para recarregar seções específicas
+  const recarregarPerfil = async () => {
+    try {
+      setLoadingPerfil(true);
+      setErrorPerfil(null);
+      const dados = await buscarPerfilAluno();
+      setPerfil(dados.perfil);
+    } catch (err) {
+      setErrorPerfil(err.message);
+      console.error("Erro ao recarregar perfil:", err);
+    } finally {
+      setLoadingPerfil(false);
+    }
+  };
+
+  const recarregarCandidaturas = async () => {
+    try {
+      setLoadingCandidaturas(true);
+      setErrorCandidaturas(null);
+      const dados = await buscarCandidaturasAluno();
+      setCandidaturas(dados.candidaturasRecentes);
+    } catch (err) {
+      setErrorCandidaturas(err.message);
+      console.error("Erro ao recarregar candidaturas:", err);
+    } finally {
+      setLoadingCandidaturas(false);
+    }
+  };
+
+  const recarregarVagas = async () => {
+    try {
+      setLoadingVagas(true);
+      setErrorVagas(null);
+      const dados = await buscarVagasRecomendadasAluno();
+      setVagasRecomendadas(dados.vagasRecomendadas);
+    } catch (err) {
+      setErrorVagas(err.message);
+      console.error("Erro ao recarregar vagas:", err);
+    } finally {
+      setLoadingVagas(false);
+    }
+  };
+
   // Carregamento do perfil (independente e imediato)
   useEffect(() => {
     const carregarPerfil = async () => {
@@ -151,9 +194,20 @@ export default function Dashboard() {
             </div>
           ) : errorPerfil ? (
             <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
-              <div className="text-red-400 text-center">
-                <p className="font-semibold">Erro ao carregar perfil</p>
-                <p className="text-sm mt-1">{errorPerfil}</p>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                </div>
+                <p className="text-red-400 font-semibold mb-2">Erro ao carregar perfil</p>
+                <p className="text-slate-400 text-sm mb-4">{errorPerfil}</p>
+                <button 
+                  onClick={recarregarPerfil} 
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Tentar Novamente
+                </button>
               </div>
             </div>
           ) : (
@@ -179,9 +233,20 @@ export default function Dashboard() {
             </div>
           ) : errorCandidaturas ? (
             <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
-              <div className="text-red-400 text-center">
-                <p className="font-semibold">Erro ao carregar candidaturas</p>
-                <p className="text-sm mt-1">{errorCandidaturas}</p>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                </div>
+                <p className="text-red-400 font-semibold mb-2">Erro ao carregar candidaturas</p>
+                <p className="text-slate-400 text-sm mb-4">{errorCandidaturas}</p>
+                <button 
+                  onClick={recarregarCandidaturas} 
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Recarregar
+                </button>
               </div>
             </div>
           ) : (
@@ -208,9 +273,20 @@ export default function Dashboard() {
             </div>
           ) : errorVagas ? (
             <div className="p-6 rounded-lg border border-red-500/20">
-              <div className="text-red-400 text-center">
-                <p className="font-semibold">Erro ao carregar vagas</p>
-                <p className="text-sm mt-1">{errorVagas}</p>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                </div>
+                <p className="text-red-400 font-semibold mb-2">Erro ao carregar vagas</p>
+                <p className="text-slate-400 text-sm mb-4">{errorVagas}</p>
+                <button 
+                  onClick={recarregarVagas} 
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Tentar Novamente
+                </button>
               </div>
             </div>
           ) : (

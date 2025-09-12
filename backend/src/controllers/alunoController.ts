@@ -31,15 +31,44 @@ export const getCandidaturasController = async (
     const userId = request.user?.sub;
     
     if (!userId) {
-      return reply.status(401).send({ message: 'Usuário não autenticado' })
+      return reply.status(401).send({ 
+        message: 'Usuário não autenticado',
+        candidaturasRecentes: []
+      })
     }
 
     const candidaturasData = await getCandidaturasService(userId)
     
-    return reply.status(200).send(candidaturasData)
+    // Se houver erro específico, retornar com status apropriado
+    if (candidaturasData.error) {
+      return reply.status(500).send({
+        message: candidaturasData.message,
+        candidaturasRecentes: [],
+        error: candidaturasData.error
+      })
+    }
+
+    // Se não há candidaturas mas não é erro
+    if (candidaturasData.candidaturasRecentes.length === 0) {
+      return reply.status(200).send({
+        candidaturasRecentes: [],
+        message: candidaturasData.message || "Você ainda não se candidatou a nenhuma vaga",
+        isEmpty: true
+      })
+    }
+    
+    return reply.status(200).send({
+      candidaturasRecentes: candidaturasData.candidaturasRecentes,
+      total: candidaturasData.total,
+      isEmpty: false
+    })
   } catch (error: any) {
     console.error('Erro ao buscar candidaturas do aluno:', error)
-    return reply.status(500).send({ message: 'Erro interno do servidor' })
+    return reply.status(500).send({ 
+      message: 'Erro interno do servidor',
+      candidaturasRecentes: [],
+      error: 'Erro inesperado ao carregar candidaturas'
+    })
   }
 };
 
@@ -52,15 +81,46 @@ export const getVagasRecomendadasController = async (
     const userId = request.user?.sub;
     
     if (!userId) {
-      return reply.status(401).send({ message: 'Usuário não autenticado' })
+      return reply.status(401).send({ 
+        message: 'Usuário não autenticado',
+        vagasRecomendadas: []
+      })
     }
 
     const vagasData = await getVagasRecomendadasService(userId)
     
-    return reply.status(200).send(vagasData)
+    // Se houver erro específico, retornar com status apropriado
+    if (vagasData.error) {
+      return reply.status(500).send({
+        message: vagasData.message,
+        vagasRecomendadas: [],
+        error: vagasData.error
+      })
+    }
+
+    // Se não há vagas mas não é erro
+    if (vagasData.vagasRecomendadas.length === 0) {
+      return reply.status(200).send({
+        vagasRecomendadas: [],
+        message: vagasData.message || "Nenhuma vaga disponível no momento",
+        sugestao: vagasData.sugestao || "Verifique novamente em breve",
+        isEmpty: true
+      })
+    }
+    
+    return reply.status(200).send({
+      vagasRecomendadas: vagasData.vagasRecomendadas,
+      total: vagasData.total,
+      message: vagasData.message,
+      isEmpty: false
+    })
   } catch (error: any) {
     console.error('Erro ao buscar vagas recomendadas:', error)
-    return reply.status(500).send({ message: 'Erro interno do servidor' })
+    return reply.status(500).send({ 
+      message: 'Erro interno do servidor',
+      vagasRecomendadas: [],
+      error: 'Erro inesperado ao carregar vagas'
+    })
   }
 };
 

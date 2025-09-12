@@ -25,6 +25,13 @@ const perfilPorcentagem = (estudante: any): number => {
 export const getPerfilService = async (userId: string) => {
   const estudanteData = await getEstudanteData(userId);
 
+  if (!estudanteData) {
+    return {
+      perfil: null,
+      error: "Estudante não encontrado"
+    }
+  }
+
   return {
     perfil: {
       nome: estudanteData.user.nome,
@@ -39,12 +46,15 @@ export const getPerfilService = async (userId: string) => {
 // Serviço para buscar apenas candidaturas (carregamento assíncrono)
 export const getCandidaturasService = async (userId: string) => {
   try {
+    console.log(`Iniciando busca de candidaturas para userId: ${userId}`)
     const candidaturasEstudante = await getCandidaturasRecentes(userId);
 
-    // Se não houver candidaturas, retorna array vazio
+    // Se não houver candidaturas, retorna array vazio com log
     if (!candidaturasEstudante || candidaturasEstudante.length === 0) {
+      console.log(`Nenhuma candidatura encontrada para userId: ${userId}`)
       return {
-        candidaturasRecentes: []
+        candidaturasRecentes: [],
+        message: "Nenhuma candidatura encontrada"
       };
     }
 
@@ -53,15 +63,20 @@ export const getCandidaturasService = async (userId: string) => {
       empresa: c.vaga?.empresa?.nomeFantasia || c.vaga?.professor?.user?.nome || 'Não informado',
       status: c.status || 'PENDENTE',
       dataCandidatura: c.dataCandidatura,
-    }));
+    })).filter(c => c.titulo !== 'Título não disponível'); // Filtrar candidaturas inválidas
 
+    console.log(`${candidaturasFormatadas.length} candidaturas formatadas para userId: ${userId}`)
+    
     return {
-      candidaturasRecentes: candidaturasFormatadas
+      candidaturasRecentes: candidaturasFormatadas,
+      total: candidaturasFormatadas.length
     };
   } catch (error) {
     console.error('Erro ao buscar candidaturas:', error);
     return {
-      candidaturasRecentes: []
+      candidaturasRecentes: [],
+      error: "Erro ao carregar candidaturas",
+      message: "Ocorreu um erro ao buscar suas candidaturas"
     };
   }
 };
@@ -69,12 +84,16 @@ export const getCandidaturasService = async (userId: string) => {
 // Serviço para buscar apenas vagas recomendadas (carregamento assíncrono)
 export const getVagasRecomendadasService = async (userId: string) => {
   try {
+    console.log(`Iniciando busca de vagas recomendadas para userId: ${userId}`)
     const VagasRecomendadas = await getVagasRecomendadas(userId);
 
-    // Se não houver vagas recomendadas, retorna array vazio
+    // Se não houver vagas recomendadas, retorna array vazio com contexto
     if (!VagasRecomendadas || VagasRecomendadas.length === 0) {
+      console.log(`Nenhuma vaga recomendada encontrada para userId: ${userId}`)
       return {
-        vagasRecomendadas: []
+        vagasRecomendadas: [],
+        message: "Nenhuma vaga disponível no momento",
+        sugestao: "Complete seu perfil para receber recomendações personalizadas"
       };
     }
 
@@ -83,17 +102,22 @@ export const getVagasRecomendadasService = async (userId: string) => {
       titulo: v.titulo || 'Título não disponível',
       empresa: v.empresa?.nomeFantasia || v.professor?.user?.nome || 'Não informado',
       tipo: v.tipo || 'Não especificado',
-      salario: v.salario ? `R$ ${v.salario}` : 'A negociar',
-      local: v.local || 'Remoto'
-    }));
+      descricao: v.descricao ? v.descricao.substring(0, 100) + '...' : 'Descrição não disponível'
+    })).filter(v => v.titulo !== 'Título não disponível'); // Filtrar vagas inválidas
+
+    console.log(`${vagasFormatadas.length} vagas formatadas para userId: ${userId}`)
 
     return {
-      vagasRecomendadas: vagasFormatadas
+      vagasRecomendadas: vagasFormatadas,
+      total: vagasFormatadas.length,
+      message: `Encontramos ${vagasFormatadas.length} vagas para você`
     };
   } catch (error) {
     console.error('Erro ao buscar vagas recomendadas:', error);
     return {
-      vagasRecomendadas: []
+      vagasRecomendadas: [],
+      error: "Erro ao carregar vagas",
+      message: "Ocorreu um erro ao buscar vagas recomendadas"
     };
   }
 };
@@ -101,6 +125,16 @@ export const getVagasRecomendadasService = async (userId: string) => {
 // Serviço completo (mantido para compatibilidade)
 export const getDashboardService = async (userId: string) => {
   const estudanteData = await getEstudanteData(userId);
+
+  if (!estudanteData) {
+    return {
+      perfil: null,
+      candidaturasRecentes: [],
+      vagasRecomendadas: [],
+      error: "Estudante não encontrado"
+    }
+  }
+
   const candidaturasEstudante = await getCandidaturasRecentes(userId);
   const VagasRecomendadas = await getVagasRecomendadas(userId);
 
