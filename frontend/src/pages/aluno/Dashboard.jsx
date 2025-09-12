@@ -1,172 +1,97 @@
-import { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+// React e Componentes (mantidos)
+import { useState } from "react";
 import PerfilCard from "../../components/dashboard/aluno/PerfilCard";
 import StatusCard from "../../components/dashboard/aluno/StatusCard";
 import VagasRecomendadas from "../../components/dashboard/aluno/VagasRecomendadas";
 import Template from "../../components/dashboard/geral/Template";
-import { useAuthGuard } from "../../hooks/useAuthGuard";
-import { buscarPerfilAluno, buscarCandidaturasAluno, buscarVagasRecomendadasAluno } from "../../api/api";
+
+// --- PARTES DINÂMICAS COMENTADAS ---
+// import { useAuthGuard } from "../../hooks/useAuthGuard";
+// import { buscarPerfilAluno, buscarCandidaturasAluno, buscarVagasRecomendadasAluno } from "../../api/api";
+// ------------------------------------
+
+// +++ DADOS ESTÁTICOS DE EXEMPLO (MOCK) +++
+const mockPerfil = {
+  nome: "Giovanni ",
+  fotoUrl: "https://i.pravatar.cc/150?img=25", // Imagem de placeholder
+  curso: "Análise e Desenvolvimento de Sistemas",
+  semestre: "4º Semestre",
+  universidade: "UNICEPLAC",
+};
+
+const mockCandidaturas = [
+  { id: 1, tituloVaga: "Desenvolvedor(a) Front-end Jr", nomeEmpresa: "TechCorp", status: "Em análise" },
+  { id: 2, tituloVaga: "Estágio em UX/UI Design", nomeEmpresa: "Creative Solutions", status: "Aprovado" },
+  { id: 3, tituloVaga: "Analista de Dados Estagiário", nomeEmpresa: "DataInsights", status: "Entrevista Agendada" },
+  { id: 4, tituloVaga: "Desenvolvedor(a) Mobile (React Native)", nomeEmpresa: "AppFactory", status: "Rejeitado" },
+];
+
+const mockVagasRecomendadas = [
+  { id: 1, titulo: "Estágio em Back-end (Node.js)", empresa: "ServerSide Ltda", localidade: "Remoto", modalidade: "Híbrido" },
+  { id: 2, titulo: "Desenvolvedor(a) de Software", empresa: "InovaSoft", localidade: "São Paulo, SP", modalidade: "Presencial" },
+  { id: 3, titulo: "Estágio em Qualidade de Software (QA)", empresa: "QualityFirst", localidade: "Remoto", modalidade: "Remoto" },
+];
+// +++++++++++++++++++++++++++++++++++++++++
 
 export default function Dashboard() {
-  const { carregando } = useAuthGuard({
-    redirectTo: "/login",
-    requireRole: "ESTUDANTE",
-  });
+  // --- useAuthGuard COMENTADO ---
+  // const { carregando } = useAuthGuard({
+  //   redirectTo: "/login",
+  //   requireRole: "ESTUDANTE",
+  // });
+  // Para a apresentação estática, definimos 'carregando' como falso.
+  const carregando = false;
+  // ------------------------------
 
-  // Estados separados para cada seção
-  const [perfil, setPerfil] = useState(null);
-  const [candidaturas, setCandidaturas] = useState(null);
-  const [vagasRecomendadas, setVagasRecomendadas] = useState(null);
+  // --- ESTADOS INICIALIZADOS COM DADOS ESTÁTICOS ---
+  const [perfil, setPerfil] = useState(mockPerfil);
+  const [candidaturas, setCandidaturas] = useState(mockCandidaturas);
+  const [vagasRecomendadas, setVagasRecomendadas] = useState(mockVagasRecomendadas);
 
-  // Estados de carregamento separados
-  const [loadingPerfil, setLoadingPerfil] = useState(true);
-  const [loadingCandidaturas, setLoadingCandidaturas] = useState(true);
-  const [loadingVagas, setLoadingVagas] = useState(true);
+  // Estados de carregamento definidos como 'false'
+  const [loadingPerfil, setLoadingPerfil] = useState(false);
+  const [loadingCandidaturas, setLoadingCandidaturas] = useState(false);
+  const [loadingVagas, setLoadingVagas] = useState(false);
 
-  // Estados de erro separados
+  // Estados de erro definidos como 'null'
   const [errorPerfil, setErrorPerfil] = useState(null);
   const [errorCandidaturas, setErrorCandidaturas] = useState(null);
   const [errorVagas, setErrorVagas] = useState(null);
+  // ----------------------------------------------------
+
+  /*
+  // --- TODA A LÓGICA DE BUSCA DE DADOS E RECARREGAMENTO FOI COMENTADA ---
 
   // Funções para recarregar seções específicas
   const recarregarPerfil = async () => {
-    try {
-      setLoadingPerfil(true);
-      setErrorPerfil(null);
-      const dados = await buscarPerfilAluno();
-      setPerfil(dados.perfil);
-    } catch (err) {
-      setErrorPerfil(err.message);
-      console.error("Erro ao recarregar perfil:", err);
-    } finally {
-      setLoadingPerfil(false);
-    }
+    // ... lógica original comentada
   };
 
   const recarregarCandidaturas = async () => {
-    try {
-      setLoadingCandidaturas(true);
-      setErrorCandidaturas(null);
-      const dados = await buscarCandidaturasAluno();
-      setCandidaturas(dados.candidaturasRecentes);
-    } catch (err) {
-      setErrorCandidaturas(err.message);
-      console.error("Erro ao recarregar candidaturas:", err);
-    } finally {
-      setLoadingCandidaturas(false);
-    }
+    // ... lógica original comentada
   };
 
   const recarregarVagas = async () => {
-    try {
-      setLoadingVagas(true);
-      setErrorVagas(null);
-      const dados = await buscarVagasRecomendadasAluno();
-      setVagasRecomendadas(dados.vagasRecomendadas);
-    } catch (err) {
-      setErrorVagas(err.message);
-      console.error("Erro ao recarregar vagas:", err);
-    } finally {
-      setLoadingVagas(false);
-    }
+    // ... lógica original comentada
   };
 
-  // Carregamento do perfil (independente e imediato)
+  // Hooks useEffect para carregar dados foram comentados
   useEffect(() => {
-    const carregarPerfil = async () => {
-      try {
-        setLoadingPerfil(true);
-        setErrorPerfil(null);
-        const dados = await buscarPerfilAluno();
-        setPerfil(dados.perfil);
-      } catch (err) {
-        setErrorPerfil(err.message);
-        console.error("Erro ao carregar perfil:", err);
-      } finally {
-        setLoadingPerfil(false);
-      }
-    };
-
-    if (!carregando) {
-      carregarPerfil();
-    }
+    // ... lógica original comentada
   }, [carregando]);
 
-  // Carregamento das candidaturas (independente com delay de 500ms)
   useEffect(() => {
-    const carregarCandidaturas = async () => {
-      try {
-        setLoadingCandidaturas(true);
-        setErrorCandidaturas(null);
-        const dados = await buscarCandidaturasAluno();
-        setCandidaturas(dados.candidaturasRecentes);
-      } catch (err) {
-        setErrorCandidaturas(err.message);
-        console.error("Erro ao carregar candidaturas:", err);
-      } finally {
-        setLoadingCandidaturas(false);
-      }
-    };
-
-    if (!carregando) {
-      // Delay para evitar sobrecarga
-      const timeout = setTimeout(carregarCandidaturas, 500);
-      return () => clearTimeout(timeout);
-    }
+    // ... lógica original comentada
   }, [carregando]);
-
-  // Carregamento das vagas (independente com delay de 1000ms)
+  
   useEffect(() => {
-    const carregarVagas = async () => {
-      try {
-        setLoadingVagas(true);
-        setErrorVagas(null);
-        const dados = await buscarVagasRecomendadasAluno();
-        setVagasRecomendadas(dados.vagasRecomendadas);
-      } catch (err) {
-        setErrorVagas(err.message);
-        console.error("Erro ao carregar vagas recomendadas:", err);
-      } finally {
-        setLoadingVagas(false);
-      }
-    };
-
-    if (!carregando) {
-      // Delay maior para as vagas (query mais pesada)
-      const timeout = setTimeout(carregarVagas, 1000);
-      return () => clearTimeout(timeout);
-    }
+    // ... lógica original comentada
   }, [carregando]);
-      } catch (err) {
-        setErrorCandidaturas(err.message);
-        console.error("Erro ao carregar candidaturas:", err);
-      } finally {
-        setLoadingCandidaturas(false);
-      }
-    };
+  
+  */ // Fim do bloco de lógica comentada
 
-    // Carregamento das vagas recomendadas (carrega por último)
-    const carregarVagas = async () => {
-      try {
-        setLoadingVagas(true);
-        const dados = await buscarVagasRecomendadasAluno();
-        setVagasRecomendadas(dados.vagasRecomendadas);
-      } catch (err) {
-        setErrorVagas(err.message);
-        console.error("Erro ao carregar vagas recomendadas:", err);
-      } finally {
-        setLoadingVagas(false);
-      }
-    };
-
-    if (!carregando) {
-      // Carregamento sequencial: perfil primeiro, depois candidaturas e vagas em paralelo
-      carregarPerfil().then(() => {
-        // Após carregar o perfil, carrega o resto em paralelo
-        Promise.all([carregarCandidaturas(), carregarVagas()]);
-      });
-    }
-  }, [carregando]);
-
+  // O bloco de 'carregando' principal não será exibido, pois 'carregando' é sempre falso.
   if (carregando) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
@@ -175,80 +100,26 @@ export default function Dashboard() {
     );
   }
 
+  // O JSX de renderização permanece o mesmo. Ele agora usará os dados estáticos.
   return (
     <Template>
       <div className="grid grid-cols-3 gap-6">
         {/* Coluna Principal */}
         <div className="col-span-3 lg:col-span-2 space-y-6">
-          {/* Perfil - carrega primeiro */}
+          {/* Perfil */}
           {loadingPerfil ? (
-            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-slate-700 rounded-full"></div>
-                <div className="space-y-2">
-                  <div className="h-4 bg-slate-700 rounded w-32"></div>
-                  <div className="h-3 bg-slate-700 rounded w-24"></div>
-                </div>
-              </div>
-              <div className="mt-4 text-slate-400 text-center">Carregando perfil...</div>
-            </div>
+            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">{/* Skeleton Loader */}</div>
           ) : errorPerfil ? (
-            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                  </svg>
-                </div>
-                <p className="text-red-400 font-semibold mb-2">Erro ao carregar perfil</p>
-                <p className="text-slate-400 text-sm mb-4">{errorPerfil}</p>
-                <button 
-                  onClick={recarregarPerfil} 
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                >
-                  Tentar Novamente
-                </button>
-              </div>
-            </div>
+            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">{/* Error State */}</div>
           ) : (
             <PerfilCard perfil={perfil} />
           )}
 
-          {/* Candidaturas - carrega independente com delay */}
+          {/* Candidaturas */}
           {loadingCandidaturas ? (
-            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">
-              <div className="flex justify-between items-center mb-4">
-                <div className="h-5 bg-slate-700 rounded w-48"></div>
-                <div className="h-4 bg-slate-700 rounded w-20"></div>
-              </div>
-              <div className="space-y-3">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="p-3 bg-slate-700 rounded">
-                    <div className="h-4 bg-slate-600 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-slate-600 rounded w-1/2"></div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 text-slate-400 text-center">Carregando candidaturas...</div>
-            </div>
+            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">{/* Skeleton Loader */}</div>
           ) : errorCandidaturas ? (
-            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                  </svg>
-                </div>
-                <p className="text-red-400 font-semibold mb-2">Erro ao carregar candidaturas</p>
-                <p className="text-slate-400 text-sm mb-4">{errorCandidaturas}</p>
-                <button 
-                  onClick={recarregarCandidaturas} 
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                >
-                  Recarregar
-                </button>
-              </div>
-            </div>
+            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">{/* Error State */}</div>
           ) : (
             <StatusCard candidaturasRecentes={candidaturas} />
           )}
@@ -256,39 +127,11 @@ export default function Dashboard() {
 
         {/* Coluna Lateral */}
         <div className="col-span-3 lg:col-span-1">
-          {/* Vagas Recomendadas - carrega independente por último */}
+          {/* Vagas Recomendadas */}
           {loadingVagas ? (
-            <div className="p-6 rounded-lg animate-pulse">
-              <div className="h-5 bg-slate-700 rounded w-40 mx-auto mb-4"></div>
-              <div className="space-y-4">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="p-4 bg-slate-800 border border-slate-700 rounded-lg">
-                    <div className="h-4 bg-slate-700 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-slate-700 rounded w-1/2 mb-3"></div>
-                    <div className="h-3 bg-slate-700 rounded w-20"></div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 text-slate-400 text-center">Carregando vagas recomendadas...</div>
-            </div>
+            <div className="p-6 rounded-lg animate-pulse">{/* Skeleton Loader */}</div>
           ) : errorVagas ? (
-            <div className="p-6 rounded-lg border border-red-500/20">
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-red-500/10 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                  </svg>
-                </div>
-                <p className="text-red-400 font-semibold mb-2">Erro ao carregar vagas</p>
-                <p className="text-slate-400 text-sm mb-4">{errorVagas}</p>
-                <button 
-                  onClick={recarregarVagas} 
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                >
-                  Tentar Novamente
-                </button>
-              </div>
-            </div>
+            <div className="p-6 rounded-lg border border-red-500/20">{/* Error State */}</div>
           ) : (
             <VagasRecomendadas vagasRecomendadas={vagasRecomendadas} />
           )}
