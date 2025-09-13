@@ -68,7 +68,7 @@ export async function buscarDashboardAluno() {
       throw new Error("Token não encontrado");
     }
 
-    const reply = await fetch("/api/dashboard", {
+    const reply = await fetch("http://localhost:3001/dashboard", {
       method: "GET",
       headers: { 
         "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export async function buscarPerfilAluno() {
       throw new Error("Token não encontrado");
     }
 
-    const reply = await fetch("/api/dashboard/perfil", {
+    const reply = await fetch("http://localhost:3001/dashboard/perfil", {
       method: "GET",
       headers: { 
         "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export async function buscarCandidaturasAluno() {
       throw new Error("Token não encontrado");
     }
 
-    const reply = await fetch("/api/dashboard/candidaturas", {
+    const reply = await fetch("http://localhost:3001/dashboard/candidaturas", {
       method: "GET",
       headers: { 
         "Content-Type": "application/json",
@@ -155,7 +155,7 @@ export async function buscarVagasRecomendadasAluno() {
       throw new Error("Token não encontrado");
     }
 
-    const reply = await fetch("/api/dashboard/vagas-recomendadas", {
+    const reply = await fetch("http://localhost:3001/dashboard/vagas-recomendadas", {
       method: "GET",
       headers: { 
         "Content-Type": "application/json",

@@ -6,7 +6,6 @@ services:
       - .env.db.local
     ports:
       - 5432:5432
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -17,12 +16,12 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend_oportune
+    ports:
+      - 3001:3001
     env_file:
-      - ./backend/.env.docker
-    
+      - ./backend/.env
     depends_on:
       - db
-    
     networks:
       - oportune_network
 
@@ -31,37 +30,15 @@ services:
       context: ./email-service
       dockerfile: Dockerfile
     container_name: go_service_oportune
+    ports:
+      - 3002:3002
+    depends_on:
+      - backend
     env_file:
       - ./email-service/.env
-
     networks:
       - oportune_network
   
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: frontend_oportune
-    
-    networks:
-      - oportune_network
-
-  # Reverse Proxy
-  nginx:
-    image: nginx:alpine
-    container_name: nginx_oportune
-    ports:
-      - "8080:80"
-
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - backend
-      - frontend
-    networks:
-      - oportune_network
-
-volumes:
   postgres_data:
 
 networks:
