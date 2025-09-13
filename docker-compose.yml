@@ -38,7 +38,8 @@ services:
       - ./email-service/.env
     networks:
       - oportune_network
-  
+
+volumes:
   postgres_data:
 
 networks:
