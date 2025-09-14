@@ -5,6 +5,13 @@ import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 async function main() {
+  // Limpar dados existentes para evitar conflitos de chave única
+  await prisma.candidatura.deleteMany({});
+  await prisma.vaga.deleteMany({});
+  await prisma.estudante.deleteMany({});
+  await prisma.professor.deleteMany({});
+  await prisma.empresa.deleteMany({});
+  await prisma.user.deleteMany({});
   // Criar usuário estudante
   const senhaHash = await bcrypt.hash('senha123#', 10)
   
@@ -96,7 +103,7 @@ async function main() {
       requisitos: ['React', 'TypeScript', 'HTML/CSS', 'Git'],
       prazoInscricao: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 dias a partir de hoje
       statusVaga: 'ATIVA',
-      cursosAlvo: 'Engenharia de Software',
+      cursosAlvo: ['Engenharia de Software'],
       semestreMinimo: 4,
       empresaId: empresa.empresa!.id,
     },
@@ -110,7 +117,7 @@ async function main() {
       requisitos: ['Node.js', 'JavaScript', 'PostgreSQL', 'API REST'],
       prazoInscricao: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000), // 45 dias a partir de hoje
       statusVaga: 'ATIVA',
-      cursosAlvo: 'Engenharia de Software',
+  cursosAlvo: ['Engenharia de Software'],
       semestreMinimo: 3,
       empresaId: empresa.empresa!.id,
     },
@@ -125,7 +132,7 @@ async function main() {
       requisitos: ['Python', 'Machine Learning', 'Estatística', 'Pesquisa Acadêmica'],
       prazoInscricao: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000), // 60 dias a partir de hoje
       statusVaga: 'ATIVA',
-      cursosAlvo: 'Engenharia de Software',
+  cursosAlvo: ['Engenharia de Software'],
       semestreMinimo: 6,
       professorId: professor.professor!.id,
     },
@@ -139,7 +146,7 @@ async function main() {
       requisitos: ['Programação', 'Didática', 'Comunicação', 'Trabalho em Equipe'],
       prazoInscricao: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000), // 20 dias a partir de hoje
       statusVaga: 'ATIVA',
-      cursosAlvo: 'Engenharia de Software',
+  cursosAlvo: ['Engenharia de Software'],
       semestreMinimo: 2,
       professorId: professor.professor!.id,
     },
