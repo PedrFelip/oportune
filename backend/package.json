@@ -8,7 +8,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx --watch server.ts",
-    "start": "npx tsx server.ts"
+    "start": "npx tsx server.ts",
+    "prisma": "npx prisma generate && npx prisma db push",
+    "seed": " npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
