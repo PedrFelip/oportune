@@ -174,7 +174,8 @@ const buscarVagasPorCurso = async (estudanteId: string, curso: string) => {
           { id: { notIn: vagasExcluidas } }
         ]
       },
-      orderBy: { id: 'desc' },
+  // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
+  orderBy: { createdAt: 'desc' },
       take: 3,
       select: {
         id: true,
@@ -228,7 +229,8 @@ const buscarVagasGerais = async (estudanteId: string) => {
           { id: { notIn: vagasExcluidas } }
         ]
       },
-      orderBy: { id: 'desc' },
+  // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
+  orderBy: { createdAt: 'desc' },
       take: 3,
       select: {
         id: true,

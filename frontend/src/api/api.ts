@@ -1,6 +1,6 @@
 export async function cadastrarUsuario(dados: any) {
   try {
-    const reply = await fetch("/api/createuser", {
+    const reply = await fetch("http://localhost:3001/createuser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dados),
@@ -18,7 +18,7 @@ export async function cadastrarUsuario(dados: any) {
 }
 export async function confirmarEmail(token: string) {
   try {
-    const reply = await fetch("/api/confirm-email", {
+    const reply = await fetch("http://localhost:3001/confirm-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token }),
@@ -41,7 +41,7 @@ export async function confirmarEmail(token: string) {
 // Login de usuário
 export async function logarUsuario(dados: { email: string; senha: string }) {
   try {
-    const reply = await fetch("/api/loguser", {
+    const reply = await fetch("http://localhost:3001/loguser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dados),
