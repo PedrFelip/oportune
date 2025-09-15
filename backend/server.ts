@@ -1,7 +1,7 @@
 import Fastify from "fastify";
-import { authRoutes } from "./src/routes/authRoutes";
-import { cnpjRoutes } from "./src/routes/cnpjRoutes";
-import { alunoRoutes } from "./src/routes/alunoRoutes";
+import { authRoutes } from "./src/routes/authRoutes.ts";
+import { cnpjRoutes } from "./src/routes/cnpjRoutes.ts";
+import { alunoRoutes } from "./src/routes/alunoRoutes.ts";
 import cors from "@fastify/cors";
 
 const app = Fastify({

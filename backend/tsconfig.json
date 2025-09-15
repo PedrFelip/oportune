@@ -16,5 +16,5 @@
     "skipLibCheck": true,
     "moduleResolution": "node16"
   },
-  "include": ["src", "prisma/client.ts", "prisma/seed.ts"]
+  "include": ["src", "prisma/client.ts", "prisma/seed.ts","server.ts", "eslint.config.ts"]
 }
