@@ -70,6 +70,7 @@ export const loginUsuarioController = async (
       user: usuarioLogado.safeUser,
     });
   } catch (err: any) {
+    console.log("Falha no login:", err.message);
     return reply.status(400).send({ message: "Credenciais inválidas" });
   }
 };
