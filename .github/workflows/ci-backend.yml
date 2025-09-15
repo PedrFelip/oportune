@@ -6,11 +6,13 @@ on:
       - main
     paths:
       - backend/**/*
+      - .github/workflows/ci-backend.yml
   pull_request:
     branches:
       - main
     paths:
       - backend/**/*
+      - .github/workflows/ci-backend.yml
 
 jobs:
   setup:
@@ -20,16 +22,16 @@ jobs:
         working-directory: ./backend
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-      
+        uses: actions/checkout@v4
+
       - name: Setup do Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
   lint:
     name: Lint Backend
@@ -40,10 +42,10 @@ jobs:
         working-directory: ./backend
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup do Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
@@ -60,10 +62,10 @@ jobs:
         working-directory: ./backend
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup do Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
