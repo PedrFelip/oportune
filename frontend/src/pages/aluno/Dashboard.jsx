@@ -1,95 +1,87 @@
 /* eslint-disable no-unused-vars */
 // React e Componentes (mantidos)
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PerfilCard from "../../components/dashboard/aluno/PerfilCard";
 import StatusCard from "../../components/dashboard/aluno/StatusCard";
 import VagasRecomendadas from "../../components/dashboard/aluno/VagasRecomendadas";
 import Template from "../../components/dashboard/geral/Template";
 
-// --- PARTES DINÂMICAS COMENTADAS ---
-// import { useAuthGuard } from "../../hooks/useAuthGuard";
-// import { buscarPerfilAluno, buscarCandidaturasAluno, buscarVagasRecomendadasAluno } from "../../api/api";
+// --- PARTES DINÂMICAS ---
+import { useAuthGuard } from "../../hooks/useAuthGuard";
+import { buscarPerfilAluno, buscarCandidaturasAluno, buscarVagasRecomendadasAluno } from "../../api/api";
 // ------------------------------------
 
-// +++ DADOS ESTÁTICOS DE EXEMPLO (MOCK) +++
-const mockPerfil = {
-  nome: "Giovanni ",
-  fotoUrl: "https://i.pravatar.cc/150?img=25", // Imagem de placeholder
-  curso: "Análise e Desenvolvimento de Sistemas",
-  semestre: "4",
-  universidade: "UNICEPLAC",
-};
-
-const mockCandidaturas = [
-  { id: 1, tituloVaga: "Desenvolvedor(a) Front-end Jr", nomeEmpresa: "TechCorp", status: "Em análise" },
-  { id: 2, tituloVaga: "Estágio em UX/UI Design", nomeEmpresa: "Creative Solutions", status: "Aprovado" },
-  { id: 3, tituloVaga: "Analista de Dados Estagiário", nomeEmpresa: "DataInsights", status: "Entrevista Agendada" },
-  { id: 4, tituloVaga: "Desenvolvedor(a) Mobile (React Native)", nomeEmpresa: "AppFactory", status: "Rejeitado" },
-];
-
-const mockVagasRecomendadas = [
-  { id: 1, titulo: "Estágio em Back-end (Node.js)", empresa: "ServerSide Ltda", localidade: "Remoto", modalidade: "Híbrido" },
-  { id: 2, titulo: "Desenvolvedor(a) de Software", empresa: "InovaSoft", localidade: "São Paulo, SP", modalidade: "Presencial" },
-  { id: 3, titulo: "Estágio em Qualidade de Software (QA)", empresa: "QualityFirst", localidade: "Remoto", modalidade: "Remoto" },
-];
-// +++++++++++++++++++++++++++++++++++++++++
-
 export default function Dashboard() {
-  // --- useAuthGuard COMENTADO ---
-  // const { carregando } = useAuthGuard({
-  //   redirectTo: "/login",
-  //   requireRole: "ESTUDANTE",
-  // });
-  // Para a apresentação estática, definimos 'carregando' como falso.
-  const carregando = false;
-  // ------------------------------
+  const { carregando } = useAuthGuard({
+    redirectTo: "/login",
+    requireRole: "ESTUDANTE",
+  });
 
-  // --- ESTADOS INICIALIZADOS COM DADOS ESTÁTICOS ---
-  const [perfil, setPerfil] = useState(mockPerfil);
-  const [candidaturas, setCandidaturas] = useState(mockCandidaturas);
-  const [vagasRecomendadas, setVagasRecomendadas] = useState(mockVagasRecomendadas);
+  // --- ESTADOS ---
+  const [perfil, setPerfil] = useState(null);
+  const [candidaturas, setCandidaturas] = useState([]);
+  const [vagasRecomendadas, setVagasRecomendadas] = useState([]);
 
-  // Estados de carregamento definidos como 'false'
-  const [loadingPerfil, setLoadingPerfil] = useState(false);
-  const [loadingCandidaturas, setLoadingCandidaturas] = useState(false);
-  const [loadingVagas, setLoadingVagas] = useState(false);
+  const [loadingPerfil, setLoadingPerfil] = useState(true);
+  const [loadingCandidaturas, setLoadingCandidaturas] = useState(true);
+  const [loadingVagas, setLoadingVagas] = useState(true);
 
-  // Estados de erro definidos como 'null'
   const [errorPerfil, setErrorPerfil] = useState(null);
   const [errorCandidaturas, setErrorCandidaturas] = useState(null);
   const [errorVagas, setErrorVagas] = useState(null);
   // ----------------------------------------------------
 
-  /*
-  // --- TODA A LÓGICA DE BUSCA DE DADOS E RECARREGAMENTO FOI COMENTADA ---
-
   // Funções para recarregar seções específicas
   const recarregarPerfil = async () => {
-    // ... lógica original comentada
+    try {
+      setLoadingPerfil(true);
+      setErrorPerfil(null);
+      const resp = await buscarPerfilAluno();
+      setPerfil(resp);
+    } catch (e) {
+      console.error('Erro ao carregar perfil:', e);
+      setErrorPerfil(e?.message || "Erro ao carregar perfil");
+    } finally {
+      setLoadingPerfil(false);
+    }
   };
 
   const recarregarCandidaturas = async () => {
-    // ... lógica original comentada
+    try {
+      setLoadingCandidaturas(true);
+      setErrorCandidaturas(null);
+      const resp = await buscarCandidaturasAluno();
+      setCandidaturas(resp?.candidaturasRecentes ?? []);
+    } catch (e) {
+      console.error('Erro ao carregar candidaturas:', e);
+      setErrorCandidaturas(e?.message || "Erro ao carregar candidaturas");
+    } finally {
+      setLoadingCandidaturas(false);
+    }
   };
 
   const recarregarVagas = async () => {
-    // ... lógica original comentada
+    try {
+      setLoadingVagas(true);
+      setErrorVagas(null);
+      const resp = await buscarVagasRecomendadasAluno();
+      setVagasRecomendadas(resp?.vagasRecomendadas ?? []);
+    } catch (e) {
+      console.error('Erro ao carregar vagas:', e);
+      setErrorVagas(e?.message || "Erro ao carregar vagas");
+    } finally {
+      setLoadingVagas(false);
+    }
   };
 
-  // Hooks useEffect para carregar dados foram comentados
+  // Carregar dados quando não estiver carregando (guard ok)
   useEffect(() => {
-    // ... lógica original comentada
+    if (carregando) return;
+    recarregarPerfil();
+    recarregarCandidaturas();
+    recarregarVagas();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [carregando]);
-
-  useEffect(() => {
-    // ... lógica original comentada
-  }, [carregando]);
-  
-  useEffect(() => {
-    // ... lógica original comentada
-  }, [carregando]);
-  
-  */ // Fim do bloco de lógica comentada
 
   // O bloco de 'carregando' principal não será exibido, pois 'carregando' é sempre falso.
   if (carregando) {
@@ -100,6 +92,11 @@ export default function Dashboard() {
     );
   }
 
+  // Verificar quais dados estão sendo usados
+  const perfilParaUsar = perfil?.perfil || null;
+  const candidaturasParaUsar = candidaturas || [];
+  const vagasParaUsar = vagasRecomendadas || [];
+
   // O JSX de renderização permanece o mesmo. Ele agora usará os dados estáticos.
   return (
     <Template>
@@ -108,20 +105,42 @@ export default function Dashboard() {
         <div className="col-span-3 lg:col-span-2 space-y-6">
           {/* Perfil */}
           {loadingPerfil ? (
-            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">{/* Skeleton Loader */}</div>
+            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">
+              <div className="text-slate-400">Carregando perfil...</div>
+            </div>
           ) : errorPerfil ? (
-            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">{/* Error State */}</div>
+            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
+              <div className="text-red-400">Erro: {errorPerfil}</div>
+            </div>
+          ) : perfilParaUsar ? (
+            <PerfilCard perfil={perfilParaUsar} />
           ) : (
-            <PerfilCard perfil={perfil} />
+            <div className="bg-slate-800 p-6 rounded-lg">
+              <div className="text-slate-400">Nenhum dado de perfil encontrado</div>
+            </div>
           )}
 
           {/* Candidaturas */}
           {loadingCandidaturas ? (
-            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">{/* Skeleton Loader */}</div>
+            <div className="bg-slate-800 p-6 rounded-lg animate-pulse">
+              <div className="text-slate-400">Carregando candidaturas...</div>
+            </div>
           ) : errorCandidaturas ? (
-            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">{/* Error State */}</div>
+            <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
+              <div className="text-red-400">Erro: {errorCandidaturas}</div>
+            </div>
+          ) : candidaturasParaUsar?.length > 0 ? (
+            <StatusCard candidaturasRecentes={candidaturasParaUsar} />
           ) : (
-            <StatusCard candidaturasRecentes={mockCandidaturas} />
+            <div className="bg-slate-800 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-white mb-4">Candidaturas Recentes</h3>
+              <div className="text-center py-8">
+                <div className="text-slate-400 mb-2">Nenhuma candidatura ainda</div>
+                <div className="text-sm text-slate-500">
+                  Candidate-se às vagas recomendadas para aparecerem aqui
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
@@ -129,11 +148,25 @@ export default function Dashboard() {
         <div className="col-span-3 lg:col-span-1">
           {/* Vagas Recomendadas */}
           {loadingVagas ? (
-            <div className="p-6 rounded-lg animate-pulse">{/* Skeleton Loader */}</div>
+            <div className="p-6 rounded-lg animate-pulse">
+              <div className="text-slate-400">Carregando vagas...</div>
+            </div>
           ) : errorVagas ? (
-            <div className="p-6 rounded-lg border border-red-500/20">{/* Error State */}</div>
+            <div className="p-6 rounded-lg border border-red-500/20">
+              <div className="text-red-400">Erro: {errorVagas}</div>
+            </div>
+          ) : vagasParaUsar?.length > 0 ? (
+            <VagasRecomendadas vagasRecomendadas={vagasParaUsar} />
           ) : (
-            <VagasRecomendadas vagasRecomendadas={vagasRecomendadas} />
+            <div className="bg-slate-800 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-white mb-4">Vagas Recomendadas</h3>
+              <div className="text-center py-8">
+                <div className="text-slate-400 mb-2">🔍 Nenhuma vaga encontrada</div>
+                <div className="text-sm text-slate-500">
+                  Complete seu perfil para receber recomendações personalizadas
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>
