@@ -14,11 +14,10 @@ export const getPerfilController = async (
     }
 
     const perfilData = await getPerfilService(userId)
-    
     return reply.status(200).send(perfilData)
   } catch (error: any) {
-    console.error('Erro ao buscar perfil do aluno:', error)
-    return reply.status(500).send({ message: 'Erro interno do servidor' })
+    console.error('Erro ao buscar perfil do aluno:', error);
+    return reply.status(500).send({ message: 'Erro interno do servidor', error: error.message })
   }
 };
 
@@ -41,6 +40,7 @@ export const getCandidaturasController = async (
     
     // Se houver erro específico, retornar com status apropriado
     if (candidaturasData.error) {
+      console.error("Erro no service de candidaturas:", candidaturasData.error);
       return reply.status(500).send({
         message: candidaturasData.message,
         candidaturasRecentes: [],
@@ -91,6 +91,7 @@ export const getVagasRecomendadasController = async (
     
     // Se houver erro específico, retornar com status apropriado
     if (vagasData.error) {
+      console.error("Erro no service de vagas recomendadas:", vagasData.error);
       return reply.status(500).send({
         message: vagasData.message,
         vagasRecomendadas: [],
