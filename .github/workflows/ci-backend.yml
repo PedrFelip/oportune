@@ -31,7 +31,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd backend 
+          npm install
 
   lint:
     name: Lint Backend
