@@ -27,8 +27,10 @@ export default function Authentication(
       "role" in decoded &&
       (decoded.role === "ESTUDANTE" || decoded.role === "PROFESSOR" || decoded.role === "EMPRESA")
     ) {
-      request.user = decoded as { sub: string; tipo: "ESTUDANTE" | "PROFESSOR" | "EMPRESA" };
-      request.user.tipo = decoded.role as "ESTUDANTE" | "PROFESSOR" | "EMPRESA";
+      request.user = {
+        sub: decoded.sub as string,
+        role: decoded.role as "ESTUDANTE" | "PROFESSOR" | "EMPRESA"
+      };
       console.log("Usuário autenticado:", request.user);
     } else {
       return reply.status(401).send({ error: "Token inválido" });
