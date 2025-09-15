@@ -17,8 +17,15 @@ const app = Fastify({
 });
 
 await app.register(cors, {
-  origin: ["http://localhost:8080", "http://localhost:5173", "http://frontend_oportune:8080"],
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  origin: (origin, cb) => {
+    // Permite qualquer origem em desenvolvimento
+    cb(null, true);
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
+  credentials: true,
+  strictPreflight: false,
+  optionsSuccessStatus: 200,
 });
 
 app.get("/healthcheck", async () => {
