@@ -3,13 +3,14 @@ name: CI
 on:
   push:
     branches:
-    #  - main
+    - main
+    paths:
+      - backend/**/*
   pull_request:
     branches:
-    #  - main
+    - main
     paths:
-      - backend/**
-      - .github/workflows/ci.yml
+      - backend/**/*
 
 jobs:
   setup:
