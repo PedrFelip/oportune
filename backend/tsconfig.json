@@ -14,7 +14,8 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "node16"
+    "moduleResolution": "nodenext",
+    "isolatedModules": true
   },
   "include": ["src", "prisma/client.ts", "prisma/seed.ts","server.ts", "eslint.config.ts"]
 }
