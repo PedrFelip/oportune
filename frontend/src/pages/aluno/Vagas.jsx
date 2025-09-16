@@ -12,7 +12,7 @@ export default function Vagas() {
   return (
     <>
       <div className="flex flex-col gap-8">
-        <div className="flex flex-1 justify-around bg-[#263243] p-5 gap-10">
+        <div className="flex flex-1 justify-around bg-[#263243] p-5 gap-10 rounded-2xl ">
           <FilterBox
             id={"tipos"}
             name={"tipos"}
@@ -40,7 +40,9 @@ export default function Vagas() {
             options={informacoes.modalidade}
           />
         </div>
-        <Oportunidade/>
+        <div className="overflow-y-auto flex flex-col gap-6">
+          <Oportunidade />
+        </div>
       </div>
     </>
   );
