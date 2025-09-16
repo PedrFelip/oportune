@@ -1,3 +1,7 @@
+import { useAuth } from "../../../contexts/AuthContext";
+import { useState, useEffect } from "react";
+import { buscarPerfilAluno } from "../../../api/api";
+
 const SearchIcon = ({ className }) => (
   <svg
     className={className}
@@ -16,7 +20,68 @@ const SearchIcon = ({ className }) => (
   </svg>
 );
 
-export default function Header({ user, title }) {
+export default function Header({ title }) {
+  const { usuario } = useAuth();
+  const [nomeUsuario, setNomeUsuario] = useState("");
+
+  useEffect(() => {
+    const obterNomeUsuario = async () => {
+      // contexto de autenticação
+      let nome = usuario?.nome || usuario?.name;
+      
+      if (nome) {
+        setNomeUsuario(nome);
+        return;
+      }
+
+      try {
+        const userData = localStorage.getItem("user");
+        if (userData) {
+          const parsedUser = JSON.parse(userData);
+          nome = parsedUser?.nome || parsedUser?.name;
+          if (nome) {
+            setNomeUsuario(nome);
+            return;
+          }
+        }
+      } catch (e) {
+        console.log("Erro ao parsear dados do usuário:", e);
+      }
+
+      // tentar obter dos dados do perfil no localStorage como fallback
+      try {
+        const perfilData = localStorage.getItem("perfilData");
+        if (perfilData) {
+          const parsedPerfil = JSON.parse(perfilData);
+          nome = parsedPerfil?.perfil?.nome || parsedPerfil?.nome;
+          if (nome) {
+            setNomeUsuario(nome);
+            return;
+          }
+        }
+      } catch (e) {
+        console.log("Erro ao parsear dados do perfil:", e);
+      }
+
+      // 4. Como último recurso, buscar do backend (apenas se estiver logado)
+      try {
+        const token = localStorage.getItem("authToken") || localStorage.getItem("token");
+        if (token && !nome) {
+          const perfilResponse = await buscarPerfilAluno();
+          if (perfilResponse?.perfil?.nome) {
+            setNomeUsuario(perfilResponse.perfil.nome);
+            // Salvar para uso futuro
+            localStorage.setItem("perfilData", JSON.stringify(perfilResponse));
+          }
+        }
+      } catch (e) {
+        console.log("Erro ao buscar perfil para nome:", e);
+        setNomeUsuario("Usuário"); // Fallback final
+      }
+    };
+
+    obterNomeUsuario();
+  }, [usuario]);
 
   const getInitials = (name) => {
     if (!name) return '';
@@ -32,7 +97,7 @@ export default function Header({ user, title }) {
     >
       <div className="relative w-full max-w-md">
         <h1 className="text-2xl font-bold text-white">
-          {title ? title : "Bem-Vindo, " + (user?.name || "Usuário")}
+          {title ? title : `Bem-Vindo, ${nomeUsuario || "Usuário"}`}
         </h1>
       </div>
       <div className="flex items-center gap-4">
@@ -46,7 +111,7 @@ export default function Header({ user, title }) {
         </div>
 
         <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-slate-800 font-bold">
-          {getInitials(user?.name || "")}
+          {getInitials(nomeUsuario)}
         </div>
       </div>
     </header>
