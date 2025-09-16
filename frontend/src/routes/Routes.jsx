@@ -1,17 +1,16 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.jsx";
 import Home from "../pages/Home";
 import Login from "../pages/auth/Login";
-// import Register from "../pages/auth/Register";
 import Cadastro from "../pages/auth/cadastro";
 import Confirmacao from "../pages/auth/confirmacao";
 import Dashboard from "../pages/aluno/Dashboard";
 import Vagas from "../pages/aluno/Vagas";
-import { useAuth } from "../contexts/AuthContext.jsx";
+import Template from "../components/dashboard/geral/Template.jsx";
 
 function ProtectedRoute({ children, requireRole }) {
   const { usuario, carregando } = useAuth();
@@ -25,7 +24,7 @@ const AppRoutes = () => {
   const redirectToHome = <Navigate to="/" />;
 
   return (
-    <Router>
+    <>
       <Routes>
         {/* Página principal */}
         <Route path="" element={<Home />} />
@@ -41,7 +40,9 @@ const AppRoutes = () => {
           path="/aluno/dashboard"
           element={
             <ProtectedRoute requireRole="ESTUDANTE">
-              <Dashboard />
+              <Template>
+                <Dashboard />
+              </Template>
             </ProtectedRoute>
           }
         />
@@ -49,7 +50,9 @@ const AppRoutes = () => {
           path="/aluno/vagas"
           element={
             <ProtectedRoute requireRole="ESTUDANTE">
-              <Vagas />
+              <Template title={"Oportunidade"}>
+                <Vagas />
+              </Template>
             </ProtectedRoute>
           }
         />
@@ -57,7 +60,7 @@ const AppRoutes = () => {
         {/* Rota Genérica */}
         <Route path="*" element={redirectToHome} />
       </Routes>
-    </Router>
+    </>
   );
 };
 
