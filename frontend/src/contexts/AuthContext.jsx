@@ -50,6 +50,7 @@ export function AuthProvider({ children }) {
             // "tipo" é usado pelo app, garanta via role do token quando faltar
             tipo: storedUser?.tipo ?? mapRoleToTipo(tokenUser?.role),
           };
+        // eslint-disable-next-line no-unused-vars
         } catch (e) {
           merged = tokenUser;
         }
