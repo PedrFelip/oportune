@@ -14,9 +14,15 @@ import Template from "../components/dashboard/geral/Template.jsx";
 
 function ProtectedRoute({ children, requireRole }) {
   const { usuario, carregando } = useAuth();
-  if (carregando) return null; // pode exibir um spinner se desejar
-  if (!usuario) return <Navigate to="/login" />;
-  if (requireRole && usuario?.tipo !== requireRole) return <Navigate to="/" />;
+  if (carregando) {
+    return null; // pode exibir um spinner se desejar
+  }
+  if (!usuario) {
+    return <Navigate to="/login" />;
+  }
+  if (requireRole && usuario?.tipo !== requireRole) {
+    return <Navigate to="/" />;
+  }
   return children;
 }
 

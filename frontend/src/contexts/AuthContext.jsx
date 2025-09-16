@@ -37,6 +37,7 @@ export function AuthProvider({ children }) {
       // Se não houver token, não considerar usuário autenticado
       if (!token) {
         setUsuario(null);
+        setCarregando(false); // Definir carregando como false aqui também
         return;
       }
 
@@ -58,40 +59,33 @@ export function AuthProvider({ children }) {
         merged = tokenUser;
       }
 
-  if (merged) setUsuario(merged);
+      if (merged) {
+        setUsuario(merged);
+      }
     } finally {
       setCarregando(false);
     }
   }, []);
 
   const login = (token, user) => {
-    console.log("🔐 Processo de login iniciado");
+    
     console.log("🔑 Token recebido:", !!token);
     console.log("👤 User recebido:", !!user);
     
     if (token) {
-      console.log("💾 Salvando token no localStorage...");
       localStorage.setItem("authToken", token);
       localStorage.setItem("token", token); // legacy compat
-      
-      // Verificar se foi salvo corretamente
-      const verificacao = localStorage.getItem("authToken");
-      console.log("✅ Token salvo com sucesso:", !!verificacao);
     }
     
     if (user) {
-      console.log("💾 Salvando dados do usuário...");
       localStorage.setItem("user", JSON.stringify(user));
     }
     
     const tokenUser = getUserFromToken(token);
-    console.log("🔍 Dados extraídos do token:", tokenUser);
-    
     const merged = user
       ? { ...user, id: user?.id ?? tokenUser?.id, tipo: user?.tipo ?? mapRoleToTipo(tokenUser?.role) }
       : tokenUser;
     
-    console.log("✅ Usuário final configurado:", { id: merged?.id, tipo: merged?.tipo });
     setUsuario(merged ?? null);
   };
 

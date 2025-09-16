@@ -21,8 +21,8 @@ export default function Login() {
     try {
       const data = await logarUsuario({ email, senha: password });
       const { token, user } = data;
-  localStorage.setItem("authToken", token);
-  localStorage.setItem("token", token); // legacy compat
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("token", token); // legacy compat
       localStorage.setItem("user", JSON.stringify(user));
 
       if (user.emailVerificado === false) {

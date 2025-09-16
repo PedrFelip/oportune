@@ -1,15 +1,10 @@
-/* eslint-disable no-unused-vars */
-// React e Componentes (mantidos)
 import { useEffect, useState } from "react";
 import PerfilCard from "../../components/dashboard/aluno/PerfilCard";
 import StatusCard from "../../components/dashboard/aluno/StatusCard";
 import VagasRecomendadas from "../../components/dashboard/aluno/VagasRecomendadas";
-import Template from "../../components/dashboard/geral/Template";
-
-// --- PARTES DINÂMICAS ---
 import { useAuthGuard } from "../../hooks/useAuthGuard";
 import { buscarPerfilAluno, buscarCandidaturasAluno, buscarVagasRecomendadasAluno } from "../../api/api";
-// ------------------------------------
+
 
 export default function Dashboard() {
   const { carregando } = useAuthGuard({
@@ -17,7 +12,6 @@ export default function Dashboard() {
     requireRole: "ESTUDANTE",
   });
 
-  // --- ESTADOS ---
   const [perfil, setPerfil] = useState(null);
   const [candidaturas, setCandidaturas] = useState([]);
   const [vagasRecomendadas, setVagasRecomendadas] = useState([]);
@@ -29,9 +23,7 @@ export default function Dashboard() {
   const [errorPerfil, setErrorPerfil] = useState(null);
   const [errorCandidaturas, setErrorCandidaturas] = useState(null);
   const [errorVagas, setErrorVagas] = useState(null);
-  // ----------------------------------------------------
 
-  // Funções para recarregar seções específicas
   const recarregarPerfil = async () => {
     try {
       setLoadingPerfil(true);
@@ -80,7 +72,6 @@ export default function Dashboard() {
     recarregarPerfil();
     recarregarCandidaturas();
     recarregarVagas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [carregando]);
 
   // O bloco de 'carregando' principal não será exibido, pois 'carregando' é sempre falso.
@@ -99,7 +90,7 @@ export default function Dashboard() {
 
   // O JSX de renderização permanece o mesmo. Ele agora usará os dados estáticos.
   return (
-    <Template>
+    <>
       <div className="grid grid-cols-3 gap-6">
         {/* Coluna Principal */}
         <div className="col-span-3 lg:col-span-2 space-y-6">
@@ -170,6 +161,6 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-    </Template>
+    </>
   );
 }

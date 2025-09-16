@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../../assets/logo_oportune.png";
+import { Link, useLocation } from "react-router-dom";
 
 const HomeIcon = ({ className }) => (
   <svg
@@ -95,58 +96,86 @@ const LogOutIcon = ({ className }) => (
   </svg>
 );
 
-const SidebarAluno = () => (
-  <aside
-    style={{ gridArea: "sidebar" }}
-    className="bg-slate-800 text-slate-300 flex flex-col p-4 border-r border-slate-700"
-  >
-    <div className="flex items-center gap-3 mb-8">
-      <img
-        className="w-10 bg-white h-10 rounded-lg flex items-center justify-center font-bold text-white text-lg"
-        src={Logo}
-      />
-      <h1 className="text-xl font-bold text-white">Oportune +</h1>
-    </div>
-    <nav className="flex flex-col gap-2 flex-grow">
-      <a
-        href="#"
-        className="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-600 text-white font-semibold"
-      >
-        <HomeIcon className="w-5 h-5" />
-        <span>Dashboard</span>
-      </a>
-      <a
-        href="#"
-        className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors"
-      >
-        <BriefcaseIcon className="w-5 h-5" />
-        <span>Oportunidades</span>
-      </a>
-      <a
-        href="#"
-        className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors"
-      >
-        <FileTextIcon className="w-5 h-5" />
-        <span>Minhas Candidaturas</span>
-      </a>
-      <a
-        href="#"
-        className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors"
-      >
-        <UserIcon className="w-5 h-5" />
-        <span>Meu Perfil</span>
-      </a>
-    </nav>
-    <div>
-      <a
-        href="#"
-        className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors"
-      >
-        <LogOutIcon className="w-5 h-5" />
-        <span>Sair</span>
-      </a>
-    </div>
-  </aside>
-);
+const navItems = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: HomeIcon,
+    path: "/aluno/dashboard", // Exemplo de rota
+  },
+  {
+    id: "oportunidades",
+    label: "Oportunidades",
+    icon: BriefcaseIcon,
+    path: "/aluno/vagas",
+  },
+  {
+    id: "candidaturas",
+    label: "Minhas Candidaturas",
+    icon: FileTextIcon,
+    path: "/aluno/candidaturas",
+  },
+  {
+    id: "perfil",
+    label: "Meu Perfil",
+    icon: UserIcon,
+    path: "/aluno/perfil",
+  },
+];
+
+const SidebarAluno = () => {
+  const { pathname } = useLocation();
+
+  const baseLinkClasses =
+    "flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors";
+  const selectedLinkClasses = "bg-blue-600 text-white font-semibold";
+
+  return (
+    <aside
+      style={{ gridArea: "sidebar" }}
+      className="bg-slate-800 text-slate-300 flex flex-col p-4 border-r border-slate-700"
+    >
+      <div className="flex items-center gap-3 mb-8">
+        <img
+          className="w-10 h-10 rounded-lg bg-white"
+          src={Logo}
+          alt="Logo Oportune"
+        />
+        <h1 className="text-xl font-bold text-white">Oportune +</h1>
+      </div>
+
+      <nav className="flex flex-col gap-2 flex-grow">
+        {navItems.map((item) => {
+          const IconComponent = item.icon;
+          const isSelected = pathname.startsWith(item.path);
+
+          return (
+            <Link
+              key={item.id}
+              to={item.path}
+              className={`${baseLinkClasses} ${
+                isSelected ? selectedLinkClasses : ""
+              }`}
+              aria-current={isSelected ? "page" : undefined}
+            >
+              <IconComponent className="w-5 h-5" />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div>
+        <Link
+          to="/logout"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors"
+        >
+          <LogOutIcon className="w-5 h-5" />
+          <span>Sair</span>
+        </Link>
+      </div>
+    </aside>
+  );
+};
 
 export default SidebarAluno;

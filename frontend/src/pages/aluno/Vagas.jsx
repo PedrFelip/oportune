@@ -1,7 +1,6 @@
-import Template from "../../components/dashboard/geral/Template";
+import { useState } from "react";
 import FilterBox from "../../components/dashboard/geral/FilterBox";
 import informacoes from "../../utils/informacoes.json";
-import { useState } from "react";
 import Oportunidade from "../../components/dashboard/geral/Oportunidade";
 
 export default function Vagas() {
@@ -11,7 +10,7 @@ export default function Vagas() {
   // Criar o formulário dos filtros
 
   return (
-    <Template title={"Oportunidade"}>
+    <>
       <div className="flex flex-col gap-8">
         <div className="flex flex-1 justify-around bg-[#263243] p-5 gap-10">
           <FilterBox
@@ -43,6 +42,6 @@ export default function Vagas() {
         </div>
         <Oportunidade/>
       </div>
-    </Template>
+    </>
   );
 }
