@@ -16,11 +16,12 @@ const SearchIcon = ({ className }) => (
   </svg>
 );
 
-export default function Header({ user, title }) {
+export default function Header({ title }) {
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const getInitials = (name) => {
-    if (!name) return '';
-    const parts = name.trim().split(' ');
+    if (!name) return "";
+    const parts = name.trim().split(" ");
     if (parts.length === 1) return parts[0][0].toUpperCase();
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
@@ -32,7 +33,7 @@ export default function Header({ user, title }) {
     >
       <div className="relative w-full max-w-md">
         <h1 className="text-2xl font-bold text-white">
-          {title ? title : "Bem-Vindo, " + (user?.name || "Usuário")}
+          {title ? title : "Bem-Vindo, " + (user.nome || "Usuário")}
         </h1>
       </div>
       <div className="flex items-center gap-4">
@@ -46,7 +47,7 @@ export default function Header({ user, title }) {
         </div>
 
         <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-slate-800 font-bold">
-          {getInitials(user?.name || "")}
+          {getInitials(user.nome || "")}
         </div>
       </div>
     </header>
