@@ -123,7 +123,7 @@ const navItems = [
   },
 ];
 
-const SidebarAluno = () => {
+const SidebarAluno = ({ className }) => {
   const { pathname } = useLocation();
 
   const baseLinkClasses =
@@ -132,8 +132,7 @@ const SidebarAluno = () => {
 
   return (
     <aside
-      style={{ gridArea: "sidebar" }}
-      className="bg-slate-800 text-slate-300 flex flex-col p-4 border-r border-slate-700"
+      className={`bg-slate-800 text-slate-300 flex flex-col p-4 border-r border-slate-700 ${className}`}
     >
       <div className="flex items-center gap-3 mb-8">
         <img

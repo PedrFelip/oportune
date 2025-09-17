@@ -20,7 +20,7 @@ const SearchIcon = ({ className }) => (
   </svg>
 );
 
-export default function Header({ title }) {
+export default function Header({ title, onMenuClick }) {
   const { usuario } = useAuth();
   const [nomeUsuario, setNomeUsuario] = useState("");
 
@@ -28,7 +28,7 @@ export default function Header({ title }) {
     const obterNomeUsuario = async () => {
       // contexto de autenticação
       let nome = usuario?.nome || usuario?.name;
-      
+
       if (nome) {
         setNomeUsuario(nome);
         return;
@@ -65,7 +65,8 @@ export default function Header({ title }) {
 
       // 4. Como último recurso, buscar do backend (apenas se estiver logado)
       try {
-        const token = localStorage.getItem("authToken") || localStorage.getItem("token");
+        const token =
+          localStorage.getItem("authToken") || localStorage.getItem("token");
         if (token && !nome) {
           const perfilResponse = await buscarPerfilAluno();
           if (perfilResponse?.perfil?.nome) {
@@ -91,11 +92,28 @@ export default function Header({ title }) {
   };
 
   return (
-    <header
-      style={{ gridArea: "header" }}
-      className="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center"
-    >
-      <div className="relative w-full max-w-md">
+    <header className="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
+      <div className="relative w-full flex max-w-md gap-3">
+        <button
+          onClick={onMenuClick}
+          className="text-white mr-4 lg:hidden"
+          aria-label="Abrir menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
         <h1 className="text-2xl font-bold text-white">
           {title ? title : `Bem-Vindo, ${nomeUsuario || "Usuário"}`}
         </h1>
