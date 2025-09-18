@@ -5,8 +5,8 @@ export const createVagaSchema = z.object({
   descricao: z.string().min(10).max(1000),
   requisitos: z.array(z.string()).min(1).max(10),
   tipo: z.enum(['Estágio', 'Pesquisa', 'Extensão']),
-  empresaId: z.string().uuid(),
-  professorId: z.string().uuid(),
+  empresaId: z.string().uuid().optional(),
+  professorId: z.string().uuid().optional(),
   prazoInscricao: z.date().min(new Date()).optional()
 })
 
