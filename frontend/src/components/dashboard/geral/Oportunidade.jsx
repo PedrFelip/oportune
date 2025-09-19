@@ -1,17 +1,4 @@
-const CaracteristicasVaga = ({ caracteristica }) => {
-  const statusStyles = {
-    Estagio: "bg-blue-500/10 text-blue-400",
-    Remoto: "bg-green-500/10 text-green-400",
-    Pesquisa: "bg-purple-500/10 text-purple-400",
-  };
-  return (
-    <span
-      className={`px-3 py-2 text-xs font-semibold rounded-full ${statusStyles[caracteristica]}`}
-    >
-      {caracteristica}
-    </span>
-  );
-};
+import { Categoria } from "./Categoria";
 
 export default function Oportunidade() {
 
@@ -51,7 +38,7 @@ export default function Oportunidade() {
                 <h2 className="mr-8">{vaga.titulo}</h2>
                 <div className="flex items-center gap-6">
                   {vaga.categorias.map((categoria, index) => (
-                    <CaracteristicasVaga key={index} caracteristica={categoria} />
+                    <Categoria key={index} caracteristica={categoria} />
                   ))}
                 </div>
               </div>

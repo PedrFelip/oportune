@@ -22,7 +22,7 @@ const infos = {
     "Experiência básica em React.js",
   ],
   curso: ["Engenharia de Software", "ADS"],
-  Semestre: "4",
+  semestre: "4",
   bolsa: "1200",
   prazoInscricao: "30/09/2025",
   sobre:
@@ -47,7 +47,7 @@ export function Vaga() {
 
   return (
     <Template title={back}>
-      <header className="flex items-center justify-between gap-4 text-white p-4">
+      <header className="flex items-center justify-between gap-3 text-white p-2">
         <div className="flex w-full gap-4">
           <h2 className="text-2xl font-bold">{infos.titulo}</h2>
           <div className="flex gap-5">
@@ -67,16 +67,45 @@ export function Vaga() {
           </button>
         </div>
       </header>
-      <main className="flex justify-between m-3 text-white">
-        <section className="w-7/10 bg-[#1E293B] p-6">
+      <main className="flex justify-between m-2 text-white">
+        <section className="flex flex-col gap-6 w-65/100 bg-[#1E293B] p-6">
           <InfoVaga
             titulo={"Descrição da vaga"}
             descricao={infos.descricao}
           />
+          <InfoVaga
+            titulo={"Responsabilidades"}
+            descricao={infos.responsabilidades}
+            tipo={"lista"}
+          />
+          <InfoVaga
+            titulo={"Requisitos"}
+            descricao={infos.requisitos}
+            tipo={"lista"}
+          />
         </section>
-        <section className="w-1/4 bg-[#1E293B]">
-          Detalhes da Oportunidade
-
+        <section className="flex flex-col gap-5 w-3/10 bg-[#1E293B] p-6">
+          <InfoVaga
+            titulo={"Curso Requisitado"}
+            descricao={infos.curso}
+            tipo="lista"
+          />
+          <InfoVaga
+            titulo={"Semestre Mínimo"}
+            descricao={`A partir do ${infos.semestre}°`}
+          />
+          <InfoVaga
+            titulo={"Bolsa Auxilio"}
+            descricao={infos.bolsa}
+          />
+          <InfoVaga
+            titulo={"Prazo de inscrição"}
+            descricao={infos.prazoInscricao}
+          />
+          <InfoVaga
+            titulo={"Sobre a empresa"}
+            descricao={infos.sobre}
+          />
         </section>
       </main>
     </Template>
