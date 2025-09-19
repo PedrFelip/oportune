@@ -3,6 +3,7 @@ import { authRoutes } from "./src/routes/authRoutes.ts";
 import { cnpjRoutes } from "./src/routes/cnpjRoutes.ts";
 import { alunoRoutes } from "./src/routes/alunoRoutes.ts";
 import cors from "@fastify/cors";
+import { vagaRoutes } from './src/routes/vagaRoutes.ts'
 
 const app = Fastify({
   logger: {
@@ -39,6 +40,8 @@ app.register(authRoutes);
 app.register(cnpjRoutes);
 
 app.register(alunoRoutes);
+
+app.register(vagaRoutes)
 
 await app.listen({ port: 3001, host: '0.0.0.0' });
 console.log("Servidor iniciado na porta 3001");
