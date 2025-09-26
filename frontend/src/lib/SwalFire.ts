@@ -1,6 +1,13 @@
 import Swal from "sweetalert2";
 
-export function SwalError(erro: any, buttonText: any, description: any, timer = 3000) {
+export function SwalFire(
+  erro: any,
+  buttonText: any,
+  icon: any,
+  description: any,
+  timer = 3000
+
+) {
   return Swal.fire({
     title: erro,
     text: description,
