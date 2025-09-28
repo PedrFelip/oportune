@@ -8,6 +8,7 @@ import Step6_FinalForm from "../../components/formSteps/Step6_FinalForm";
 import Step7_Confirmation from "../../components/formSteps/Step7_Confirmation";
 import { cadastrarUsuario } from "../../api/api";
 import Swal from "sweetalert2";
+import { SwalFire } from "@/lib/SwalFire";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -99,20 +100,7 @@ export default function Cadastro() {
       setProfileType("");
       setCurrentStep(7);
     } catch (err) {
-      Swal.fire({
-        title: "Erro ao registrar conta",
-        text:
-          err?.response?.data?.message ||
-          err.message ||
-          "Erro ao criar sua conta, por favor tente novamente",
-        icon: "error",
-        confirmButtonText: "Tentar novamente",
-        confirmButtonColor: "#2474e4",
-
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
+      SwalFire(err, "Tente novamente");
     }
   };
 

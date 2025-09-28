@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Logo from "../../assets/logo_oportune.png";
 import { Link, useNavigate } from "react-router-dom";
 import { logarUsuario } from "../../api/api";
+import { SwalFire } from "@/lib/SwalFire";
 
 const LogoIcon = () => (
   <img src={Logo} className="max-w-20" alt="Logo da Oportune" />
@@ -44,7 +45,8 @@ export default function Login() {
           navigate("/");
       }
     } catch (err) {
-      setError(err.message || "Erro ao fazer login");
+      setError(err || "Erro ao fazer login");
+      SwalFire(error, "Tente novamente", "error");
     } finally {
       setLoading(false);
     }
@@ -120,9 +122,6 @@ export default function Login() {
               >
                 {loading ? "Entrando..." : "Entrar"}
               </button>
-              {error && (
-                <p className="text-red-400 text-sm mt-3 text-center">{error}</p>
-              )}
             </form>
           </main>
 

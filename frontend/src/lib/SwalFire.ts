@@ -6,12 +6,11 @@ export function SwalFire(
   icon: any,
   description: any,
   timer = 3000
-
 ) {
   return Swal.fire({
     title: erro,
     text: description,
-    icon: "error",
+    icon: icon,
     confirmButtonText: buttonText,
     confirmButtonColor: "#FF0000",
 
