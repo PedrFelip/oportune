@@ -2,17 +2,17 @@
 function getAuthToken() {
   const authToken = localStorage.getItem("authToken");
   const token = localStorage.getItem("token");
-  
+
   const finalToken = authToken || token;
-  
+
   if (finalToken) {
     // Verifica se o token tem formato JWT básico
-    const parts = finalToken.split('.');
+    const parts = finalToken.split(".");
     if (parts.length !== 3) {
       console.warn("Token não parece ser um JWT válido");
     }
   }
-  
+
   return finalToken;
 }
 
@@ -20,22 +20,22 @@ async function parseJsonSafe(reply: Response) {
   if (reply.status === 204) {
     return null;
   }
-  
+
   const contentType = reply.headers.get("content-type") || "";
-  
+
   if (!contentType.includes("application/json")) {
     // Tenta ler texto para depuração
     const text = await reply.text().catch(() => "");
     throw new Error(text || `Resposta inválida (${reply.status})`);
   }
-  
+
   const jsonData = await reply.json();
   return jsonData;
 }
 
 export async function cadastrarUsuario(dados: any) {
   try {
-  const reply = await fetch(`http://localhost:3001/createuser`, {
+    const reply = await fetch(`http://localhost:3001/createuser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dados),
@@ -54,7 +54,7 @@ export async function cadastrarUsuario(dados: any) {
 }
 export async function confirmarEmail(token: string) {
   try {
-  const reply = await fetch(`http://localhost:3001/confirm-email`, {
+    const reply = await fetch(`http://localhost:3001/confirm-email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token }),
@@ -75,7 +75,7 @@ export async function confirmarEmail(token: string) {
 // Login de usuário
 export async function logarUsuario(dados: { email: string; senha: string }) {
   try {
-  const reply = await fetch(`http://localhost:3001/loguser`, {
+    const reply = await fetch(`http://localhost:3001/loguser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dados),
@@ -97,20 +97,22 @@ export async function logarUsuario(dados: { email: string; senha: string }) {
 export async function buscarDashboardAluno() {
   try {
     const token = getAuthToken();
-    
+
     if (!token) {
       throw new Error("Token não encontrado");
     }
 
     const headers = {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
 
     console.log("📡 Fazendo requisição para dashboard");
     console.log("📋 Headers que serão enviados:", {
       "Content-Type": headers["Content-Type"],
-      "Authorization": headers["Authorization"] ? `Bearer ${token.substring(0, 20)}...` : "ausente"
+      Authorization: headers["Authorization"]
+        ? `Bearer ${token.substring(0, 20)}...`
+        : "ausente",
     });
 
     const reply = await fetch(`http://localhost:3001/dashboard`, {
@@ -136,19 +138,19 @@ export async function buscarDashboardAluno() {
 export async function buscarPerfilAluno() {
   try {
     const token = getAuthToken();
-    
+
     if (!token) {
       throw new Error("Token não encontrado");
     }
 
     const reply = await fetch(`http://localhost:3001/dashboard/perfil`, {
       method: "GET",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
-    
+
     if (!reply.ok) {
       const text = await reply.text().catch(() => "");
       throw new Error(text || `Erro na requisição: ${reply.status}`);
@@ -166,19 +168,19 @@ export async function buscarPerfilAluno() {
 export async function buscarCandidaturasAluno() {
   try {
     const token = getAuthToken();
-    
+
     if (!token) {
       throw new Error("Token não encontrado");
     }
 
     const reply = await fetch(`http://localhost:3001/dashboard/candidaturas`, {
       method: "GET",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
-    
+
     if (!reply.ok) {
       const text = await reply.text().catch(() => "");
       throw new Error(text || `Erro na requisição: ${reply.status}`);
@@ -196,19 +198,22 @@ export async function buscarCandidaturasAluno() {
 export async function buscarVagasRecomendadasAluno() {
   try {
     const token = getAuthToken();
-    
+
     if (!token) {
       throw new Error("Token não encontrado");
     }
 
-    const reply = await fetch(`http://localhost:3001/dashboard/vagas-recomendadas`, {
-      method: "GET",
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-    });
-    
+    const reply = await fetch(
+      `http://localhost:3001/dashboard/vagas-recomendadas`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
     if (!reply.ok) {
       const text = await reply.text().catch(() => "");
       throw new Error(text || `Erro na requisição: ${reply.status}`);
@@ -218,6 +223,33 @@ export async function buscarVagasRecomendadasAluno() {
     return result;
   } catch (error) {
     console.error("Erro ao buscar vagas recomendadas:", error);
+    throw error;
+  }
+}
+
+export async function buscarVagas() {
+  try {
+    const token = getAuthToken();
+
+    if (!token) {
+      throw new Error("Token não encontrado");
+    }
+
+    const reply = await fetch(`http://localhost:3001/vagas`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(reply);
+
+    const result = await parseJsonSafe(reply);
+
+    return result;
+  } catch (error: any) {
+    console.error("Erro:" + error);
     throw error;
   }
 }

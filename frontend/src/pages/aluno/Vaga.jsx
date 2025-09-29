@@ -29,6 +29,8 @@ const infos = {
     "A Tech Solutions Inc. é lider em inovação digital, focada em criar soluções de software de ponta para o mercado global",
 };
 
+
+
 export function Vaga() {
   const navigate = useNavigate();
 

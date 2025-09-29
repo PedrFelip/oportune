@@ -1,10 +1,10 @@
-import { FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { createServiceVaga, listarServiceVagas } from '../services/vagaServices.ts'
 import { createVagaSchema } from '../schemas/vagasSchema.ts'
 
 export const createVagaController = async (
   request: FastifyRequest,
-  reply: any,
+  reply: FastifyReply,
 ) => {
   try {
     const vagaDataBody = request.body;
@@ -19,10 +19,9 @@ export const createVagaController = async (
   }
 }
 
-listarServiceVagas
 export const listarVagasController = async (
   request: FastifyRequest,
-  reply: any,
+  reply: FastifyReply,
 ) => {
   try {
     // Paginação de forma simples via query params
@@ -38,3 +37,4 @@ export const listarVagasController = async (
     return reply.status(400).send({ message: 'Erro ao listar vagas', error: err.message })
   }
 }
+
