@@ -4,7 +4,8 @@ export const createVagaSchema = z.object({
   titulo: z.string().min(2).max(100),
   descricao: z.string().min(10).max(1000),
   requisitos: z.array(z.string()).min(1).max(10),
-  tipo: z.enum(['ESTAGIO', 'PESQUISA', 'EXTENSAO']),
+  tipo: z.enum(['Estágio', 'Pesquisa', 'Extensão'])
+    .transform(val => val.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase()),
   empresaId: z.string().uuid().optional(),
   professorId: z.string().uuid().optional(),
   prazoInscricao: z.string()
