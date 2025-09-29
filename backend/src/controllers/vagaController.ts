@@ -26,11 +26,15 @@ export const listarVagasController = async (
 ) => {
   try {
     // Paginação de forma simples via query params
-    const { page = 1, limit = 10 } = request.query as { page?: number; limit?: number };
+    if (!request.query) {
+      return reply.status(400).send({ message: 'Parâmetros de consulta ausentes' })
+    }
 
-    const vagas = await listarServiceVagas(page, limit);
-    return reply.status(200).send(vagas);
+    const { page = 1, limit = 10 } = request.query as { page?: number; limit?: number }
+
+    const vagas = await listarServiceVagas(Number(page), Number(limit))
+    return reply.status(200).send(vagas)
   } catch (err: any) {
-    return reply.status(400).send({ message: 'Erro ao listar vagas', error: err.message });
+    return reply.status(400).send({ message: 'Erro ao listar vagas', error: err.message })
   }
 }
