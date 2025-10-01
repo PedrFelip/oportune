@@ -29,7 +29,7 @@ export default function Dashboard() {
       setLoadingPerfil(true);
       setErrorPerfil(null);
       const resp = await buscarPerfilAluno();
-      setPerfil(resp);
+      setPerfil(resp.perfil); // Arrumar retorno da API
     } catch (e) {
       console.error('Erro ao carregar perfil:', e);
       setErrorPerfil(e?.message || "Erro ao carregar perfil");
@@ -83,12 +83,6 @@ export default function Dashboard() {
     );
   }
 
-  // Verificar quais dados estão sendo usados
-  const perfilParaUsar = perfil?.perfil || null;
-  const candidaturasParaUsar = candidaturas || [];
-  const vagasParaUsar = vagasRecomendadas || [];
-
-  // O JSX de renderização permanece o mesmo. Ele agora usará os dados estáticos.
   return (
     <>
       <div className="grid grid-cols-3 gap-6">
@@ -103,8 +97,8 @@ export default function Dashboard() {
             <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
               <div className="text-red-400">Erro: {errorPerfil}</div>
             </div>
-          ) : perfilParaUsar ? (
-            <PerfilCard perfil={perfilParaUsar} />
+          ) : perfil ? (
+            <PerfilCard perfil={perfil} />
           ) : (
             <div className="bg-slate-800 p-6 rounded-lg">
               <div className="text-slate-400">Nenhum dado de perfil encontrado</div>
@@ -120,8 +114,8 @@ export default function Dashboard() {
             <div className="bg-slate-800 p-6 rounded-lg border border-red-500/20">
               <div className="text-red-400">Erro: {errorCandidaturas}</div>
             </div>
-          ) : candidaturasParaUsar?.length > 0 ? (
-            <StatusCard candidaturasRecentes={candidaturasParaUsar} />
+          ) : candidaturas?.length > 0 ? (
+            <StatusCard candidaturasRecentes={candidaturas} />
           ) : (
             <div className="bg-slate-800 p-6 rounded-lg">
               <h3 className="text-xl font-bold text-white mb-4">Candidaturas Recentes</h3>
@@ -146,8 +140,8 @@ export default function Dashboard() {
             <div className="p-6 rounded-lg border border-red-500/20">
               <div className="text-red-400">Erro: {errorVagas}</div>
             </div>
-          ) : vagasParaUsar?.length > 0 ? (
-            <VagasRecomendadas vagasRecomendadas={vagasParaUsar} />
+          ) : vagasRecomendadas?.length > 0 ? (
+            <VagasRecomendadas vagasRecomendadas={vagasRecomendadas} />
           ) : (
             <div className="bg-slate-800 p-6 rounded-lg">
               <h3 className="text-xl font-bold text-white mb-4">Vagas Recomendadas</h3>

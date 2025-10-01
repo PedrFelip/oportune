@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const VagasRecomendadas = ({ vagasRecomendadas }) => {
   if (!vagasRecomendadas || vagasRecomendadas.length === 0) {
     return (
@@ -31,7 +33,7 @@ const VagasRecomendadas = ({ vagasRecomendadas }) => {
             <h3 className="text-md font-semibold text-white">{vaga.titulo}</h3>
             <p className="text-sm text-slate-400">{vaga.empresa}</p>
             <button>
-              <span className="text-sm font-semibold text-blue-500 hover:underline">Ver detalhes</span>
+              <Link to={`/aluno/vagas/${vaga.id}`} className="text-sm font-semibold text-blue-500 hover:underline cursor-pointer">Ver detalhes</Link>
             </button>
           </div>
         ))}
