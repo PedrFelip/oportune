@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 export default function Vagas() {
   // eslint-disable-next-line no-unused-vars
   const [filterData, setFilterData] = useState([]);
-  const [vagas, setVagas] = useState(null);
+  const [vagas, setVagas] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +24,10 @@ export default function Vagas() {
     });
     try {
       const vagasReq = await buscarVagas();
+
+      if (vagasReq === null){
+        throw new Error("Falha na requisição")
+      }
       setVagas(vagasReq);
     } finally {
       Swal.close();
@@ -33,8 +37,7 @@ export default function Vagas() {
 
   useEffect(() => {
     carregarVagas();
-    console.log(vagas)
-  }, [vagas]);
+  }, []);
 
   return (
     <>

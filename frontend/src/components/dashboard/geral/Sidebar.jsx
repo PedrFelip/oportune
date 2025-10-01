@@ -127,8 +127,9 @@ const SidebarAluno = ({ className }) => {
   const { pathname } = useLocation();
 
   const baseLinkClasses =
-    "flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors";
-  const selectedLinkClasses = "bg-blue-600 text-white font-semibold";
+    "flex items-center gap-2 w-full px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r to-transparent hover:from-blue-700/80 hover:to-gray-800/20 relative text-white transition";
+  // "flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors";
+  const selectedLinkClasses = "bg-gradient-to-r from-blue-800 text-white font-semibold";
 
   return (
     <aside
@@ -159,6 +160,10 @@ const SidebarAluno = ({ className }) => {
             >
               <IconComponent className="w-5 h-5" />
               <span>{item.label}</span>
+              {isSelected ? <span
+                className="absolute right-0 top-0 h-full w-1 rounded-r-lg
+                bg-gradient-to-r from-blue-300 to-blue-500 shadow-lg"
+              ></span> : ""}
             </Link>
           );
         })}
