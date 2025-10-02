@@ -120,3 +120,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+.oportune-card {
+  background-color: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.oportune-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+.oportune-gradient {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
