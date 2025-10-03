@@ -7,9 +7,11 @@ import { vagaRoutes } from './src/routes/vagaRoutes.ts'
 
 const app = Fastify({
   logger: {
+    file: './logs/server.log',
     transport: {
       target: "pino-pretty",
       options: {
+        colorize: true,
         translateTime: "HH:MM:ss Z",
         ignore: "pid, hostname",
       },
