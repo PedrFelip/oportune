@@ -54,10 +54,6 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
 - **Busca e Candidatura**: Filtros avançados e aplicação one-click.
 - **Notificações**: Emails para confirmações e atualizações de status.
 
-Para demonstração visual, consulte os protótipos no Figma ou execute localmente para ver o dashboard do aluno, perfis e gerenciamento de vagas.
-
-<!-- Inclua screenshots se disponíveis no repositório, ex: -->
-<!-- ![Dashboard Aluno](path/to/screenshot.png) -->
 
 ## Instruções de Instalação
 
