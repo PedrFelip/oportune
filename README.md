@@ -2,7 +2,7 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![In Development](https://img.shields.io/badge/status-in%20development-yellow)
+![Desenvolvimento](https://img.shields.io/badge/status-in%20development-yellow)
 
 </div>
 
