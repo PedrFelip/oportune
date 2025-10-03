@@ -38,7 +38,7 @@ Stakeholders principais incluem:
 
 ## Status do Projeto
 
-O projeto está concluído como um trabalho acadêmico, apresentando o desenvolvimento completo da plataforma. No entanto, pode estar sujeito a melhorias e atualizações futuras para escalabilidade e novas funcionalidades.
+O projeto ainda está sendo desenvolvido, estamos adicionando novas funcionalidades, em breve irá estar concluido  ![Progresso](https://img.shields.io/badge/progresso-50%25-blue)
 
 ## Funcionalidades e Demonstração
 
