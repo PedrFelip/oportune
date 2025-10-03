@@ -2,14 +2,12 @@
 
 ![Oportune + Logo](https://github.com/PedrFelip/oportune/blob/main/Logo.png)
 
-# Badges
+<div align="center">
 
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Desenvolvimento](https://img.shields.io/badge/progresso-50%25-blue)
+
+</div>
 
 ## Índice
 
@@ -41,7 +39,7 @@ Stakeholders principais incluem:
 
 ## Status do Projeto
 
-O projeto ainda está sendo desenvolvido, estamos adicionando novas funcionalidades, em breve irá estar concluido  ![Progresso](https://img.shields.io/badge/progresso-50%25-blue)
+Em desenvolvimento 
 
 ## Funcionalidades e Demonstração
 
@@ -115,14 +113,40 @@ Para mais detalhes, consulte as regras de negócio no documento de requisitos.
 
 ## Contribuição
 
-Contribuições são bem-vindas! Siga estes passos:
-1. Fork o repositório.
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`).
-3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`).
-4. Push para a branch (`git push origin feature/nova-funcionalidade`).
-5. Abra um Pull Request.
+O Oportune + é um projeto open source e contribuições são bem-vindas! Se você quiser ajudar a melhorar a plataforma, siga as diretrizes abaixo para contribuir de forma eficaz. Nós valorizamos contribuições de todos os níveis, desde correções de bugs até novas funcionalidades.
 
-Por favor, siga o código de conduta e teste suas mudanças.
+### Como Contribuir
+
+1. **Reporte Bugs ou Sugira Funcionalidades**:
+   - Abra uma [issue](https://github.com/PedrFelip/oportune/issues) no repositório.
+   - Descreva o problema ou ideia com o máximo de detalhes possível, incluindo passos para reproduzir (para bugs) ou justificativa para a funcionalidade.
+   - Use labels como "bug", "enhancement" ou "question" para categorizar.
+
+2. **Faça um Fork e Crie uma Pull Request**:
+   - Fork o repositório para sua conta no GitHub.
+   - Crie uma branch para sua contribuição: `git checkout -b feature/nova-funcionalidade` ou `git checkout -b fix/correcao-bug`.
+   - Faça as mudanças no código, seguindo o estilo de código existente (use ESLint/Prettier se configurado).
+   - Commit suas alterações com mensagens claras: `git commit -m 'Adiciona nova funcionalidade de busca avançada'`.
+   - Push para sua branch: `git push origin feature/nova-funcionalidade`.
+   - Abra uma Pull Request (PR) comparando sua branch com a main do repositório original.
+   - Na descrição da PR, explique o que foi alterado, por quê, e referencie issues relacionadas (ex: "Fecha #123").
+
+3. **Ambiente de Desenvolvimento**:
+   - Siga as [Instruções de Instalação](#instruções-de-instalação) para configurar localmente.
+   - Rode testes (se disponíveis): `npm test` no frontend e backend.
+   - Certifique-se de que suas mudanças não quebram funcionalidades existentes.
+
+4. **Estilo de Código e Boas Práticas**:
+   - Mantenha o código limpo, comentado e modular.
+   - Use convenções de nomenclatura consistentes (ex: camelCase para variáveis).
+   - Adicione testes unitários para novas funcionalidades.
+   - Respeite as regras de negócio e requisitos descritos no PDF de documentação.
+
+5. **Código de Conduta**:
+   - Seja respeitoso e inclusivo em todas as interações.
+   - Contribuições que violem o código de conduta serão rejeitadas.
+
+Se você é novo no open source, confira guias como [First Contributions](https://github.com/firstcontributions/first-contributions). Estamos animados para ver sua contribuição!
 
 ## Autores e Contatos
 
@@ -135,5 +159,3 @@ Para mais informações, entre em contato via issues no GitHub.
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/PedrFelip/oportune/blob/main/LICENSE) para detalhes.
-
-
