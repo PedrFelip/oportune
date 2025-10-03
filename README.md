@@ -1,6 +1,3 @@
-# Oportune +
-
-![Oportune + Logo](https://github.com/PedrFelip/oportune/blob/main/Logo.png)
 
 <div align="center">
 
