@@ -41,6 +41,34 @@ Em desenvolvimento
 
 As principais funcionalidades do Oportune + foram definidas com base nos requisitos funcionais e não funcionais, regras de negócio e requisitos de domínio.
 
+### Demonstração
+A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemplos de fluxos:
+- **Cadastro e Login**: Formulário multi-etapas adaptado ao tipo de usuário.
+- **Busca e Candidatura**: Filtros avançados e aplicação one-click.
+- **Notificações**: Emails para confirmações e atualizações de status.
+
+### Requisitos Funcionais
+| ID     | Requisito                                                                 | Prioridade | Status |
+|--------|---------------------------------------------------------------------------|------------|--------|
+| R01.1  | Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico. | Alta       | []     |
+| R01.2  | Interface de login para que usuários cadastrados acessem a plataforma usando email e senha. | Alta       | []     |
+| R01.3  | Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição. | Média      | [ ]     |
+| R01.4  | Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos). | Alta       | []     |
+| R02.1  | Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente. | Média      | [ ]     |
+| R02.2  | Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária. | Baixa      | [ ]     |
+| R02.3  | Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno. | Alta       | [ ]     |
+| R03.1  | Enviar notificação por email para confirmar cadastro concluído com sucesso. | Alta       | []     |
+| R03.2  | Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado). | Baixa      | [ ]     |
+
+### Requisitos Não Funcionais
+| ID     | Requisito                                                                 | Métrica / Critério de Aceitação | Status |
+|--------|---------------------------------------------------------------------------|---------------------------------|--------|
+| RNF01  | Desempenho: tempo de resposta do servidor para carregamento de qualquer página. | ≤ 7 segundos em condições normais de tráfego | [ ]     |
+| RNF02  | Escalabilidade: suportar múltiplas sessões simultâneas. | ≥ 1.000 sessões simultâneas sem queda perceptível de desempenho | [ ]     |
+| RNF03  | Segurança: armazenamento de senhas de forma anonimizada. | Uso de algoritmos de hash (ex.: bcrypt, Argon2) | [ ]     |
+| RNF04  | Disponibilidade: manter operação contínua do sistema. | Uptime mínimo de 99,5% | [ ]     |
+| RNF05  | Usabilidade: interface responsiva e intuitiva em diferentes dispositivos. | Compatível com desktop, tablet e mobile, seguindo princípios de design responsivo | [ ]     |
+
 
 ### Demonstração
 A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemplos de fluxos:
