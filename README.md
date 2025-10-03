@@ -48,15 +48,15 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
 - **Notificações**: Emails para confirmações e atualizações de status.
 
 ### Requisitos Funcionais
-   - [ ] R01.1 - Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico.
-   - [ ] R01.2 - Interface de login para que usuários cadastrados acessem a plataforma usando email e senha.
-   - [ ] R01.3 - Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
-   - [ ] R01.4 - Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos).
-   - [ ] R02.1 - Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
-   - [ ] R02.2 - Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária.
-   - [ ] R02.3 - Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
-   - [ ] R03.1 - Enviar notificação por email para confirmar cadastro concluído com sucesso.
-   - [ ] R03.2 - Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
+   - [x]  Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico.
+   - [x]  Interface de login para que usuários cadastrados acessem a plataforma usando email e senha.
+   - [ ]  Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
+   - [ ]  Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos).
+   - [ ]  Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
+   - [ ]  Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária.
+   - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
+   - [x]  Enviar notificação por email para confirmar cadastro concluído com sucesso.
+   - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
 
 ## Instruções de Instalação
