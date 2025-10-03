@@ -86,11 +86,11 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    ```
 7. Inicie o servidor backend:
    ```
-   npm run start
+   npm run dev
    ```
 8. Inicie o frontend:
    ```
-   npm run start
+   npm run dev
    ```
 9. Use Docker para ambiente containerizado (se aplicável):
    ```
