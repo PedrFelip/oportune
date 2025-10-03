@@ -156,6 +156,6 @@ Para mais informações, entre em contato via issues no GitHub.
 
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE]([LICENSE](https://github.com/PedrFelip/oportune/blob/main/LICENSE)) para detalhes.
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/PedrFelip/oportune/blob/main/LICENSE) para detalhes.
 
 
