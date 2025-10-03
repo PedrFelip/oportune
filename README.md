@@ -58,13 +58,6 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    - [ ] R03.1 - Enviar notificação por email para confirmar cadastro concluído com sucesso.
    - [ ] R03.2 - Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
-### Requisitos Não Funcionais
-   - [ ] RNF01 - Desempenho: tempo de resposta do servidor para carregamento de qualquer página. (≤ 7 segundos em condições normais de tráfego)
-   - [ ] RNF02 - Escalabilidade: suportar múltiplas sessões simultâneas. (≥ 1.000 sessões simultâneas sem queda perceptível de desempenho)
-   - [ ] RNF03 - Segurança: armazenamento de senhas de forma anonimizada. (Uso de algoritmos de hash (ex.: bcrypt, Argon2))
-   - [ ] RNF04 - Disponibilidade: manter operação contínua do sistema. (Uptime mínimo de 99,5%)
-   - [ ] RNF05 - Usabilidade: interface responsiva e intuitiva em diferentes dispositivos. (Compatível com desktop, tablet e mobile, seguindo princípios de design responsivo)
-
 
 ## Instruções de Instalação
 
