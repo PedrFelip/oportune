@@ -5,7 +5,7 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Desenvolvimento](https://img.shields.io/badge/progresso-50%25-blue)
+![Desenvolvimento](https://img.shields.io/badge/progresso-50%25-blue)
 
 </div>
 
