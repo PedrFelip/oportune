@@ -22,13 +22,22 @@
 
 ## Descrição do Projeto
 
-O Oportune + é um sistema web desenvolvido para facilitar a conexão entre alunos, professores e vagas externas, com foco em oportunidades de trabalho e aprendizado. A plataforma visa superar o desafio da primeira experiência profissional dos alunos, centralizando informações sobre estágios, projetos de pesquisa e iniciativas de extensão da Faculdade.
 
-Nos últimos anos, o mercado de trabalho tem apresentado desafios significativos para estudantes em busca de sua primeira experiência profissional. Um dos grandes obstáculos é a exigência de experiência prévia, conhecido como "paradoxo da experiência": como adquirir experiência sem ter um emprego? Uma pesquisa da Trendsity em parceria com o McDonald's (2018) revelou que 77% dos jovens brasileiros consideram a falta de experiência o maior obstáculo para entrada no mercado de trabalho, além de falta de oportunidades (69%) e falta de confiança nas novas gerações (68%).
+O **Oportune+** é uma plataforma web que conecta **alunos, professores e empresas** em um só lugar.
+O objetivo é facilitar o acesso a **oportunidades de estágio, pesquisa e extensão**, ajudando os estudantes a conquistarem sua primeira experiência profissional.
 
-Este paradoxo é agravado pela desorganização das informações sobre oportunidades disponíveis. Estudantes enfrentam dificuldades para localizar vagas de estágio e projetos de pesquisa ou extensão alinhados com seu perfil, enquanto empresas e professores não conseguem alcançar esses alunos. Projetos de extensão são reconhecidos pelo mercado como experiência prática, proporcionando aos estudantes habilidades técnicas e comportamentais essenciais para sua formação profissional.
+### Principais funcionalidades
 
-O Oportune + conecta alunos, empresas e professores de forma centralizada, facilitando o acesso à primeira experiência profissional através de estágios, projetos de pesquisa e iniciativas de extensão. Com funcionalidades como perfis personalizados, busca avançada e candidaturas simplificadas, a plataforma promove a transição suave entre a vida acadêmica e profissional.
+* Criação de perfis personalizados para alunos, professores e empresas
+* Busca avançada de vagas, projetos e iniciativas
+* Candidatura rápida e simplificada
+* Dashboard interativo para acompanhar oportunidades
+
+
+Muitos estudantes enfrentam o famoso “paradoxo da experiência”: precisam de experiência para conseguir um emprego, mas não conseguem emprego sem experiência.
+O Oportune+ resolve isso centralizando informações e aproximando quem oferece oportunidades de quem busca começar sua trajetória profissional.
+
+
 
 Stakeholders principais incluem:
 - Universitários: Buscando oportunidades de desenvolvimento profissional e acadêmico.
