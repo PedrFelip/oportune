@@ -1,199 +1,161 @@
-# Oportune+ 
+# Oportune +
+# Badges
 
-Plataforma completa que conecta talentos a oportunidades em faculdades, com landing page moderna e sistema backend integrado.
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🚀 Estrutura do Projeto
+## Índice
 
-```
-oportune/
-├── backend/           # API e servidor backend
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── middlewares/
-│   │   ├── repositories/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   └── utils/
-│   └── package.json
-├── frontend/          # Landing page React
-│   ├── src/
-│   │   ├── components/
-│   │   ├── assets/
-│   │   ├── App.jsx
-│   │   └── App.css
-│   └── package.json
-└── README.md
-```
+- [Descrição do Projeto](#descrição-do-projeto)
+- [Status do Projeto](#status-do-projeto)
+- [Funcionalidades e Demonstração](#funcionalidades-e-demonstração)
+- [Instruções de Instalação](#instruções-de-instalação)
+- [Como Usar](#como-usar)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Contribuição](#contribuição)
+- [Autores e Contatos](#autores-e-contatos)
+- [Licença](#licença)
 
-## 🎨 Frontend - Landing Page
+## Descrição do Projeto
 
-A landing page foi desenvolvida em React seguindo fielmente o design da Oportune+, incluindo:
+O Oportune + é um sistema web desenvolvido para facilitar a conexão entre alunos, professores e vagas externas, com foco em oportunidades de trabalho e aprendizado. A plataforma visa superar o desafio da primeira experiência profissional dos alunos, centralizando informações sobre estágios, projetos de pesquisa e iniciativas de extensão da Faculdade.
 
-### ✅ Funcionalidades Implementadas:
+Nos últimos anos, o mercado de trabalho tem apresentado desafios significativos para estudantes em busca de sua primeira experiência profissional. Um dos grandes obstáculos é a exigência de experiência prévia, conhecido como "paradoxo da experiência": como adquirir experiência sem ter um emprego? Uma pesquisa da Trendsity em parceria com o McDonald's (2018) revelou que 77% dos jovens brasileiros consideram a falta de experiência o maior obstáculo para entrada no mercado de trabalho, além de falta de oportunidades (69%) e falta de confiança nas novas gerações (68%).
 
-- **Header responsivo** com logo, navegação e botão CTA
-- **Seção hero** com título em gradiente e descrição
-- **Botões de seleção** de perfil (Aluno, Empresa, Professor)
-- **Cards interativos** do processo em 3 etapas
-- **Sidebar** com vagas recentes
-- **Seção de benefícios** com ícones estilizados
-- **Depoimentos** de usuários com avatares
-- **Call-to-action** final
-- **Rodapé** com informações de contato
+Este paradoxo é agravado pela desorganização das informações sobre oportunidades disponíveis. Estudantes enfrentam dificuldades para localizar vagas de estágio e projetos de pesquisa ou extensão alinhados com seu perfil, enquanto empresas e professores não conseguem alcançar esses alunos. Projetos de extensão são reconhecidos pelo mercado como experiência prática, proporcionando aos estudantes habilidades técnicas e comportamentais essenciais para sua formação profissional.
 
-### 🎨 Design Features:
+O Oportune + conecta alunos, empresas e professores de forma centralizada, facilitando o acesso à primeira experiência profissional através de estágios, projetos de pesquisa e iniciativas de extensão. Com funcionalidades como perfis personalizados, busca avançada e candidaturas simplificadas, a plataforma promove a transição suave entre a vida acadêmica e profissional.
 
-- Gradiente de fundo dark theme
-- Botões com gradiente azul e efeitos hover
-- Cards com backdrop blur e transparência
-- Animações suaves e micro-interações
-- Design totalmente responsivo
-- Ícones com gradiente azul personalizado
+Stakeholders principais incluem:
+- Universitários: Buscando oportunidades de desenvolvimento profissional e acadêmico.
+- Professores: Recrutando estudantes para projetos de extensão e pesquisa.
+- Equipe de Desenvolvimento: Responsável pela implementação e manutenção.
+- Empresas: Utilizando a plataforma para recrutar estagiários qualificados.
 
-### 🛠️ Tecnologias Frontend:
+## Status do Projeto
 
-- **React 19** - Biblioteca JavaScript
-- **Vite** - Build tool e servidor de desenvolvimento
-- **Tailwind CSS** - Framework CSS utilitário
-- **shadcn/ui** - Componentes de UI reutilizáveis
-- **Lucide React** - Ícones modernos
-- **Framer Motion** - Animações
-- **pnpm** - Gerenciador de pacotes
+O projeto está concluído como um trabalho acadêmico, apresentando o desenvolvimento completo da plataforma. No entanto, pode estar sujeito a melhorias e atualizações futuras para escalabilidade e novas funcionalidades.
 
-## 🔧 Backend
+## Funcionalidades e Demonstração
 
-Sistema backend para gerenciar a plataforma Oportune+.
+As principais funcionalidades do Oportune + foram definidas com base nos requisitos funcionais e não funcionais, regras de negócio e requisitos de domínio. Aqui está uma lista das funcionalidades chave:
 
-### Estrutura:
-- **Controllers** - Lógica de controle das rotas
-- **Middlewares** - Middleware de autenticação e validação
-- **Repositories** - Camada de acesso a dados
-- **Routes** - Definição das rotas da API
-- **Services** - Lógica de negócio
-- **Utils** - Utilitários e helpers
+### Requisitos Funcionais
+| ID     | Requisito                                                                 | Prioridade |
+|--------|---------------------------------------------------------------------------|------------|
+| R01.1  | Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico. | Alta      |
+| R01.2  | Interface de login para que usuários cadastrados acessem a plataforma usando email e senha. | Alta      |
+| R01.3  | Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição. | Média     |
+| R01.4  | Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos). | Alta      |
+| R02.1  | Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente. | Média     |
+| R02.2  | Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária. | Baixa     |
+| R02.3  | Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno. | Alta      |
+| R03.1  | Enviar notificação por email para confirmar cadastro concluído com sucesso. | Alta      |
+| R03.2  | Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado). | Baixa     |
 
-## 🚀 Como Executar
+### Requisitos Não Funcionais
+| ID     | Requisito                                                                 | Métrica / Critério de Aceitação |
+|--------|---------------------------------------------------------------------------|---------------------------------|
+| RNF01  | Desempenho: tempo de resposta do servidor para carregamento de qualquer página. | ≤ 7 segundos em condições normais de tráfego |
+| RNF02  | Escalabilidade: suportar múltiplas sessões simultâneas. | ≥ 1.000 sessões simultâneas sem queda perceptível de desempenho |
+| RNF03  | Segurança: armazenamento de senhas de forma anonimizada. | Uso de algoritmos de hash (ex.: bcrypt, Argon2) |
+| RNF04  | Disponibilidade: manter operação contínua do sistema. | Uptime mínimo de 99,5% |
+| RNF05  | Usabilidade: interface responsiva e intuitiva em diferentes dispositivos. | Compatível com desktop, tablet e mobile, seguindo princípios de design responsivo |
 
-### Pré-requisitos
+### Demonstração
+A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemplos de fluxos:
+- **Cadastro e Login**: Formulário multi-etapas adaptado ao tipo de usuário.
+- **Busca e Candidatura**: Filtros avançados e aplicação one-click.
+- **Notificações**: Emails para confirmações e atualizações de status.
 
-- Node.js (versão 18 ou superior)
-- pnpm (recomendado) ou npm
+Para demonstração visual, consulte os protótipos no Figma ou execute localmente para ver o dashboard do aluno, perfis e gerenciamento de vagas.
 
-### Frontend
+<!-- Inclua screenshots se disponíveis no repositório, ex: -->
+<!-- ![Dashboard Aluno](path/to/screenshot.png) -->
 
-1. **Navegue para o diretório frontend**
-   ```bash
-   cd frontend
+## Instruções de Instalação
+
+1. Clone o repositório:
    ```
-
-2. **Instale as dependências**
-   ```bash
-   pnpm install
+   git clone https://github.com/PedrFelip/oportune.git
    ```
-
-3. **Inicie o servidor de desenvolvimento**
-   ```bash
-   pnpm run dev
+2. Navegue para a pasta do projeto:
    ```
-
-4. **Acesse no navegador**
+   cd oportune
    ```
-   http://localhost:5173
+3. Instale as dependências do backend (Node.js requerido):
    ```
-
-### Backend
-
-1. **Navegue para o diretório backend**
-   ```bash
    cd backend
+   npm install
+   ```
+4. Instale as dependências do frontend:
+   ```
+   cd ../frontend
+   npm install
+   ```
+5. Configure o banco de dados PostgreSQL e atualize o arquivo `.env` com credenciais (ex: DATABASE_URL).
+6. Rode as migrações com Prisma:
+   ```
+   npx prisma migrate dev
+   ```
+7. Inicie o servidor backend:
+   ```
+   npm run start
+   ```
+8. Inicie o frontend:
+   ```
+   npm run start
+   ```
+9. Use Docker para ambiente containerizado (se aplicável):
+   ```
+   docker-compose up
    ```
 
-2. **Instale as dependências**
-   ```bash
-   pnpm install
-   ```
+Certifique-se de ter Node.js v14+, PostgreSQL e Docker instalados.
 
-3. **Inicie o servidor**
-   ```bash
-   pnpm run dev
-   ```
+## Como Usar
 
-## 📱 Responsividade
+1. Acesse a plataforma via navegador (ex: http://localhost:3000).
+2. Cadastre-se selecionando o tipo de usuário (Aluno, Professor ou Empresa).
+3. Faça login com email e senha.
+4. Alunos: Busque oportunidades, aplique com one-click e gerencie candidaturas.
+5. Professores/Empresas: Publique vagas/projetos, visualize candidaturas e atualize status.
 
-A landing page é totalmente responsiva:
+Para mais detalhes, consulte as regras de negócio no documento de requisitos.
 
-- **Desktop** (1024px+): Layout completo com sidebar
-- **Tablet** (768px-1024px): Grid adaptado
-- **Mobile** (<768px): Layout em coluna única
+## Tecnologias Utilizadas
 
-## 🎯 Componentes Principais
+- **Frontend**: React, Tailwind CSS, JavaScript, JSX
+- **Backend**: Node.js, Fastify (para APIs REST), TypeScript
+- **Banco de Dados**: PostgreSQL, Prisma (ORM)
+- **Outras**: Docker (containerização), Go (microsserviços), Python (validações específicas), Figma (prototipagem)
+- **Gerenciamento**: Scrum, Trello, Discord, Google Drive
 
-### Header
-- Logo da Oportune+
-- Menu de navegação responsivo
-- Botão de CTA "Criar conta"
+## Contribuição
 
-### Hero Section
-- Título principal com gradiente
-- Descrição da plataforma
-- Botões de seleção de perfil
-- Cards com processo em 3 passos
-- Sidebar com vagas recentes
+Contribuições são bem-vindas! Siga estes passos:
+1. Fork o repositório.
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`).
+3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`).
+4. Push para a branch (`git push origin feature/nova-funcionalidade`).
+5. Abra um Pull Request.
 
-### Benefits Section
-- Cards com ícones e descrições
-- Layout responsivo em grid
-- Efeitos hover suaves
+Por favor, siga o código de conduta e teste suas mudanças.
 
-### Testimonials Section
-- Cards de depoimentos
-- Avatares com iniciais
-- Layout em duas fileiras
+## Autores e Contatos
 
-### CTA Section
-- Call-to-action final
-- Botões de ação primária e secundária
+- **Equipe de Desenvolvimento**: Responsável pela concepção, implementação e manutenção.
+  - Contato: [oportunecontatos@gmail.com](oportunecontatos@gmail.com) 
+  - GitHub: [Pedro Felipe](https://github.com/PedrFelip)  |  [Gabriel](https://github.com/gabbzin)  |  [Lucas Felipe](https://github.com/Lucasdx7)
 
-### Footer
-- Informações de copyright
-- Links de contato e políticas
+Para mais informações, entre em contato via issues no GitHub.
 
-## 🎨 Customizações CSS
+## Licença
 
-Classes customizadas no `App.css`:
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-- `.oportune-gradient` - Gradiente de fundo principal
-- `.oportune-card` - Cards com backdrop blur
-- `.oportune-button-primary` - Botão primário com gradiente
-- `.testimonial-card` - Cards de depoimentos
-- `.hero-text` - Texto do hero com gradiente
-- `.feature-icon` - Ícones com fundo gradiente
-
-## 🚀 Deploy
-
-### Frontend
-```bash
-cd frontend
-pnpm run build
-# Os arquivos estarão na pasta dist/
-```
-
-### Backend
-```bash
-cd backend
-pnpm run build
-# Configure seu servidor de produção
-```
-
-## 📄 Licença
-
-Este projeto foi desenvolvido como implementação da plataforma Oportune+.
-
-## 🤝 Contribuições
-
-Sugestões e melhorias são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
-
----
-
-**Desenvolvido com ❤️ usando React, Node.js e tecnologias modernas**
 
