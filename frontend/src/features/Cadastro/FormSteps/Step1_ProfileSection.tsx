@@ -1,7 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import CardHeader from "../components/CardHeader";
-import { FormStepProps, ProfileType } from "../@types/type";
+import { ProfileType } from "../@types/type";
+
+interface step1Props {
+  onProfileSelect: (type: ProfileType) => void;
+}
 
 type Role = {
   type: ProfileType;
@@ -9,8 +13,7 @@ type Role = {
   description: string;
 };
 
-export default function Step1_ProfileSection({ onProfileSelect }: FormStepProps) {
-
+export default function Step1_ProfileSection({ onProfileSelect }: step1Props) {
   const roles: Role[] = [
     {
       type: "ESTUDANTE",
@@ -31,7 +34,7 @@ export default function Step1_ProfileSection({ onProfileSelect }: FormStepProps)
   ];
 
   const handleClick = (type: ProfileType) => {
-    if (onProfileSelect) onProfileSelect(type);
+    onProfileSelect(type);
   };
 
   return (
