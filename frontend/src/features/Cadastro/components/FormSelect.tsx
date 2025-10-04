@@ -1,4 +1,5 @@
 import React from "react";
+import { Controller, Control, Path } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -6,30 +7,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { formDataState } from "../@types/type";
+import { CadastroFormData } from "@/lib/schemas";
 
-export type Option<T> = {
+type Option<T> = {
   value: T;
   label: string;
 };
 
-interface FormSelectProps<K extends keyof formDataState> {
-  name: K;
-  value: formDataState[K];
-  options: Option<formDataState[K]>[];
-  onChange: (name: K, selectedOption: formDataState[K]) => void;
+interface FormSelectProps {
+  control: Control<CadastroFormData>;
+  name: Path<CadastroFormData>;
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options: Option<any>[];
   label?: string;
   placeholder?: string;
 }
 
-export function FormSelect<K extends keyof formDataState>({
+export function FormSelect({
+  control,
   name,
-  value,
   options,
-  onChange,
   label,
   placeholder,
-}: FormSelectProps<K>) {
+}: FormSelectProps) {
   return (
     <div className="mb-3">
       {label && (
@@ -37,24 +38,30 @@ export function FormSelect<K extends keyof formDataState>({
           {label}
         </label>
       )}
-      <Select
-        value={(value as string) || ""}
-        onValueChange={(val) => onChange(name, val as formDataState[K])}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((opt) => (
-            <SelectItem
-              key={String(opt.value)}
-              value={(opt.value as string) || ""}
+      <Controller
+        name={name}
+        control={control}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <Select
+              onValueChange={field.onChange}
+              value={field.value ? String(field.value) : ""}
             >
-              {opt.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+              <SelectContent>
+                {options.map((opt) => (
+                  <SelectItem key={String(opt.value)} value={String(opt.value)}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </>
+        )}
+      />
     </div>
   );
 }

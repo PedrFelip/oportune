@@ -1,3 +1,7 @@
+import { UseFormRegister, FieldErrors, Control } from "react-hook-form";
+import { CadastroFormData } from "@/lib/schemas";
+
+
 export type ProfileType = "ESTUDANTE" | "PROFESSOR" | "EMPRESA";
 
 export type PeriodoType = "MATUTINO" | "VESPERTINO" | "NOTURNO" | null;
@@ -31,37 +35,18 @@ export type CursoType =
 
 export type ModalidadeType = "presencial" | "hibrido" | "remoto" | null;
 
-// @types/type.ts
-export interface FormStepProps {
-  onNext?: () => void;
-  onBack?: () => void;
-
-  formData?: formDataState;
-  setFormData?: React.Dispatch<React.SetStateAction<formDataState>>;
-
+export interface StepProps {
+  // Funções para registrar os campos do formulário
+  register: UseFormRegister<CadastroFormData>;
+  // Objeto com todos os erros de validação
+  errors: FieldErrors<CadastroFormData>;
+  // Objeto de controle para usar com componentes customizados (ex: react-select)
+  control: Control<CadastroFormData>;
+  
+  // Funções de navegação, que continuam sendo controladas pelo pai
+  onNext: () => void;
+  onBack: () => void;
+  
+  // Prop opcional para lógicas condicionais dentro do step
   profileType?: ProfileType | "";
-
-  onProfileSelect?: (type: ProfileType) => void;
-
-  handleChange?: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
-  handleSelectChange?: <K extends keyof formDataState>(
-    name: K,
-    selectedOption: formDataState[K]
-  ) => void;
-
-  handleFinish?: () => void;
-}
-
-export interface formDataState {
-  nome: string;
-  email: string;
-  senha: string;
-  senhaConfirmada: string;
-  termos: boolean;
-  dataNascimento: Date,
-  genero: GeneroType
 }
