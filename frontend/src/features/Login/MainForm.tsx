@@ -82,5 +82,6 @@ export function MainForm({ onSubmit, loading, error }: MainFormProps) {
         )}
       </form>
     </main>
+    
   );
 }

@@ -6,6 +6,7 @@ import { Header } from "./Header";
 import Link from "next/link";
 import { MainForm } from "./MainForm";
 import { logarUsuario } from "@/app/api/login/route";
+import { showMessage } from "@/adapters/showMessage";
 
 export default function Login() {
   // const router = useRouter()
@@ -21,6 +22,8 @@ export default function Login() {
       localStorage.setItem("authToken", token);
       localStorage.setItem("token", token); // legacy compat
       localStorage.setItem("user", JSON.stringify(user));
+
+      showMessage.success("Login realizado com sucesso")
 
       if (user.emailVerificado === false) {
         // router.replace("/confirmacao");
@@ -43,6 +46,7 @@ export default function Login() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Erro ao fazer login");
+      showMessage.error(error)
     } finally {
       setLoading(false);
     }
@@ -59,7 +63,6 @@ export default function Login() {
             error={error}
             loading={loading}
           />
-          {/* Card Footer Section */}
           <footer className="text-center mt-6 text-sm">
             <p>
               Não tem uma conta?{" "}
@@ -70,7 +73,7 @@ export default function Login() {
                 Crie uma agora
               </Link>
             </p>
-          </footer>
+          </footer> 
         </div>
       </div>
 

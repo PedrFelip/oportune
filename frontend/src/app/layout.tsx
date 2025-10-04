@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/global.css";
+import { MessagesContainer } from "@/components/MessageContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Oportune+",
-  description: "Plataforma digital para encontrar oportunidades no meio universitário",
+  description:
+    "Plataforma digital para encontrar oportunidades no meio universitário",
 };
 
 export default function RootLayout({
@@ -23,11 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <MessagesContainer>{children}</MessagesContainer>
       </body>
     </html>
   );

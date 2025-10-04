@@ -1,3 +1,4 @@
+'use client'
 
 type VagaCardHomeProps = {
   title: string,
