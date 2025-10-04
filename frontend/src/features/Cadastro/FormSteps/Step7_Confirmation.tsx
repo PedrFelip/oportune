@@ -12,7 +12,7 @@ interface Step7Props {
 }
 
 export function Step7_Confirmation({ userEmail }: Step7Props) {
-  const router = useRouter()
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleVerificationCheck = async () => {
@@ -37,7 +37,7 @@ export function Step7_Confirmation({ userEmail }: Step7Props) {
 
       if (data.isVerified) {
         showMessage.success("Conta verificada com sucesso!");
-        router.replace("/login")
+        router.replace("/login");
       } else {
         throw new Error(
           "Ainda não detectamos sua confirmação. Por favor, verifique seu e-mail e clique no link de ativação."
@@ -67,6 +67,7 @@ export function Step7_Confirmation({ userEmail }: Step7Props) {
         onClick={handleVerificationCheck}
         disabled={isLoading}
         variant={"oportune"}
+        className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2"
       >
         {isLoading
           ? showMessage.loading("Verificando...")

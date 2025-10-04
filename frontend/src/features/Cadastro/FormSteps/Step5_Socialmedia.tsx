@@ -46,10 +46,10 @@ export function Step5_Socialmedia({
         />
 
         <div className="flex flex-col gap-3 mt-4">
-          <Button type="button" onClick={onNext} variant="oportune">
+          <Button type="button" onClick={onNext} variant="oportune" className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2">
             Continuar
           </Button>
-          <Button type="button" onClick={onBack} variant="oportune_blank">
+          <Button type="button" onClick={onBack} variant="oportune_blank" className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2">
             Voltar
           </Button>
         </div>

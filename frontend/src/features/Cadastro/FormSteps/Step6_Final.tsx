@@ -19,11 +19,11 @@ export function Step6_Final({ onBack }: StepProps) {
       </p>
       
       <div className="flex flex-col gap-3">
-        <Button type="submit" variant="oportune" size="lg">
+        <Button type="submit" variant="oportune" size="lg" className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2">
           Finalizar e Criar Conta
         </Button>
 
-        <Button type="button" onClick={onBack} variant="oportune_blank">
+        <Button type="button" onClick={onBack} variant="oportune_blank" className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2">
           Voltar e Revisar
         </Button>
       </div>
