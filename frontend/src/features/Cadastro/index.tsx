@@ -31,6 +31,7 @@ export default function Cadastro() {
     control,
     setValue,
     getValues,
+    setError,
     formState: { errors },
   } = useForm<CadastroFormData>({
     resolver: zodResolver(cadastroSchema),
@@ -93,6 +94,19 @@ export default function Cadastro() {
 
     if (currentStep === 5) {
       fieldsToValidate = ["emailContato", "telefone", "website"];
+    }
+
+    if (currentStep === 2) {
+      const { senha, senhaConfirmada } = getValues();
+
+      if (senha !== senhaConfirmada) {
+        setError("senhaConfirmada", {
+          type: "manual",
+          message: "As senhas não conferem.",
+        });
+        showMessage.error("As senhas não conferem");
+        return;
+      }
     }
 
     if (fieldsToValidate.length > 0) {

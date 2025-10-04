@@ -71,7 +71,7 @@ export function Step4_ProfileDetails({
           id="semestre"
           label="Semestre Atual"
           type="number"
-          {...register("semestre")}
+          {...register("semestre")} // Resolver bug aqui
           error={(errors as any).semestre?.message}
         />
         <FormInput

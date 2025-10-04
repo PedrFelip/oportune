@@ -1,14 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import { format, isValid } from "date-fns";
-import { ptBR } from "date-fns/locale"; // Bônus: Para formatar a data em português
-import { Calendar } from "@/components/ui/calendar";
-import { Control, Path } from "react-hook-form";
-import { CadastroFormData } from "@/lib/schemas"; // Ajuste o caminho
+import { ptBR } from "date-fns/locale";
+import { CalendarIcon } from "lucide-react";
 
-interface FormDateProps {
+// Importações dos componentes de UI
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import { Control, Path } from "react-hook-form";
+import { CadastroFormData } from "@/lib/schemas";
+import { cn } from "@/lib/utils";
+
+interface FormCalendarProps {
   control: Control<CadastroFormData>;
   name: Path<CadastroFormData>;
   label?: string;
@@ -20,7 +32,9 @@ export function FormCalendar({
   name,
   label,
   placeholder,
-}: FormDateProps) {
+}: FormCalendarProps) {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="mb-3">
       {label && (
@@ -37,32 +51,49 @@ export function FormCalendar({
             field.value &&
             typeof field.value === "string" &&
             isValid(new Date(field.value))
-              ? new Date(field.value)
+              ? new Date(`${field.value}T00:00:00`)
               : undefined;
 
           return (
             <div>
-              <Calendar
-                mode="single"
-                selected={dateValue}
-                onSelect={(date) => {
-                  const dateString = date
-                    ? format(date, "yyyy-MM-dd")
-                    : undefined;
-                  field.onChange(dateString);
-                }}
-                className="rounded-md border border-white/10 shadow-sm w-full"
-                locale={ptBR}
-                fromYear={1950}
-                toYear={new Date().getFullYear() - 16}
-              />
-              <div className="text-xs text-[#c4d3e6] mt-1">
-                {dateValue
-                  ? format(dateValue, "dd 'de' MMMM 'de' yyyy", {
-                      locale: ptBR,
-                    })
-                  : placeholder || "Selecione uma data"}
-              </div>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal px-4 py-6 text-base", // Aumentei o py para 6 para corresponder ao seu py-3.5
+                      "border border-white/10 bg-[rgba(196,211,230,0.02)] text-white",
+                      "hover:bg-[rgba(196,211,230,0.04)] hover:text-white", // Efeito hover
+                      "focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30",
+                      !dateValue && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {dateValue ? (
+                      format(dateValue, "PPP", { locale: ptBR }) // 'PPP' é um formato amigável, ex: "4 de out. de 2025"
+                    ) : (
+                      <span>{placeholder || "Selecione uma data"}</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={dateValue}
+                    onSelect={(date) => {
+                      const dateString = date
+                        ? format(date, "yyyy-MM-dd")
+                        : undefined;
+                      field.onChange(dateString);
+                      setOpen(false);
+                    }}
+                    locale={ptBR}
+                    fromYear={1950}
+                    toYear={new Date().getFullYear() - 16}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           );
         }}

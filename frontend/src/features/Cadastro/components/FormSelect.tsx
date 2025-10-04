@@ -48,7 +48,7 @@ export function FormSelect({
               onValueChange={field.onChange}
               value={field.value ? String(field.value) : ""}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full border border-white/10 bg-[rgba(196,211,230,0.02)] focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>

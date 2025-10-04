@@ -17,6 +17,24 @@ const listaCursos: string[] = informacoesValidadas.cursos
   .map((c) => c.value)
   .filter((v) => v !== null && v !== null);
 
+const dominiosEmailValidos = new Set([
+  "gmail.com",
+  "outlook.com",
+  "yahoo.com",
+  "icloud.com",
+  "proton.me",
+  "hotmail.com",
+  "live.com",
+  "aol.com",
+  "edu.br",
+  "usp.br",
+  "univ.com",
+  "company.com",
+  "tech.co",
+  "org.br",
+  "gov.br",
+]);
+
 // FRASES DE ERRO
 const FraseTelefoneInvalidoErro = "Número de telefone inválido";
 const FraseErroEmail = "Email inválido";
@@ -25,18 +43,27 @@ const FraseErroSenha =
   "A senha precisa de no minimo 8 caracteres, incluindo letras maiúsculas, minúsculas e números";
 
 // ENUMS
-const tipo = ["ESTUDANTE", "PROFESSOR", "EMPRESA"]
-const genero = ["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"]
-const periodo = ["MATUTINO", "VESPERTINO", "NOTURNO"]
+const tipo = ["ESTUDANTE", "PROFESSOR", "EMPRESA"];
+const genero = ["MASCULINO", "FEMININO", "OUTRO", "PREFIRO NAO DIZER"];
+const periodo = ["MATUTINO", "VESPERTINO", "NOTURNO"];
 
-// BASE (PASSO 2)
 const baseSchema = z.object({
   nome: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
-  email: z.email({ message: FraseErroEmail }),
+  email: z.email({ message: FraseErroEmail }).refine(
+    (email) => {
+      const dominio = email.split("@")[1];
+      return dominiosEmailValidos.has(dominio);
+    },
+    {
+      message: "Dominio inválido, tente novamente com outro dominio!",
+    }
+  ),
   senha: z.string().regex(regex.passwordRegex, FraseErroSenha),
   senhaConfirmada: z.string(),
   tipo: z.enum(tipo),
-  termos: z.boolean(),
+  termos: z.boolean().refine((val) => val === true, {
+    message: "Você precisa aceitar os termos.",
+  }),
 });
 
 // ESTUDANTE FORMULÁRIO
@@ -54,20 +81,25 @@ const estudanteSchema = z.object({
   genero: z.enum(genero, {
     message: "Selecione um gênero válido.",
   }),
-  
+
   faculdade: z.string().optional(),
-  
-  curso: z.string().refine(v => listaCursos.includes(v), {
-    message: "Curso inválido"
+
+  curso: z.string().refine((v) => listaCursos.includes(v), {
+    message: "Curso inválido",
   }),
-  
-  matricula: z.number({
-    message: "A matrícula é obrigatória.",
-  }).min(1, "A matrícula é obrigatória."),
-  
-  semestre: z.number({
-    message: "O semestre deve ser um número.",
-  }).min(1, "O semestre deve ser no mínimo 1.").max(12, "O semestre deve ser no máximo 12."),
+
+  matricula: z
+    .number({
+      message: "A matrícula é obrigatória.",
+    })
+    .min(1, "A matrícula é obrigatória."),
+
+  semestre: z
+    .number({
+      message: "O semestre deve ser um número.",
+    })
+    .min(1, "O semestre deve ser no mínimo 1.")
+    .max(12, "O semestre deve ser no máximo 12."),
 
   periodo: z.enum(periodo, {
     message: "Selecione um período válido.",
@@ -91,15 +123,15 @@ const professorSchema = z.object({
   }),
 
   areaAtuacao: z.string({
-    message: "Área de atuação é obrigatória"
+    message: "Área de atuação é obrigatória",
   }),
 
   departamento: z.string({
-    message: "Departamento é obrigatório"
+    message: "Departamento é obrigatório",
   }),
 
   titulacao: z.string({
-    message: "Titulação é obrigatório"
+    message: "Titulação é obrigatório",
   }),
 
   lattes: z.string().optional(),
@@ -124,15 +156,10 @@ const empresaSchema = z.object({
   website: z.httpUrl({ message: "Url inválida" }),
 });
 
-export const cadastroSchema = z
-  .discriminatedUnion("tipo", [
-    baseSchema.extend(estudanteSchema.shape),
-    baseSchema.extend(empresaSchema.shape),
-    baseSchema.extend(professorSchema.shape),
-  ])
-  .refine((data) => data.senha === data.senhaConfirmada, {
-    message: "As senhas não conferem.",
-    path: ["senhaConfirmada"],
-  });
+export const cadastroSchema = z.discriminatedUnion("tipo", [
+  baseSchema.safeExtend(estudanteSchema.shape),
+  baseSchema.safeExtend(empresaSchema.shape),
+  baseSchema.safeExtend(professorSchema.shape),
+]);
 
 export type CadastroFormData = z.infer<typeof cadastroSchema>;

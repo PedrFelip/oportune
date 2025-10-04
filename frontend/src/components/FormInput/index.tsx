@@ -1,5 +1,5 @@
 import React from "react";
-import InputMask from "react-input-mask";
+import { useMask } from "@react-input/mask";
 
 type InputAttributes = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -11,23 +11,21 @@ type FormInputProps = {
   name: string;
   label: string;
   mask?: string;
-  error?: string
+  error?: string;
 } & InputAttributes;
 
 export default function FormInput({
   id,
   label,
   mask,
-  error,
   ...props
 }: FormInputProps) {
-  const propsComuns = {
-    id: id,
-    className:
-      "w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30",
-    error: error,
-    ...props,
-  };
+
+  const inputRef = useMask({
+    mask: mask || "", // Passe a máscara para o hook
+    replacement: { _: /\d/ },
+    showMask: true,
+  });
 
   return (
     <div className="mb-3">
@@ -38,11 +36,12 @@ export default function FormInput({
         {label}
       </label>
 
-      {mask ? (
-        <InputMask mask={mask} {...propsComuns} />
-      ) : (
-        <input {...propsComuns} />
-      )}
+      <input
+        id={id}
+        className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
+        ref={inputRef}
+        {...props}
+      />
     </div>
   );
 }
