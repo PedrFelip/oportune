@@ -6,5 +6,6 @@ export const showMessage = {
   warn: (msg: string) => toast.warn(msg),
   warning: (msg: string) => toast.warning(msg),
   info: (msg: string) => toast.info(msg),
+  loading: (msg: string) => toast.loading(msg),
   dismiss: () => toast.dismiss(),
 };
