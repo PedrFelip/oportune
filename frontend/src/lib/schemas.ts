@@ -47,7 +47,7 @@ const estudanteSchema = z.object({
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
     .optional(),
 
-  dataNascimento: z.coerce.date({
+  dataNascimento: z.string({
     message: "Por favor, insira uma data de nascimento válida.",
   }),
 
@@ -61,11 +61,11 @@ const estudanteSchema = z.object({
     message: "Curso inválido"
   }),
   
-  matricula: z.string({
+  matricula: z.number({
     message: "A matrícula é obrigatória.",
   }).min(1, "A matrícula é obrigatória."),
   
-  semestre: z.coerce.number({
+  semestre: z.number({
     message: "O semestre deve ser um número.",
   }).min(1, "O semestre deve ser no mínimo 1.").max(12, "O semestre deve ser no máximo 12."),
 
@@ -82,7 +82,7 @@ const professorSchema = z.object({
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
     .optional(),
 
-  dataNascimento: z.coerce.date({
+  dataNascimento: z.string({
     message: "Data de nascimento inválida.",
   }),
 

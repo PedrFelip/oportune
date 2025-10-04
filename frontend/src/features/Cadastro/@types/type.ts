@@ -1,4 +1,4 @@
-import { UseFormRegister, FieldErrors, Control } from "react-hook-form";
+import { UseFormRegister, FieldErrors, Control, UseFormSetValue, UseFormGetValues } from "react-hook-form";
 import { CadastroFormData } from "@/lib/schemas";
 
 
@@ -49,4 +49,7 @@ export interface StepProps {
   
   // Prop opcional para lógicas condicionais dentro do step
   profileType?: ProfileType | "";
+
+  setValue: UseFormSetValue<CadastroFormData>;
+  getValues: UseFormGetValues<CadastroFormData>;
 }
