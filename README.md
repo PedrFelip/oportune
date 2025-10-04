@@ -69,55 +69,48 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
 
 ## Instruções de Instalação
 
-1. Clone o repositório:
+
+1. **Clone o repositório:**
    ```
    git clone https://github.com/PedrFelip/oportune.git
    ```
-2. Navegue para a pasta do projeto:
+
+2. **Navegue para a pasta do projeto:**
    ```
    cd oportune
    ```
-3. Instale as dependências do backend (Node.js requerido):
-   ```
-   cd backend
-   npm install
-   ```
-4. Instale as dependências do frontend:
-   ```
-   cd ../frontend
-   npm install
-   ```
 
+3. **Configure o arquivo `.env`:**
+   - Crie um arquivo `.env` na raiz do projeto usando `.env.example` como base.
+   - Adicione as variáveis necessárias:
+     ```
+     POSTGRES_USER=seu_usuario
+     POSTGRES_PASSWORD=sua_senha
+     POSTGRES_DB=nome_do_banco
+     DATABASE_URL=postgresql://seu_usuario:sua_senha@localhost:5432/nome_do_banco?schema=public
+     JWT_SECRET=sua_chave_secreta
+     ```
 
+4. **Inicie os containers com Docker Compose e instale dependências:**
+   - Certifique-se de que o `docker-compose.yml` inclui comandos para instalar dependências no backend e frontend. Exemplo típico no `docker-compose.yml`:
+     - Para o backend: `command: npm install && npm run dev`
+     - Para o frontend: `command: npm install && npm run dev`
+   - Execute:
+     ```
+     docker-compose up --build
+     ```
+   - O `--build` garante que as dependências sejam instaladas durante a construção das imagens, se configurado no `Dockerfile` ou `docker-compose.yml`.
 
-5. Configure o banco de dados PostgreSQL e crie um arquivo `.env` com as variáveis necessárias.  
-   Use o arquivo `.env.example` como referência.
+5. **(Opcional) Verifique os logs se houver erros:**
+   - Caso algo falhe, rode:
+     ```
+     docker-compose logs
+     ```
+   - Corrija o `docker-compose.yml`, `.env` ou os `Dockerfile`s conforme necessário.
 
-```env
-POSTGRES_USER=seu_usuario
-POSTGRES_PASSWORD=sua_senha
-POSTGRES_DB=nome_do_banco
-DATABASE_URL=postgresql://seu_usuario:sua_senha@localhost:5432/nome_do_banco?schema=public
+6. **Acesse a aplicação:**
+   - O frontend deve estar disponível no endereço indicado (geralmente `http://localhost:3000`).
 
-JWT_SECRET=sua_chave_secreta
-```
-
-6. Rode as migrações com Prisma:
-   ```
-   npx prisma migrate dev
-   ```
-7. Inicie o servidor backend:
-   ```
-   npm run dev
-   ```
-8. Inicie o frontend:
-   ```
-   npm run dev
-   ```
-9. Use Docker para ambiente containerizado (se aplicável):
-   ```
-   docker-compose up
-   ```
 
 Certifique-se de ter Node.js v14+, PostgreSQL e Docker instalados.
 
