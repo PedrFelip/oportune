@@ -49,13 +49,21 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
 
 ### Requisitos Funcionais
    - [x]  Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico.
+   
    - [x]  Interface de login para que usuários cadastrados acessem a plataforma usando email e senha.
-   - [ ]  Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
-   - [ ]  Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos).
-   - [ ]  Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
-   - [ ]  Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária.
-   - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
+
    - [x]  Enviar notificação por email para confirmar cadastro concluído com sucesso.
+      
+   - [ ]  Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
+   
+   - [ ]  Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos).
+   
+   - [ ]  Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
+   
+   - [ ]  Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária.
+   
+   - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
+
    - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
 
@@ -79,7 +87,21 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    cd ../frontend
    npm install
    ```
-5. Configure o banco de dados PostgreSQL e atualize o arquivo `.env` com credenciais (ex: DATABASE_URL).
+
+
+
+5. Configure o banco de dados PostgreSQL e crie um arquivo `.env` com as variáveis necessárias.  
+   Use o arquivo `.env.example` como referência.
+
+```env
+POSTGRES_USER=seu_usuario
+POSTGRES_PASSWORD=sua_senha
+POSTGRES_DB=nome_do_banco
+DATABASE_URL=postgresql://seu_usuario:sua_senha@localhost:5432/nome_do_banco?schema=public
+
+JWT_SECRET=sua_chave_secreta
+```
+
 6. Rode as migrações com Prisma:
    ```
    npx prisma migrate dev
