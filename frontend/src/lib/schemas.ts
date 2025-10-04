@@ -8,7 +8,7 @@ const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s']+$/;
 
 export const cadastroSchema = z
   .object({
-    tipo: z.enum(["CANDIDATO", "EMPRESA", "PROFESSOR"]),
+    tipo: z.enum(["ESTUDANTE", "EMPRESA", "PROFESSOR"]),
     nome: z
       .string()
       .min(3, "O nome precisa ter no mínimo 3 caracteres.")
