@@ -11,7 +11,7 @@ interface Step7Props {
   userEmail: string;
 }
 
-export default function Step7_Confirmation({ userEmail }: Step7Props) {
+export function Step7_Confirmation({ userEmail }: Step7Props) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false);
 

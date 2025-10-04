@@ -2,24 +2,26 @@
 
 import React, { useState } from "react";
 // Steps do formulário
-import Step1_ProfileSection from "./FormSteps/Step1_ProfileSection";
-import Step2_BasicInfo from "./FormSteps/Step2_BasicInfo";
-import Step3_AditionalInfo from "./FormSteps/Step3_AditionalInfo";
-// import Step4_ProfileDetails from "../../components/formSteps/Step4_ProfileDetails";
-// import Step5_Socialmedia from "../../components/formSteps/Step5_Socialmedia";
-// import Step6_FinalForm from "../../components/formSteps/Step6_FinalForm";
-// import Step7_Confirmation from "../../components/formSteps/Step7_Confirmation";
+import { Step1_ProfileSection } from "./FormSteps/Step1_ProfileSection";
+import { Step2_BasicInfo } from "./FormSteps/Step2_BasicInfo";
+import { Step3_AditionalInfo } from "./FormSteps/Step3_AditionalInfo";
+import { Step4_ProfileDetails } from "./FormSteps/Step4_ProfileDetails";
+import { Step5_Socialmedia } from "./FormSteps/Step5_Socialmedia";
+import { Step6_Final } from "./FormSteps/Step6_Final";
+import { Step7_Confirmation } from "./FormSteps/Step7_Confirmation";
 // -----
 // import { cadastrarUsuario } from "../../api/api";
 import { showMessage } from "@/adapters/showMessage";
 import { ProfileType } from "./@types/type";
 import { CadastroFormData, cadastroSchema } from "@/lib/schemas";
-import { FieldErrors, Path, useForm } from "react-hook-form";
+import { FieldErrors, Path, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { cadastrarUsuario } from "@/app/api/cadastro/route";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);
   const [profileType, setProfileType] = useState<ProfileType | "">(""); // Aluno ou Professor ou Empresa
+  const [emailCadastro, setEmailCadastro] = useState("");
   const isEmpresa = profileType === "EMPRESA";
 
   const {
@@ -28,6 +30,7 @@ export default function Cadastro() {
     trigger,
     control,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<CadastroFormData>({
     resolver: zodResolver(cadastroSchema),
@@ -71,9 +74,26 @@ export default function Cadastro() {
       fieldsToValidate = ["dataNascimento", "genero", "telefone"];
     }
 
-    // if (currentStep === 4){
+    if (currentStep === 4) {
+      if (profileType === "ESTUDANTE") {
+        fieldsToValidate = ["curso", "semestre", "matricula", "periodo"];
+      }
+      if (profileType === "PROFESSOR") {
+        fieldsToValidate = [
+          "areaAtuacao",
+          "departamento",
+          "titulacao",
+          "lattes",
+        ];
+      }
+      if (profileType === "EMPRESA") {
+        fieldsToValidate = ["cnpj", "ramo", "setor", "descricao"];
+      }
+    }
 
-    // }
+    if (currentStep === 5) {
+      fieldsToValidate = ["emailContato", "telefone", "website"];
+    }
 
     if (fieldsToValidate.length > 0) {
       const isValid = await trigger(fieldsToValidate);
@@ -91,11 +111,13 @@ export default function Cadastro() {
   };
 
   // Finaliza o formulário e envia os dados
-  const onSubmit = async () => {
+  const onSubmit: SubmitHandler<CadastroFormData> = async (data) => {
     showMessage.loading("Enviando os dados");
 
     try {
-      // await cadastrarUsuario(formData);
+      await cadastrarUsuario(data);
+
+      setEmailCadastro(data.email);
       showMessage.dismiss();
       showMessage.success(
         "Conta criada com sucesso! Agora realize a confirmação por email"
@@ -115,6 +137,8 @@ export default function Cadastro() {
       errors,
       control,
       profileType,
+      getValues,
+      setValue,
       onNext: handleNext,
       onBack: handleBack,
     };
@@ -136,9 +160,9 @@ export default function Cadastro() {
       case 5:
         return <Step5_Socialmedia {...commonProps} />;
       case 6:
-        return <Step6_FinalForm {...commonProps} />;
+        return <Step6_Final {...commonProps} />;
       case 7:
-        return <Step7_Confirmation {...commonProps} />;
+        return <Step7_Confirmation userEmail={emailCadastro} />;
       default:
         return (
           <Step1_ProfileSection
