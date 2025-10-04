@@ -7,7 +7,7 @@ import { StepProps } from "../@types/type";
 import { Button } from "@/components/ui/button";
 import { FormCalendar } from "../components/FormCalendar";
 
-export default function Step3_AditionalInfo({
+export function Step3_AditionalInfo({
   onNext,
   onBack,
   register,
@@ -53,7 +53,7 @@ export default function Step3_AditionalInfo({
           <Button
             type="button"
             onClick={onBack}
-            variant={"oportune"}
+            variant={"oportune_blank"}
           >
             Voltar
           </Button>

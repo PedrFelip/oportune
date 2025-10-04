@@ -1,17 +1,11 @@
 import React from "react";
 import CardHeader from "../components/CardHeader";
 import FormInput from "@/components/FormInput";
-import {
-  passwordRegex,
-  emailRegex,
-  onlyLettersRegex,
-} from "@/utils/validadores";
-import { showMessage } from "@/adapters/showMessage";
 // Tipagens
 import { StepProps } from "../@types/type";
 import { Button } from "@/components/ui/button";
 
-export default function Step2_BasicInfo({
+export function Step2_BasicInfo({
   profileType,
   onNext,
   onBack,
@@ -90,7 +84,7 @@ export default function Step2_BasicInfo({
           <Button
             type="button"
             onClick={onBack}
-            variant={"oportune"}
+            variant={"oportune_blank"}
           >
             Voltar
           </Button>

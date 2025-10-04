@@ -13,7 +13,7 @@ type Role = {
   description: string;
 };
 
-export default function Step1_ProfileSection({ onProfileSelect }: step1Props) {
+export function Step1_ProfileSection({ onProfileSelect }: step1Props) {
   const roles: Role[] = [
     {
       type: "ESTUDANTE",
