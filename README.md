@@ -80,39 +80,45 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    cd oportune
    ```
 
-3. **Configure o arquivo `.env`:**
-   - Crie um arquivo `.env` na raiz do projeto usando `.env.example` como base.
-   - Adicione as variáveis necessárias:
-     ```
-     POSTGRES_USER=seu_usuario
-     POSTGRES_PASSWORD=sua_senha
-     POSTGRES_DB=nome_do_banco
-     DATABASE_URL=postgresql://seu_usuario:sua_senha@localhost:5432/nome_do_banco?schema=public
-     JWT_SECRET=sua_chave_secreta
-     ```
+3. **Instalar a dependencia no front-end e bakc-end `\oportune\frontend` & `\oportune\backend` :**
+   ```
+   npm Instal 
+   ```
+4.**Rodar o front-end `\oportune\frontend` :**
+   ```
+   npm run dev
+   ```
 
-4. **Inicie os containers com Docker Compose e instale dependências:**
-   - Certifique-se de que o `docker-compose.yml` inclui comandos para instalar dependências no backend e frontend. Exemplo típico no `docker-compose.yml`:
-     - Para o backend: `command: npm install && npm run dev`
-     - Para o frontend: `command: npm install && npm run dev`
-   - Execute:
-     ```
-     docker-compose up --build
-     ```
-   - O `--build` garante que as dependências sejam instaladas durante a construção das imagens, se configurado no `Dockerfile` ou `docker-compose.yml`.
+#Exite 3 `.env`, uma fica alocada na parte principal `\oportune`do projeot com o nome: `.env.db.local`#
+5. **Para rodar o docker compose, use o `Comando`:
+   ```
+   docker compose up
+   ```
+6.**Exite 3 `.env` conteiner, uma fica alocada na parte principal `\oportune`do projeot com o nome: `.env.db.local`. O proximo fica na pasta`\oportune\backend` com o nome: `.env.docker`. O ultimo fica no `\oportune\email-service` com o nome: `.env`
 
-5. **(Opcional) Verifique os logs se houver erros:**
-   - Caso algo falhe, rode:
-     ```
-     docker-compose logs
-     ```
-   - Corrija o `docker-compose.yml`, `.env` ou os `Dockerfile`s conforme necessário.
+   *.env.db.local* Ele tem como função roda o banco PostgreSQL.
+    ```
+   POSTGRES_USER=seu_usuario
+   POSTGRES_PASSWORD=sua_senha
+   POSTGRES_DB=seu_DB
+   DATABASE_URL=postgresql:/seu_usuario:sua_senha@db:5432/seu_db?schema=public
+    ```
+    *.env.docker*  Ele tem como função roda o backend do sistema.
+    ```
+   POSTGRES_USER=seu_usuario
+   POSTGRES_PASSWORD=sua_senha
+   POSTGRES_DB=seu_DB
+   DATABASE_URL=postgresql:/seu_usuario:sua_senha@db:5432/seu_db?schema=public
+   JWT_SECRET=Sua-chave
+    ```
+    *.env* Ele Executa um microserviço (em Go) que trata e-mails e notificações.
+    ```
+    ...
+    ```
 
-6. **Acesse a aplicação:**
-   - O frontend deve estar disponível no endereço indicado (geralmente `http://localhost:3000`).
-
-
-Certifique-se de ter Node.js v14+, PostgreSQL e Docker instalados.
+7. Apos feito isso, o front-end estara sendo rodado na porta `5432`com `localhost:5432`, o back-end estará sendorodado na porta `3001`, e o servirções do `GO` na porta `3002`.
+   
+   
 
 ## Como Usar
 
