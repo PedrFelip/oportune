@@ -96,7 +96,7 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    ```
 6.**Exite 3 `.env` conteiner, uma fica alocada na parte principal `\oportune`do projeot com o nome: `.env.db.local`. O proximo fica na pasta`\oportune\backend` com o nome: `.env.docker`. O ultimo fica no `\oportune\email-service` com o nome: `.env`
 
-   *.env.db.local* Ele tem como função roda o banco PostgreSQL.
+   *.env.db.local Ele tem como função roda o banco PostgreSQL.*
     ```
    POSTGRES_USER=seu_usuario
    POSTGRES_PASSWORD=sua_senha
@@ -104,7 +104,7 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    DATABASE_URL=postgresql:/seu_usuario:sua_senha@db:5432/seu_db?schema=public
     ```
     
-   *.env.docker*  Ele tem como função roda o backend do sistema.
+   *.env.docker  Ele tem como função roda o backend do sistema.*
     ```
    POSTGRES_USER=seu_usuario
    POSTGRES_PASSWORD=sua_senha
@@ -113,7 +113,7 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    JWT_SECRET=Sua-chave
     ```
     
-   *.env* Ele Executa um microserviço (em Go) que trata e-mails e notificações.
+   *.env Ele Executa um microserviço (em Go) que trata e-mails e notificações.*
     ```
     ...
     ```
