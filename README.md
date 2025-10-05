@@ -95,8 +95,6 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    docker compose up
    ```
 6.**Exite 3 `.env` conteiner, uma fica alocada na parte principal `\oportune`do projeot com o nome: `.env.db.local`. O proximo fica na pasta`\oportune\backend` com o nome: `.env.docker`. O ultimo fica no `\oportune\email-service` com o nome: `.env`
-
-   *.env.db.local Ele tem como função roda o banco PostgreSQL.*
     ```
    POSTGRES_USER=seu_usuario
    POSTGRES_PASSWORD=sua_senha
