@@ -174,7 +174,7 @@ Agora a aplicação deve estar rodando e acessível no seu navegador com o `http
 
 ## Como Usar
 
-1. Acesse a plataforma via navegador (ex: http://localhost:3000).
+1. Acesse a plataforma via navegador (ex: http://localhost:5173).
 2. Cadastre-se selecionando o tipo de usuário (Aluno, Professor ou Empresa).
 3. Faça login com email e senha.
 4. Alunos: Busque oportunidades, aplique com one-click e gerencie candidaturas.
