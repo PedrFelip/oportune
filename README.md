@@ -69,55 +69,107 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
 
 ## Instruções de Instalação
 
+Com certeza! Organizar um `README.md` é fundamental para que outras pessoas (e você mesmo no futuro) consigam entender e rodar o projeto facilmente. A sua documentação está quase lá, só precisa de uma estrutura mais clara e de algumas correções.
 
-1. **Clone o repositório:**
-   ```
-   git clone https://github.com/PedrFelip/oportune.git
-   ```
+Analisei o conteúdo que você enviou e preparei uma versão revisada e organizada, usando as boas práticas de formatação Markdown.
 
-2. **Navegue para a pasta do projeto:**
-   ```
-   cd oportune
-   ```
+---
 
-3. **Instalar a dependencia no front-end e bakc-end `\oportune\frontend` & `\oportune\backend` :**
-   ```
-   npm Instal 
-   ```
-4.**Rodar o front-end `\oportune\frontend` :**
-   ```
-   npm run dev
-   ```
+### Pré-requisitos
 
-#Exite 3 `.env`, uma fica alocada na parte principal `\oportune`do projeot com o nome: `.env.db.local`#
-5. **Para rodar o docker compose, use o `Comando`:
-   ```
-   docker compose up
-   ```
-6.**Exite 3 `.env` conteiner, uma fica alocada na parte principal `\oportune`do projeot com o nome: `.env.db.local`. O proximo fica na pasta`\oportune\backend` com o nome: `.env.docker`. O ultimo fica no `\oportune\email-service` com o nome: `.env`
-    ```
-   POSTGRES_USER=seu_usuario
-   POSTGRES_PASSWORD=sua_senha
-   POSTGRES_DB=seu_DB
-   DATABASE_URL=postgresql:/seu_usuario:sua_senha@db:5432/seu_db?schema=public
-    ```
-    
-   *.env.docker  Ele tem como função roda o backend do sistema.*
-    ```
-   POSTGRES_USER=seu_usuario
-   POSTGRES_PASSWORD=sua_senha
-   POSTGRES_DB=seu_DB
-   DATABASE_URL=postgresql:/seu_usuario:sua_senha@db:5432/seu_db?schema=public
-   JWT_SECRET=Sua-chave
-    ```
-    
-   *.env Ele Executa um microserviço (em Go) que trata e-mails e notificações.*
-    ```
-    ...
+Antes de começar, garanta que você tenha as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
+*   [Git](https://git-scm.com/)
+*   [Node.js](https://nodejs.org/en/) (que inclui o npm)
+*   [Docker](https://www.docker.com/get-started) e [Docker Compose](https://docs.docker.com/compose/install/)
+
+---
+
+### Instruções de intalações
+
+
+
+**1. Clone o Repositório**
+
+```bash
+git clone https://github.com/PedrFelip/oportune.git
+```
+
+**2. Navegue para a Pasta do Projeto**
+
+```bash
+cd oportune
+```
+
+**3. Configure as Variáveis de Ambiente**
+
+O projeto utiliza três arquivos `.env` para gerenciar as variáveis de ambiente.
+
+*   **Banco de Dados (`.env.db.local`)**
+    *   Crie um arquivo chamado `.env.db.local` na raiz do projeto (`/oportune`).
+    *   Adicione o seguinte conteúdo, substituindo pelos seus dados:
+
+    ```env
+    # /oportune/.env.db.local
+    POSTGRES_USER=seu_usuario
+    POSTGRES_PASSWORD=sua_senha
+    POSTGRES_DB=seu_banco_de_dados
     ```
 
-7. Apos feito isso, o front-end estara sendo rodado na porta `5432`com `localhost:5432`, o back-end estará sendorodado na porta `3001`, e o servirções do `GO` na porta `3002`.
-   
+*   **Backend (`.env.docker`)**
+    *   Crie um arquivo chamado `.env.docker` na pasta do backend (`/oportune/backend`).
+    *   Adicione o conteúdo, garantindo que os dados do banco sejam os mesmos do arquivo anterior e definindo sua chave secreta para JWT:
+
+    ```env
+    # /oportune/backend/.env.docker
+    DATABASE_URL="postgresql://seu_usuario:sua_senha@db:5432/seu_banco_de_dados?schema=public"
+    JWT_SECRET=sua_chave_secreta_super_segura
+    ```
+
+*   **Serviço de E-mail (`.env`)**
+    *   Crie um arquivo chamado `.env` na pasta do serviço de e-mail (`/oportune/email-service`).
+    *   Adicione as variáveis necessárias para o serviço de e-mail (exemplo abaixo, ajuste conforme a necessidade do seu projeto):
+
+    ```env
+      ....
+    ```
+
+**4. Instale as Dependências do Frontend e Backend**
+
+Abra dois terminais ou navegue pelas pastas para instalar as dependências `npm` em ambos os serviços.
+
+*   **Para o Frontend:**
+    ```bash
+    cd frontend
+    npm install
+    ```
+
+*   **Para o Backend:**
+    ```bash
+    cd backend
+    npm install
+    ```
+
+**5. Execute os Serviços com Docker Compose**
+
+Este comando irá construir e iniciar os contêineres do banco de dados, do backend e do serviço de e-mail, conforme definido no arquivo `docker-compose.yml`.
+
+```bash
+docker compose up --build
+```
+
+**6. Execute o Frontend**
+
+Em um novo terminal, navegue até a pasta do frontend e inicie o servidor de desenvolvimento.
+
+```bash
+cd frontend
+npm run dev
+```
+
+Agora a aplicação deve estar rodando e acessível no seu navegador com o `http://localhost:5173` .
+
+
+  
    
 
 ## Como Usar
