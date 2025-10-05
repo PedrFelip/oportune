@@ -103,7 +103,8 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    POSTGRES_DB=seu_DB
    DATABASE_URL=postgresql:/seu_usuario:sua_senha@db:5432/seu_db?schema=public
     ```
-    *.env.docker*  Ele tem como função roda o backend do sistema.
+    
+   *.env.docker*  Ele tem como função roda o backend do sistema.
     ```
    POSTGRES_USER=seu_usuario
    POSTGRES_PASSWORD=sua_senha
@@ -111,7 +112,8 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    DATABASE_URL=postgresql:/seu_usuario:sua_senha@db:5432/seu_db?schema=public
    JWT_SECRET=Sua-chave
     ```
-    *.env* Ele Executa um microserviço (em Go) que trata e-mails e notificações.
+    
+   *.env* Ele Executa um microserviço (em Go) que trata e-mails e notificações.
     ```
     ...
     ```
