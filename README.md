@@ -66,14 +66,6 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
 
-### Pré-requisitos
-
-Antes de começar, garanta que você tenha as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
-*   [Git](https://git-scm.com/)
-*   [Node.js](https://nodejs.org/en/) (que inclui o npm)
-*   [Docker](https://www.docker.com/get-started) e [Docker Compose](https://docs.docker.com/compose/install/)
-
----
 
 
 ## Tecnologias Utilizadas
