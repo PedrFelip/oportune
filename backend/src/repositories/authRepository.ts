@@ -97,3 +97,17 @@ export const confirmarEmailRepository = async (userId: string) => {
     },
   });
 };
+
+export const isVerifiedRepository = async (email: string) => {
+  try {
+    const user = await prisma.user.findUniqueOrThrow({
+      where: {
+        email: email,
+      },
+    });
+    return user.emailVerificado;
+  } catch (error) {
+    console.error("Erro ao verificar status de email:", error);
+    throw new Error("Erro ao verificar status de email");
+  }
+}

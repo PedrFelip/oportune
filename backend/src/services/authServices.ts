@@ -5,6 +5,7 @@ import {
   cadastrarUsuarioRepository,
   logarUsuarioRepository,
   confirmarEmailRepository,
+  isVerifiedRepository,
 } from "../repositories/authRepository.ts";
 import { capitalizeFirstLetter } from "../utils/functions.ts";
 import { JWT_SECRET } from "../config/config.ts";
@@ -82,3 +83,16 @@ export const confirmarEmailService = async (token: string) => {
     throw new Error("Nao foi possivel verificar email");
   }
 };
+
+export const isVerifiedService = async (email: string) => {
+  try {
+    const isVerified = await isVerifiedRepository(email)
+    if (isVerified === false) {
+      throw new Error("Email não verificado");
+    }
+    return isVerified
+  } catch (error) {
+    console.error("Erro ao verificar status de email:", error);
+    throw new Error("Erro ao verificar status de email");
+  }
+}
