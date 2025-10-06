@@ -13,7 +13,8 @@
 - [Descrição do Projeto](#descrição-do-projeto)
 - [Status do Projeto](#status-do-projeto)
 - [Funcionalidades e Demonstração](#funcionalidades-e-demonstração)
-- [Como Usar](#como-usar)
+- [Requisitos Funcionais](#Requisitos-Funcionais)
+- [Instalações](#Instalações)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Contribuição](#contribuição)
 - [Autores e Contatos](#autores-e-contatos)
@@ -66,7 +67,8 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
 
-
+## Instalações
+Para intalar e rodar siga o passo a passo da [instalação](https://github.com/PedrFelip/oportune/blob/main/docs/Instalação.md)
 
 ## Tecnologias Utilizadas
 

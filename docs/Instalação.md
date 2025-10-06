@@ -34,14 +34,12 @@ O projeto utiliza três arquivos `.env` para gerenciar as variáveis de ambiente
 
     ```
 
-*   **Backend (`.env.docker`)**
+*   **Backend A (`.env.docker`)**
     *   Crie um arquivo chamado `.env.docker` na pasta do backend (`/oportune/backend`).
     *   Adicione o conteúdo, garantindo que os dados do banco sejam os mesmos do arquivo anterior e definindo sua chave secreta para JWT:
 
     ```env
     # /oportune/backend/.env.docker
-
-    # Configuração do Banco de Dados PostgreSQL (para Docker Compose)
 
 
     # Nome de usuário do banco de dados.
@@ -67,6 +65,38 @@ O projeto utiliza três arquivos `.env` para gerenciar as variáveis de ambiente
     # Variáveis Específicas do Prisma
 
     DATABASE_URL_prisma=
+
+    ```
+
+*   **Backend B (`.env`)**
+    *   Caso queira rodar o `backend` separadamente existe um `.env` que ultilizando o `nmp run dev` irá estar iniciando o backend separado.
+    ```env
+    
+
+   
+    # Configuração do Banco de Dados (PostgreSQL)
+
+
+    DATABASE_URL_prisma="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+
+    # Nome de usuário do banco de dados.
+    POSTGRES_USER=
+
+
+    # Senha do usuário do banco de dados. Use uma senha forte.
+    POSTGRES_PASSWORD=
+
+
+    # Nome do banco de dados a ser criado.
+    POSTGRES_DB=
+
+
+    # String de Conexão para a Aplicação
+    DATABASE_URL=postgresql://<user>:<password>@LocalHost:5432/<database>?schema=public
+    # Segurança e Autenticação
+
+    JWT_SECRET=sua_chave_secreta_super_segura_aqui
+
 
     ```
 
