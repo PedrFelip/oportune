@@ -207,7 +207,7 @@ export default function Cadastro() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0c1a2c] to-[#15223c] flex items-center justify-center p-4 font-['Inter',_sans-serif] text-[#c4d3e6]">
+    <>
       <div className="w-full max-w-md">
         <div className="bg-white/5 p-8 rounded-2xl border border-white/5 backdrop-blur-xl">
           <form onSubmit={handleSubmit(onSubmit, onValidationError)}>
@@ -215,6 +215,6 @@ export default function Cadastro() {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }

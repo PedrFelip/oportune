@@ -53,7 +53,7 @@ export default function Login() {
   };
 
   return (
-    <div className="font-sans text-slate-300 bg-gradient-to-b from-[#0c1a2c] to-[#15223c] min-h-screen flex items-center justify-center p-5 relative">
+    <>
       <div className="w-full max-w-md animate-fade-in-up">
         <div className="bg-white/5 border border-white/10 rounded-2xl backdrop-blur-lg p-8">
           <Header/>
@@ -87,6 +87,6 @@ export default function Login() {
           Voltar para o início
         </Link>
       </footer>
-    </div>
+    </>
   );
 }
