@@ -109,9 +109,6 @@ export const isVerifiedController = async (
     return reply.status(200).send({ isVerified })
   } catch (err: any) {
     console.error("Erro ao verificar status de email:", err)
-    if (err.message === "Email não verificado") {
-      return reply.status(401).send({ message: err.message })
-    }
     return reply.status(500).send({ message: "Erro ao verificar status de email" })
   }
 }

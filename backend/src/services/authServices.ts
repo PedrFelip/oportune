@@ -9,6 +9,7 @@ import {
 } from "../repositories/authRepository.ts";
 import { capitalizeFirstLetter } from "../utils/functions.ts";
 import { JWT_SECRET } from "../config/config.ts";
+import { fa } from "zod/locales";
 
 export const cadastrarUsuarioService = async (data: createUserCleanDTO) => {
   try {
@@ -88,7 +89,7 @@ export const isVerifiedService = async (email: string) => {
   try {
     const isVerified = await isVerifiedRepository(email)
     if (isVerified === false) {
-      throw new Error("Email não verificado");
+      return false
     }
     return isVerified
   } catch (error) {
