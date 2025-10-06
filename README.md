@@ -66,22 +66,6 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
 
-## Instruções de Instalação
-
-Com certeza! Organizar um `README.md` é fundamental para que outras pessoas (e você mesmo no futuro) consigam entender e rodar o projeto facilmente. A sua documentação está quase lá, só precisa de uma estrutura mais clara e de algumas correções.
-
-Analisei o conteúdo que você enviou e preparei uma versão revisada e organizada, usando as boas práticas de formatação Markdown.
-
----
-
-### Pré-requisitos
-
-Antes de começar, garanta que você tenha as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
-*   [Git](https://git-scm.com/)
-*   [Node.js](https://nodejs.org/en/) (que inclui o npm)
-*   [Docker](https://www.docker.com/get-started) e [Docker Compose](https://docs.docker.com/compose/install/)
-
----
 
 
 ## Tecnologias Utilizadas
