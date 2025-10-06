@@ -32,6 +32,7 @@ export default function Cadastro() {
     setValue,
     getValues,
     setError,
+    watch,
     formState: { errors },
   } = useForm<CadastroFormData>({
     resolver: zodResolver(cadastroSchema),
@@ -117,11 +118,28 @@ export default function Cadastro() {
       }
     }
 
-    setCurrentStep((prev) => (prev === 2 && isEmpresa ? 4 : prev + 1));
+    setCurrentStep((prev) => {
+      if (prev === 2 && isEmpresa) {
+        return 4; // Pula o passo 3 que só tem o formulário para pessoas fisicas
+      }
+      if (prev === 4 && !isEmpresa) {
+        return 6; // Pula o passo 5 que só tem o formulário para empresas
+      }
+      return prev + 1;
+    });
   };
 
   const handleBack = () => {
-    setCurrentStep((prev) => (prev === 4 && isEmpresa ? 2 : prev - 1));
+    setCurrentStep((prev) => {
+      if (prev === 4 && isEmpresa) {
+        return 2; // Pula o passo 3 que só tem o formulário para pessoas fisicas
+      }
+      if (prev === 6 && !isEmpresa) {
+        return 4; // Pula o passo 5 que só tem o formulário para empresas
+      }
+
+      return prev - 1;
+    });
   };
 
   // Finaliza o formulário e envia os dados
@@ -155,6 +173,7 @@ export default function Cadastro() {
       setValue,
       onNext: handleNext,
       onBack: handleBack,
+      watch
     };
 
     switch (currentStep) {

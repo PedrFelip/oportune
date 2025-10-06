@@ -1,4 +1,4 @@
-import { UseFormRegister, FieldErrors, Control, UseFormSetValue, UseFormGetValues } from "react-hook-form";
+import { UseFormRegister, FieldErrors, Control, UseFormSetValue, UseFormGetValues, UseFormWatch } from "react-hook-form";
 import { CadastroFormData } from "@/lib/schemas";
 
 
@@ -52,4 +52,6 @@ export interface StepProps {
 
   setValue: UseFormSetValue<CadastroFormData>;
   getValues: UseFormGetValues<CadastroFormData>;
+
+  watch: UseFormWatch<CadastroFormData>
 }

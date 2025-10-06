@@ -9,7 +9,7 @@ export function Step6_Final({ onBack }: StepProps) {
   return (
     <div className="animate-fadeIn text-center">
       <div className="w-16 h-16 mx-auto text-[#639bec]">
-        <CheckIcon />
+        <CheckIcon size={64}/>
       </div>
       <h2 className="text-white text-xl font-bold mt-4 mb-2">
         Tudo pronto!
