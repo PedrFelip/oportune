@@ -89,17 +89,12 @@ const estudanteSchema = z.object({
   }),
 
   matricula: z
-    .number({
+    .string({
       message: "A matrícula é obrigatória.",
     })
     .min(1, "A matrícula é obrigatória."),
 
-  semestre: z
-    .number({
-      message: "O semestre deve ser um número.",
-    })
-    .min(1, "O semestre deve ser no mínimo 1.")
-    .max(12, "O semestre deve ser no máximo 12."),
+  semestre: z.string({ message: "Semestre inválido" }),
 
   periodo: z.enum(periodo, {
     message: "Selecione um período válido.",

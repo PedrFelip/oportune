@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardHeader from "../components/CardHeader";
 import FormInput from "@/components/FormInput";
 import { FormSelect } from "../components/FormSelect";
@@ -9,6 +9,11 @@ import informacoes from "@/utils/informacoes.json";
 import { Button } from "@/components/ui/button";
 import { StepProps } from "../@types/type";
 import { showMessage } from "@/adapters/showMessage";
+
+type SemestreOption = {
+  value: number;
+  label: string;
+};
 
 export function Step4_ProfileDetails({
   profileType,
@@ -19,9 +24,12 @@ export function Step4_ProfileDetails({
   errors,
   setValue,
   getValues,
+  watch,
 }: StepProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [cnpjError, setCnpjError] = useState("");
+  const [cursoSemestre, setCursoSemestre] = useState<SemestreOption[]>([]);
+  const cursoSelecionadoValue = watch("curso")
 
   const handleCnpjBlur = async () => {
     const cnpj = getValues("cnpj")?.replace(/\D/g, "") || "";
@@ -53,6 +61,28 @@ export function Step4_ProfileDetails({
     }
   };
 
+  useEffect(() => {
+    const cursoSelecionado = informacoes.cursos.find(
+      (c) => c.value === cursoSelecionadoValue
+    );
+
+    if (cursoSelecionado && cursoSelecionado.maxSemestres > 0) {
+      const semestres = Array.from(
+        { length: cursoSelecionado.maxSemestres },
+        (_, i) => ({
+          value: i + 1,
+          label: `${i + 1}º semestre`,
+        })
+      );
+
+      setCursoSemestre(semestres);
+      setValue("semestre", "")
+    } else {
+      setCursoSemestre([])
+      setValue("semestre", "")
+    }
+  }, [cursoSelecionadoValue, setValue]);
+
   const forms = {
     ESTUDANTE: (
       <>
@@ -67,12 +97,11 @@ export function Step4_ProfileDetails({
           label="Curso"
           options={informacoes.cursos}
         />
-        <FormInput
-          id="semestre"
-          label="Semestre Atual"
-          type="number"
-          {...register("semestre")} // Resolver bug aqui
-          error={(errors as any).semestre?.message}
+        <FormSelect
+          control={control}
+          name="semestre"
+          label="Semestre"
+          options={cursoSemestre}
         />
         <FormInput
           id="matricula"
