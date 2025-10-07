@@ -5,12 +5,18 @@ import {
   logarUsuarioService,
   confirmarEmailService,
   isVerifiedService,
+  solicitarRecuperacaoSenhaService,
+  redefinirSenhaService,
 } from "../services/authServices.ts";
 import {
   createUserCleanSchema,
   logUserSchema,
   createUserDTO,
   loginUserDTO,
+  requestPasswordResetSchema,
+  requestPasswordResetDTO,
+  resetPasswordSchema,
+  resetPasswordDTO,
 } from "../schemas/userSchemas.ts";
 import axios from "axios";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -112,3 +118,62 @@ export const isVerifiedController = async (
     return reply.status(500).send({ message: "Erro ao verificar status de email" })
   }
 }
+
+export const solicitarRecuperacaoSenhaController = async (
+  request: FastifyRequest<{ Body: requestPasswordResetDTO }>,
+  reply: FastifyReply,
+) => {
+  try {
+    const dados = requestPasswordResetSchema.parse(request.body)
+    const result = await solicitarRecuperacaoSenhaService(dados)
+
+    // Se o usuário existe, enviar email
+    if (result.userId) {
+      try {
+        await axios.post('http://go-service:3002/api/enviar-recuperacao-senha', {
+          name: result.nome,
+          email: result.email,
+          userID: result.userId,
+        });
+      } catch (err: any) {
+        console.error('Erro ao enviar email de recuperação:', err)
+      }
+    }
+
+    return reply.status(200).send({
+      message: 'Se o email estiver cadastrado, você receberá um link de recuperação'
+    });
+  } catch (err: any) {
+    if (err instanceof z.ZodError) {
+      const MensagensError = formatZodErrors(err)
+      return reply.status(400).send({ errors: MensagensError })
+    }
+
+    console.error('Erro ao solicitar recuperação de senha:', err);
+    return reply.status(500).send({ message: 'Erro interno do servidor' })
+  }
+};
+
+export const redefinirSenhaController = async (
+  request: FastifyRequest<{ Body: resetPasswordDTO }>,
+  reply: FastifyReply,
+) => {
+  try {
+    const dados = resetPasswordSchema.parse(request.body)
+    const result = await redefinirSenhaService(dados)
+
+    return reply.status(200).send(result)
+  } catch (err: any) {
+    if (err instanceof z.ZodError) {
+      const MensagensError = formatZodErrors(err)
+      return reply.status(400).send({ errors: MensagensError })
+    }
+
+    if (err.message.includes('Token')) {
+      return reply.status(401).send({ message: err.message })
+    }
+
+    console.error('Erro ao redefinir senha:', err)
+    return reply.status(500).send({ message: 'Erro interno do servidor' })
+  }
+};
