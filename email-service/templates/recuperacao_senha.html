@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="x-apple-disable-message-reformatting" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Verificação de Email - Oportune+</title>
+  <title>Recuperação de Senha - Oportune+</title>
   <style>
     @media screen and (max-width: 600px) {
       .container { width: 100% !important; padding: 16px !important; }
       .header-title { font-size: 24px !important; }
       .content-text { font-size: 16px !important; }
-      .verify-btn { display: block !important; width: 90% !important; padding: 16px 24px !important; }
+      .reset-btn { display: block !important; width: 90% !important; padding: 16px 24px !important; }
     }
     
     .ExternalClass { width: 100%; }
@@ -40,16 +40,16 @@
             <td style="padding:40px 30px; background:#1e293b;">
               <div style="text-align: center; margin-bottom: 32px;">
                 <h2 style="margin:0 0 16px; font-size:28px; font-weight:600; color:#ffffff; line-height:1.3;">
-                  Verificação de Email
+                  Recuperação de Senha
                 </h2>
                 <p class="content-text" style="margin:0 0 24px; font-size:18px; line-height:1.6; color:#cbd5e1;">
-                  Olá! Bem-vindo(a) ao <strong style="color:#ffffff;">Oportune+</strong>
+                  Olá, <strong style="color:#ffffff;">{{.Name}}</strong>!
                 </p>
               </div>
 
               <p class="content-text" style="margin:0 0 24px; font-size:16px; line-height:1.6; color:#94a3b8; text-align: center;">
-                Para completar seu cadastro e começar a explorar as melhores oportunidades de carreira, 
-                precisamos verificar seu endereço de email.
+                Recebemos uma solicitação para redefinir a senha da sua conta no <strong style="color:#ffffff;">Oportune+</strong>. 
+                Se você não fez esta solicitação, pode ignorar este email com segurança.
               </p>
 
               <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
@@ -57,7 +57,7 @@
                   <td style="padding:24px; background:rgba(30, 41, 59, 0.6); border:1px solid rgba(148, 163, 184, 0.1); border-radius:12px; backdrop-filter: blur(10px);">
                     <div style="text-align: center;">
                       <p style="margin:0 0 8px; font-size:14px; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">
-                        Email para verificação
+                        Conta vinculada
                       </p>
                       <p style="margin:0; font-size:16px; color:#ffffff; font-weight: 600;">
                         {{.Email}}
@@ -68,17 +68,18 @@
               </table>
 
               <div style="text-align: center; margin: 32px 0;">
-                <a href="{{.ConfirmationURL}}" class="verify-btn" style="display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); transition: all 0.3s ease;">
-                  ✓ Verificar Email
+                <a href="{{.ResetURL}}" class="reset-btn" style="display: inline-block; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); transition: all 0.3s ease;">
+                  Redefinir Senha
                 </a>
               </div>
 
-              <div style="margin-top: 32px; padding: 20px; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);">
-                <p style="margin:0 0 12px; font-size:14px; color:#94a3b8; font-weight: 600;">
-                  Informações de Segurança
+              <div style="margin-top: 32px; padding: 20px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                <p style="margin:0 0 12px; font-size:14px; color:#fca5a5; font-weight: 600;">
+                  ⚠️ Informações de Segurança
                 </p>
-                <ul style="margin:0; padding-left:20px; font-size:13px; color:#94a3b8; line-height:1.5;">
+                <ul style="margin:0; padding-left:20px; font-size:13px; color:#fca5a5; line-height:1.5;">
                   <li>Este link expira em 15 minutos</li>
+                  <li>Use este link apenas se você solicitou a recuperação</li>
                   <li>Nunca compartilhe este link com terceiros</li>
                 </ul>
               </div>
