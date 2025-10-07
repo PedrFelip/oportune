@@ -1,11 +1,13 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUserCleanDTO, loginUserDTO } from "../schemas/userSchemas.ts";
+import { createUserCleanDTO, loginUserDTO, requestPasswordResetDTO, resetPasswordDTO } from "../schemas/userSchemas.ts";
 import {
   cadastrarUsuarioRepository,
   logarUsuarioRepository,
   confirmarEmailRepository,
   isVerifiedRepository,
+  buscarUsuarioPorEmailRepository,
+  atualizarSenhaRepository,
 } from "../repositories/authRepository.ts";
 import { capitalizeFirstLetter } from "../utils/functions.ts";
 import { JWT_SECRET } from "../config/config.ts";
@@ -95,5 +97,57 @@ export const isVerifiedService = async (email: string) => {
   } catch (error) {
     console.error("Erro ao verificar status de email:", error);
     throw new Error("Erro ao verificar status de email");
+  }
+}
+
+export const solicitarRecuperacaoSenhaService = async (data: requestPasswordResetDTO) => {
+  try {
+    const user = await buscarUsuarioPorEmailRepository(data.email)
+    
+    if (!user) {
+      // Por segurança, não revela se o email existe ou não
+      return { message: 'Se o email estiver cadastrado, você receberá um link de recuperação' }
+    }
+
+    return { 
+      userId: user.id, 
+      nome: user.nome, 
+      email: user.email 
+    };
+  } catch (error) {
+    console.error('Erro ao solicitar recuperação de senha:', error)
+    throw new Error('Erro ao solicitar recuperação de senha')
+  }
+};
+
+export const redefinirSenhaService = async (data: resetPasswordDTO) => {
+  try {
+    const decoded = jwt.verify(data.token, JWT_SECRET) as {
+      sub: string;
+      exp: number;
+    };
+
+    if (!decoded.sub) {
+      throw new Error('Token ausente')
+    }
+
+    if (decoded.exp < Date.now() / 1000) {
+      throw new Error("Token expirado")
+    }
+
+    const senha_hash = await bcrypt.hash(data.novaSenha, 10)
+    
+    await atualizarSenhaRepository(decoded.sub, senha_hash)
+
+    return { message: 'Senha atualizada com sucesso!' }
+  } catch (err: any) {
+    if (err.name === 'TokenExpiredError') {
+      throw new Error('Token expirado')
+    }
+    if (err.name === 'JsonWebTokenError') {
+      throw new Error('Token inválido')
+    }
+    console.error('Erro ao redefinir senha:', err)
+    throw new Error('Não foi possível redefinir a senha') 
   }
 }
