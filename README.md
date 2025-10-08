@@ -1,199 +1,128 @@
-# Oportune+ 
+## Oportune +
 
-Plataforma completa que conecta talentos a oportunidades em faculdades, com landing page moderna e sistema backend integrado.
 
-## 🚀 Estrutura do Projeto
+<div align="center">
 
-```
-oportune/
-├── backend/           # API e servidor backend
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── middlewares/
-│   │   ├── repositories/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   └── utils/
-│   └── package.json
-├── frontend/          # Landing page React
-│   ├── src/
-│   │   ├── components/
-│   │   ├── assets/
-│   │   ├── App.jsx
-│   │   └── App.css
-│   └── package.json
-└── README.md
-```
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Desenvolvimento](https://img.shields.io/badge/status-%20Desenvolvimento-yellow)
 
-## 🎨 Frontend - Landing Page
+</div>
 
-A landing page foi desenvolvida em React seguindo fielmente o design da Oportune+, incluindo:
+## Índice
 
-### ✅ Funcionalidades Implementadas:
+- [Descrição do Projeto](#descrição-do-projeto)
+- [Status do Projeto](#status-do-projeto)
+- [Funcionalidades e Demonstração](#funcionalidades-e-demonstração)
+- [Requisitos Funcionais](#Requisitos-Funcionais)
+- [Instalações](#Instalações)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Contribuição](#contribuição)
+- [Autores e Contatos](#autores-e-contatos)
+- [Licença](#licença)
 
-- **Header responsivo** com logo, navegação e botão CTA
-- **Seção hero** com título em gradiente e descrição
-- **Botões de seleção** de perfil (Aluno, Empresa, Professor)
-- **Cards interativos** do processo em 3 etapas
-- **Sidebar** com vagas recentes
-- **Seção de benefícios** com ícones estilizados
-- **Depoimentos** de usuários com avatares
-- **Call-to-action** final
-- **Rodapé** com informações de contato
+## Descrição do Projeto
 
-### 🎨 Design Features:
 
-- Gradiente de fundo dark theme
-- Botões com gradiente azul e efeitos hover
-- Cards com backdrop blur e transparência
-- Animações suaves e micro-interações
-- Design totalmente responsivo
-- Ícones com gradiente azul personalizado
+O Oportune+ é uma plataforma web que conecta alunos, professores e empresas, centralizando a divulgação de oportunidades para quem está no início da carreira.
 
-### 🛠️ Tecnologias Frontend:
+Muitos alunos enfrentam um dilema clássico: precisam de experiência para conseguir um emprego, mas não conseguem um emprego para ganhar experiência. 
+Encontrar as oportunidades certas, como estágios e projetos acadêmicos, é um desafio.
 
-- **React 19** - Biblioteca JavaScript
-- **Vite** - Build tool e servidor de desenvolvimento
-- **Tailwind CSS** - Framework CSS utilitário
-- **shadcn/ui** - Componentes de UI reutilizáveis
-- **Lucide React** - Ícones modernos
-- **Framer Motion** - Animações
-- **pnpm** - Gerenciador de pacotes
+O Oportune+ resolve esse problema ao criar um ecossistema onde:
+* Empresas e professores podem divulgar vagas de estágio, projetos e outras oportunidades de forma simples e direta.
+* Alunos encontram em um só lugar as chances que precisam para começar sua trajetória profissional.
+Nosso objetivo é ser a ponte que transforma potencial em experiência.
 
-## 🔧 Backend
+## Status do Projeto
 
-Sistema backend para gerenciar a plataforma Oportune+.
+Em desenvolvimento 
 
-### Estrutura:
-- **Controllers** - Lógica de controle das rotas
-- **Middlewares** - Middleware de autenticação e validação
-- **Repositories** - Camada de acesso a dados
-- **Routes** - Definição das rotas da API
-- **Services** - Lógica de negócio
-- **Utils** - Utilitários e helpers
+## Funcionalidades e Demonstração
 
-## 🚀 Como Executar
+As principais funcionalidades do Oportune + foram definidas com base nos requisitos funcionais e não funcionais, regras de negócio e requisitos de domínio.
 
-### Pré-requisitos
+### Demonstração
+A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemplos de fluxos:
+- **Cadastro e Login**: Formulário multi-etapas adaptado ao tipo de usuário.
+- **Busca e Candidatura**: Filtros avançados e aplicação one-click.
+- **Notificações**: Emails para confirmações e atualizações de status.
 
-- Node.js (versão 18 ou superior)
-- pnpm (recomendado) ou npm
+### Requisitos Funcionais
+   - [x]  Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico.
+   
+   - [x]  Interface de login para que usuários cadastrados acessem a plataforma usando email e senha.
 
-### Frontend
+   - [x]  Enviar notificação por email para confirmar cadastro concluído com sucesso.
+      
+   - [ ]  Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
+   
+   - [ ]  Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos).
+   
+   - [ ]  Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
+   
+   - [ ]  Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária.
+   
+   - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
 
-1. **Navegue para o diretório frontend**
-   ```bash
-   cd frontend
-   ```
+   - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
-2. **Instale as dependências**
-   ```bash
-   pnpm install
-   ```
 
-3. **Inicie o servidor de desenvolvimento**
-   ```bash
-   pnpm run dev
-   ```
+## Instalações
+Para intalar e rodar siga o passo a passo da [instalação](https://github.com/PedrFelip/oportune/blob/main/docs/Instalação.md)
 
-4. **Acesse no navegador**
-   ```
-   http://localhost:5173
-   ```
+## Tecnologias Utilizadas
 
-### Backend
+- **Frontend**: React, Tailwind CSS, JavaScript, JSX
+- **Backend**: Node.js, Fastify (para APIs REST), TypeScript
+- **Banco de Dados**: PostgreSQL, Prisma (ORM)
+- **Outras**: Docker (containerização), Go (microsserviços), Python (validações específicas), Figma (prototipagem)
+- **Gerenciamento**: Scrum, Trello, Discord, Google Drive
 
-1. **Navegue para o diretório backend**
-   ```bash
-   cd backend
-   ```
+## Contribuição
 
-2. **Instale as dependências**
-   ```bash
-   pnpm install
-   ```
+O Oportune + é um projeto open source e contribuições são bem-vindas! Se você quiser ajudar a melhorar a plataforma, siga as diretrizes abaixo para contribuir de forma eficaz. Nós valorizamos contribuições de todos os níveis, desde correções de bugs até novas funcionalidades.
 
-3. **Inicie o servidor**
-   ```bash
-   pnpm run dev
-   ```
+### Como Contribuir
 
-## 📱 Responsividade
+1. **Reporte Bugs ou Sugira Funcionalidades**:
+   - Abra uma [issue](https://github.com/PedrFelip/oportune/issues) no repositório.
+   - Descreva o problema ou ideia com o máximo de detalhes possível, incluindo passos para reproduzir (para bugs) ou justificativa para a funcionalidade.
+   - Use labels como "bug", "enhancement" ou "question" para categorizar.
 
-A landing page é totalmente responsiva:
+2. **Faça um Fork e Crie uma Pull Request**:
+   - Fork o repositório para sua conta no GitHub.
+   - Crie uma branch para sua contribuição: `git checkout -b feature/nova-funcionalidade` ou `git checkout -b fix/correcao-bug`.
+   - Faça as mudanças no código, seguindo o estilo de código existente (use ESLint/Prettier se configurado).
+   - Commit suas alterações com mensagens claras: `git commit -m 'Adiciona nova funcionalidade de busca avançada'`.
+   - Push para sua branch: `git push origin feature/nova-funcionalidade`.
+   - Abra uma Pull Request (PR) comparando sua branch com a main do repositório original.
+   - Na descrição da PR, explique o que foi alterado, por quê, e referencie issues relacionadas (ex: "Fecha #123").
 
-- **Desktop** (1024px+): Layout completo com sidebar
-- **Tablet** (768px-1024px): Grid adaptado
-- **Mobile** (<768px): Layout em coluna única
+3. **Ambiente de Desenvolvimento**:
+   - Siga as [Instruções de Instalação](#instruções-de-instalação) para configurar localmente.
+   - Rode testes (se disponíveis): `npm test` no frontend e backend.
+   - Certifique-se de que suas mudanças não quebram funcionalidades existentes.
 
-## 🎯 Componentes Principais
+4. **Estilo de Código e Boas Práticas**:
+   - Mantenha o código limpo, comentado e modular.
+   - Use convenções de nomenclatura consistentes (ex: camelCase para variáveis).
+   - Adicione testes unitários para novas funcionalidades.
+   - Respeite as regras de negócio e requisitos descritos no PDF de documentação.
 
-### Header
-- Logo da Oportune+
-- Menu de navegação responsivo
-- Botão de CTA "Criar conta"
+5. **Código de Conduta**:
+   - Seja respeitoso e inclusivo em todas as interações.
+   - Contribuições que violem o código de conduta serão rejeitadas.
 
-### Hero Section
-- Título principal com gradiente
-- Descrição da plataforma
-- Botões de seleção de perfil
-- Cards com processo em 3 passos
-- Sidebar com vagas recentes
+Se você é novo no open source, confira guias como [First Contributions](https://github.com/firstcontributions/first-contributions). Estamos animados para ver sua contribuição!
 
-### Benefits Section
-- Cards com ícones e descrições
-- Layout responsivo em grid
-- Efeitos hover suaves
+## Autores e Contatos
 
-### Testimonials Section
-- Cards de depoimentos
-- Avatares com iniciais
-- Layout em duas fileiras
+- **Equipe de Desenvolvimento**: Responsável pela concepção, implementação e manutenção.
+  - Contato: [oportunecontatos@gmail.com](oportunecontatos@gmail.com) 
+  - GitHub: [Pedro Felipe](https://github.com/PedrFelip)  |  [Gabriel](https://github.com/gabbzin)  |  [Lucas Felipe](https://github.com/Lucasdx7)
 
-### CTA Section
-- Call-to-action final
-- Botões de ação primária e secundária
+Para mais informações, entre em contato via issues no GitHub.
 
-### Footer
-- Informações de copyright
-- Links de contato e políticas
+## Licença
 
-## 🎨 Customizações CSS
-
-Classes customizadas no `App.css`:
-
-- `.oportune-gradient` - Gradiente de fundo principal
-- `.oportune-card` - Cards com backdrop blur
-- `.oportune-button-primary` - Botão primário com gradiente
-- `.testimonial-card` - Cards de depoimentos
-- `.hero-text` - Texto do hero com gradiente
-- `.feature-icon` - Ícones com fundo gradiente
-
-## 🚀 Deploy
-
-### Frontend
-```bash
-cd frontend
-pnpm run build
-# Os arquivos estarão na pasta dist/
-```
-
-### Backend
-```bash
-cd backend
-pnpm run build
-# Configure seu servidor de produção
-```
-
-## 📄 Licença
-
-Este projeto foi desenvolvido como implementação da plataforma Oportune+.
-
-## 🤝 Contribuições
-
-Sugestões e melhorias são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
-
----
-
-**Desenvolvido com ❤️ usando React, Node.js e tecnologias modernas**
-
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/PedrFelip/oportune/blob/main/LICENSE) para detalhes.

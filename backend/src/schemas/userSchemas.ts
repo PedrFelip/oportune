@@ -119,3 +119,22 @@ export const logUserSchema = z.object({
 });
 
 export type loginUserDTO = z.infer<typeof logUserSchema>;
+
+// Schema para solicitar recuperação de senha
+export const requestPasswordResetSchema = z.object({
+  email: z.email({ message: FraseErroEmail }),
+});
+
+export type requestPasswordResetDTO = z.infer<typeof requestPasswordResetSchema>;
+
+// Schema para redefinir senha
+export const resetPasswordSchema = z.object({
+  token: z.string(),
+  novaSenha: z.string().regex(regex.passwordRegex, FraseErroSenha),
+  novaSenhaConfirmada: z.string(),
+}).refine((data) => data.novaSenha === data.novaSenhaConfirmada, {
+  message: 'As senhas não coincidem',
+  path: ['novaSenhaConfirmada'],
+});
+
+export type resetPasswordDTO = z.infer<typeof resetPasswordSchema>;
