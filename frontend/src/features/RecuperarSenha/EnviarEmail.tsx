@@ -4,25 +4,30 @@ import { showMessage } from "@/adapters/showMessage";
 import { AuthHeader } from "@/components/AuthHeaderForm";
 import FormInput from "@/components/FormInput";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-// import { verificarEmail } from "./EnviarEmail";
+import { solicitarRecuperacaoSenha } from "./api/SolicitarRecuperacaoSenha";
 
 export function EnviarEmail() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      // const response = await verificarEmail(email);
+      const response = await solicitarRecuperacaoSenha(email);
 
+      const { token } = response;
+
+      router.replace(`/recuperar-senha/token=${token}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      showMessage.error(err.message || "Erro, por favor tente novamente");
+      showMessage.error(err || "Erro, por favor tente novamente");
+      setLoading(false);
     }
   };
 
@@ -32,7 +37,7 @@ export function EnviarEmail() {
         title="Digite seu email"
         description="Insira seu email para dar inicio ao processo de recuperação de senha"
       />
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormInput
           type="email"
           label="Email"
