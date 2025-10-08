@@ -6,6 +6,8 @@ import FormInput from "@/components/FormInput";
 import { Button } from "@/components/ui/button";
 import { BadgeCheckIcon, BadgeXIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { cadastrarNovaSenha } from "./api/cadastrarNovaSenha";
+import { useRouter } from "next/navigation";
 
 type iconProps = {
   condicao: boolean;
@@ -23,26 +25,32 @@ const Icon = ({ condicao }: iconProps) => {
   );
 };
 
-export function RecuperarSenha() {
-  const [senhaNova, setSenhaNova] = useState("");
-  const [senhaNovaConfirmada, setSenhaNovaConfirmada] = useState("");
+type RecuperarSenhaProps = {
+  token: string;
+};
+
+export function RecuperarSenha({ token }: RecuperarSenhaProps) {
+  const [novaSenha, setNovaSenha] = useState("");
+  const [novaSenhaConfirmada, setNovaSenhaConfirmada] = useState("");
   const [loading, setLoading] = useState(false);
   const [hasMinLength, setHasMinLength] = useState(false);
   const [hasUppercase, setHasUppercase] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
   const [hasSpecial, setHasSpecial] = useState(false);
 
+  const router = useRouter();
+
   const senhaValida = hasMinLength && hasUppercase && hasNumber && hasSpecial;
-  const senhaConfirmadaValida = (senhaNova === senhaNovaConfirmada);
+  const senhaConfirmadaValida = novaSenha === novaSenhaConfirmada;
 
   useEffect(() => {
-    setHasMinLength(senhaNova.length >= 8);
-    setHasUppercase(/[A-Z]/.test(senhaNova));
-    setHasNumber(/\d/.test(senhaNova));
-    setHasSpecial(/[^A-Za-z0-9]/.test(senhaNova));
-  }, [senhaNova]);
+    setHasMinLength(novaSenha.length >= 8);
+    setHasUppercase(/[A-Z]/.test(novaSenha));
+    setHasNumber(/\d/.test(novaSenha));
+    setHasSpecial(/[^A-Za-z0-9]/.test(novaSenha));
+  }, [novaSenha]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!senhaConfirmadaValida) {
@@ -51,9 +59,18 @@ export function RecuperarSenha() {
     }
 
     setLoading(true);
+    showMessage.loading("Aguarde!")
 
     try {
-      // const response = await cadastrarNovaSenha(data);
+      const response = await cadastrarNovaSenha({
+        token,
+        novaSenha,
+        novaSenhaConfirmada,
+      });
+
+      showMessage.success("Senha atualizada com sucesso!")
+
+      router.replace("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.log(err);
@@ -68,12 +85,12 @@ export function RecuperarSenha() {
       />
       <form onSubmit={handleSubmit}>
         <FormInput
-          name="senhaNova"
+          name="novaSenha"
           label="Nova senha"
-          id="senhaNova"
+          id="novaSenha"
           type="password"
-          value={senhaNova}
-          onChange={(e) => setSenhaNova(e.target.value)}
+          value={novaSenha}
+          onChange={(e) => setNovaSenha(e.target.value)}
           className={` w-full px-4 py-3 rounded-lg ${
             senhaValida ? "border border-green-500" : "liquid-input"
           }`}
@@ -93,12 +110,12 @@ export function RecuperarSenha() {
           </span>
         </div>
         <FormInput
-          name="senhaNovaConfirmada"
+          name="novaSenhaConfirmada"
           label="Confirme a nova senha"
-          id="senhaNovaConfirmada"
+          id="novaSenhaConfirmada"
           type="password"
-          value={senhaNovaConfirmada}
-          onChange={(e) => setSenhaNovaConfirmada(e.target.value)}
+          value={novaSenhaConfirmada}
+          onChange={(e) => setNovaSenhaConfirmada(e.target.value)}
           className={` w-full px-4 py-3 rounded-lg ${
             senhaConfirmadaValida ? "border border-green-500" : "liquid-input"
           }`}

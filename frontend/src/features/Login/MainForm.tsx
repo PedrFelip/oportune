@@ -59,7 +59,7 @@ export function MainForm({ onSubmit, loading, error }: MainFormProps) {
 
         <div className="flex justify-end items-center text-xs mb-5 -mt-2">
           <Link
-            href="/recuperar-senha"
+            href="/enviar-email"
             className="text-blue-400 hover:text-white hover:underline transition-colors duration-300"
           >
             Esqueci minha senha
