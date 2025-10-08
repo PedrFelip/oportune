@@ -10,6 +10,8 @@ COPY . .
 
 RUN npx prisma generate
 
+RUN mkdir -p logs
+
 EXPOSE 3001
 
 CMD ["npx", "tsx", "server.ts"]

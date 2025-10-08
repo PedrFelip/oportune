@@ -3,11 +3,11 @@ import { authRoutes } from "./src/routes/authRoutes.ts";
 import { cnpjRoutes } from "./src/routes/cnpjRoutes.ts";
 import { alunoRoutes } from "./src/routes/alunoRoutes.ts";
 import cors from "@fastify/cors";
-import { vagaRoutes } from './src/routes/vagaRoutes.ts'
+import { vagaRoutes } from "./src/routes/vagaRoutes.ts";
 
 const app = Fastify({
   logger: {
-    file: './logs/server.log',
+    file: "./logs/server.log",
     transport: {
       target: "pino-pretty",
       options: {
@@ -25,7 +25,13 @@ await app.register(cors, {
     cb(null, true);
   },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+  ],
   credentials: true,
   strictPreflight: false,
   optionsSuccessStatus: 200,
@@ -43,7 +49,7 @@ app.register(cnpjRoutes);
 
 app.register(alunoRoutes);
 
-app.register(vagaRoutes)
+app.register(vagaRoutes);
 
-await app.listen({ port: 3001, host: '0.0.0.0' });
+await app.listen({ port: 3001, host: "0.0.0.0" });
 console.log("Servidor iniciado na porta 3001");
