@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import CardHeader from "../components/CardHeader";
 import { ProfileType } from "../@types/type";
+import { AuthHeader } from "@/components/AuthHeaderForm";
 
 interface step1Props {
   onProfileSelect: (type: ProfileType) => void;
@@ -39,10 +40,9 @@ export function Step1_ProfileSection({ onProfileSelect }: step1Props) {
 
   return (
     <div className="animate-fadeIn">
-      <CardHeader
-        showLogo
+      <AuthHeader
         title="Junte-se ao Oportune"
-        subtitle="Selecione o tipo de perfil que melhor o descreve."
+        description="Selecione o tipo de perfil que melhor o descreve."
       />
       <main>
         {roles.map((role) => (

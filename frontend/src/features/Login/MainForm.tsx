@@ -1,5 +1,7 @@
 "use client";
 
+import { showMessage } from "@/adapters/showMessage";
+import FormInput from "@/components/FormInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -17,21 +19,20 @@ export function MainForm({ onSubmit, loading, error }: MainFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    onSubmit({email, senha})
+    try {
+      onSubmit({email, senha})
+    } catch {
+      showMessage.error(error || "Erro ao realizar login")
+    }
   }
 
   return (
     <main onSubmit={handleSubmit}>
       <form>
         <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block mb-2 text-sm font-medium text-slate-400"
-          >
-            E-mail
-          </label>
-          <input
+          <FormInput
             type="email"
+            label="Email"
             id="email"
             name="email"
             value={email}
@@ -43,14 +44,9 @@ export function MainForm({ onSubmit, loading, error }: MainFormProps) {
         </div>
 
         <div className="mb-5">
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-slate-400"
-          >
-            Senha
-          </label>
-          <input
+          <FormInput
             type="password"
+            label="Senha"
             id="password"
             name="password"
             value={senha}
@@ -77,9 +73,6 @@ export function MainForm({ onSubmit, loading, error }: MainFormProps) {
         >
           {loading ? "Entrando..." : "Entrar"}
         </Button>
-        {error && (
-          <p className="text-red-400 text-sm mt-3 text-center">{error}</p>
-        )}
       </form>
     </main>
     

@@ -10,6 +10,7 @@ type FormInputProps = {
   id: string;
   name: string;
   label: string;
+  className?: string;
   mask?: string;
   error?: string;
 } & InputAttributes;
@@ -17,10 +18,10 @@ type FormInputProps = {
 export default function FormInput({
   id,
   label,
+  className,
   mask,
   ...props
 }: FormInputProps) {
-
   const inputRef = useMask({
     mask: mask || "", // Passe a máscara para o hook
     replacement: { _: /\d/ },
@@ -38,8 +39,14 @@ export default function FormInput({
 
       <input
         id={id}
-        className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
-        ref={inputRef}
+        className={
+          className
+            ? className
+            : "w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
+        }
+        ref={mask ? inputRef : undefined}
+        value={props.value}
+        onChange={props.onChange}
         {...props}
       />
     </div>

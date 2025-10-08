@@ -134,3 +134,35 @@
 .oportune-gradient {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
 }
+
+@layer utilities {
+  @keyframes liquid-border {
+    0% {
+      border-bottom: 1px solid #2474e4;
+    }
+    33% {
+      border-left: 1px solid #2474e4;
+      border-right: 1px solid #2474e4;
+    }
+    66% {
+      border-top: 1px solid #2474e4;
+    }
+
+    100% {
+      border: 1px solid #2474e4;
+    }
+  }
+
+  .liquid-input {
+    position: relative;
+    border: none;
+    border-bottom: 2px solid #2474e4;
+    transition: all 0.4s ease;
+  }
+
+  .liquid-input:focus {
+    outline: none;
+    animation: liquid-border 0.8s ease forwards;
+    background-color: rgba(36, 116, 228, 0.05);
+  }
+}

@@ -173,7 +173,7 @@ export default function Cadastro() {
       setValue,
       onNext: handleNext,
       onBack: handleBack,
-      watch
+      watch,
     };
 
     switch (currentStep) {
@@ -208,13 +208,9 @@ export default function Cadastro() {
 
   return (
     <>
-      <div className="w-full max-w-md">
-        <div className="bg-white/5 p-8 rounded-2xl border border-white/5 backdrop-blur-xl">
-          <form onSubmit={handleSubmit(onSubmit, onValidationError)}>
-            {renderStep()}
-          </form>
-        </div>
-      </div>
+      <form onSubmit={handleSubmit(onSubmit, onValidationError)}>
+        {renderStep()}
+      </form>
     </>
   );
 }
