@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { showMessage } from "@/adapters/showMessage";
 import { CheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface Step7Props {
   userEmail: string;
@@ -71,7 +71,7 @@ export function Step7_Confirmation({ userEmail }: Step7Props) {
       >
         {isLoading
           ? showMessage.loading("Verificando...")
-          : showMessage.success("Email verificado!")}
+          : "Enviar email"}
       </Button>
     </div>
   );

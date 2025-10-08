@@ -16,7 +16,7 @@ import { ProfileType } from "./@types/type";
 import { CadastroFormData, cadastroSchema } from "@/lib/schemas";
 import { FieldErrors, Path, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cadastrarUsuario } from "@/app/api/cadastro/route";
+import { cadastrarUsuario } from "./api/createuser";
 
 export default function Cadastro() {
   const [currentStep, setCurrentStep] = useState(1);

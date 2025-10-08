@@ -1,21 +1,15 @@
-import { parseJsonSafe } from "../_funcs/funcs";
+// app/api/loguser/route.ts
+import { NextResponse } from "next/server";
 
-export async function logarUsuario(dados: { email: string; senha: string }) {
-  try {
-    const reply = await fetch(`http://localhost:3001/loguser`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dados),
-    });
+export async function POST(req: Request) {
+  const dados = await req.json();
 
-    if (!reply.ok) {
-      const text = await reply.text().catch(() => "");
-      throw new Error(text || `Erro na requisição: ${reply.status}`);
-    }
+  const backendReply = await fetch("http://localhost:3001/loguser", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+  });
 
-    return await parseJsonSafe(reply); // { token, user }
-  } catch (error) {
-    console.error("Erro ao logar usuário:", error);
-    throw error;
-  }
+  const data = await backendReply.json();
+  return NextResponse.json(data);
 }

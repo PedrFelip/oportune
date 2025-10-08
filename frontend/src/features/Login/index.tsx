@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-// import { useRouter } from "next/router";
+// import { useRouter } from "next/navigation";
 import { AuthHeader } from "@/components/AuthHeaderForm";
 import { MainForm } from "./MainForm";
-import { logarUsuario } from "@/app/api/login/route";
+import { logarUsuario } from "./api/loguser";
 import { showMessage } from "@/adapters/showMessage";
 
 export default function Login() {

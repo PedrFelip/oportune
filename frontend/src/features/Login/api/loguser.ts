@@ -1,11 +1,12 @@
 import { parseJsonSafe } from "@/_funcs/funcs";
 
-export async function solicitarRecuperacaoSenha(email: string) {
+// Função client-side para logar usuário
+export async function logarUsuario(dados: { email: string; senha: string }) {
   try {
-    const reply = await fetch(`http://localhost:3001/request-password-reset`, {
+    const reply = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(email),
+      body: JSON.stringify(dados),
     });
 
     if (!reply.ok) {
@@ -13,10 +14,10 @@ export async function solicitarRecuperacaoSenha(email: string) {
       throw new Error(text || `Erro na requisição: ${reply.status}`);
     }
 
+    // Retorna { token, user } do backend
     return await parseJsonSafe(reply);
   } catch (error) {
-    console.error("Erro ao solicitar recuperação", error);
-    const err = "Erro ao socilitar recuperação";
-    throw err;
+    console.error("Erro ao logar usuário:", error);
+    throw new Error("Erro ao logar usuário, tente novamente");
   }
 }
