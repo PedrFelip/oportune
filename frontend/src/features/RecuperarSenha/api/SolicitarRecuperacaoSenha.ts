@@ -2,7 +2,7 @@ import { parseJsonSafe } from "@/_funcs/funcs";
 
 export async function solicitarRecuperacaoSenha(email: string) {
   try {
-    const reply = await fetch(`http://localhost:3001/request-password-reset`, {
+    const reply = await fetch(`/api/request-password-reset`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(email),
