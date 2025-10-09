@@ -59,21 +59,24 @@ export function RecuperarSenha({ token }: RecuperarSenhaProps) {
     }
 
     setLoading(true);
-    showMessage.loading("Aguarde!")
+    showMessage.loading("Aguarde!");
 
     try {
-      const response = await cadastrarNovaSenha({
+      await cadastrarNovaSenha({
         token,
         novaSenha,
         novaSenhaConfirmada,
       });
 
-      showMessage.success("Senha atualizada com sucesso!")
+      showMessage.dismiss();
+      showMessage.success("Senha atualizada com sucesso!");
 
       router.replace("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,7 +123,11 @@ export function RecuperarSenha({ token }: RecuperarSenhaProps) {
             senhaConfirmadaValida ? "border border-green-500" : "liquid-input"
           }`}
         />
-        <Button variant={"oportune"} className="w-full mt-4">
+        <Button
+          variant={"oportune"}
+          className="w-full mt-4"
+          disabled={!senhaValida || !senhaConfirmadaValida || loading}
+        >
           {loading ? "Criando..." : "Criar nova senha"}
         </Button>
       </form>

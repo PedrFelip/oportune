@@ -4,7 +4,6 @@ import { showMessage } from "@/adapters/showMessage";
 import { AuthHeader } from "@/components/AuthHeaderForm";
 import FormInput from "@/components/FormInput";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { solicitarRecuperacaoSenha } from "./api/SolicitarRecuperacaoSenha";
 
@@ -12,19 +11,17 @@ export function EnviarEmail() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
+    showMessage.loading("Enviando email");
     try {
-      const response = await solicitarRecuperacaoSenha(email);
+      await solicitarRecuperacaoSenha(email);
 
-      const { token } = response;
-
-      setLoading(false)
-      router.replace(`/recuperar-senha/token=${token}`);
+      setLoading(false);
+      showMessage.dismiss();
+      showMessage.success("Email enviado com sucesso!");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       showMessage.error(err || "Erro, por favor tente novamente");
@@ -50,7 +47,12 @@ export function EnviarEmail() {
           placeholder="Digite seu email"
           required
         />
-        <Button type="submit" variant={"oportune"} className="w-full mt-4">
+        <Button
+          type="submit"
+          variant={"oportune"}
+          className="w-full mt-4"
+          disabled={loading}
+        >
           {loading ? "Enviando email" : "Enviar email"}
         </Button>
       </form>
