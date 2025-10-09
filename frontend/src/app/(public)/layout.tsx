@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function RootLayout({
+export default function PublicLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
