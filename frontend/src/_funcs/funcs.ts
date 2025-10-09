@@ -14,3 +14,20 @@ export async function parseJsonSafe(reply: Response) {
   const jsonData = await reply.json();
   return jsonData;
 }
+
+export async function getAuthToken() {
+  const authToken = localStorage.getItem("authToken");
+  const token = localStorage.getItem("token");
+
+  const finalToken = authToken || token;
+
+  if (finalToken) {
+    // Verifica se o token tem formato JWT básico
+    const parts = finalToken.split(".");
+    if (parts.length !== 3) {
+      console.warn("Token não parece ser um JWT válido");
+    }
+  }
+
+  return finalToken;
+}
