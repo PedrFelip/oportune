@@ -1,7 +1,10 @@
+"use client";
 import { InfoVaga } from "@/components/InfoVaga";
 import { Categoria } from "../Vagas/Oportunidade/categoria";
-// import { ChevronLeft } from "lucide-react";
 import React from "react";
+import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const infos = {
   titulo: "Estágio em Desenvolvimento Front End",
@@ -27,47 +30,45 @@ const infos = {
     "A Tech Solutions Inc. é lider em inovação digital, focada em criar soluções de software de ponta para o mercado global",
 };
 
-
-
 export function Vaga() {
+  const router = useRouter();
 
+  const handleVoltar = () => {
+    router.back();
+  };
 
-  // const back = (
-  //   <button
-  //     className="flex items-center gap-4 cursor-pointer"
-  //     onClick={handleVoltar}
-  //   >
-  //     {<ChevronLeft />} Voltar
-  //   </button>
-  // );
+  const Back = () => (
+    <button
+      className="flex items-center gap-4 cursor-pointer"
+      onClick={handleVoltar}
+    >
+      {<ChevronLeft />}
+    </button>
+  );
 
   return (
     <>
       <header className="flex items-center justify-between gap-3 text-white p-2">
         <div className="flex w-full gap-4">
-          <h2 className="text-2xl font-bold">{infos.titulo}</h2>
+          <h2 className="flex gap-4 text-2xl font-bold">
+            <Back />
+            {infos.titulo}
+          </h2>
           <div className="flex gap-5">
             {infos.tags.map((tag, index) => (
-              <Categoria
-                key={index}
-                caracteristica={tag}
-              >
-              </Categoria>
+              <Categoria key={index} caracteristica={tag}></Categoria>
             ))}
           </div>
         </div>
         <div className="flex">
-          <button className="bg-blue-500 hover:bg-blue-700 cursor-pointer duration-300 p-2 rounded-xl w-48">
+          <Button variant={"oportune"} className="cursor-pointer duration-300 p-2 rounded-xl w-40">
             Candidatar-se
-          </button>
+          </Button>
         </div>
       </header>
-      <main className="flex justify-between m-2 text-white">
-        <section className="flex flex-col gap-6 w-65/100 bg-[#1E293B] p-6">
-          <InfoVaga
-            titulo={"Descrição da vaga"}
-            descricao={infos.descricao}
-          />
+      <main className="flex justify-between m-2 text-white ">
+        <section className="flex flex-col gap-6 w-65/100 bg-[#1E293B] p-6 rounded-2xl">
+          <InfoVaga titulo={"Descrição da vaga"} descricao={infos.descricao} />
           <InfoVaga
             titulo={"Responsabilidades"}
             descricao={infos.responsabilidades}
@@ -79,7 +80,7 @@ export function Vaga() {
             tipo={"lista"}
           />
         </section>
-        <section className="flex flex-col gap-5 w-3/10 bg-[#1E293B] p-6">
+        <section className="flex flex-col gap-5 w-3/10 bg-[#1E293B] p-6 rounded-2xl">
           <InfoVaga
             titulo={"Curso Requisitado"}
             descricao={infos.curso}
@@ -89,18 +90,12 @@ export function Vaga() {
             titulo={"Semestre Mínimo"}
             descricao={`A partir do ${infos.semestre}°`}
           />
-          <InfoVaga
-            titulo={"Bolsa Auxilio"}
-            descricao={infos.bolsa}
-          />
+          <InfoVaga titulo={"Bolsa Auxilio"} descricao={infos.bolsa} />
           <InfoVaga
             titulo={"Prazo de inscrição"}
             descricao={infos.prazoInscricao}
           />
-          <InfoVaga
-            titulo={"Sobre a empresa"}
-            descricao={infos.sobre}
-          />
+          <InfoVaga titulo={"Sobre a empresa"} descricao={infos.sobre} />
         </section>
       </main>
     </>
