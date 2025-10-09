@@ -12,7 +12,7 @@ export async function buscarCandidaturasAluno() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Enviamos o token para a nossa API Next.js
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -20,7 +20,6 @@ export async function buscarCandidaturasAluno() {
 
     if (!reply.ok) {
       const errorData = await parseJsonSafe(reply);
-      // O erro agora pode vir estruturado da nossa API Next.js
       throw new Error(
         errorData?.error || `Erro na requisição: ${reply.status}`
       );

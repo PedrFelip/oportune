@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function useAuthGuard(options = { redirectTo: '/login', requireRole: "" }) {
   const { usuario, carregando } = useAuth();

@@ -1,9 +1,8 @@
-// app/(protected)/layout.tsx
-
 "use client";
 
 import { showMessage } from "@/adapters/showMessage";
 import { useAuth } from "@/contexts/AuthContext";
+import { Template } from "@/Template";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -27,8 +26,10 @@ export default function ProtectedLayout({
     showMessage.loading("Carregando a tela, por favor aguarde!");
   }
 
+  showMessage.dismiss()
+
   if (usuario) {
-    return <>{children}</>;
+    return <Template title={`Olá ${usuario.nome}`}>{children}</Template>;
   }
 
   return null;
