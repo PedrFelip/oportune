@@ -1,21 +1,9 @@
 import { NextResponse } from "next/server";
 
-interface CreateUserBody {
-  name: string;
-  email: string;
-  password: string;
-}
-
 export async function POST(req: Request) {
   try {
-    const { name, email, password }: CreateUserBody = await req.json();
-
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        { error: "Os campos 'name', 'email' e 'password' são obrigatórios." },
-        { status: 400 }
-      );
-    }
+    // Recebe todos os dados do formulário
+    const body = await req.json();
 
     const backendUrl = process.env.BACKEND_API_URL;
     if (!backendUrl) {
@@ -23,10 +11,11 @@ export async function POST(req: Request) {
       throw new Error("Configuração do servidor incompleta.");
     }
 
+    // Envia todos os dados para o backend - a validação completa é feita lá
     const backendResponse = await fetch(`${backendUrl}/createuser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify(body),
     });
 
     if (!backendResponse.ok) {
