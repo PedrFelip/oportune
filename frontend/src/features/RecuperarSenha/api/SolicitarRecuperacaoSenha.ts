@@ -2,10 +2,10 @@ import { parseJsonSafe } from "@/_funcs/funcs";
 
 export async function solicitarRecuperacaoSenha(email: string) {
   try {
-    const reply = await fetch(`/api/request-password-reset`, {
+    const reply = await fetch("/api/verificarEmail", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(email),
+      body: JSON.stringify({ email }),
     });
 
     if (!reply.ok) {
@@ -17,6 +17,6 @@ export async function solicitarRecuperacaoSenha(email: string) {
   } catch (error) {
     console.error("Erro ao solicitar recuperação", error);
     const err = "Erro ao socilitar recuperação";
-    throw err;
+    throw new Error(err);
   }
 }

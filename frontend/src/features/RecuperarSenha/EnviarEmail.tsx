@@ -23,6 +23,7 @@ export function EnviarEmail() {
 
       const { token } = response;
 
+      setLoading(false)
       router.replace(`/recuperar-senha/token=${token}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
