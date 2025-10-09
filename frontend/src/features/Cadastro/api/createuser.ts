@@ -3,7 +3,7 @@ import { CadastroFormData } from "@/lib/schemas";
 
 export async function cadastrarUsuario(dados: CadastroFormData){
   try {
-    const reply = await fetch("/api/cadastro", {
+    const reply = await fetch("/api/auth/cadastro", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(dados)

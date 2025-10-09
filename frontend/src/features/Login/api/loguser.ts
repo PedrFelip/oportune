@@ -3,7 +3,7 @@ import { parseJsonSafe } from "@/_funcs/funcs";
 // Função client-side para logar usuário
 export async function logarUsuario(dados: { email: string; senha: string }) {
   try {
-    const reply = await fetch("/api/login", {
+    const reply = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dados),

@@ -6,7 +6,7 @@ export async function cadastrarNovaSenha(dados: {
   novaSenhaConfirmada: string;
 }) {
   try {
-    const reply = await fetch("/api/cadastrarNovaSenha", {
+    const reply = await fetch("/api/auth/cadastrarNovaSenha", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dados),

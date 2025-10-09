@@ -2,7 +2,7 @@ import { parseJsonSafe } from "@/_funcs/funcs";
 
 export async function solicitarRecuperacaoSenha(email: string) {
   try {
-    const reply = await fetch("/api/verificarEmail", {
+    const reply = await fetch("/api/auth/verificarEmail", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
