@@ -22,11 +22,18 @@ export default function ProtectedLayout({
     }
   }, [usuario, carregando, router]);
 
-  if (carregando) {
-    showMessage.loading("Carregando a tela, por favor aguarde!");
-  }
+  useEffect(() => {
+    if (carregando) {
+      showMessage.loading("Carregando, por favor aguarde...");
+    } else {
+      // Se não estiver mais carregando, fecha todos os toasts
+      showMessage.dismiss();
+    }
 
-  showMessage.dismiss()
+    return () => {
+      showMessage.dismiss();
+    };
+  }, [carregando]);
 
   if (usuario) {
     return <Template title={`Olá ${usuario.nome}`}>{children}</Template>;

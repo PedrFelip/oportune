@@ -2,7 +2,7 @@ import { getAuthToken, parseJsonSafe } from "@/_funcs/funcs";
 
 export async function buscarVagasRecomendadasAluno() {
   try {
-    const token = getAuthToken();
+    const token = await getAuthToken();
     if (!token) throw new Error("Token não encontrado");
 
     console.log("💻 Frontend chamando a rota da API do Next.js...");
