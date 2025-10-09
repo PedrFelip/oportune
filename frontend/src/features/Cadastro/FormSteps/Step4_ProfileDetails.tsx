@@ -32,6 +32,7 @@ export function Step4_ProfileDetails({
   const cursoSelecionadoValue = watch("curso")
 
   const handleCnpjBlur = async () => {
+    showMessage.loading("Carregando informações")
     const cnpj = getValues("cnpj")?.replace(/\D/g, "") || "";
     if (cnpj.length !== 14) {
       // Limpa os campos se o CNPJ for inválido
@@ -132,7 +133,7 @@ export function Step4_ProfileDetails({
           disabled={isLoading}
           error={(errors as any).cnpj?.message || cnpjError}
         />
-        {isLoading && showMessage.loading("Carregando informações")}
+        {isLoading}
         <FormInput
           id="ramo"
           label="Ramo de Atividade"
