@@ -90,7 +90,7 @@ export function FormCalendar({
                     locale={ptBR}
                     fromYear={1950}
                     toYear={new Date().getFullYear() - 16}
-                    initialFocus
+                    captionLayout="dropdown"
                   />
                 </PopoverContent>
               </Popover>
