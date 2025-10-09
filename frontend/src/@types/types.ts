@@ -8,7 +8,6 @@ export type StatusVaga = "ATIVA" | "INATIVA" | "ENCERRADA";
 export type UserType = "ESTUDANTE" | "PROFESSOR" | "EMPRESA";
 export type Periodo = "MATUTINO" | "VESPERTINO" | "NOTURNO";
 
-
 // ========================================================================
 // 2. Interfaces dos Models
 // ========================================================================
@@ -33,10 +32,10 @@ export interface Candidatura {
 export interface Vaga {
   id: string;
   empresaId: string | null;
-  professorId: string | null;
   titulo: string;
   descricao: string;
   tipo: TipoVaga;
+  categorias: [];
   requisitos: string[];
   prazoInscricao: string; // ISO 8601 Date String
   statusVaga: StatusVaga;
@@ -44,10 +43,9 @@ export interface Vaga {
   semestreMinimo: number | null;
   createdAt: string; // ISO 8601 Date String
   updatedAt: string; // ISO 8601 Date String
-
+  
   // Relações
-  empresa?: Empresa | null;
-  professor?: Professor | null;
+  empresa: Empresa;
   candidaturas?: Candidatura[];
 }
 
@@ -117,7 +115,6 @@ export interface Empresa {
   user?: User;
   vagas?: Vaga[];
 }
-
 
 // ========================================================================
 // 3. Tipagem de Usuário com Discriminated Union

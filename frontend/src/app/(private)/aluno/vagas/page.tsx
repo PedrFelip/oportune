@@ -1,5 +1,5 @@
-import { EmConstrucao } from "@/features/EmConstrucao";
+import Vagas from "@/features/Aluno/Vagas";
 
 export default function Page() {
-  return <EmConstrucao />;
+  return <Vagas />;
 }
