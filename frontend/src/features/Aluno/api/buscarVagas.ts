@@ -6,7 +6,7 @@ export async function buscarVagas() {
     if (!token) throw new Error("Token não encontrado");
 
     // Chamamos a nossa rota interna do Next.js, e não o backend diretamente.
-    const reply = await fetch(`/api/aluno/vagas`, {
+    const reply = await fetch(`/api/aluno/buscar-vagas`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

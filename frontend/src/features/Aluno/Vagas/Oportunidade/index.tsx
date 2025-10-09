@@ -1,5 +1,6 @@
 import { Vaga } from "@/@types/types";
 import { Categoria } from "./categoria";
+import { Button } from "@/components/ui/button";
 
 type OportunidadeProps = {
   vagas: Vaga[];
@@ -22,9 +23,9 @@ export default function Oportunidade({ vagas }: OportunidadeProps) {
                 ))}
               </div>
             </div>
-            <button className="text-sm bg[#263243] backdrop-blur-sm cursor-pointer">
+            <Button variant={"oportune"} className="text-sm bg[#263243] backdrop-blur-sm cursor-pointer">
               Ver detalhes
-            </button>
+            </Button>
           </header>
           <main className="text-[#79889D] w-9/10">
             <div>{vaga.empresa.nomeFantasia}</div>
@@ -33,7 +34,7 @@ export default function Oportunidade({ vagas }: OportunidadeProps) {
           <footer className="flex gap-8 text-[#79889D]">
             <span>
               <strong className="text-white">Curso:</strong>{" "}
-              {vaga.cursosAlvo.map((value, index) => {
+              {vaga.cursosAlvo?.map((value, index) => {
                 return <span key={`${index}-${value}`}>{value}</span>;
               })}
             </span>
