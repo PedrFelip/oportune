@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { PerfilCard } from "@/components/PerfilCard";
 import { StatusCard } from "@/components/StatusCard";
@@ -24,7 +26,9 @@ export function Dashboard() {
   const [loadingVagas, setLoadingVagas] = useState(true);
 
   const [errorPerfil, setErrorPerfil] = useState<string | null>(null);
-  const [errorCandidaturas, setErrorCandidaturas] = useState<string | null>(null);
+  const [errorCandidaturas, setErrorCandidaturas] = useState<string | null>(
+    null
+  );
   const [errorVagas, setErrorVagas] = useState<string | null>(null);
 
   const recarregarPerfil = async () => {

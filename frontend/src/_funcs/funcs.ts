@@ -16,6 +16,9 @@ export async function parseJsonSafe(reply: Response) {
 }
 
 export async function getAuthToken() {
+  if (typeof window === "undefined") {
+    return null;
+  }
   const authToken = localStorage.getItem("authToken");
   const token = localStorage.getItem("token");
 
