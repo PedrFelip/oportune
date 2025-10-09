@@ -15,7 +15,7 @@ export async function parseJsonSafe(reply: Response) {
   return jsonData;
 }
 
-export async function getAuthToken() {
+export function getAuthToken() {
   if (typeof window === "undefined") {
     return null;
   }
