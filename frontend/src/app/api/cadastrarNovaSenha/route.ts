@@ -2,16 +2,17 @@ import { NextResponse } from "next/server";
 
 interface RequestBody {
   token: string;
-  password: string;
+  novaSenha: string;
+  novaSenhaConfirmada: string
 }
 
 export async function POST(req: Request) {
   try {
-    const { token, password }: RequestBody = await req.json();
+    const { token, novaSenha, novaSenhaConfirmada }: RequestBody = await req.json();
 
-    if (!token || !password) {
+    if (!token || !novaSenha || !novaSenhaConfirmada) {
       return NextResponse.json(
-        { error: "Os campos 'token' e 'password' são obrigatórios" },
+        { error: "Os campos 'token' e 'senha' são obrigatórios" },
         { status: 400 }
       );
     }
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
     const backendResponse = await fetch(`${backendUrl}/reset-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, password }),
+      body: JSON.stringify({ token, novaSenha, novaSenhaConfirmada }),
     });
 
     if (!backendResponse.ok) {

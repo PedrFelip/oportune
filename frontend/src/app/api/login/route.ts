@@ -2,16 +2,16 @@ import { NextResponse } from "next/server";
 
 interface LoginBody {
   email: string;
-  password: string;
+  senha: string;
 }
 
 export async function POST(req: Request) {
   try {
-    const { email, password }: LoginBody = await req.json();
+    const { email, senha }: LoginBody = await req.json();
 
-    if (!email || !password) {
+    if (!email || !senha) {
       return NextResponse.json(
-        { error: "Os campos 'email' e 'password' são obrigatórios." },
+        { error: "Os campos 'email' e 'senha' são obrigatórios." },
         { status: 400 }
       );
     }
@@ -25,12 +25,12 @@ export async function POST(req: Request) {
     const backendReply = await fetch(`${backendUrl}/loguser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, senha }),
     });
 
     if (!backendReply.ok) {
       const errorBody = await backendReply.json().catch(() => ({ 
-        error: "Credenciais inválidas ou erro no serviço de login." 
+        message: "Credenciais inválidas ou erro no serviço de login." 
       }));
       
       return NextResponse.json(errorBody, { status: backendReply.status });
