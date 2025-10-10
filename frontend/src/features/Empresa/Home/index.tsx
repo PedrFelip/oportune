@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Uniceplac from "@/assets/Uniceplac.webp";
+import { BriefcaseIcon, UserIcon } from "lucide-react";
 // import { showMessage } from "@/adapters/showMessage";
 // import { buscarPerfilProfessor } from "../api/buscarPerfil";
 // import { buscarAlunosOrientados } from "../api/buscarAlunos";
@@ -163,12 +164,30 @@ export function Dashboard() {
 
       {/* 🔹 Coluna Lateral — Alunos Orientados */}
       <div className="col-span-3 lg:col-span-1">
-        <div className="bg-slate-800 p-6 rounded-lg">
+        <div className="bg-slate-800 p-6 rounded-lg flex flex-col gap-6">
           <h3 className="text-xl font-bold text-white mb-4 text-center">
             Relatório de vagas
           </h3>
-          <div>
-            
+          <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors flexc">
+            <div className="card flex gap-3 items-center text-white">
+              <BriefcaseIcon className="text-blue-500"/>
+              <h3 className="font-bold">Vagas ativas</h3>
+            </div>
+            <div className="font-bold text-xl text-white">2</div>
+          </div>
+          <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
+            <div className="card flex gap-3 items-center text-white">
+              <UserIcon className="text-blue-500"/>
+              <h3 className="font-bold">Total de candidatos</h3>
+            </div>
+            <div className="font-bold text-xl text-white">69</div>
+          </div>
+          <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
+            <div className="card flex gap-3 items-center text-white">
+              <BriefcaseIcon className="text-blue-500"/>
+              <h3 className="font-bold">Total de visitas ao perfil</h3>
+            </div>
+            <div className="font-bold text-xl text-white">328</div>
           </div>
         </div>
       </div>
