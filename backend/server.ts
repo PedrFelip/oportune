@@ -4,6 +4,7 @@ import { cnpjRoutes } from "./src/routes/cnpjRoutes.ts";
 import { alunoRoutes } from "./src/routes/alunoRoutes.ts";
 import cors from "@fastify/cors";
 import { vagaRoutes } from "./src/routes/vagaRoutes.ts";
+import empresaRoutes from "./src/routes/empresaRoutes.ts";
 
 const app = Fastify({
   logger: {
@@ -46,6 +47,8 @@ app.get("/healthcheck", async () => {
 app.register(authRoutes);
 
 app.register(cnpjRoutes);
+
+app.register(empresaRoutes);
 
 app.register(alunoRoutes);
 
