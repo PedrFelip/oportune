@@ -32,12 +32,6 @@ const mockProfessor = {
       curso: "Engenharia de Software",
       semestre: 8,
     },
-    {
-      id: 3,
-      nome: "Felipe Rocha",
-      curso: "Sistemas de Informação",
-      semestre: 5,
-    },
   ],
 };
 
@@ -194,6 +188,9 @@ export function Dashboard() {
                       IA
                     </Badge>
                   </div>
+                  <Button variant={"oportune_blank"} className="w-full mt-4">
+                    Ver detalhes
+                  </Button>
                 </li>
               ))}
             </ul>
