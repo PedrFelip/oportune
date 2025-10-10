@@ -1,6 +1,6 @@
 "use client";
 import { InfoVaga } from "@/components/InfoVaga";
-import { Categoria } from "../Vagas/Oportunidade/categoria";
+import { Categoria } from "@/components/Categoria"
 import React from "react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
