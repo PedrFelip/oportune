@@ -60,7 +60,7 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
    
    - [ ]  Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
 
-    - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
+   - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
   
    - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
    
