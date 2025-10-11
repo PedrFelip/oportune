@@ -54,17 +54,17 @@ A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemp
 
    - [x]  Enviar notificação por email para confirmar cadastro concluído com sucesso.
       
-   - [ ]  Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
+   - [x]  Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
    
    - [ ]  Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos).
    
    - [ ]  Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
+
+    - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
+  
+   - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
    
    - [ ]  Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária.
-   
-   - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
-
-   - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
 
 
 ## Instalações
