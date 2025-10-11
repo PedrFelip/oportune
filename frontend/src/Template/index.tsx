@@ -37,7 +37,7 @@ export function Template({ children, title }: templateProps) {
         ></div>
       )}
       <div className="flex flex-col flex-1">
-        <Header title={"Bom dia usuário"} onMenuClick={toggleSidebar} />
+        <Header title={title} onMenuClick={toggleSidebar} />
         <main className="p-6 overflow-auto">{children}</main>
       </div>
     </div>

@@ -124,7 +124,6 @@ export interface Empresa {
 interface BaseUser {
   id: string;
   email: string;
-  // A senha não é incluída, pois nunca deve ser enviada para o frontend.
   nome: string;
   emailVerificado: boolean;
   createdAt: string; // ISO 8601 Date String
