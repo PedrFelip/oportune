@@ -32,19 +32,19 @@ export function InputModal({ open, onOpenChange }: inputModalProps) {
           <SearchIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <DialogContent className="sm:max-w-[450px] bg-gray-700 border-0">
+        <form onSubmit={handleSubmit(onSubmit)} className="px-2">
           <DialogHeader className="mb-4">
-            <DialogTitle>Buscar vaga</DialogTitle>
+            <DialogTitle className="text-secondary">Buscar vaga</DialogTitle>
           </DialogHeader>
             <Input type="text" className={"m-4"}/>
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline" className={"cursor-pointer"}>
+              <Button type="button" variant="destructive" className={"cursor-pointer"}>
                 Cancelar
               </Button>
             </DialogClose>
-            <Button type="submit" className={"cursor-pointer"}>Realizar Busca</Button>
+            <Button type="submit" variant={"oportune"} className={"cursor-pointer"}>Realizar Busca</Button>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -1,5 +1,5 @@
 import { Vaga } from "@/@types/types";
-import { Categoria } from "./categoria";
+import { Categoria } from "@/components/Categoria";
 import { Button } from "@/components/ui/button";
 
 type OportunidadeProps = {
