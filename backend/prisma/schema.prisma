@@ -42,6 +42,11 @@ model Estudante {
   genero         String
 
   faculdade     String?
+
+  areasInteresse String[] @default([])
+  habilidadesComportamentais String[] @default([])
+  habilidadesTecnicas String[] @default([])
+
   matricula     String
   curso         String
   semestre      Int
