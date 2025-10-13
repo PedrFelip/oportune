@@ -15,4 +15,5 @@ export const createVagaSchema = z.object({
   cursosAlvo: z.array(z.string()).min(0).optional(),
   semestreMinimo: z.number().int().min(1).optional()
   })
+  
 export type VagaCreateDTO = z.infer<typeof createVagaSchema>
