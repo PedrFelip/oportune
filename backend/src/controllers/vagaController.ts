@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { createServiceVaga, listarServiceVagas } from '../services/vagaServices.ts'
+import { createServiceVaga, getVagaDetalhesService, listarServiceVagas } from '../services/vagaServices.ts'
 import { createVagaSchema } from '../schemas/vagasSchema.ts'
 
 export const createVagaController = async (
@@ -38,3 +38,15 @@ export const listarVagasController = async (
   }
 }
 
+export const getVagaDetalhesController = async (
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply,
+) => {
+  try {
+    const { id } = request.params;
+    const vaga = await getVagaDetalhesService(id);
+    return reply.status(200).send(vaga);
+  } catch (err: any) {
+    return reply.status(400).send({ message: 'Erro ao obter detalhes da vaga', error: err.message });
+  }
+}
