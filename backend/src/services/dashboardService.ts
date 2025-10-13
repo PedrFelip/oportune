@@ -8,10 +8,14 @@ const formatarNomeCurso = (cursoValue: string): string => {
 
 const perfilPorcentagem = (estudante: any): number => {
   let score = 0
-  const totalPontos = 7
+  const totalPontos = 10 // Total de pontos possíveis
 
+  // Verifica cada campo relevante e incrementa o score
   if (estudante.telefone) score++
   if (estudante.faculdade) score++
+  if (estudante.areasInteresse && estudante.areasInteresse.length > 0) score++
+  if (estudante.habilidadesComportamentais && estudante.habilidadesComportamentais.length > 0) score++
+  if (estudante.habilidadesTecnicas && estudante.habilidadesTecnicas.length > 0) score++
   if (estudante.dataFormatura) score++
   if (estudante.fotoPerfil) score++
   if (estudante.genero) score++
