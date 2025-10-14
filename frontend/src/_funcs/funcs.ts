@@ -17,6 +17,7 @@ export async function parseJsonSafe(reply: Response) {
 
 export function getAuthToken() {
   if (typeof window === "undefined") {
+    console.warn("getAuthToken chamado no servidor");
     return null;
   }
   const authToken = localStorage.getItem("authToken");

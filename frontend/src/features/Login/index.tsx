@@ -9,6 +9,7 @@ import { showMessage } from "@/adapters/showMessage";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
+import { salveTokenCookie } from "./salvarCookies";
 
 export default function Login() {
   const { login } = useAuth();
@@ -24,6 +25,7 @@ export default function Login() {
       const { token, user } = response;
 
       login(token, user);
+      salveTokenCookie(token)
 
       showMessage.success("Login realizado com sucesso");
 
