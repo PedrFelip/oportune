@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 // import FilterBox from "../../components/dashboard/geral/FilterBox";
@@ -12,22 +12,22 @@ export default function Vagas() {
   const [loading, setLoading] = useState(true);
 
   const carregarVagas = async () => {
-    showMessage.loading("Carregando vagas")
-    setLoading(true)
+    showMessage.loading("Carregando vagas");
+    setLoading(true);
     try {
       const vagasReq = await buscarVagas();
 
-      if (vagasReq === null){
-        throw new Error("Falha na requisição")
+      if (vagasReq === null) {
+        throw new Error("Falha na requisição");
       }
-      showMessage.success("Vagas carregadas")
+      showMessage.dismiss();
+      showMessage.success("Vagas carregadas");
       setVagas(vagasReq);
     } finally {
-      showMessage.dismiss()
       setLoading(false);
     }
   };
-
+  
   useEffect(() => {
     carregarVagas();
   }, []);
@@ -70,5 +70,5 @@ export default function Vagas() {
     </>
   );
 }
-import { showMessage } from "@/adapters/showMessage";import { buscarVagas } from "../api/buscarVagas";
-
+import { showMessage } from "@/adapters/showMessage";
+import { buscarVagas } from "../api/buscarVagas";

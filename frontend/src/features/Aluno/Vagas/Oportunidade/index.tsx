@@ -1,6 +1,7 @@
 import { Vaga } from "@/@types/types";
 import { Categoria } from "@/components/Categoria";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type OportunidadeProps = {
   vagas: Vaga[];
@@ -23,12 +24,14 @@ export default function Oportunidade({ vagas }: OportunidadeProps) {
                 ))}
               </div>
             </div>
-            <Button
-              variant={"oportune"}
-              className="text-sm bg[#263243] backdrop-blur-sm cursor-pointer"
-            >
-              Ver detalhes
-            </Button>
+            <Link href={`/${vaga.id}`}>
+              <Button
+                variant={"oportune"}
+                className="text-sm bg[#263243] backdrop-blur-sm cursor-pointer"
+              >
+                Ver detalhes
+              </Button>
+            </Link>
           </header>
           <main className="text-[#79889D] w-9/10">
             <div className="text-md text-white font-bold">{vaga.empresa}</div>
