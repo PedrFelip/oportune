@@ -12,7 +12,6 @@ import ProfessorFt from "@/assets/prof_cat.jpg";
 // import { buscarPerfilProfessor } from "../api/buscarPerfil";
 // import { buscarAlunosOrientados } from "../api/buscarAlunos";
 
-// 🔹 Mock de dados do professor
 const mockProfessor = {
   nome: "Joãozinho Cibita",
   departamento: "Engenharia de Software",
@@ -38,7 +37,7 @@ const mockProfessor = {
 export function Dashboard() {
   const { carregando } = useAuthGuard({
     redirectTo: "/login",
-    requireRole: "ESTUDANTE",
+    requireRole: "PROFESSOR",
   });
 
   const [perfil, setPerfil] = useState<any>(null);
