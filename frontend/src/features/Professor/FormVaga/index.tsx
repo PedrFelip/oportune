@@ -11,18 +11,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
-import Logo from "@/../public/images/favicon.svg";
+import Logo from "@/assets/logo_oportune.png";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/FormInput";
 import { vagaModel } from "@/models/oportunidadeModel";
 import { DialogProps } from "@radix-ui/react-dialog";
 
 type FormNewEventProps = {
-  isOpen?: DialogProps["open"];
-  setIsOpen?: DialogProps["onOpenChange"];
+  isOpen: DialogProps["open"];
+  setIsOpen: DialogProps["onOpenChange"];
 };
 
-export function FormNewEvent({ isOpen, setIsOpen }: FormNewEventProps) {
+export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
   const form = useForm<vagaModel>({
     defaultValues: {
       titulo: "",
