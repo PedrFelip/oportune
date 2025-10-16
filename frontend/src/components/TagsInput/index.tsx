@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useCallback } from 'react';
-import { Badge } from '@/components/ui/badge';
+import React, { useState, useRef, useCallback } from "react";
+import { Badge } from "@/components/ui/badge";
 import {
   Command,
   CommandEmpty,
@@ -9,21 +9,21 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/popover";
+import { Input } from "../ui/input";
 
 interface Suggestion {
   value: string;
   label: string;
+  maxSemestres?: number;
 }
 
 interface AutocompleteTagsInputProps {
-  label: string;
   value?: string[];
   onChange: (value: string[]) => void;
   placeholder?: string;
@@ -31,7 +31,6 @@ interface AutocompleteTagsInputProps {
 }
 
 export function TagsInput({
-  label,
   value = [],
   onChange,
   placeholder,
@@ -39,29 +38,29 @@ export function TagsInput({
 }: AutocompleteTagsInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   const handleSelect = useCallback(
     (selectedValue: string) => {
-      setInputValue('');
+      setInputValue("");
       if (selectedValue && !value.includes(selectedValue)) {
         onChange([...value, selectedValue]);
       }
       setOpen(false);
     },
-    [value, onChange],
+    [value, onChange]
   );
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Backspace' && inputValue === '' && value.length > 0) {
+      if (e.key === "Backspace" && inputValue === "" && value.length > 0) {
         e.preventDefault();
         const newTags = [...value];
         newTags.pop();
         onChange(newTags);
       }
     },
-    [inputValue, value, onChange],
+    [inputValue, value, onChange]
   );
 
   const removeTag = (tagToRemove: string) => {
@@ -70,17 +69,14 @@ export function TagsInput({
 
   return (
     <div className="flex flex-col gap-3">
-      <Label htmlFor='date' className='px-1'>
-        {label}
-      </Label>
       <Popover open={open} onOpenChange={setOpen}>
-        <div className='flex flex-wrap gap-2 rounded-md border border-input p-2 items-center'>
+        <div className="flex flex-wrap gap-2 rounded-md p-2 items-center">
           {value.map((tag) => (
-            <Badge key={tag} variant='secondary'>
+            <Badge key={tag} variant="secondary">
               {tag}
               <button
-                type='button'
-                className='ml-2 rounded-full outline-none hover:bg-destructive/50'
+                type="button"
+                className="ml-2 rounded-full outline-none hover:bg-destructive/50"
                 onClick={() => removeTag(tag)}
               >
                 &times;
@@ -88,9 +84,9 @@ export function TagsInput({
             </Badge>
           ))}
           <PopoverTrigger asChild>
-            <input
+            <Input
               ref={inputRef}
-              type='text'
+              type="text"
               placeholder={placeholder}
               value={inputValue}
               onChange={(e) => {
@@ -98,13 +94,13 @@ export function TagsInput({
                 if (!open) setOpen(true);
               }}
               onKeyDown={handleKeyDown}
-              className='flex-1 bg-transparent outline-none shadow-none focus-visible:ring-0'
+              className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
             />
           </PopoverTrigger>
         </div>
-        <PopoverContent className='w-[--radix-popover-trigger-width] p-0'>
+        <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
           <Command>
-            <CommandInput placeholder='Procure uma tag...' />
+            <CommandInput placeholder="Procure uma tag..." />
             <CommandList>
               <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
               <CommandGroup>
@@ -116,8 +112,8 @@ export function TagsInput({
                     disabled={value.includes(suggestion.value)}
                     className={
                       value.includes(suggestion.value)
-                        ? 'opacity-50 cursor-not-allowed'
-                        : ''
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
                     }
                   >
                     {suggestion.label}

@@ -12,7 +12,7 @@
     { "value": "OUTRO", "label": "Outro" },
     { "value": "PREFIRO NAO DIZER", "label": "Prefiro não dizer" }
   ],
-  
+
   "cursos": [
     {
       "value": null,
@@ -126,14 +126,40 @@
     }
   ],
 
-  "tipos": [
-
-  ],
+  "tipos": [],
 
   "modalidade": [
-    {"value": null, "label": "Modalidade"},
-    {"value": "presencial", "label": "Presencial"},
-    {"value": "hibrido", "label": "Híbrido"},
-    {"value": "remoto", "label": "Remoto"}
+    { "value": null, "label": "Modalidade" },
+    { "value": "presencial", "label": "Presencial" },
+    { "value": "hibrido", "label": "Híbrido" },
+    { "value": "remoto", "label": "Remoto" }
+  ],
+  "requisitos": [
+    { "label": "Lógica de Programação", "value": "logica_programacao" },
+    {
+      "label": "Algoritmos e Estruturas de Dados",
+      "value": "estruturas_dados"
+    },
+    { "label": "Banco de Dados SQL", "value": "banco_dados_sql" },
+    { "label": "NoSQL (MongoDB, Redis, etc.)", "value": "nosql" },
+    { "label": "Programação Orientada a Objetos (POO)", "value": "poo" },
+    { "label": "APIs RESTful", "value": "api_rest" },
+    { "label": "Versionamento com Git e GitHub", "value": "git_github" },
+    { "label": "HTML, CSS e JavaScript", "value": "frontend_basico" },
+    {
+      "label": "Frameworks Front-end (React, Angular, Vue)",
+      "value": "framework_frontend"
+    },
+    { "label": "Node.js e Express", "value": "backend_node" },
+    { "label": "Segurança da Informação", "value": "seguranca_info" },
+    { "label": "Linux e Linha de Comando", "value": "linux_cli" },
+    { "label": "Redes de Computadores", "value": "redes" },
+    { "label": "Docker e Containers", "value": "docker" },
+    { "label": "CI/CD e DevOps", "value": "devops" },
+    { "label": "Testes Automatizados", "value": "testes_automatizados" },
+    { "label": "Cloud Computing (AWS, Azure, GCP)", "value": "cloud" },
+    { "label": "Metodologias Ágeis (Scrum, Kanban)", "value": "agile" },
+    { "label": "Documentação Técnica", "value": "documentacao" },
+    { "label": "Boas Práticas de Código (Clean Code)", "value": "clean_code" }
   ]
 }
