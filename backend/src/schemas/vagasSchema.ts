@@ -12,6 +12,7 @@ export const createVagaSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Data deve estar no formato AAAA-MM-DD')
     .transform((str) => new Date(str))
     .pipe(z.date()),
+  numeroVagas: z.number().optional(),
   cursosAlvo: z.array(z.string()).min(0).optional(),
   semestreMinimo: z.number().int().min(1).optional()
   })

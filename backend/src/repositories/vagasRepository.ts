@@ -10,6 +10,7 @@ export const createVaga = async (vagaData: any) => {
         tipo: vagaData.tipo,
         empresaId: vagaData.empresaId,
         professorId: vagaData.professorId,
+        numeroVagas: vagaData.numeroVagas || 1,
         prazoInscricao: vagaData.prazoInscricao,
         cursosAlvo: vagaData.cursosAlvo || [],
         semestreMinimo: vagaData.semestreMinimo,
