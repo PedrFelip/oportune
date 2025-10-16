@@ -5,6 +5,7 @@ import { alunoRoutes } from "./src/routes/alunoRoutes.ts";
 import cors from "@fastify/cors";
 import { vagaRoutes } from "./src/routes/vagaRoutes.ts";
 import empresaRoutes from "./src/routes/empresaRoutes.ts";
+import { candidaturaRoutes } from "./src/routes/candidaturaRoutes.ts";
 
 const app = Fastify({
   logger: {
@@ -53,6 +54,8 @@ app.register(empresaRoutes);
 app.register(alunoRoutes);
 
 app.register(vagaRoutes);
+
+app.register(candidaturaRoutes);
 
 await app.listen({ port: 3001, host: "0.0.0.0" });
 console.log("Servidor iniciado na porta 3001");
