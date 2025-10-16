@@ -63,11 +63,12 @@ export const getCandidaturasService = async (userId: string) => {
     }
 
     const candidaturasFormatadas = candidaturasEstudante.map((c: any) => ({
-      titulo: c.vaga?.titulo || 'Título não disponível',
-      empresa: c.vaga?.empresa?.nomeFantasia || c.vaga?.professor?.user?.nome || 'Não informado',
+      id: c.id,
+      tituloVaga: c.vaga?.titulo || 'Título não disponível',
+      nomeEmpresa: c.vaga?.empresa?.nomeFantasia || c.vaga?.professor?.user?.nome || 'Não informado',
       status: c.status || 'PENDENTE',
       dataCandidatura: c.dataCandidatura,
-    })).filter(c => c.titulo !== 'Título não disponível'); // Filtrar candidaturas inválidas
+    })).filter(c => c.tituloVaga !== 'Título não disponível'); // Filtrar candidaturas inválidas
 
     console.log(`${candidaturasFormatadas.length} candidaturas formatadas para userId: ${userId}`)
     
@@ -151,9 +152,11 @@ export const getDashboardService = async (userId: string) => {
   }
 
   const candidaturasFormatadas = candidaturasEstudante.map((c: any) => ({
-    titulo: c.vaga.titulo,
-    empresa: c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome || 'Não informado',
+    id: c.id,
+    tituloVaga: c.vaga.titulo,
+    nomeEmpresa: c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome || 'Não informado',
     status: c.status,
+    dataCandidatura: c.dataCandidatura,
   }));
 
   const vagasFormatadas = VagasRecomendadas.map((v: any) => ({

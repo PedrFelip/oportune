@@ -10,9 +10,9 @@ type OportunidadeProps = {
 export default function Oportunidade({ vagas }: OportunidadeProps) {
   return (
     <>
-      {vagas.map((vaga, index) => (
+      {vagas.map((vaga) => (
         <section
-          key={index}
+          key={vaga.id}
           className={"flex flex-1 flex-col bg-[#263243] p-5 gap-4 rounded-xl"}
         >
           <header className="flex flex-1 justify-between text-2xl text-white font-bold">
