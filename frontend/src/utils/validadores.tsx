@@ -17,10 +17,13 @@ export const verificarIdadeMinima = (dataNascimentoStr: string, idadeMinima = 16
   const mesDiff = hoje.getMonth() - dataNascimento.getMonth();
   const diaDiff = hoje.getDate() - dataNascimento.getDate();
 
-  // Se ainda não fez aniversário este ano, subtrai 1
   if (mesDiff < 0 || (mesDiff === 0 && diaDiff < 0)) {
     idade--;
   }
 
   return idade >= idadeMinima;
 };
+
+export const primeiraLetraMaiuscula = (str: string) => {
+  return str.replace(/^./, char => char.toUpperCase());
+}

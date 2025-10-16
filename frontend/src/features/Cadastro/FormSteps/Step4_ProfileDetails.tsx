@@ -182,6 +182,7 @@ export function Step4_ProfileDetails({
           id="lattes"
           label="Link para o Lattes (Opcional)"
           type="url"
+          required={false}
           {...register("lattes")}
           error={(errors as any).lattes?.message}
         />

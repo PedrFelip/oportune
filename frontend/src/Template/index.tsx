@@ -1,13 +1,14 @@
 import { Sidebar } from "./Components/Sidebar";
 import { Header } from "./Components/Header";
 import { useState } from "react";
+import { useLayout } from "@/contexts/LayoutContext";
 
 type templateProps = {
   children: React.ReactNode;
-  title: string;
 };
 
-export function Template({ children, title }: templateProps) {
+export function Template({ children }: templateProps) {
+  const { pageTitle } = useLayout();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -37,7 +38,7 @@ export function Template({ children, title }: templateProps) {
         ></div>
       )}
       <div className="flex flex-col flex-1">
-        <Header title={title} onMenuClick={toggleSidebar} />
+        <Header title={pageTitle} onMenuClick={toggleSidebar} />
         <main className="p-6 overflow-auto">{children}</main>
       </div>
     </div>

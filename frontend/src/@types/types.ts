@@ -31,21 +31,16 @@ export interface Candidatura {
 
 export interface Vaga {
   id: string;
-  empresaId: string | null;
   titulo: string;
   descricao: string;
   tipo: TipoVaga;
-  categorias: [];
-  requisitos: string[];
+  categorias: string[];
   prazoInscricao: string; // ISO 8601 Date String
-  statusVaga: StatusVaga;
-  cursosAlvo: string[];
-  semestreMinimo: number | null;
-  createdAt: string; // ISO 8601 Date String
-  updatedAt: string; // ISO 8601 Date String
-  
+  curso: string;
+  semestre: string;
+
   // Relações
-  empresa: Empresa;
+  empresa: string;
   candidaturas?: Candidatura[];
 }
 

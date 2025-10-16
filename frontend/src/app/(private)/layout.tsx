@@ -2,6 +2,7 @@
 
 import { showMessage } from "@/adapters/showMessage";
 import { useAuth } from "@/contexts/AuthContext";
+import { LayoutProvider } from "@/contexts/LayoutContext";
 import { Template } from "@/Template";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -36,7 +37,11 @@ export default function ProtectedLayout({
   }, [carregando]);
 
   if (usuario) {
-    return <Template title={`Olá ${usuario.nome}`}>{children}</Template>;
+    return (
+      <LayoutProvider>
+        <Template>{children}</Template>
+      </LayoutProvider>
+    );
   }
 
   return null;

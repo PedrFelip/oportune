@@ -8,6 +8,8 @@ import { logarUsuario } from "./api/loguser";
 import { showMessage } from "@/adapters/showMessage";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
+import { salveTokenCookie } from "./salvarCookies";
 
 export default function Login() {
   const { login } = useAuth();
@@ -23,6 +25,7 @@ export default function Login() {
       const { token, user } = response;
 
       login(token, user);
+      salveTokenCookie(token)
 
       showMessage.success("Login realizado com sucesso");
 
@@ -60,6 +63,14 @@ export default function Login() {
         description="Bem-vindo de volta! Insira seus dados."
       />
       <MainForm onSubmit={handleSubmit} error={error} loading={loading} />
+      <footer className="mt-4">
+        <p className="text-gray-400 text-sm text-center">
+          Ainda não tem uma conta?{" "}
+          <Link href={"/cadastro"} className="text-blue-400 hover:underline">
+            Crie agora
+          </Link>
+        </p>
+      </footer>
     </>
   );
 }
