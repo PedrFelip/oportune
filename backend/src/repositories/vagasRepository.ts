@@ -65,6 +65,7 @@ export const getVagaDetalhes = async (vagaId: string) => {
       },
     });
     return {
+      id: vaga.id,
       titulo: vaga.titulo,
       empresa: vaga.empresa?.nomeFantasia || '',
       professor: vaga.professor?.user?.nome || '',
