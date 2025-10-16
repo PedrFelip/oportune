@@ -53,13 +53,13 @@ export default function Home() {
         </div>
         <nav className="hidden md:flex items-center space-x-6">
           <Link
-            href="#"
+            href="/sobre"
             className="text-gray-300 hover:text-white transition-colors"
           >
             Sobre
           </Link>
           <Link
-            href="#"
+            href="/faq"
             className="text-gray-300 hover:text-white transition-colors"
           >
             FAQ
@@ -83,8 +83,8 @@ export default function Home() {
             Conectando talentos a oportunidade na sua faculdade
           </h1>
           <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-            Estágios, projetos de pesquisa e extensão em um só lugar — perfis
-            personalizados, busca inteligente e candidaturas com um clique.
+            Estágios, projetos de pesquisa e extensão em um só lugar.
+            Perfis, busca inteligente e candidaturas com um clique.
           </p>
 
           <div className="flex flex-wrap gap-4 mb-12">
