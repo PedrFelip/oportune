@@ -44,7 +44,7 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
       <DialogTrigger asChild>
         <Button
           variant={"secondary"}
-          className="absolute bottom-10 right-10 rounded-[50%] w-16 h-16"
+          className="absolute bottom-10 right-10 rounded-[50%] w-16 h-16 cursor-pointer hover:rotate-360 duration-500"
         >
           <Image src={Logo} alt="Botão de criar nova tarefa" />
         </Button>
