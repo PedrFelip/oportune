@@ -314,32 +314,6 @@ export default function FAQ() {
             responderemos o mais rápido possível.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-            <a href="mailto:contato@oportune.edu">
-              <Button variant="oportune" className="w-full sm:w-auto px-8 py-3">
-                Enviar e-mail
-              </Button>
-            </a>
-            <Link href="/sobre">
-              <Button variant="oportune_blank" className="w-full sm:w-auto px-8 py-3">
-                Saber mais sobre nós
-              </Button>
-            </Link>
-          </div>
-        </Card>
-      </section>
-
-      {/* Contact Section */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 max-w-7xl mx-auto">
-        <Card className="oportune-card p-8 sm:p-12 text-center">
-          <Mail className="h-10 w-10 sm:h-12 sm:w-12 text-blue-400 mx-auto mb-4 sm:mb-6" />
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-primary-foreground px-2">
-            Não encontrou sua resposta?
-          </h2>
-          <p className="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
-            Nossa equipe está pronta para ajudar! Entre em contato conosco e
-            responderemos o mais rápido possível.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             <a href="mailto:oportunecontatos@gmail.com">
               <Button variant="oportune" className="w-full sm:w-auto px-8 py-3">
                 Enviar e-mail
