@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "../ui/input";
+import { X } from "lucide-react";
 
 interface Suggestion {
   value: string;
@@ -70,20 +71,8 @@ export function TagsInput({
   return (
     <div className="flex flex-col gap-3">
       <Popover open={open} onOpenChange={setOpen}>
-        <div className="flex flex-wrap gap-2 rounded-md p-2 items-center">
-          {value.map((tag) => (
-            <Badge key={tag} variant="secondary">
-              {tag}
-              <button
-                type="button"
-                className="ml-2 rounded-full outline-none hover:bg-destructive/50"
-                onClick={() => removeTag(tag)}
-              >
-                &times;
-              </button>
-            </Badge>
-          ))}
-          <PopoverTrigger asChild>
+        <PopoverTrigger asChild>
+          <div className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus-within:border-[#2474e4] focus-within:ring-2 focus-within:ring-[#2474e4]/30 cursor-pointer">
             <Input
               ref={inputRef}
               type="text"
@@ -94,15 +83,41 @@ export function TagsInput({
                 if (!open) setOpen(true);
               }}
               onKeyDown={handleKeyDown}
-              className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
+              className="border-0 bg-transparent p-0 focus:ring-0 focus:outline-none text-white placeholder:text-white/50"
             />
-          </PopoverTrigger>
-        </div>
-        <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-          <Command>
-            <CommandInput placeholder="Procure uma tag..." />
+          </div>
+        </PopoverTrigger>
+        
+        {value.length > 0 && (
+          <div className="flex flex-wrap gap-2 p-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)]">
+            {value.map((tag, index) => (
+              <Badge 
+                key={`${tag}-${index}`}
+                className="bg-[#2474e4]/20 hover:bg-[#2474e4]/30 text-white border border-[#2474e4]/40 px-3 py-1 rounded-full flex items-center gap-2 text-sm transition-all"
+              >
+                {tag}
+                <button
+                  type="button"
+                  className="rounded-full hover:bg-white/20 transition-all p-0.5"
+                  onClick={() => removeTag(tag)}
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </Badge>
+            ))}
+          </div>
+        )}
+        
+        <PopoverContent className="w-[--radix-popover-trigger-width] p-0 bg-[#1E293B] border-white/10">
+          <Command className="bg-[#1E293B]">
+            <CommandInput 
+              placeholder="Procure um curso..." 
+              className="text-white placeholder:text-white/50"
+            />
             <CommandList>
-              <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
+              <CommandEmpty className="text-white/70 py-6 text-center text-sm">
+                Nenhum resultado encontrado.
+              </CommandEmpty>
               <CommandGroup>
                 {suggestions.map((suggestion) => (
                   <CommandItem
@@ -110,11 +125,11 @@ export function TagsInput({
                     value={suggestion.label}
                     onSelect={handleSelect}
                     disabled={value.includes(suggestion.value)}
-                    className={
+                    className={`text-white ${
                       value.includes(suggestion.value)
                         ? "opacity-50 cursor-not-allowed"
-                        : ""
-                    }
+                        : "hover:bg-[#2474e4]/20 cursor-pointer"
+                    }`}
                   >
                     {suggestion.label}
                   </CommandItem>
