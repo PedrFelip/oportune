@@ -18,6 +18,7 @@ import { vagaModel } from "@/models/oportunidadeModel";
 import { DialogProps } from "@radix-ui/react-dialog";
 import { showMessage } from "@/adapters/showMessage";
 import { TagsInput } from "@/components/TagsInput";
+import { FreeTagsInput } from "@/components/FreeTagsInput";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -105,86 +106,116 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
           <Image src={Logo} alt="Botão de criar nova tarefa" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] bg-foreground text-white border-0 rounded-2xl">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto scrollbar-modal modal-content-highlight bg-[#1E293B] text-white border border-white/10 rounded-2xl">
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
-          <DialogHeader className="mb-6">
-            <DialogTitle className="text-2xl font-bold text-center">
-              Adicionar evento
+          <DialogHeader className="mb-6 pb-4 border-b border-white/10">
+            <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-[#2474e4] to-[#1a5bb8] bg-clip-text text-transparent">
+              Nova Oportunidade
             </DialogTitle>
           </DialogHeader>
-          <div className="grid gap-2">
-            <FormInput
-              id="titulo"
-              label="Título da oportunidade: "
-              {...register("titulo")}
-            />
-            <FormInput
-              id="descricao"
-              label="Breve descrição da oportunidade: "
-              {...register("descricao")}
-            />
-            {/* Montar o select de tipo */}
-            <div className="grid gap-3">
-              <div className="flex justify-between">
-                <div className="">
-                  <Label htmlFor="tipo" className="px-1 py-2">
-                    Tipo de oportunidade
-                  </Label>
-                  <Controller
-                    name="tipo"
-                    control={control}
-                    rules={{ required: "Escolha um tipo" }}
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder={"Tipo de oportunidade"} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {tipoVaga.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </div>
-                <div className="">
-                  <FormCalendar
-                    control={control}
-                    name="prazoInscricao"
-                    label="Prazo de inscrição"
-                    placeholder="Prazo de inscrição"
-                  />
-                </div>
+          <div className="grid gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="titulo" className="text-white/90 font-medium">
+                Título da oportunidade
+              </Label>
+              <input
+                type="text"
+                id="titulo"
+                {...register("titulo", {
+                  required: "O título é obrigatório",
+                  minLength: {
+                    value: 2,
+                    message: "O título deve ter no mínimo 2 caracteres",
+                  },
+                })}
+                className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
+                placeholder="Ex: Estágio em Desenvolvimento Web"
+              />
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="descricao" className="text-white/90 font-medium">
+                Descrição da oportunidade
+              </Label>
+              <textarea
+                id="descricao"
+                {...register("descricao", {
+                  required: "A descrição é obrigatória",
+                  minLength: {
+                    value: 10,
+                    message: "A descrição deve ter no mínimo 10 caracteres",
+                  },
+                })}
+                rows={4}
+                className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30 resize-none"
+                placeholder="Descreva a oportunidade..."
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="tipo" className="text-white/90 font-medium">
+                  Tipo de oportunidade
+                </Label>
+                <Controller
+                  name="tipo"
+                  control={control}
+                  rules={{ required: "Escolha um tipo" }}
+                  render={({ field }) => (
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger className="w-full bg-[rgba(196,211,230,0.02)] border-white/10 text-white">
+                        <SelectValue placeholder="Selecione o tipo" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1E293B] border-white/10">
+                        {tipoVaga.map((opt) => (
+                          <SelectItem 
+                            key={opt.value} 
+                            value={opt.value}
+                            className="text-white focus:bg-[#2474e4]/20"
+                          >
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+              
+              <div className="grid gap-2">
+                <Label className="text-white/90 font-medium">
+                  Prazo de inscrição
+                </Label>
+                <FormCalendar
+                  control={control}
+                  name="prazoInscricao"
+                  label=""
+                  placeholder="Selecione a data"
+                />
               </div>
             </div>
-            {/* Montar o input de requisitos */}
-            {/* // Será alterado para usar um criador de labels e values, alem de permitir a criação de novos requisitos */}
-            <div className="grid gap-3">
-              <Label htmlFor="requisitos" className="px-1">
-                Requisitos
+            <div className="grid gap-2">
+              <Label htmlFor="requisitos" className="text-white/90 font-medium">
+                Requisitos <span className="text-white/50 text-sm">(Digite e pressione Enter)</span>
               </Label>
               <Controller
                 name="requisitos"
                 control={control}
                 rules={{ required: "Digite ao menos um requisito." }}
                 render={({ field }) => (
-                  <TagsInput
+                  <FreeTagsInput
                     value={field.value}
                     onChange={field.onChange}
-                    suggestions={informacoes.requisitos}
+                    placeholder="Ex: JavaScript, React, Node.js..."
                   />
                 )}
               />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="cursosAlvo" className="px-1">
-                Cursos
+            <div className="grid gap-2">
+              <Label htmlFor="cursosAlvo" className="text-white/90 font-medium">
+                Cursos alvo <span className="text-white/50 text-sm">(Selecione da lista)</span>
               </Label>
               <Controller
                 name="cursosAlvo"
@@ -197,49 +228,77 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                     suggestions={informacoes.cursos.filter(
                       (curso) => curso.value !== null
                     )}
+                    placeholder="Busque e selecione os cursos..."
                   />
                 )}
               />
             </div>
-            <div className="flex gap-3">
-              <FormInput
-                id="semestreMinimo"
-                label="Qual o semestre mínimo: "
-                {...register("semestreMinimo", {
-                  required: "O semestre minimo é obrigatório",
-                  maxLength: {
-                    value: 12,
-                    message: "O número do semestre não pode ser maior que 12", // Ajustar para ficar dinâmico, conforme o curso
-                  },
-                  minLength: {
-                    value: 1,
-                    message: "O número do semestre não pode ser menor que 1",
-                  },
-                })}
-              />
-              <FormInput
-                id="maximoVagas"
-                label="Número de vagas: "
-                {...register("numeroVagas", {
-                  required: "O numero minimo de vagas é obrigatório",
-                  min: {
-                    value: 1,
-                    message: "O número de vagas não pode ser menor que 1",
-                  },
-                  max: {
-                    value: 1000,
-                    message: "O número de vagas não pode ser maior que 1000",
-                  },
-                })}
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="semestreMinimo" className="text-white/90 font-medium">
+                  Semestre mínimo
+                </Label>
+                <input
+                  type="number"
+                  id="semestreMinimo"
+                  {...register("semestreMinimo", {
+                    required: "O semestre mínimo é obrigatório",
+                    min: {
+                      value: 1,
+                      message: "O semestre não pode ser menor que 1",
+                    },
+                    max: {
+                      value: 12,
+                      message: "O semestre não pode ser maior que 12",
+                    },
+                  })}
+                  className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
+                  placeholder="1"
+                  min="1"
+                  max="12"
+                />
+              </div>
+              
+              <div className="grid gap-2">
+                <Label htmlFor="numeroVagas" className="text-white/90 font-medium">
+                  Número de vagas
+                </Label>
+                <input
+                  type="number"
+                  id="numeroVagas"
+                  {...register("numeroVagas", {
+                    required: "O número de vagas é obrigatório",
+                    min: {
+                      value: 1,
+                      message: "Deve ter no mínimo 1 vaga",
+                    },
+                    max: {
+                      value: 1000,
+                      message: "Não pode ter mais de 1000 vagas",
+                    },
+                  })}
+                  className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
+                  placeholder="1"
+                  min="1"
+                  max="1000"
+                />
+              </div>
             </div>
           </div>
-          <DialogFooter className="mt-5">
+          <DialogFooter className="mt-8 pt-6 border-t border-white/10 flex gap-3">
             <DialogClose asChild>
-              <Button variant="destructive">Cancelar</Button>
+              <Button 
+                type="button"
+                className="flex-1 bg-transparent hover:bg-white/5 text-white border border-white/20 transition-all"
+              >
+                Cancelar
+              </Button>
             </DialogClose>
-            <Button type="submit" variant={"oportune"}>
-              Criar evento
+            <Button 
+              type="submit" 
+              className="flex-1 bg-[#2474e4] hover:bg-[#1a5bb8] text-white transition-all"
+            >
+              Criar Oportunidade
             </Button>
           </DialogFooter>
         </form>
