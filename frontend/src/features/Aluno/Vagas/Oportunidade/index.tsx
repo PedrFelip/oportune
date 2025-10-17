@@ -24,7 +24,7 @@ export default function Oportunidade({ vagas }: OportunidadeProps) {
                 ))}
               </div>
             </div>
-            <Link href={`/${vaga.id}`}>
+            <Link href={`/aluno/vagas/${vaga.id}`}>
               <Button
                 variant={"oportune"}
                 className="text-sm bg[#263243] backdrop-blur-sm cursor-pointer"

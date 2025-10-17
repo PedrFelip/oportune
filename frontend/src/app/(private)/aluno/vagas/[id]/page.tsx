@@ -16,9 +16,7 @@ export default async function Page({ params }: vagaProps) {
 
   if (!token) return <div className="text-white">Vaga não encontrada</div>;
 
-  const response = await buscarVagaPeloId(id, token.value);
-
-  const vaga = await response.json();
+  const vaga = await buscarVagaPeloId(id, token.value);
 
   return <Vaga vaga={vaga} />;
 }
