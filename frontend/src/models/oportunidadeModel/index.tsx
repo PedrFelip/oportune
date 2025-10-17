@@ -5,5 +5,8 @@ export interface vagaModel {
   tipo: "Extensão" | "Cientifico" | "Estágio";
   prazoInscricao: string;
   cursosAlvo: string[];
-  semestreMinimo: string;
+  semestreMinimo: string | number;
+  numerosVaga: string | number;
+  professorId?: string;
+  empresaId?: string;
 }

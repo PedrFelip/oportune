@@ -27,6 +27,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import informacoes from "@/utils/informacoes.json";
+import { cadastrarVaga } from "../api/cadastrarVaga";
+import { FormCalendar } from "../components/FormCalendar";
+import { useAuth } from "@/contexts/AuthContext";
 
 type FormNewEventProps = {
   isOpen: DialogProps["open"];
@@ -35,21 +38,48 @@ type FormNewEventProps = {
 
 const tipoVaga = [
   { label: "Extensão", value: "extensao" },
-  { label: "Científico", value: "cientifico" },
+  { label: "Pesquisa", value: "Pesquisa" },
   { label: "Estágio", value: "estagio" },
 ];
 
 export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
+  const { usuario } = useAuth();
+
   const form = useForm<vagaModel>({
     defaultValues: {
       titulo: "",
+      descricao: "",
+      tipo: "Estágio",
+      semestreMinimo: "",
+      prazoInscricao: "",
+      requisitos: [],
+      cursosAlvo: [],
     },
   });
 
   const { register, handleSubmit, control } = form;
 
-  const onSubmit = () => {
-    return null;
+  const onSubmit = async (data: vagaModel) => {
+    try {
+      const payload = {
+        ...data,
+        semestreMinimo:
+          typeof data.semestreMinimo === "string"
+            ? parseInt(data.semestreMinimo, 10)
+            : data.semestreMinimo,
+        professorId: usuario?.professor?.id,
+      };
+
+      await cadastrarVaga(payload);
+
+      showMessage.success("Vaga cadastrada com sucesso!");
+      if (setIsOpen) {
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.error(error);
+      showMessage.error("Não foi possivel cadastrar a vaga. Tente novamente");
+    }
   };
 
   const onInvalid = (validationErrors: FieldErrors<vagaModel>) => {
@@ -70,14 +100,14 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
           <Image src={Logo} alt="Botão de criar nova tarefa" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-foreground text-white border-0 rounded-2xl">
+      <DialogContent className="sm:max-w-[500px] bg-foreground text-white border-0 rounded-2xl">
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
           <DialogHeader className="mb-6">
             <DialogTitle className="text-2xl font-bold text-center">
               Adicionar evento
             </DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4">
+          <div className="grid gap-2">
             <FormInput
               id="titulo"
               label="Título da oportunidade: "
@@ -89,32 +119,49 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
               {...register("descricao")}
             />
             {/* Montar o select de tipo */}
-            <Label htmlFor="tipo" className="px-1">
-              Tipo de oportunidade
-            </Label>
-            <Controller
-              name="tipo"
-              control={control}
-              rules={{ required: "Escolha um tipo" }}
-              render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={"Tipo de oportunidade"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {tipoVaga.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
+            <div className="grid gap-3">
+              <div className="flex justify-between">
+                <div className="">
+                  <Label htmlFor="tipo" className="px-1 py-2">
+                    Tipo de oportunidade
+                  </Label>
+                  <Controller
+                    name="tipo"
+                    control={control}
+                    rules={{ required: "Escolha um tipo" }}
+                    render={({ field }) => (
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder={"Tipo de oportunidade"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {tipoVaga.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                </div>
+                <div className="">
+                  <FormCalendar
+                    control={control}
+                    name="prazoInscricao"
+                    label="Prazo de inscrição"
+                    placeholder="Prazo de inscrição"
+                  />
+                </div>
+              </div>
+            </div>
             {/* Montar o input de requisitos */}
             {/* // Será alterado para usar um criador de labels e values, alem de permitir a criação de novos requisitos */}
             <div className="grid gap-3">
-              <Label htmlFor="date" className="px-1">
+              <Label htmlFor="requisitos" className="px-1">
                 Requisitos
               </Label>
               <Controller
@@ -130,26 +177,26 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 )}
               />
             </div>
+            <div className="grid gap-3">
+              <Label htmlFor="cursosAlvo" className="px-1">
+                Cursos
+              </Label>
+              <Controller
+                name="cursosAlvo"
+                control={control}
+                rules={{ required: "Digite ao menos um curso" }}
+                render={({ field }) => (
+                  <TagsInput
+                    value={field.value}
+                    onChange={field.onChange}
+                    suggestions={informacoes.cursos.filter(
+                      (curso) => curso.value !== null
+                    )}
+                  />
+                )}
+              />
+            </div>
             <div className="flex gap-3">
-              <div className="grid gap-3">
-                <Label htmlFor="cursosAlvo" className="px-1">
-                  Cursos
-                </Label>
-                <Controller
-                  name="cursosAlvo"
-                  control={control}
-                  rules={{ required: "Digite ao menos um curso" }}
-                  render={({ field }) => (
-                    <TagsInput
-                      value={field.value}
-                      onChange={field.onChange}
-                      suggestions={informacoes.cursos.filter(
-                        (curso) => curso.value !== null
-                      )}
-                    />
-                  )}
-                />
-              </div>
               <FormInput
                 id="semestreMinimo"
                 label="Qual o semestre mínimo: "
@@ -158,6 +205,21 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                   maxLength: {
                     value: 12,
                     message: "O número do semestre não pode ser maior que 12", // Ajustar para ficar dinâmico, conforme o curso
+                  },
+                  minLength: {
+                    value: 1,
+                    message: "O número do semestre não pode ser menor que 1",
+                  },
+                })}
+              />
+              <FormInput
+                id="maximoVagas"
+                label="Número de vagas: "
+                {...register("numerosVaga", {
+                  required: "O numero minimo de vagas é obrigatório",
+                  maxLength: {
+                    value: 1000,
+                    message: "O número do semestre não pode ser maior que 1000", // Ajustar para ficar dinâmico, conforme o curso
                   },
                   minLength: {
                     value: 1,
