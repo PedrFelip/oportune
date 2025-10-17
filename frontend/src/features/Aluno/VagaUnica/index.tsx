@@ -59,6 +59,7 @@ export function Vaga({ vaga, id }: vagaProps) {
       await Candidatar(payload);
       showMessage.success("Candidatura realizada");
     } catch (error) {
+      showMessage.dismiss();
       console.error(error);
       showMessage.error("Erro ao se candidatar");
     }
@@ -83,7 +84,7 @@ export function Vaga({ vaga, id }: vagaProps) {
             variant={"oportune"}
             className="cursor-pointer duration-300 p-2 rounded-xl w-40"
             onClick={() => {
-              CandidatarSe(usuario.estudante ? usuario?.estudante?.id : "", id);
+              CandidatarSe(usuario.id, id);
             }}
           >
             Candidatar-se
