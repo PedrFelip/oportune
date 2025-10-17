@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 // import FilterBox from "../../components/dashboard/geral/FilterBox";
 // import informacoes from "@/utils/informacoes.json"
 import Oportunidade from "./Oportunidade";
+import { showMessage } from "@/adapters/showMessage";
+import { buscarVagas } from "../api/buscarVagas";
 
 export default function Vagas() {
   // const [filterData, setFilterData] = useState([]);
@@ -27,7 +29,7 @@ export default function Vagas() {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     carregarVagas();
   }, []);
@@ -70,5 +72,3 @@ export default function Vagas() {
     </>
   );
 }
-import { showMessage } from "@/adapters/showMessage";
-import { buscarVagas } from "../api/buscarVagas";
