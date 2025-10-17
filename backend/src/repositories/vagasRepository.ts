@@ -39,6 +39,7 @@ export const listatodasVagas = async (page: number, limit: number) => {
     });
     // Mapear para o formato esperado pelo frontend
     return vagas.map((vaga: any) => ({
+      id: vaga.id,
       titulo: vaga.titulo,
       empresa: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || '',
       categorias: [vaga.tipo, ...(vaga.requisitos || [])],
@@ -65,18 +66,26 @@ export const getVagaDetalhes = async (vagaId: string) => {
         },
       },
     });
+    
+    // Formatar data de prazo de inscrição
+    const prazoFormatado = new Date(vaga.prazoInscricao).toLocaleDateString('pt-BR');
+    
+    // Criar array de tags baseado no tipo de vaga
+    const tags = [vaga.tipo];
+    
     return {
       id: vaga.id,
       titulo: vaga.titulo,
-      empresa: vaga.empresa?.nomeFantasia || '',
-      professor: vaga.professor?.user?.nome || '',
+      tags: tags,
+      empresa: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || 'Não especificado',
       descricao: vaga.descricao,
+      responsabilidades: [], // Campo não existe no banco, retornar array vazio
       requisitos: vaga.requisitos,
-      tipo: vaga.tipo,
-      prazoInscricao: vaga.prazoInscricao,
-      cursosAlvo: vaga.cursosAlvo || [],
-      semestreMinimo: vaga.semestreMinimo,
-      
+      curso: vaga.cursosAlvo || [],
+      semestre: vaga.semestreMinimo?.toString() || '1',
+      bolsa: 'A combinar', // Campo não existe no banco
+      prazoInscricao: prazoFormatado,
+      sobre: vaga.empresa?.descricao || 'Informações não disponíveis',
     };
   } catch (error) {
     console.error('Erro ao obter detalhes da vaga:', error);

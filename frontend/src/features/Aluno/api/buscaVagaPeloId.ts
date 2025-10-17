@@ -3,7 +3,7 @@ export async function buscarVagaPeloId(id: string, token?: string) {
     if (!token) throw new Error("Token não encontrado");
 
     const response = await fetch(
-      `${process.env.BACKEND_API_URL}/api/aluno/buscar-vaga-pelo-id/${id}`,
+      `${process.env.BACKEND_API_URL}/vagas/${id}`,
       {
         method: "GET",
         headers: {
@@ -15,7 +15,9 @@ export async function buscarVagaPeloId(id: string, token?: string) {
     );
 
     if (!response.ok) {
-      throw new Error("Erro ao buscar vaga");
+      const errorData = await response.json().catch(() => ({}));
+      console.error("Erro na resposta:", response.status, errorData);
+      throw new Error(`Erro ao buscar vaga: ${response.status}`);
     }
 
     return await response.json();
