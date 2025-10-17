@@ -8,6 +8,7 @@ type OportunidadeProps = {
 };
 
 export default function Oportunidade({ vagas }: OportunidadeProps) {
+
   return (
     <>
       {vagas.map((vaga) => (
@@ -19,21 +20,21 @@ export default function Oportunidade({ vagas }: OportunidadeProps) {
             <div className="flex">
               <h2 className="mr-8">{vaga.titulo}</h2>
               <div className="flex items-center gap-6">
-                {vaga.categorias.map((categoria, index) => (
-                  <Categoria key={index} caracteristica={categoria} />
+                {vaga.categorias.map((categoria) => (
+                  <Categoria key={categoria} caracteristica={categoria} />
                 ))}
               </div>
             </div>
             <Link href={`/aluno/vagas/${vaga.id}`}>
               <Button
                 variant={"oportune"}
-                className="text-sm bg[#263243] backdrop-blur-sm cursor-pointer"
+                className="text-sm backdrop-blur-sm cursor-pointer"
               >
                 Ver detalhes
               </Button>
             </Link>
           </header>
-          <main className="text-[#79889D] w-9/10">
+          <main className="text-[#79889D] w-[9-10]">
             <div className="text-md text-white font-bold">{vaga.empresa}</div>
             <p>{vaga.descricao}</p>
           </main>

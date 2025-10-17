@@ -18,5 +18,5 @@ export default async function Page({ params }: vagaProps) {
 
   const vaga = await buscarVagaPeloId(id, token.value);
 
-  return <Vaga vaga={vaga} />;
+  return <Vaga vaga={vaga} id={id} />;
 }
