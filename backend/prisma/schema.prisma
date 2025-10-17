@@ -159,7 +159,7 @@ model Candidatura {
   status StatusCandidatura @default(PENDENTE)
   
   vaga Vaga @relation(fields: [vagaId], references: [id], onDelete: Cascade)
-  estudante Estudante @relation(fields: [estudanteId], references: [id], onDelete: Cascade)
+  estudante Estudante @relation(fields: [estudanteId], references: [userId], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
