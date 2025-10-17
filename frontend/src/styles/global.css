@@ -165,4 +165,115 @@
     animation: liquid-border 0.8s ease forwards;
     background-color: rgba(36, 116, 228, 0.05);
   }
+
+  /* Custom Scrollbar Styles */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(36, 116, 228, 0.6) rgba(255, 255, 255, 0.03);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 100px;
+    margin: 8px 0;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(36, 116, 228, 0.6);
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(36, 116, 228, 0.2);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(36, 116, 228, 0.8);
+    border-color: rgba(36, 116, 228, 0.4);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:active {
+    background: #2474e4;
+  }
+
+  /* Hide scrollbar arrows */
+  .scrollbar-thin::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  /* Modal specific scrollbar */
+  .scrollbar-modal::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .scrollbar-modal::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 12px 0;
+  }
+
+  .scrollbar-modal::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(36, 116, 228, 0.5) 0%, rgba(26, 91, 184, 0.7) 100%);
+    border-radius: 100px;
+    box-shadow: 0 0 6px rgba(36, 116, 228, 0.3);
+  }
+
+  .scrollbar-modal::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(36, 116, 228, 0.7) 0%, rgba(26, 91, 184, 0.9) 100%);
+    box-shadow: 0 0 8px rgba(36, 116, 228, 0.5);
+  }
+
+  /* Modal backdrop blur effect */
+  .modal-backdrop-blur {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    background-color: rgba(0, 0, 0, 0.65);
+    animation: blur-fade-in 0.3s ease-out;
+  }
+
+  @keyframes blur-fade-in {
+    from {
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      background-color: rgba(0, 0, 0, 0.65);
+    }
+  }
+
+  /* Modal content highlight */
+  .modal-content-highlight {
+    box-shadow: 
+      0 0 0 1px rgba(36, 116, 228, 0.1),
+      0 10px 30px rgba(0, 0, 0, 0.3),
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 0 100px rgba(36, 116, 228, 0.15);
+    animation: modal-glow 0.4s ease-out;
+  }
+
+  @keyframes modal-glow {
+    0% {
+      box-shadow: 
+        0 0 0 1px rgba(36, 116, 228, 0),
+        0 5px 15px rgba(0, 0, 0, 0.1),
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        0 0 50px rgba(36, 116, 228, 0);
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    100% {
+      box-shadow: 
+        0 0 0 1px rgba(36, 116, 228, 0.1),
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 100px rgba(36, 116, 228, 0.15);
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }
