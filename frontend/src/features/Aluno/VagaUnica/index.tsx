@@ -5,6 +5,9 @@ import React from "react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Candidatar } from "../api/candidatar";
+import { showMessage } from "@/adapters/showMessage";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface infos {
   titulo: string;
@@ -22,14 +25,20 @@ interface infos {
 
 type vagaProps = {
   vaga: infos;
+  id: string;
 };
 
-export function Vaga({ vaga }: vagaProps) {
+export function Vaga({ vaga, id }: vagaProps) {
+  const { usuario } = useAuth();
   const router = useRouter();
 
   const handleVoltar = () => {
     router.back();
   };
+
+  if (!usuario) {
+    return <p>Erro! Por favor tente novamente</p>;
+  }
 
   const Back = () => (
     <button
@@ -39,6 +48,21 @@ export function Vaga({ vaga }: vagaProps) {
       {<ChevronLeft />}
     </button>
   );
+
+  const CandidatarSe = async (estudanteId: string, vagaId: string) => {
+    try {
+      const payload = {
+        estudanteId: estudanteId,
+        vagaId: vagaId,
+      };
+      showMessage.loading("Aguarde...");
+      await Candidatar(payload);
+      showMessage.success("Candidatura realizada");
+    } catch (error) {
+      console.error(error);
+      showMessage.error("Erro ao se candidatar");
+    }
+  };
 
   return (
     <>
@@ -58,6 +82,9 @@ export function Vaga({ vaga }: vagaProps) {
           <Button
             variant={"oportune"}
             className="cursor-pointer duration-300 p-2 rounded-xl w-40"
+            onClick={() => {
+              CandidatarSe(usuario.estudante ? usuario?.estudante?.id : "", id);
+            }}
           >
             Candidatar-se
           </Button>
