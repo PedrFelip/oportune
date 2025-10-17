@@ -37,9 +37,9 @@ type FormNewEventProps = {
 };
 
 const tipoVaga = [
-  { label: "Extensão", value: "extensao" },
+  { label: "Extensão", value: "Extensão" },
   { label: "Pesquisa", value: "Pesquisa" },
-  { label: "Estágio", value: "estagio" },
+  { label: "Estágio", value: "Estágio" },
 ];
 
 export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
@@ -67,9 +67,14 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
           typeof data.semestreMinimo === "string"
             ? parseInt(data.semestreMinimo, 10)
             : data.semestreMinimo,
+        numeroVagas:
+          data.numeroVagas && typeof data.numeroVagas === "string"
+            ? parseInt(data.numeroVagas, 10)
+            : data.numeroVagas || 1,
         professorId: usuario?.professor?.id,
       };
 
+      console.log("Payload sendo enviado:", payload);
       await cadastrarVaga(payload);
 
       showMessage.success("Vaga cadastrada com sucesso!");
@@ -77,7 +82,7 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
         setIsOpen(false);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao cadastrar vaga:", error);
       showMessage.error("Não foi possivel cadastrar a vaga. Tente novamente");
     }
   };
@@ -215,15 +220,15 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
               <FormInput
                 id="maximoVagas"
                 label="Número de vagas: "
-                {...register("numerosVaga", {
+                {...register("numeroVagas", {
                   required: "O numero minimo de vagas é obrigatório",
-                  maxLength: {
-                    value: 1000,
-                    message: "O número do semestre não pode ser maior que 1000", // Ajustar para ficar dinâmico, conforme o curso
-                  },
-                  minLength: {
+                  min: {
                     value: 1,
-                    message: "O número do semestre não pode ser menor que 1",
+                    message: "O número de vagas não pode ser menor que 1",
+                  },
+                  max: {
+                    value: 1000,
+                    message: "O número de vagas não pode ser maior que 1000",
                   },
                 })}
               />
