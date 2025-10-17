@@ -106,16 +106,17 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
           <Image src={Logo} alt="Botão de criar nova tarefa" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto scrollbar-modal modal-content-highlight bg-[#1E293B] text-white border border-white/10 rounded-2xl">
-        <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
-          <DialogHeader className="mb-6 pb-4 border-b border-white/10">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto scrollbar-modal modal-content-highlight bg-[#1E293B] text-white border border-white/10 rounded-2xl p-0">
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex flex-col h-full">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b border-white/10 sticky top-0 bg-[#1E293B] z-10">
             <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-[#2474e4] to-[#1a5bb8] bg-clip-text text-transparent">
               Nova Oportunidade
             </DialogTitle>
           </DialogHeader>
-          <div className="grid gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="titulo" className="text-white/90 font-medium">
+          <div className="flex-1 px-6 py-6 space-y-6">
+            {/* Título */}
+            <div className="space-y-2">
+              <Label htmlFor="titulo" className="text-white/90 font-medium text-sm">
                 Título da oportunidade
               </Label>
               <input
@@ -133,8 +134,9 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
               />
             </div>
             
-            <div className="grid gap-2">
-              <Label htmlFor="descricao" className="text-white/90 font-medium">
+            {/* Descrição */}
+            <div className="space-y-2">
+              <Label htmlFor="descricao" className="text-white/90 font-medium text-sm">
                 Descrição da oportunidade
               </Label>
               <textarea
@@ -151,9 +153,11 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 placeholder="Descreva a oportunidade..."
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="tipo" className="text-white/90 font-medium">
+            
+            {/* Tipo e Prazo */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="tipo" className="text-white/90 font-medium text-sm">
                   Tipo de oportunidade
                 </Label>
                 <Controller
@@ -165,7 +169,7 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                       value={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-full bg-[rgba(196,211,230,0.02)] border-white/10 text-white">
+                      <SelectTrigger className="w-full h-[48px] bg-[rgba(196,211,230,0.02)] border-white/10 text-white">
                         <SelectValue placeholder="Selecione o tipo" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#1E293B] border-white/10">
@@ -184,8 +188,8 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 />
               </div>
               
-              <div className="grid gap-2">
-                <Label className="text-white/90 font-medium">
+              <div className="space-y-2">
+                <Label className="text-white/90 font-medium text-sm">
                   Prazo de inscrição
                 </Label>
                 <FormCalendar
@@ -196,9 +200,11 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 />
               </div>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="requisitos" className="text-white/90 font-medium">
-                Requisitos <span className="text-white/50 text-sm">(Digite e pressione Enter)</span>
+            
+            {/* Requisitos */}
+            <div className="space-y-2">
+              <Label htmlFor="requisitos" className="text-white/90 font-medium text-sm">
+                Requisitos <span className="text-white/50 text-xs font-normal">(Digite e pressione Enter ou clique em +)</span>
               </Label>
               <Controller
                 name="requisitos"
@@ -213,9 +219,11 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 )}
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="cursosAlvo" className="text-white/90 font-medium">
-                Cursos alvo <span className="text-white/50 text-sm">(Selecione da lista)</span>
+            
+            {/* Cursos */}
+            <div className="space-y-2">
+              <Label htmlFor="cursosAlvo" className="text-white/90 font-medium text-sm">
+                Cursos alvo <span className="text-white/50 text-xs font-normal">(Selecione da lista)</span>
               </Label>
               <Controller
                 name="cursosAlvo"
@@ -233,9 +241,11 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 )}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="semestreMinimo" className="text-white/90 font-medium">
+            
+            {/* Semestre e Vagas */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="semestreMinimo" className="text-white/90 font-medium text-sm">
                   Semestre mínimo
                 </Label>
                 <input
@@ -259,8 +269,8 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 />
               </div>
               
-              <div className="grid gap-2">
-                <Label htmlFor="numeroVagas" className="text-white/90 font-medium">
+              <div className="space-y-2">
+                <Label htmlFor="numeroVagas" className="text-white/90 font-medium text-sm">
                   Número de vagas
                 </Label>
                 <input
@@ -285,18 +295,19 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
               </div>
             </div>
           </div>
-          <DialogFooter className="mt-8 pt-6 border-t border-white/10 flex gap-3">
+          
+          <DialogFooter className="px-6 py-4 border-t border-white/10 sticky bottom-0 bg-[#1E293B] z-10 flex-row gap-3">
             <DialogClose asChild>
               <Button 
                 type="button"
-                className="flex-1 bg-transparent hover:bg-white/5 text-white border border-white/20 transition-all"
+                className="flex-1 h-12 bg-transparent hover:bg-white/5 text-white border border-white/20 transition-all font-medium"
               >
                 Cancelar
               </Button>
             </DialogClose>
             <Button 
               type="submit" 
-              className="flex-1 bg-[#2474e4] hover:bg-[#1a5bb8] text-white transition-all"
+              className="flex-1 h-12 bg-[#2474e4] hover:bg-[#1a5bb8] text-white transition-all font-medium"
             >
               Criar Oportunidade
             </Button>
