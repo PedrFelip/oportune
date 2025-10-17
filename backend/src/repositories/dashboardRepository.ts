@@ -44,9 +44,9 @@ const getEstudanteId = async (userId: string): Promise<string | null> => {
   try {
     const estudante = await prisma.estudante.findUnique({
       where: { userId },
-      select: { id: true }
+      select: { userId: true }
     })
-    return estudante?.id || null
+    return estudante?.userId || null
   } catch (error) {
     console.error('Erro ao buscar ID do estudante:', error)
     return null
