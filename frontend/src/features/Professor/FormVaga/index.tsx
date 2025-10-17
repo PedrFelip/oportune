@@ -65,7 +65,7 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
       <DialogTrigger asChild>
         <Button
           variant={"secondary"}
-          className="absolute bottom-10 right-10 rounded-[50%] w-16 h-16 cursor-pointer hover:rotate-360 duration-500"
+          className="absolute bottom-10 right-10 rounded-[50%] w-16 h-16 cursor-pointer active:rotate-360 duration-300"
         >
           <Image src={Logo} alt="Botão de criar nova tarefa" />
         </Button>
@@ -169,9 +169,11 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
           </div>
           <DialogFooter className="mt-5">
             <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="destructive">Cancelar</Button>
             </DialogClose>
-            <Button type="submit">Criar evento</Button>
+            <Button type="submit" variant={"oportune"}>
+              Criar evento
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
