@@ -2,11 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, Building, Users } from "lucide-react";
+import { GraduationCap, Building, Users, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "../assets/logo_oportune.png";
 import { VagaCardHome } from "@/components/VagaCardHome";
+import { useState } from "react";
 
 // Tipagem dos depoimentos
 interface Testimonial {
@@ -41,16 +42,20 @@ const testimonials: Testimonial[] = [
 ];
 
 export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen oportune-gradient text-white">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 bg-slate-800/30 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 bg-slate-800/30 backdrop-blur-sm">
         <div className="flex items-center space-x-2">
-          <Image src={Logo} alt="Oportune logo" width={48} height={48} />
-          <span className="text-3xl font-bold">
+          <Image src={Logo} alt="Oportune logo" width={40} height={40} className="sm:w-12 sm:h-12" />
+          <span className="text-2xl sm:text-3xl font-bold">
             Oportune <span className="text-blue-300">+</span>
           </span>
         </div>
+
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <Link
             href="/sobre"
@@ -74,7 +79,47 @@ export default function Home() {
             <Button variant="oportune">Criar conta</Button>
           </Link>
         </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden p-2 text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </header>
+
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <nav className="md:hidden bg-slate-800/95 backdrop-blur-sm px-4 py-4 space-y-3 border-b border-slate-700">
+          <Link
+            href="/sobre"
+            className="block text-gray-300 hover:text-white transition-colors py-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Sobre
+          </Link>
+          <Link
+            href="/faq"
+            className="block text-gray-300 hover:text-white transition-colors py-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/login"
+            className="block text-gray-300 hover:text-white transition-colors py-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Entrar
+          </Link>
+          <Link href="/cadastro" onClick={() => setMobileMenuOpen(false)}>
+            <Button variant="oportune" className="w-full">
+              Criar conta
+            </Button>
+          </Link>
+        </nav>
+      )}
 
       {/* Hero */}
       <section className="px-6 py-16 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
@@ -208,7 +253,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
           <span className="text-sm text-gray-400">© Oportune — 2025</span>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
-            <span className="text-sm text-gray-400">contato@oportune.edu</span>
+            <span className="text-sm text-gray-400">oportunecontatos@gmail.com</span>
             <Link
               href="#"
               className="text-sm text-gray-400 hover:text-white transition-colors"

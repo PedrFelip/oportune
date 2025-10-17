@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Search, Mail } from "lucide-react";
+import { Search, Mail, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../assets/logo_oportune.png";
@@ -136,6 +136,7 @@ const categories = [
 export default function FAQ() {
   const [selectedCategory, setSelectedCategory] = useState<string>("todos");
   const [searchTerm, setSearchTerm] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const filteredFAQ = faqData.filter((item) => {
     const matchesCategory =
@@ -150,13 +151,15 @@ export default function FAQ() {
   return (
     <div className="min-h-screen oportune-gradient text-white">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-4 bg-slate-800/30 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 bg-slate-800/30 backdrop-blur-sm">
         <Link href="/" className="flex items-center space-x-2">
-          <Image src={Logo} alt="Oportune logo" width={48} height={48} />
-          <span className="text-3xl font-bold">
+          <Image src={Logo} alt="Oportune logo" width={40} height={40} className="sm:w-12 sm:h-12" />
+          <span className="text-2xl sm:text-3xl font-bold">
             Oportune <span className="text-blue-300">+</span>
           </span>
         </Link>
+
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <Link
             href="/sobre"
@@ -180,39 +183,79 @@ export default function FAQ() {
             <Button variant="oportune">Criar conta</Button>
           </Link>
         </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden p-2 text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </header>
 
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <nav className="md:hidden bg-slate-800/95 backdrop-blur-sm px-4 py-4 space-y-3 border-b border-slate-700">
+          <Link
+            href="/sobre"
+            className="block text-gray-300 hover:text-white transition-colors py-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Sobre
+          </Link>
+          <Link
+            href="/faq"
+            className="block text-white font-semibold py-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/login"
+            className="block text-gray-300 hover:text-white transition-colors py-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Entrar
+          </Link>
+          <Link href="/cadastro" onClick={() => setMobileMenuOpen(false)}>
+            <Button variant="oportune" className="w-full">
+              Criar conta
+            </Button>
+          </Link>
+        </nav>
+      )}
+
       {/* Hero Section */}
-      <section className="px-6 py-16 max-w-7xl mx-auto text-center">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+      <section className="px-4 sm:px-6 py-12 sm:py-16 max-w-7xl mx-auto text-center">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight px-2">
           Perguntas Frequentes
         </h1>
-        <p className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed mb-8">
+        <p className="text-gray-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed mb-6 sm:mb-8 px-2">
           Tire suas dúvidas sobre como usar o Oportune+ e aproveitar ao máximo
           todas as funcionalidades da plataforma.
         </p>
 
         {/* Search Bar */}
-        <div className="max-w-2xl mx-auto relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+        <div className="max-w-2xl mx-auto relative px-2">
+          <Search className="absolute left-4 sm:left-6 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
           <input
             type="text"
             placeholder="Buscar por palavra-chave..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-11 sm:pl-14 pr-4 py-3 sm:py-4 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
           />
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="px-6 max-w-7xl mx-auto mb-8">
-        <div className="flex flex-wrap justify-center gap-3">
+      <section className="px-4 sm:px-6 max-w-7xl mx-auto mb-6 sm:mb-8">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-2 rounded-full transition-all ${
+              className={`px-4 sm:px-6 py-2 rounded-full transition-all text-sm sm:text-base ${
                 selectedCategory === category.id
                   ? "bg-blue-600 text-white font-semibold"
                   : "bg-slate-800/50 text-gray-300 hover:bg-slate-800 hover:text-white"
@@ -225,16 +268,16 @@ export default function FAQ() {
       </section>
 
       {/* FAQ Accordion */}
-      <section className="px-6 pb-16 max-w-4xl mx-auto">
+      <section className="px-4 sm:px-6 pb-12 sm:pb-16 max-w-4xl mx-auto">
         {filteredFAQ.length > 0 ? (
-          <Card className="oportune-card p-6">
+          <Card className="oportune-card p-4 sm:p-6">
             <Accordion type="single" collapsible className="w-full">
               {filteredFAQ.map((item, index) => (
                 <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left text-lg font-semibold text-primary-foreground hover:text-blue-400 transition-colors">
+                  <AccordionTrigger className="text-left text-base sm:text-lg font-semibold text-primary-foreground hover:text-blue-400 transition-colors">
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 text-base leading-relaxed pt-2">
+                  <AccordionContent className="text-gray-300 text-sm sm:text-base leading-relaxed pt-2">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -242,8 +285,8 @@ export default function FAQ() {
             </Accordion>
           </Card>
         ) : (
-          <Card className="oportune-card p-12 text-center">
-            <p className="text-gray-300 text-lg mb-4">
+          <Card className="oportune-card p-8 sm:p-12 text-center">
+            <p className="text-gray-300 text-base sm:text-lg mb-4">
               Nenhuma pergunta encontrada com os filtros aplicados.
             </p>
             <Button
@@ -260,24 +303,24 @@ export default function FAQ() {
       </section>
 
       {/* Contact Section */}
-      <section className="px-6 py-16 max-w-7xl mx-auto">
-        <Card className="oportune-card p-12 text-center">
-          <Mail className="h-12 w-12 text-blue-400 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold mb-4 text-primary-foreground">
+      <section className="px-4 sm:px-6 py-12 sm:py-16 max-w-7xl mx-auto">
+        <Card className="oportune-card p-8 sm:p-12 text-center">
+          <Mail className="h-10 w-10 sm:h-12 sm:w-12 text-blue-400 mx-auto mb-4 sm:mb-6" />
+          <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-primary-foreground px-2">
             Não encontrou sua resposta?
           </h2>
-          <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
             Nossa equipe está pronta para ajudar! Entre em contato conosco e
             responderemos o mais rápido possível.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             <a href="mailto:oportunecontatos@gmail.com">
-              <Button variant="oportune" className="px-8 py-3">
+              <Button variant="oportune" className="w-full sm:w-auto px-8 py-3">
                 Enviar e-mail
               </Button>
             </a>
             <Link href="/sobre">
-              <Button variant="oportune_blank" className="px-8 py-3">
+              <Button variant="oportune_blank" className="w-full sm:w-auto px-8 py-3">
                 Saber mais sobre nós
               </Button>
             </Link>
@@ -286,10 +329,10 @@ export default function FAQ() {
       </section>
 
       {/* Footer */}
-      <footer className="px-6 py-8 border-t border-slate-700">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+      <footer className="px-4 sm:px-6 py-8 border-t border-slate-700">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-sm text-gray-400">© Oportune — 2025</span>
-          <div className="flex items-center space-x-6 mt-4 md:mt-0">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <span className="text-sm text-gray-400">oportunecontatos@gmail.com</span>
             <Link
               href="#"
