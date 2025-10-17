@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/logo_oportune.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,37 +7,45 @@ import {
   FileTextIcon,
   HomeIcon,
   LogOutIcon,
+  LucideProps,
   UserIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useAuth } from "@/contexts/AuthContext";
 
-const navItems = [
-  {
-    id: "dashboard",
-    label: "Dashboard",
-    icon: HomeIcon,
-    path: "/aluno/dashboard", // Exemplo de rota
-  },
+// Tipagem permanece a mesma
+type NavItem = {
+  id: string;
+  label: string;
+  icon: React.ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+  >;
+  path: string;
+};
+
+// 1. ESTRUTURA BASE: Evita repetição de código.
+const baseNavItems = [
+  { id: "dashboard", label: "Dashboard", icon: HomeIcon, path: "/dashboard" },
   {
     id: "oportunidades",
     label: "Oportunidades",
     icon: BriefcaseIcon,
-    path: "/aluno/vagas",
+    path: "/vagas",
   },
   {
     id: "candidaturas",
     label: "Minhas Candidaturas",
     icon: FileTextIcon,
-    path: "/aluno/candidaturas",
+    path: "/candidaturas",
   },
-  {
-    id: "perfil",
-    label: "Meu Perfil",
-    icon: UserIcon,
-    path: "/aluno/perfil",
-  },
+  { id: "perfil", label: "Meu Perfil", icon: UserIcon, path: "/perfil" },
 ];
+
+const rolePathMap: { [key: string]: string } = {
+  ESTUDANTE: "/aluno",
+  PROFESSOR: "/professor",
+  EMPRESA: "/empresa",
+};
 
 type SidebarProps = {
   className: string;
@@ -45,11 +53,23 @@ type SidebarProps = {
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { logout, usuario } = useAuth();
+  // 2. ESTADO INICIAL: Começar com um array vazio é mais seguro para o .map()
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
+
+  useEffect(() => {
+    if (usuario?.tipo && rolePathMap[usuario.tipo]) {
+      const userPrefix = rolePathMap[usuario.tipo];
+      const userNavItems = baseNavItems.map((item) => ({
+        ...item,
+        path: `${userPrefix}${item.path}`,
+      }));
+      setNavItems(userNavItems);
+    }
+  }, [usuario?.tipo]);
 
   const baseLinkClasses =
     "flex items-center gap-2 w-full px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r to-transparent hover:from-blue-700/80 hover:to-gray-800/20 relative text-white transition";
-  // "flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700 transition-colors";
   const selectedLinkClasses =
     "bg-gradient-to-r from-blue-800 text-white font-semibold";
 
@@ -67,6 +87,7 @@ export function Sidebar({ className }: SidebarProps) {
       </div>
 
       <nav className="flex flex-col gap-2 flex-grow">
+        {/* O .map() agora é mais seguro, pois o estado inicial é um array vazio */}
         {navItems.map((item) => {
           const IconComponent = item.icon;
           const isSelected = pathname.startsWith(item.path);
@@ -82,13 +103,11 @@ export function Sidebar({ className }: SidebarProps) {
             >
               <IconComponent className="w-5 h-5" />
               <span>{item.label}</span>
-              {isSelected ? (
+              {isSelected && ( // Renderização condicional mais limpa
                 <span
                   className="absolute right-0 top-0 h-full w-1 rounded-r-lg
-                bg-gradient-to-r from-blue-300 to-blue-500 shadow-lg"
+                  bg-gradient-to-r from-blue-300 to-blue-500 shadow-lg"
                 ></span>
-              ) : (
-                ""
               )}
             </Link>
           );
