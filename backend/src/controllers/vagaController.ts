@@ -8,6 +8,7 @@ export const createVagaController = async (
 ) => {
   try {
     const vagaDataBody = request.body;
+    console.log('Dados recebidos para criar vaga:', JSON.stringify(vagaDataBody, null, 2));
 
     const vagaData = createVagaSchema.parse(vagaDataBody)
 
@@ -15,7 +16,8 @@ export const createVagaController = async (
     return reply.status(201).send(novaVaga);
 
   } catch (err: any) {
-    return reply.status(400).send({ message: 'Erro ao criar vaga', error: err.message });
+    console.error('Erro ao criar vaga:', err);
+    return reply.status(400).send({ message: 'Erro ao criar vaga', error: err.message, details: err.errors || err });
   }
 }
 
