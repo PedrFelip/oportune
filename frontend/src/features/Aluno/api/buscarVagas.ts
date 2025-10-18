@@ -14,8 +14,6 @@ export async function buscarVagas() {
       },
     });
 
-    console.log("✅ Resposta da rota Next.js:", reply.status, reply.statusText);
-
     if (!reply.ok) {
       const errorData = await parseJsonSafe(reply);
       // O erro agora pode vir estruturado da nossa API Next.js

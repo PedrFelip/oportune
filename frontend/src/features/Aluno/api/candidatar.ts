@@ -1,9 +1,9 @@
 import { getAuthToken, parseJsonSafe } from "@/_funcs/funcs";
 
 type dataType = {
-  estudanteId: string,
-  vagaId: string
-}
+  estudanteId: string;
+  vagaId: string;
+};
 
 export async function Candidatar(data: dataType) {
   try {
@@ -19,8 +19,6 @@ export async function Candidatar(data: dataType) {
       },
       body: JSON.stringify(data),
     });
-
-    console.log("✅ Resposta da rota Next.js:", reply.status, reply.statusText);
 
     if (!reply.ok) {
       const errorData = await parseJsonSafe(reply);

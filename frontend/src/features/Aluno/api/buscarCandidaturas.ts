@@ -5,9 +5,6 @@ export async function buscarCandidaturasAluno() {
     const token = await getAuthToken();
     if (!token) throw new Error("Token não encontrado");
 
-    console.log("💻 Frontend chamando a rota da API do Next.js...");
-    console.log(token)
-
     // Chamamos a nossa rota interna do Next.js, e não o backend diretamente.
     const reply = await fetch(`/api/aluno/dashboard/buscar-candidaturas`, {
       method: "GET",
@@ -16,9 +13,6 @@ export async function buscarCandidaturasAluno() {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log("✅ Resposta da rota Next.js:", reply.status, reply.statusText);
-    console.log(token)
 
     if (!reply.ok) {
       const errorData = await parseJsonSafe(reply);

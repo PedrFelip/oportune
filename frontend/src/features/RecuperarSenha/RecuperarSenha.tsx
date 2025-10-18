@@ -74,7 +74,6 @@ export function RecuperarSenha({ token }: RecuperarSenhaProps) {
       router.replace("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      console.log(err);
     } finally {
       setLoading(false);
     }

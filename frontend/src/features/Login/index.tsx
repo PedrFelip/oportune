@@ -25,7 +25,7 @@ export default function Login() {
       const { token, user } = response;
 
       login(token, user);
-      salveTokenCookie(token)
+      salveTokenCookie(token);
 
       showMessage.success("Login realizado com sucesso");
 

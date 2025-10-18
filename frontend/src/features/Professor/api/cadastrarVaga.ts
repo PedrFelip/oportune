@@ -16,8 +16,6 @@ export async function cadastrarVaga(data: vagaModel) {
       body: JSON.stringify(data),
     });
 
-    console.log("✅ Resposta da rota Next.js:", reply.status, reply.statusText);
-
     if (!reply.ok) {
       const errorData = await parseJsonSafe(reply);
       throw new Error(

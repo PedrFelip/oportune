@@ -4,9 +4,9 @@ import { buscarPerfilAluno } from "@/features/Aluno/api/buscarPerfil";
 import { InputModal } from "@/components/InputModal";
 
 type headerProps = {
-  title: string
-  onMenuClick: MouseEventHandler<HTMLButtonElement>
-}
+  title: string;
+  onMenuClick: MouseEventHandler<HTMLButtonElement>;
+};
 
 export function Header({ title, onMenuClick }: headerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,10 +14,10 @@ export function Header({ title, onMenuClick }: headerProps) {
   const [nomeUsuario, setNomeUsuario] = useState("");
 
   useEffect(() => {
-    if (!usuario) return
+    if (!usuario) return;
     const obterNomeUsuario = async () => {
       // contexto de autenticação
-      let nome = usuario?.nome
+      let nome = usuario?.nome;
 
       if (nome) {
         setNomeUsuario(nome);
@@ -34,9 +34,7 @@ export function Header({ title, onMenuClick }: headerProps) {
             return;
           }
         }
-      } catch (e) {
-        console.log("Erro ao parsear dados do usuário:", e);
-      }
+      } catch (e) {}
 
       // tentar obter dos dados do perfil no localStorage como fallback
       try {
@@ -49,9 +47,7 @@ export function Header({ title, onMenuClick }: headerProps) {
             return;
           }
         }
-      } catch (e) {
-        console.log("Erro ao parsear dados do perfil:", e);
-      }
+      } catch (e) {}
 
       // 4. Como último recurso, buscar do backend (apenas se estiver logado)
       try {
@@ -66,7 +62,6 @@ export function Header({ title, onMenuClick }: headerProps) {
           }
         }
       } catch (e) {
-        console.log("Erro ao buscar perfil para nome:", e);
         setNomeUsuario("Usuário"); // Fallback final
       }
     };

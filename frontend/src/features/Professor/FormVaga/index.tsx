@@ -75,7 +75,6 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
         professorId: usuario?.professor?.id,
       };
 
-      console.log("Payload sendo enviado:", payload);
       await cadastrarVaga(payload);
 
       showMessage.success("Vaga cadastrada com sucesso!");
@@ -107,7 +106,10 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto scrollbar-modal modal-content-highlight bg-[#1E293B] text-white border border-white/10 rounded-2xl p-0">
-        <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex flex-col h-full">
+        <form
+          onSubmit={handleSubmit(onSubmit, onInvalid)}
+          className="flex flex-col h-full"
+        >
           <DialogHeader className="px-6 pt-6 pb-4 border-b border-white/10 sticky top-0 bg-[#1E293B] z-10">
             <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-[#2474e4] to-[#1a5bb8] bg-clip-text text-transparent">
               Nova Oportunidade
@@ -116,7 +118,10 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
           <div className="flex-1 px-6 py-6 space-y-6">
             {/* Título */}
             <div className="space-y-2">
-              <Label htmlFor="titulo" className="text-white/90 font-medium text-sm">
+              <Label
+                htmlFor="titulo"
+                className="text-white/90 font-medium text-sm"
+              >
                 Título da oportunidade
               </Label>
               <input
@@ -133,10 +138,13 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 placeholder="Ex: Estágio em Desenvolvimento Web"
               />
             </div>
-            
+
             {/* Descrição */}
             <div className="space-y-2">
-              <Label htmlFor="descricao" className="text-white/90 font-medium text-sm">
+              <Label
+                htmlFor="descricao"
+                className="text-white/90 font-medium text-sm"
+              >
                 Descrição da oportunidade
               </Label>
               <textarea
@@ -153,11 +161,14 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 placeholder="Descreva a oportunidade..."
               />
             </div>
-            
+
             {/* Tipo e Prazo */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="tipo" className="text-white/90 font-medium text-sm">
+                <Label
+                  htmlFor="tipo"
+                  className="text-white/90 font-medium text-sm"
+                >
                   Tipo de oportunidade
                 </Label>
                 <Controller
@@ -165,17 +176,14 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                   control={control}
                   rules={{ required: "Escolha um tipo" }}
                   render={({ field }) => (
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="w-full h-[48px] bg-[rgba(196,211,230,0.02)] border-white/10 text-white">
                         <SelectValue placeholder="Selecione o tipo" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#1E293B] border-white/10">
                         {tipoVaga.map((opt) => (
-                          <SelectItem 
-                            key={opt.value} 
+                          <SelectItem
+                            key={opt.value}
                             value={opt.value}
                             className="text-white focus:bg-[#2474e4]/20"
                           >
@@ -187,7 +195,7 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                   )}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label className="text-white/90 font-medium text-sm">
                   Prazo de inscrição
@@ -200,11 +208,17 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 />
               </div>
             </div>
-            
+
             {/* Requisitos */}
             <div className="space-y-2">
-              <Label htmlFor="requisitos" className="text-white/90 font-medium text-sm">
-                Requisitos <span className="text-white/50 text-xs font-normal">(Digite e pressione Enter ou clique em +)</span>
+              <Label
+                htmlFor="requisitos"
+                className="text-white/90 font-medium text-sm"
+              >
+                Requisitos{" "}
+                <span className="text-white/50 text-xs font-normal">
+                  (Digite e pressione Enter ou clique em +)
+                </span>
               </Label>
               <Controller
                 name="requisitos"
@@ -219,11 +233,17 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 )}
               />
             </div>
-            
+
             {/* Cursos */}
             <div className="space-y-2">
-              <Label htmlFor="cursosAlvo" className="text-white/90 font-medium text-sm">
-                Cursos alvo <span className="text-white/50 text-xs font-normal">(Selecione da lista)</span>
+              <Label
+                htmlFor="cursosAlvo"
+                className="text-white/90 font-medium text-sm"
+              >
+                Cursos alvo{" "}
+                <span className="text-white/50 text-xs font-normal">
+                  (Selecione da lista)
+                </span>
               </Label>
               <Controller
                 name="cursosAlvo"
@@ -241,11 +261,14 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                 )}
               />
             </div>
-            
+
             {/* Semestre e Vagas */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="semestreMinimo" className="text-white/90 font-medium text-sm">
+                <Label
+                  htmlFor="semestreMinimo"
+                  className="text-white/90 font-medium text-sm"
+                >
                   Semestre mínimo
                 </Label>
                 <input
@@ -268,9 +291,12 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
                   max="12"
                 />
               </div>
-              
+
               <div className="space-y-2">
-                <Label htmlFor="numeroVagas" className="text-white/90 font-medium text-sm">
+                <Label
+                  htmlFor="numeroVagas"
+                  className="text-white/90 font-medium text-sm"
+                >
                   Número de vagas
                 </Label>
                 <input
@@ -295,18 +321,18 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
               </div>
             </div>
           </div>
-          
+
           <DialogFooter className="px-6 py-4 border-t border-white/10 sticky bottom-0 bg-[#1E293B] z-10 flex-row gap-3">
             <DialogClose asChild>
-              <Button 
+              <Button
                 type="button"
                 className="flex-1 h-12 bg-transparent hover:bg-white/5 text-white border border-white/20 transition-all font-medium"
               >
                 Cancelar
               </Button>
             </DialogClose>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="flex-1 h-12 bg-[#2474e4] hover:bg-[#1a5bb8] text-white transition-all font-medium"
             >
               Criar Oportunidade

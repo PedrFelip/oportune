@@ -12,7 +12,6 @@ export default async function Page({ params }: vagaProps) {
   const cookieStore = cookies();
 
   const token = (await cookieStore).get("token");
-  console.log(token);
 
   if (!token) return <div className="text-white">Vaga não encontrada</div>;
 

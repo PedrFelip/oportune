@@ -17,7 +17,7 @@ export function Dashboard() {
     requireRole: "ESTUDANTE",
   });
 
-  console.log("Status do carregando:", carregando); // <-- Adicione aqui
+  // <-- Adicione aqui
 
   const { showLoading, hideLoading } = useLoading();
 
