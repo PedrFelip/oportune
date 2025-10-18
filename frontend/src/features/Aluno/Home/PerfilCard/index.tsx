@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Progress } from "../ui/progress";
+import { Progress } from "@/components/ui/progress";
 
 function getInitials(name: string) {
   if (!name) return "";
@@ -10,7 +10,7 @@ function getInitials(name: string) {
     .join("");
 }
 
-interface perfilAluno {
+export interface perfilAluno {
   nome: string;
   curso: string;
   semestre: string;
@@ -59,7 +59,7 @@ export function PerfilCard({ perfil }: perfilCardProps) {
             {perfil.porcentagem || 0}%
           </span>
         </div>
-        <Progress value={progress} className="[&>div]:bg-blue-500"/>
+        <Progress value={progress} className="[&>div]:bg-blue-500" />
       </div>
     </div>
   );

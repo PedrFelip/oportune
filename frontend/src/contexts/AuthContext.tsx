@@ -23,9 +23,8 @@ import { api, setAuthHeader } from "@/lib/api"; // Importando a configuração d
  */
 export type AuthContextType = {
   usuario: User | null;
-  token: string | null;
   carregando: boolean;
-  login: (token: string) => Promise<void>;
+  login: (email: string, senha: string) => Promise<void>;
   logout: () => void;
 };
 
@@ -64,78 +63,71 @@ type AuthProviderProps = {
  */
 export function AuthProvider({ children }: AuthProviderProps) {
   const [usuario, setUsuario] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  // `carregando` começa como `true` para bloquear a renderização de rotas protegidas
-  // até que a validação do token seja concluída.
   const [carregando, setCarregando] = useState(true);
 
-  // Este useEffect roda apenas uma vez, quando o app é carregado pela primeira vez.
-  // Sua única responsabilidade é verificar se existe um token válido no localStorage.
+  // useEffect agora apenas lê dados locais. É rápido e não faz chamada de API.
   useEffect(() => {
-    const validarTokenNaInicializacao = async () => {
-      const tokenSalvo = localStorage.getItem("authToken");
+    const carregarDadosLocais = () => {
+      const token = localStorage.getItem("authToken");
+      const usuarioSalvo = localStorage.getItem("userData");
 
-      if (tokenSalvo) {
-        try {
-          // Define o token no cabeçalho da API para a chamada de validação
-          setAuthHeader(tokenSalvo);
-          // Chama o backend para verificar se o token é realmente válido
-          const response = await api.get("/auth/me"); // ou um endpoint similar
-
-          // Se a chamada for bem-sucedida, atualiza os estados
-          setUsuario(response.data);
-          setToken(tokenSalvo);
-        } catch (error) {
-          // Se o token for inválido (expirado, etc.), limpa tudo
-          console.error(
-            "Sessão inválida ou expirada. Realize o login novamente.",
-            error
-          );
-          localStorage.removeItem("authToken");
-          setAuthHeader(null);
-        }
+      if (token && usuarioSalvo) {
+        // Define o header da API para futuras requisições
+        setAuthHeader(token);
+        // Define o usuário com os dados que salvamos durante o login
+        setUsuario(JSON.parse(usuarioSalvo));
       }
-      // Garante que o estado de `carregando` seja `false` ao final de todas as verificações
+      // Termina o carregamento. Agora o app está pronto para renderizar.
       setCarregando(false);
     };
 
-    validarTokenNaInicializacao();
-  }, []); // A dependência vazia `[]` garante que isso rode apenas uma vez.
+    carregarDadosLocais();
+  }, []);
 
-  // Envolvemos `login` e `logout` em `useCallback` para garantir que suas referências
-  // sejam estáveis, evitando re-renderizações desnecessárias em componentes filhos.
-  const login = useCallback(async (novoToken: string) => {
+  const login = useCallback(async (email: string, senha: string) => {
     try {
-      localStorage.setItem("authToken", novoToken);
-      setAuthHeader(novoToken);
-      const response = await api.get("/auth/me");
-      setUsuario(response.data);
-      setToken(novoToken);
+      // 1. Chama a rota de login
+      const response = await api.post("/loguser", { email, senha });
+
+      // 2. Extrai o token E os dados do usuário da resposta
+      const { token, user } = response.data; // Adapte para o formato da sua resposta
+
+      if (token && user) {
+        // 3. Salva ambos no localStorage
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("userData", JSON.stringify(user));
+
+        // 4. Atualiza os estados e o header da API
+        setAuthHeader(token);
+        setUsuario(user);
+      } else {
+        // Lança um erro se a resposta da API não veio como esperado
+        throw new Error("Resposta do login inválida.");
+      }
     } catch (error) {
-      console.error("Falha ao realizar login:", error);
-      // Se ocorrer um erro ao buscar os dados do usuário, desfaz o login.
+      console.error("Falha no login:", error);
+      // Garante que se o login falhar, tudo seja limpo.
       logout();
+      // Propaga o erro para a UI poder mostrar uma mensagem.
+      throw error;
     }
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("userData");
     setAuthHeader(null);
     setUsuario(null);
-    setToken(null);
   }, []);
 
-  // `useMemo` otimiza a performance, garantindo que o objeto `value` só seja
-  // recriado se um de seus valores realmente mudar.
   const value = useMemo(
     () => ({
       usuario,
-      token,
       carregando,
       login,
       logout,
     }),
-    [usuario, token, carregando, login, logout]
+    [usuario, carregando, login, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

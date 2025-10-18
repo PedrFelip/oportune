@@ -8,8 +8,8 @@ export default function NotFound() {
   return (
     <>
       <div className="flex flex-col items-center justify-center h-screen bg-[#0F172A]">
-        <div className="w-1/3">
-          <DotLottieReact src={"/404Error.lottie"} loop autoplay/>
+        <div className="w-1/2">
+          <DotLottieReact src={"/Bot404Error.lottie"} loop autoplay/>
         </div>
         <h1 className="text-white text-xl text-center">
           Desculpe, não conseguimos encontrar essa página :( <br />
