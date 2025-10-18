@@ -87,10 +87,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = useCallback(async (email: string, senha: string) => {
     try {
       // 1. Chama a rota de login
-      const response = await api.post("/loguser", { email, senha });
+      const response = await api.post("/api/loguser", { email, senha });
 
       // 2. Extrai o token E os dados do usuário da resposta
-      const { token, user } = response.data; // Adapte para o formato da sua resposta
+      const { token, ...user } = response.data; // Adapte para o formato da sua resposta
 
       if (token && user) {
         // 3. Salva ambos no localStorage
