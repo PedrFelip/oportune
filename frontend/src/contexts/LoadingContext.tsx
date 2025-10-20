@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { registerLoading } from "./LoadingContextInstance";
 
 interface LoadingContextType {
   isLoading: boolean;
@@ -13,6 +14,10 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
 
   const showLoading = () => setIsLoading(true);
   const hideLoading = () => setIsLoading(false);
+
+  useEffect(() => {
+    registerLoading(showLoading, hideLoading)
+  })
 
   return (
     <LoadingContext.Provider value={{ isLoading, showLoading, hideLoading }}>
