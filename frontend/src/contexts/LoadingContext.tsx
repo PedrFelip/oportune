@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { registerLoading } from "./LoadingContextInstance";
 
 interface LoadingContextType {
@@ -12,12 +19,12 @@ const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 export function LoadingProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const showLoading = () => setIsLoading(true);
-  const hideLoading = () => setIsLoading(false);
+  const showLoading = useCallback(() => setIsLoading(true), []);
+  const hideLoading = useCallback(() => setIsLoading(false), []);
 
   useEffect(() => {
-    registerLoading(showLoading, hideLoading)
-  })
+    registerLoading(showLoading, hideLoading);
+  }, [showLoading, hideLoading]);
 
   return (
     <LoadingContext.Provider value={{ isLoading, showLoading, hideLoading }}>
@@ -29,7 +36,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
 export const useLoading = () => {
   const context = useContext(LoadingContext);
   if (!context) {
-    throw new Error('useLoading deve ser usado dentro de LoadingProvider');
+    throw new Error("useLoading deve ser usado dentro de LoadingProvider");
   }
   return context;
 };

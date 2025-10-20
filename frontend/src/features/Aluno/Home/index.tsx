@@ -17,8 +17,6 @@ export function Dashboard() {
     requireRole: "ESTUDANTE",
   });
 
-  // <-- Adicione aqui
-
   const { showLoading, hideLoading } = useLoading();
 
   const [perfil, setPerfil] = useState<perfilAluno | null>(null);
@@ -51,7 +49,8 @@ export function Dashboard() {
 
   useEffect(() => {
     if (!carregando) carregarDados();
-  }, [carregando, carregarDados]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [carregando]);
 
   if (error) {
     return (
