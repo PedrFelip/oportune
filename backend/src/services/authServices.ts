@@ -8,10 +8,10 @@ import {
   isVerifiedRepository,
   buscarUsuarioPorEmailRepository,
   atualizarSenhaRepository,
+  profileRepository,
 } from "../repositories/authRepository.ts";
 import { capitalizeFirstLetter } from "../utils/functions.ts";
 import { JWT_SECRET } from "../config/config.ts";
-import { fa } from "zod/locales";
 
 export const cadastrarUsuarioService = async (data: createUserCleanDTO) => {
   try {
@@ -103,16 +103,16 @@ export const isVerifiedService = async (email: string) => {
 export const solicitarRecuperacaoSenhaService = async (data: requestPasswordResetDTO) => {
   try {
     const user = await buscarUsuarioPorEmailRepository(data.email)
-    
+
     if (!user) {
       // Por segurança, não revela se o email existe ou não
       return { message: 'Se o email estiver cadastrado, você receberá um link de recuperação' }
     }
 
-    return { 
-      userId: user.id, 
-      nome: user.nome, 
-      email: user.email 
+    return {
+      userId: user.id,
+      nome: user.nome,
+      email: user.email
     };
   } catch (error) {
     console.error('Erro ao solicitar recuperação de senha:', error)
@@ -136,7 +136,7 @@ export const redefinirSenhaService = async (data: resetPasswordDTO) => {
     }
 
     const senha_hash = await bcrypt.hash(data.novaSenha, 10)
-    
+
     await atualizarSenhaRepository(decoded.sub, senha_hash)
 
     return { message: 'Senha atualizada com sucesso!' }
@@ -148,6 +148,16 @@ export const redefinirSenhaService = async (data: resetPasswordDTO) => {
       throw new Error('Token inválido')
     }
     console.error('Erro ao redefinir senha:', err)
-    throw new Error('Não foi possível redefinir a senha') 
+    throw new Error('Não foi possível redefinir a senha')
+  }
+}
+
+export const profileService = async (userId: string) => {
+  try {
+    const profile = await profileRepository(userId)
+    return profile
+  } catch (error) {
+    console.error('Erro ao buscar perfil do usuário:', error)
+    throw new Error('Erro ao buscar perfil do usuário')
   }
 }
