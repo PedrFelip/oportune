@@ -180,15 +180,12 @@ export const redefinirSenhaController = async (
 };
 
 export const profileController = async (
-  request: FastifyRequest,
+  request: FastifyRequest <{ Params: { userId: string } }>,
   reply: FastifyReply,
 ) => {
   try {
-    if (!request.user || !request.user.sub) {
-      return reply.status(401).send({ message: 'Usuário não autenticado' })
-    }
-
-    const profile = await profileService(request.user.sub)
+    const { userId } = request.params
+    const profile = await profileService(userId)
     return reply.status(200).send(profile)
   } catch (err: any) {
     console.error('Erro ao obter perfil do usuário:', err)
