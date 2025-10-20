@@ -6,27 +6,25 @@ import { useEffect, useState } from "react";
 import Oportunidade from "./Oportunidade";
 import { showMessage } from "@/adapters/showMessage";
 import { buscarVagas } from "../api/buscarVagas";
+import { useLoading } from "@/contexts/LoadingContext";
 
 export default function Vagas() {
   // const [filterData, setFilterData] = useState([]);
   const [vagas, setVagas] = useState([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loading, setLoading] = useState(true);
+  const { showLoading, hideLoading } = useLoading();
 
   const carregarVagas = async () => {
-    showMessage.loading("Carregando vagas");
-    setLoading(true);
+    showLoading();
     try {
       const vagasReq = await buscarVagas();
 
       if (vagasReq === null) {
         throw new Error("Falha na requisição");
       }
-      showMessage.dismiss();
       showMessage.success("Vagas carregadas");
       setVagas(vagasReq);
     } finally {
-      setLoading(false);
+      hideLoading();
     }
   };
 
