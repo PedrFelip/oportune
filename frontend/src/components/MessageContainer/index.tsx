@@ -21,6 +21,7 @@ export function MessagesContainer({ children }: MessagesContainerProps) {
         theme="light"
         transition={Bounce}
         aria-label={""}
+        limit={1}
       >
       </ToastContainer>
     </>
