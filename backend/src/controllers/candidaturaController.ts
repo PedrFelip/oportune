@@ -2,13 +2,18 @@ import { candidaturaVagaService } from '../services/candidaturaService.ts'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export const candidaturaVagaController = async (
-  request: FastifyRequest<{ Body: { vagaId: string; estudanteId: string } }>,
+  request: FastifyRequest<{ Body: { vagaId: string; } }>,
   reply: FastifyReply
 ) => {
   try {
-    const { vagaId, estudanteId } = request.body
+    const { vagaId } = request.body
 
-    const result = await candidaturaVagaService({ vagaId, estudanteId })
+    if (!request.user || !request.user.sub) {
+      reply.status(401).send({ error: 'Usuário não autenticado' })
+      return
+    }
+
+    const result = await candidaturaVagaService({ vagaId, userId: request.user.sub })
 
     if (result) {
     reply.status(201).send(result)
