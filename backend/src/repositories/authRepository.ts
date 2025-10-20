@@ -130,3 +130,26 @@ export const atualizarSenhaRepository = async (userId: string, novaSenha: string
     },
   })
 }
+
+export const profileRepository = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      empresa: true,
+      estudante: true,
+      professor: true,
+    },
+  })
+
+  return {
+    id: user?.id,
+    nome: user?.nome,
+    email: user?.email,
+    tipo: user?.tipo,
+    empresa: user?.empresa,
+    estudante: user?.estudante,
+    professor: user?.professor,
+  }
+}
