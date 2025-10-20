@@ -7,6 +7,7 @@ import {
   isVerifiedService,
   solicitarRecuperacaoSenhaService,
   redefinirSenhaService,
+  profileService,
 } from "../services/authServices.ts";
 import {
   createUserCleanSchema,
@@ -177,3 +178,20 @@ export const redefinirSenhaController = async (
     return reply.status(500).send({ message: 'Erro interno do servidor' })
   }
 };
+
+export const profileController = async (
+  request: FastifyRequest,
+  reply: FastifyReply,
+) => {
+  try {
+    if (!request.user || !request.user.sub) {
+      return reply.status(401).send({ message: 'Usuário não autenticado' })
+    }
+
+    const profile = await profileService(request.user.sub)
+    return reply.status(200).send(profile)
+  } catch (err: any) {
+    console.error('Erro ao obter perfil do usuário:', err)
+    return reply.status(500).send({ message: 'Erro interno do servidor' })
+  }
+}

@@ -6,7 +6,9 @@ import {
   isVerifiedController,
   solicitarRecuperacaoSenhaController,
   redefinirSenhaController,
+  profileController,
 } from "../controllers/authController.ts";
+import Authentication from "../plugins/tokenValidator.ts";
 
 export async function authRoutes(fastify: FastifyInstance) {
   fastify.post("/createuser", cadastrarUsuarioController);
@@ -15,4 +17,5 @@ export async function authRoutes(fastify: FastifyInstance) {
   fastify.post("/is-verified", isVerifiedController);
   fastify.post("/request-password-reset", solicitarRecuperacaoSenhaController);
   fastify.post("/reset-password", redefinirSenhaController);
+  fastify.get("/profile", { preHandler: Authentication }, profileController);
 }
