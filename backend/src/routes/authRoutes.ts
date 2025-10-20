@@ -17,5 +17,5 @@ export async function authRoutes(fastify: FastifyInstance) {
   fastify.post("/is-verified", isVerifiedController);
   fastify.post("/request-password-reset", solicitarRecuperacaoSenhaController);
   fastify.post("/reset-password", redefinirSenhaController);
-  fastify.get("/profile", { preHandler: Authentication }, profileController);
+  fastify.get("/profile/:userId", profileController);
 }
