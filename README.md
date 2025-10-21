@@ -37,12 +37,6 @@ Nosso objetivo é ser a ponte que transforma potencial em experiência.
 
 As principais funcionalidades do Oportune + foram definidas com base nos requisitos funcionais e não funcionais, regras de negócio e requisitos de domínio.
 
-### Demonstração
-A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemplos de fluxos:
-- **Cadastro e Login**: Formulário multi-etapas adaptado ao tipo de usuário.
-- **Busca e Candidatura**: Filtros avançados e aplicação one-click.
-- **Notificações**: Emails para confirmações e atualizações de status.
-
 ### Requisitos Funcionais
    - [x]  Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico.
 
@@ -72,7 +66,6 @@ Para intalar e rodar siga o passo a passo da [instalação](https://github.com/P
 - **Backend**: Node.js, Fastify (para APIs REST), TypeScript
 - **Banco de Dados**: PostgreSQL, Prisma (ORM)
 - **Outras**: Docker (containerização), Go (microsserviços), Python (validações específicas), Figma (prototipagem)
-- **Gerenciamento**: Scrum, Trello, Discord, Google Drive
 
 ## Contribuição
 
