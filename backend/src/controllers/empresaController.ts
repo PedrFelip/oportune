@@ -2,11 +2,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { VagasAtivasService } from '../services/empresaService.ts'
 
 export const VagasAtivasController = async (
-  request: FastifyRequest<{ Params: { id: string } }>,
+  request: FastifyRequest,
   reply: FastifyReply
 ) => {
   try {
-    const { id } = request.params
+    const id = request.user?.sub
 
     if (!id || typeof id !== 'string') {
       return reply.status(400).send({ message: 'Identificador da empresa inválido.' })
