@@ -5,6 +5,18 @@ export const candidaturaVaga = async (candidaturaData: {
   estudanteId: string
 }) => {
   try {
+    //garante que o estudante não se candidate mais de uma vez para a mesma vaga
+    const candidaturaExistente = await prisma.candidatura.findFirst({
+      where: {
+        vagaId: candidaturaData.vagaId,
+        estudanteId: candidaturaData.estudanteId,
+      },
+    })
+
+    if (candidaturaExistente) {
+      return 'Estudante já cadastrado para essa vaga'
+    }
+
     const candidatura = await prisma.candidatura.create({
       data: {
         vagaId: candidaturaData.vagaId,
