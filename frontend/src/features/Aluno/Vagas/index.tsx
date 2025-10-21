@@ -30,6 +30,7 @@ export default function Vagas() {
 
   useEffect(() => {
     carregarVagas();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
