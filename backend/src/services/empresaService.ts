@@ -1,6 +1,6 @@
 import {
   VagasAtivasEmpresaRepository
-} from '../repositories/repositoryEmpresa.ts'
+} from '../repositories/empresaRepository.ts'
 
 export const VagasAtivasService = async (empresaId: string) => {
   const vagasAtivas = await VagasAtivasEmpresaRepository(empresaId)
