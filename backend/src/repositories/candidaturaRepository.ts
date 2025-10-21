@@ -14,7 +14,7 @@ export const candidaturaVaga = async (candidaturaData: {
     })
 
     if (candidaturaExistente) {
-      return 'Estudante já cadastrado para essa vaga'
+      return ({ message: 'Estudante já cadastrado para essa vaga' })
     }
 
     const candidatura = await prisma.candidatura.create({
