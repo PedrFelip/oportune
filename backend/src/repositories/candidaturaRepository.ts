@@ -25,11 +25,35 @@ export const listarCadidaturasPorEstudante = async (estudanteId: string) => {
         estudanteId,
       },
       include: {
-        vaga: true,
+        vaga: {
+          select: {
+            id: true,
+            titulo: true,
+            tipo: true,
+
+            empresaId: true,
+            empresa: {
+              select: {
+                nomeFantasia: true,
+              },
+            },
+
+            professorId: true,
+            professor: {
+              select: {
+                user: {
+                  select: {
+                    nome: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       orderBy: {
-        createdAt: 'desc'
-      }
+        createdAt: 'desc',
+      },
     })
 
     return candidaturas
