@@ -9,7 +9,7 @@ export default function Authentication(
   return new Promise<void>((resolve, reject) => {
     try {
       const authHeader = request.headers.authorization;
-      
+
       if (!authHeader) {
         reply.status(401).send({ message: "Token não encontrado" });
         return reject(new Error("Token não encontrado"));
@@ -21,7 +21,7 @@ export default function Authentication(
       }
 
       const token = authHeader.split(" ")[1];
-      
+
       if (!token) {
         reply.status(401).send({ message: "Token não encontrado" });
         return reject(new Error("Token não encontrado"));
