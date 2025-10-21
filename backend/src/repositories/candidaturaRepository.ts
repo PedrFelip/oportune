@@ -1,6 +1,9 @@
 import prisma from '../../prisma/client.ts'
 
-export const candidaturaVaga = async (candidaturaData: any) => {
+export const candidaturaVaga = async (candidaturaData: {
+  vagaId: string
+  estudanteId: string
+}) => {
   try {
     const candidatura = await prisma.candidatura.create({
       data: {
@@ -11,5 +14,26 @@ export const candidaturaVaga = async (candidaturaData: any) => {
     return candidatura
   } catch (error) {
     throw new Error('Erro ao cadastrar candidatura: ' + error)
+  }
+}
+
+export const listarCadidaturasPorEstudante = async (estudanteId: string) => {
+  try {
+    const candidaturas = await prisma.candidatura.findMany({
+      take: 10,
+      where: {
+        estudanteId,
+      },
+      include: {
+        vaga: true,
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
+
+    return candidaturas
+  } catch (error) {
+    throw new Error('Erro ao listar candidaturas: ' + error)
   }
 }
