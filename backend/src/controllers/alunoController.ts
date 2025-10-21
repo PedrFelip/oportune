@@ -8,7 +8,7 @@ export const getPerfilController = async (
 ) => {
   try {
     const userId = request.user?.sub;
-    
+
     if (!userId) {
       return reply.status(401).send({ message: 'Usuário não autenticado' })
     }
@@ -28,16 +28,16 @@ export const getCandidaturasController = async (
 ) => {
   try {
     const userId = request.user?.sub;
-    
+
     if (!userId) {
-      return reply.status(401).send({ 
+      return reply.status(401).send({
         message: 'Usuário não autenticado',
         candidaturasRecentes: []
       })
     }
 
     const candidaturasData = await getCandidaturasService(userId)
-    
+
     // Se houver erro específico, retornar com status apropriado
     if (candidaturasData.error) {
       console.error("Erro no service de candidaturas:", candidaturasData.error);
@@ -56,7 +56,7 @@ export const getCandidaturasController = async (
         isEmpty: true
       })
     }
-    
+
     return reply.status(200).send({
       candidaturasRecentes: candidaturasData.candidaturasRecentes,
       total: candidaturasData.total,
@@ -64,7 +64,7 @@ export const getCandidaturasController = async (
     })
   } catch (error: any) {
     console.error('Erro ao buscar candidaturas do aluno:', error)
-    return reply.status(500).send({ 
+    return reply.status(500).send({
       message: 'Erro interno do servidor',
       candidaturasRecentes: [],
       error: 'Erro inesperado ao carregar candidaturas'
@@ -79,16 +79,16 @@ export const getVagasRecomendadasController = async (
 ) => {
   try {
     const userId = request.user?.sub;
-    
+
     if (!userId) {
-      return reply.status(401).send({ 
+      return reply.status(401).send({
         message: 'Usuário não autenticado',
         vagasRecomendadas: []
       })
     }
 
     const vagasData = await getVagasRecomendadasService(userId)
-    
+
     // Se houver erro específico, retornar com status apropriado
     if (vagasData.error) {
       console.error("Erro no service de vagas recomendadas:", vagasData.error);
@@ -108,7 +108,7 @@ export const getVagasRecomendadasController = async (
         isEmpty: true
       })
     }
-    
+
     return reply.status(200).send({
       vagasRecomendadas: vagasData.vagasRecomendadas,
       total: vagasData.total,
@@ -117,7 +117,7 @@ export const getVagasRecomendadasController = async (
     })
   } catch (error: any) {
     console.error('Erro ao buscar vagas recomendadas:', error)
-    return reply.status(500).send({ 
+    return reply.status(500).send({
       message: 'Erro interno do servidor',
       vagasRecomendadas: [],
       error: 'Erro inesperado ao carregar vagas'
@@ -132,13 +132,13 @@ export const alunoController = async (
 ) => {
   try {
     const userId = request.user?.sub;
-    
+
     if (!userId) {
       return reply.status(401).send({ message: 'Usuário não autenticado' })
     }
 
     const dashboardData = await getDashboardService(userId)
-    
+
     return reply.status(200).send(dashboardData)
   } catch (error: any) {
     console.error('Erro no dashboard do aluno:', error)
