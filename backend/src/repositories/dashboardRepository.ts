@@ -67,12 +67,12 @@ const getEstudanteCurso = async (userId: string): Promise<{ id: string; curso: s
   }
 }
 
-// Função totalmente independente para buscar candidaturas recentes 
+// Função totalmente independente para buscar candidaturas recentes
 export const getCandidaturasRecentes = async (userId: string) => {
   console.time("getCandidaturasRecentes");
   try {
     console.log(`[getCandidaturasRecentes] Iniciando busca para userId: ${userId}`)
-    
+
     // Busca independente do ID do estudante
     const estudanteId = await getEstudanteId(userId)
     if (!estudanteId) {
@@ -107,9 +107,9 @@ export const getCandidaturasRecentes = async (userId: string) => {
     })
 
     // Filtrar candidaturas com dados válidos
-    const candidaturasValidas = candidaturas.filter(c => 
-      c.vaga && 
-      c.vaga.titulo && 
+    const candidaturasValidas = candidaturas.filter(c =>
+      c.vaga &&
+      c.vaga.titulo &&
       (c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome)
     )
 
@@ -127,7 +127,7 @@ export const getVagasRecomendadas = async (userId: string) => {
   console.time("getVagasRecomendadas");
   try {
     console.log(`[getVagasRecomendadas] Iniciando busca para userId: ${userId}`)
-    
+
     // Busca independente dos dados do estudante
     const estudanteData = await getEstudanteCurso(userId)
     if (!estudanteData) {
@@ -143,7 +143,7 @@ export const getVagasRecomendadas = async (userId: string) => {
 
     // Buscar vagas específicas do curso
     const vagasDoCurso = await buscarVagasPorCurso(estudanteData.id, estudanteData.curso)
-    
+
     // Se não encontrou vagas do curso, buscar vagas gerais
     if (vagasDoCurso.length === 0) {
       console.log(`[getVagasRecomendadas] Nenhuma vaga encontrada para curso ${estudanteData.curso}, buscando vagas gerais`)
@@ -177,8 +177,8 @@ const buscarVagasPorCurso = async (estudanteId: string, curso: string) => {
           { id: { notIn: vagasExcluidas } }
         ]
       },
-  // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
-  orderBy: { createdAt: 'desc' },
+      // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
+      orderBy: { createdAt: 'desc' },
       take: 3,
       select: {
         id: true,
@@ -201,8 +201,8 @@ const buscarVagasPorCurso = async (estudanteId: string, curso: string) => {
     })
 
     // Filtrar vagas com dados válidos
-    const vagasValidas = vagas.filter(v => 
-      v.titulo && 
+    const vagasValidas = vagas.filter(v =>
+      v.titulo &&
       (v.empresa?.nomeFantasia || v.professor?.user?.nome)
     )
 
@@ -232,8 +232,8 @@ const buscarVagasGerais = async (estudanteId: string) => {
           { id: { notIn: vagasExcluidas } }
         ]
       },
-  // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
-  orderBy: { createdAt: 'desc' },
+      // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
+      orderBy: { createdAt: 'desc' },
       take: 3,
       select: {
         id: true,
@@ -255,8 +255,8 @@ const buscarVagasGerais = async (estudanteId: string) => {
       }
     })
 
-    const vagasGeraisValidas = vagasGerais.filter(v => 
-      v.titulo && 
+    const vagasGeraisValidas = vagasGerais.filter(v =>
+      v.titulo &&
       (v.empresa?.nomeFantasia || v.professor?.user?.nome)
     )
 
