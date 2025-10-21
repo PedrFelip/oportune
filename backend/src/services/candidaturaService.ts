@@ -29,6 +29,7 @@ export const listarCadidaturasPorEstudanteService = async (estudanteId: string) 
       tipo: c.vaga.tipo,
     },
     responsavel: {
+      idResponsavel: c.vaga.empresaId || c.vaga.professorId || ' ',
       nome: c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome || ' ',
       tipo: c.vaga.empresa ? 'EMPRESA' : 'PROFESSOR',
     },
