@@ -1,4 +1,4 @@
-import z, { email } from "zod";
+import z from "zod";
 import { formatZodErrors } from "../utils/zodErrorFormatter.ts";
 import {
   cadastrarUsuarioService,
@@ -180,7 +180,7 @@ export const redefinirSenhaController = async (
 };
 
 export const profileController = async (
-  request: FastifyRequest <{ Params: { userId: string } }>,
+  request: FastifyRequest<{ Params: { userId: string } }>,
   reply: FastifyReply,
 ) => {
   try {

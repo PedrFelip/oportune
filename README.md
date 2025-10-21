@@ -33,10 +33,6 @@ O Oportune+ resolve esse problema ao criar um ecossistema onde:
 * Alunos encontram em um só lugar as chances que precisam para começar sua trajetória profissional.
 Nosso objetivo é ser a ponte que transforma potencial em experiência.
 
-## Status do Projeto
-
-Em desenvolvimento 
-
 ## Funcionalidades e Demonstração
 
 As principais funcionalidades do Oportune + foram definidas com base nos requisitos funcionais e não funcionais, regras de negócio e requisitos de domínio.
