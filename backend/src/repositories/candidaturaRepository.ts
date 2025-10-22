@@ -1,9 +1,6 @@
 import prisma from '../../prisma/client.ts'
 
-export const candidaturaVaga = async (candidaturaData: {
-  vagaId: string
-  estudanteId: string
-}) => {
+export const candidaturaVaga = async (candidaturaData: { vagaId: string; estudanteId: string }) => {
   try {
     //garante que o estudante não se candidate mais de uma vez para a mesma vaga
     const candidaturaExistente = await prisma.candidatura.findFirst({
@@ -14,7 +11,7 @@ export const candidaturaVaga = async (candidaturaData: {
     })
 
     if (candidaturaExistente) {
-      return ({ message: 'Estudante já cadastrado para essa vaga' })
+      return { message: 'Estudante já cadastrado para essa vaga' }
     }
 
     const candidatura = await prisma.candidatura.create({

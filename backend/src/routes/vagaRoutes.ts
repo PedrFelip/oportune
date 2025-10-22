@@ -1,4 +1,8 @@
-import { createVagaController, getVagaDetalhesController, listarVagasController } from '../controllers/vagaController.ts'
+import {
+  createVagaController,
+  getVagaDetalhesController,
+  listarVagasController,
+} from '../controllers/vagaController.ts'
 import { FastifyInstance } from 'fastify'
 
 export async function vagaRoutes(app: FastifyInstance) {

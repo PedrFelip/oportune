@@ -1,13 +1,15 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { getPerfilService, getCandidaturasService, getVagasRecomendadasService, getDashboardService } from '../services/dashboardService.ts'
+import {
+  getPerfilService,
+  getCandidaturasService,
+  getVagasRecomendadasService,
+  getDashboardService,
+} from '../services/dashboardService.ts'
 
 // Controller para buscar apenas dados do perfil (carregamento inicial)
-export const getPerfilController = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
-) => {
+export const getPerfilController = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const userId = request.user?.sub;
+    const userId = request.user?.sub
 
     if (!userId) {
       return reply.status(401).send({ message: 'Usuário não autenticado' })
@@ -16,23 +18,20 @@ export const getPerfilController = async (
     const perfilData = await getPerfilService(userId)
     return reply.status(200).send(perfilData)
   } catch (error: any) {
-    console.error('Erro ao buscar perfil do aluno:', error);
+    console.error('Erro ao buscar perfil do aluno:', error)
     return reply.status(500).send({ message: 'Erro interno do servidor', error: error.message })
   }
-};
+}
 
 // Controller para buscar apenas candidaturas
-export const getCandidaturasController = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
-) => {
+export const getCandidaturasController = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const userId = request.user?.sub;
+    const userId = request.user?.sub
 
     if (!userId) {
       return reply.status(401).send({
         message: 'Usuário não autenticado',
-        candidaturasRecentes: []
+        candidaturasRecentes: [],
       })
     }
 
@@ -40,11 +39,11 @@ export const getCandidaturasController = async (
 
     // Se houver erro específico, retornar com status apropriado
     if (candidaturasData.error) {
-      console.error("Erro no service de candidaturas:", candidaturasData.error);
+      console.error('Erro no service de candidaturas:', candidaturasData.error)
       return reply.status(500).send({
         message: candidaturasData.message,
         candidaturasRecentes: [],
-        error: candidaturasData.error
+        error: candidaturasData.error,
       })
     }
 
@@ -52,25 +51,25 @@ export const getCandidaturasController = async (
     if (candidaturasData.candidaturasRecentes.length === 0) {
       return reply.status(200).send({
         candidaturasRecentes: [],
-        message: candidaturasData.message || "Você ainda não se candidatou a nenhuma vaga",
-        isEmpty: true
+        message: candidaturasData.message || 'Você ainda não se candidatou a nenhuma vaga',
+        isEmpty: true,
       })
     }
 
     return reply.status(200).send({
       candidaturasRecentes: candidaturasData.candidaturasRecentes,
       total: candidaturasData.total,
-      isEmpty: false
+      isEmpty: false,
     })
   } catch (error: any) {
     console.error('Erro ao buscar candidaturas do aluno:', error)
     return reply.status(500).send({
       message: 'Erro interno do servidor',
       candidaturasRecentes: [],
-      error: 'Erro inesperado ao carregar candidaturas'
+      error: 'Erro inesperado ao carregar candidaturas',
     })
   }
-};
+}
 
 // Controller para buscar apenas vagas recomendadas
 export const getVagasRecomendadasController = async (
@@ -78,12 +77,12 @@ export const getVagasRecomendadasController = async (
   reply: FastifyReply,
 ) => {
   try {
-    const userId = request.user?.sub;
+    const userId = request.user?.sub
 
     if (!userId) {
       return reply.status(401).send({
         message: 'Usuário não autenticado',
-        vagasRecomendadas: []
+        vagasRecomendadas: [],
       })
     }
 
@@ -91,11 +90,11 @@ export const getVagasRecomendadasController = async (
 
     // Se houver erro específico, retornar com status apropriado
     if (vagasData.error) {
-      console.error("Erro no service de vagas recomendadas:", vagasData.error);
+      console.error('Erro no service de vagas recomendadas:', vagasData.error)
       return reply.status(500).send({
         message: vagasData.message,
         vagasRecomendadas: [],
-        error: vagasData.error
+        error: vagasData.error,
       })
     }
 
@@ -103,9 +102,9 @@ export const getVagasRecomendadasController = async (
     if (vagasData.vagasRecomendadas.length === 0) {
       return reply.status(200).send({
         vagasRecomendadas: [],
-        message: vagasData.message || "Nenhuma vaga disponível no momento",
-        sugestao: vagasData.sugestao || "Verifique novamente em breve",
-        isEmpty: true
+        message: vagasData.message || 'Nenhuma vaga disponível no momento',
+        sugestao: vagasData.sugestao || 'Verifique novamente em breve',
+        isEmpty: true,
       })
     }
 
@@ -113,25 +112,22 @@ export const getVagasRecomendadasController = async (
       vagasRecomendadas: vagasData.vagasRecomendadas,
       total: vagasData.total,
       message: vagasData.message,
-      isEmpty: false
+      isEmpty: false,
     })
   } catch (error: any) {
     console.error('Erro ao buscar vagas recomendadas:', error)
     return reply.status(500).send({
       message: 'Erro interno do servidor',
       vagasRecomendadas: [],
-      error: 'Erro inesperado ao carregar vagas'
+      error: 'Erro inesperado ao carregar vagas',
     })
   }
-};
+}
 
 // Controller completo (mantido para compatibilidade)
-export const alunoController = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
-) => {
+export const alunoController = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const userId = request.user?.sub;
+    const userId = request.user?.sub
 
     if (!userId) {
       return reply.status(401).send({ message: 'Usuário não autenticado' })
@@ -144,4 +140,4 @@ export const alunoController = async (
     console.error('Erro no dashboard do aluno:', error)
     return reply.status(500).send({ message: 'Erro interno do servidor' })
   }
-};
+}

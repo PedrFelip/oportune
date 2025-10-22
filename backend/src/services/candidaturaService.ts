@@ -1,6 +1,6 @@
 import {
   candidaturaVaga,
-  listarCadidaturasPorEstudante
+  listarCadidaturasPorEstudante,
 } from '../repositories/candidaturaRepository.ts'
 
 export const candidaturaVagaService = async (candidaturaData: {
@@ -33,8 +33,7 @@ export const listarCadidaturasPorEstudanteService = async (estudanteId: string) 
       nome: c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome || ' ',
       tipo: c.vaga.empresa ? 'EMPRESA' : 'PROFESSOR',
     },
-  }));
-
+  }))
 
   return candidaturasFormatada
 }

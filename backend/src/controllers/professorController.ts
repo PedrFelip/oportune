@@ -16,6 +16,8 @@ export const vagasRecentesProfessorController = async (
 
     return reply.status(200).send(vaga)
   } catch (err: any) {
-    return reply.status(500).send({ message: 'Erro ao buscar vagas recentes do professor', error: err })
+    return reply
+      .status(500)
+      .send({ message: 'Erro ao buscar vagas recentes do professor', error: err })
   }
 }

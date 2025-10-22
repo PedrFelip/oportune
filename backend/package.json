@@ -11,6 +11,7 @@
     "start": "npx tsx server.ts",
     "prisma": "npx prisma generate && npx prisma db push",
     "seed": " npx tsx prisma/seed.ts",
+    "format": "prettier --write .",
     "test": "vitest"
   },
   "dependencies": {
