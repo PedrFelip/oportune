@@ -1,4 +1,4 @@
-import { Perfil } from "@/features/Aluno/Perfil";
+import { Perfil } from "@/features/Perfil";
 
 export default function Page() {
   return <Perfil />;

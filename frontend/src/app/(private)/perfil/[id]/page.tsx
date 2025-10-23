@@ -1,4 +1,4 @@
-import { Perfil } from "@/features/Aluno/Perfil";
+import { Perfil } from "@/features/Perfil";
 import { buscarPerfilPeloId } from "@/features/Api/buscarPerfilPeloID";
 
 interface perfilProps {
