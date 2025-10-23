@@ -1,5 +1,5 @@
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { GlobalLoading } from "@/components/Loading";
 
 export default function Loading() {
-    return <DotLottieReact src="/LoadingAnimation.lottie" loop autoplay />;
+  return <GlobalLoading />;
 }
