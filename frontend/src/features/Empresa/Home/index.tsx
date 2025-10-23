@@ -170,21 +170,21 @@ export function Dashboard() {
           </h3>
           <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors flexc">
             <div className="card flex gap-3 items-center text-white">
-              <BriefcaseIcon className="text-blue-500"/>
+              <BriefcaseIcon className="text-blue-500" />
               <h3 className="font-bold">Vagas ativas</h3>
             </div>
             <div className="font-bold text-xl text-white">2</div>
           </div>
           <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
             <div className="card flex gap-3 items-center text-white">
-              <UserIcon className="text-blue-500"/>
+              <UserIcon className="text-blue-500" />
               <h3 className="font-bold">Total de candidatos</h3>
             </div>
             <div className="font-bold text-xl text-white">69</div>
           </div>
           <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
             <div className="card flex gap-3 items-center text-white">
-              <BriefcaseIcon className="text-blue-500"/>
+              <BriefcaseIcon className="text-blue-500" />
               <h3 className="font-bold">Total de visitas ao perfil</h3>
             </div>
             <div className="font-bold text-xl text-white">328</div>
