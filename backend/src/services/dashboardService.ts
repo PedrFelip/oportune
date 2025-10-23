@@ -181,8 +181,7 @@ export const getDashboardService = async (userId: string) => {
   }
 }
 
-// Serviço para atualizar o perfil do estudante
-export const updatePerfilService = async (userId: string, data: any) => {
+export const updatePerfilEstudanteService = async (userId: string, data: any) => {
   try {
     // Validar se o estudante existe
     const estudanteExistente = await getEstudanteData(userId)
