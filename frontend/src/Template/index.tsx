@@ -11,35 +11,29 @@ export function Template({ children }: templateProps) {
   const { pageTitle } = useLayout();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
     <div className="relative min-h-screen bg-slate-900 lg:flex">
-      {/* A sidebar agora tem classes condicionais:
-        - 'fixed' e 'inset-y-0' para sobrepor em telas pequenas.
-        - 'transform' e 'transition' para a animação de deslize.
-        - '-translate-x-full' esconde ela para fora da tela por padrão.
-        - 'translate-x-0' (acionado pelo estado) mostra ela.
-        - 'lg:relative', 'lg:translate-x-0' a torna estática em telas grandes.
-      */}
+      {/* Sidebar */}
       <Sidebar
-        className={`fixed inset-y-0 left-0 z-30 w-64 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:relative lg:translate-x-0`}
+        className={`fixed inset-y-0 left-0 z-30 w-64 transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0 lg:static`}
       />
 
-      {/* Overlay para escurecer o conteúdo quando a sidebar estiver aberta em mobile */}
+      {/* Overlay no mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-20 bg-black opacity-50 lg:hidden"
+          className="fixed inset-0 z-20 bg-black/50 lg:hidden"
           onClick={toggleSidebar}
-        ></div>
+        />
       )}
+
+      {/* Conteúdo principal */}
       <div className="flex flex-col flex-1">
         <Header title={pageTitle} onMenuClick={toggleSidebar} />
-        <main className="p-6 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
   );
