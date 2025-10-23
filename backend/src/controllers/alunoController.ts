@@ -4,7 +4,10 @@ import {
   getCandidaturasService,
   getVagasRecomendadasService,
   getDashboardService,
+  updatePerfilEstudanteService,
 } from '../services/dashboardService.ts'
+import { updateEstudantePerfilSchema } from '../schemas/userSchemas.ts'
+import { formatZodErrors } from '../utils/zodErrorFormatter.ts'
 
 // Controller para buscar apenas dados do perfil (carregamento inicial)
 export const getPerfilController = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -141,3 +144,52 @@ export const alunoController = async (request: FastifyRequest, reply: FastifyRep
     return reply.status(500).send({ message: 'Erro interno do servidor' })
   }
 }
+
+// Controller para atualizar o perfil do aluno
+export const updatePerfilController = async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const userId = request.user?.sub
+
+    if (!userId) {
+      return reply.status(401).send({ message: 'Usuário não autenticado' })
+    }
+
+    const body = request.body as any
+
+    // Validar se há dados para atualizar
+    if (!body || Object.keys(body).length === 0) {
+      return reply.status(400).send({
+        message: 'Nenhum dado fornecido para atualização',
+      })
+    }
+
+    const validation = updateEstudantePerfilSchema.safeParse(body)
+    
+    if (!validation.success) {
+      return reply.status(400).send({
+        message: 'Dados inválidos',
+        errors: formatZodErrors(validation.error),
+      })
+    }
+
+    const result = await updatePerfilEstudanteService(userId, validation.data)
+
+    if (!result.success) {
+      return reply.status(400).send({
+        message: result.error || 'Erro ao atualizar perfil',
+      })
+    }
+
+    return reply.status(200).send({
+      message: result.message,
+      perfil: result.perfil,
+    })
+  } catch (error: any) {
+    console.error('Erro ao atualizar perfil do aluno:', error)
+    return reply.status(500).send({
+      message: 'Erro interno do servidor',
+      error: error.message,
+    })
+  }
+}
+

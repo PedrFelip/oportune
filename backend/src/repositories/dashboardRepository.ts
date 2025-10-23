@@ -267,3 +267,49 @@ const buscarVagasGerais = async (estudanteId: string) => {
     return []
   }
 }
+
+// Função para atualizar o perfil do estudante
+export const updateEstudanteProfile = async (userId: string, data: any) => {
+  try {
+    const updatedEstudante = await prisma.estudante.update({
+      where: { userId },
+      data: {
+        telefone: data.telefone,
+        fotoPerfil: data.fotoPerfil,
+        dataNascimento: data.dataNascimento,
+        genero: data.genero,
+        faculdade: data.faculdade,
+        areasInteresse: data.areasInteresse,
+        habilidadesComportamentais: data.habilidadesComportamentais,
+        habilidadesTecnicas: data.habilidadesTecnicas,
+        semestre: data.semestre,
+        periodo: data.periodo,
+        dataFormatura: data.dataFormatura,
+      },
+      select: {
+        id: true,
+        telefone: true,
+        fotoPerfil: true,
+        dataNascimento: true,
+        genero: true,
+        faculdade: true,
+        areasInteresse: true,
+        habilidadesComportamentais: true,
+        habilidadesTecnicas: true,
+        matricula: true,
+        curso: true,
+        semestre: true,
+        periodo: true,
+        dataFormatura: true,
+        user: {
+          select: { nome: true, email: true },
+        },
+      },
+    })
+
+    return updatedEstudante
+  } catch (error) {
+    console.error('Erro ao atualizar perfil do estudante:', error)
+    throw error
+  }
+}
