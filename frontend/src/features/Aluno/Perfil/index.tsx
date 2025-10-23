@@ -15,9 +15,11 @@ import { Badge } from "@/components/ui/badge";
 import { primeiraLetraMaiuscula } from "@/utils/validadores";
 import { Experiencia } from "./Experiencia";
 import { ProfileCard } from "./ProfileCard";
+import { useRouter } from "next/navigation";
 
 export function Perfil() {
   const { usuario } = useAuth();
+  const { replace } = useRouter();
 
   if (!usuario) {
     return null;
@@ -42,7 +44,9 @@ export function Perfil() {
                 <h2 className="text-2xl font-bold">{usuario.nome}</h2>
                 <p className="text-blue-400 text-sm">
                   {primeiraLetraMaiuscula(
-                    usuario.estudante?.curso ? usuario.estudante.curso : ""
+                    usuario.estudante?.curso
+                      ? usuario.estudante.curso.split("_").join(" ")
+                      : ""
                   ) || "Erro ao carregar o curso"}
                 </p>
                 <span className="mt-3 text-gray-400 font-semibold">
@@ -52,7 +56,10 @@ export function Perfil() {
               </div>
             </div>
             <div className="flex items-center mr-6">
-              <Button variant={"oportune"}>
+              <Button
+                variant={"oportune"}
+                onClick={() => replace("perfil/editar-perfil")}
+              >
                 <SquarePenIcon />
                 Editar perfil
               </Button>

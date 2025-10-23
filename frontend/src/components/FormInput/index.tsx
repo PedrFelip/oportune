@@ -13,6 +13,7 @@ type FormInputProps = {
   className?: string;
   mask?: string;
   error?: string;
+  type?: string;
 } & InputAttributes;
 
 export default function FormInput({
@@ -20,6 +21,7 @@ export default function FormInput({
   label,
   className,
   mask,
+  type,
   ...props
 }: FormInputProps) {
   const inputRef = useMask({
@@ -39,6 +41,7 @@ export default function FormInput({
 
       <input
         id={id}
+        type={type || "text"}
         className={
           className
             ? className

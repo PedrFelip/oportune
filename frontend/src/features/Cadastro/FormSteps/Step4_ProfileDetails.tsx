@@ -8,7 +8,6 @@ import { FormSelect } from "../components/FormSelect";
 import informacoes from "@/utils/informacoes.json";
 import { Button } from "@/components/ui/button";
 import { StepProps } from "../@types/type";
-import { showMessage } from "@/adapters/showMessage";
 
 type SemestreOption = {
   value: number;
@@ -29,38 +28,38 @@ export function Step4_ProfileDetails({
   const [isLoading, setIsLoading] = useState(false);
   const [cnpjError, setCnpjError] = useState("");
   const [cursoSemestre, setCursoSemestre] = useState<SemestreOption[]>([]);
-  const cursoSelecionadoValue = watch("curso")
+  const cursoSelecionadoValue = watch("curso");
 
-  const handleCnpjBlur = async () => {
-    // showMessage.loading("Carregando informações")
-    // const cnpj = getValues("cnpj")?.replace(/\D/g, "") || "";
-    // if (cnpj.length !== 14) {
-    //   // Limpa os campos se o CNPJ for inválido
-    //   setValue("ramo", "");
-    //   setValue("setor", "");
-    //   return;
-    // }
+  // const handleCnpjBlur = async () => {
+  // showMessage.loading("Carregando informações")
+  // const cnpj = getValues("cnpj")?.replace(/\D/g, "") || "";
+  // if (cnpj.length !== 14) {
+  //   // Limpa os campos se o CNPJ for inválido
+  //   setValue("ramo", "");
+  //   setValue("setor", "");
+  //   return;
+  // }
 
-    // setIsLoading(true);
-    // setCnpjError("");
-    // try {
-    //   const response = await fetch(`http://localhost:3001/cnpj/${cnpj}`);
-    //   const data = await response.json();
-    //   if (!response.ok) {
-    //     throw new Error(data.message || "Não foi possível consultar o CNPJ.");
-    //   }
+  // setIsLoading(true);
+  // setCnpjError("");
+  // try {
+  //   const response = await fetch(`http://localhost:3001/cnpj/${cnpj}`);
+  //   const data = await response.json();
+  //   if (!response.ok) {
+  //     throw new Error(data.message || "Não foi possível consultar o CNPJ.");
+  //   }
 
-    //   setValue("ramo", data.ramo || "", { shouldValidate: true });
-    //   setValue("setor", data.setor || "", { shouldValidate: true });
-    // } catch (error: any) {
-    //   console.error("Erro ao buscar CNPJ:", error);
-    //   setCnpjError(error.message);
-    //   setValue("ramo", "");
-    //   setValue("setor", "");
-    // } finally {
-    //   setIsLoading(false);
-    // }
-  };
+  //   setValue("ramo", data.ramo || "", { shouldValidate: true });
+  //   setValue("setor", data.setor || "", { shouldValidate: true });
+  // } catch (error: any) {
+  //   console.error("Erro ao buscar CNPJ:", error);
+  //   setCnpjError(error.message);
+  //   setValue("ramo", "");
+  //   setValue("setor", "");
+  // } finally {
+  //   setIsLoading(false);
+  // }
+  // };
 
   useEffect(() => {
     const cursoSelecionado = informacoes.cursos.find(
@@ -77,10 +76,10 @@ export function Step4_ProfileDetails({
       );
 
       setCursoSemestre(semestres);
-      setValue("semestre", "")
+      setValue("semestre", "");
     } else {
-      setCursoSemestre([])
-      setValue("semestre", "")
+      setCursoSemestre([]);
+      setValue("semestre", "");
     }
   }, [cursoSelecionadoValue, setValue]);
 
