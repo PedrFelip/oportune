@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, Field, FieldValues } from "react-hook-form";
 import { format, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
@@ -20,19 +20,19 @@ import { Control, Path } from "react-hook-form";
 import { CadastroFormData } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
-interface FormCalendarProps {
-  control: Control<CadastroFormData>;
-  name: Path<CadastroFormData>;
+interface FormCalendarProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>;
   label?: string;
   placeholder?: string;
 }
 
-export function FormCalendar({
+export function FormCalendar<T extends FieldValues>({
   control,
   name,
   label,
   placeholder,
-}: FormCalendarProps) {
+}: FormCalendarProps<T>) {
   const [open, setOpen] = useState(false);
 
   return (
