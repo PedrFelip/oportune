@@ -70,7 +70,7 @@ export function Dashboard() {
         setLoadingPerfil(true);
         const respPerfil = await buscarPerfilProfessor();
         setPerfil(respPerfil.perfil);
-
+        
         setLoadingAlunos(true);
         const respAlunos = await buscarAlunosOrientados();
         setAlunosOrientados(respAlunos.alunos);
@@ -81,19 +81,20 @@ export function Dashboard() {
       } finally {
         setLoadingPerfil(false);
         setLoadingAlunos(false);
-      }
-    };
-
-    carregarDados();
+        }
+        };
+        
+        carregarDados();
     */
   }, [carregando]);
 
+  useEffect(() => {
+    setPageTitle(`Olá ${usuario?.nome || "Professor"}`);
+  }, [setPageTitle, usuario?.nome]);
   // if (carregando) showMessage.loading("Carregando...");
   if (!usuario) {
     return null;
   }
-
-  setPageTitle(`Olá ${usuario.nome}`);
 
   return (
     <>
