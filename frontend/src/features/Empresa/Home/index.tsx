@@ -44,6 +44,7 @@ export function Dashboard() {
   });
 
   const [perfil, setPerfil] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [alunosOrientados, setAlunosOrientados] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
 

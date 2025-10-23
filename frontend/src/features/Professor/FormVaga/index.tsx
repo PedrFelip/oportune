@@ -13,7 +13,6 @@ import {
 import Image from "next/image";
 import Logo from "@/assets/logo_oportune.png";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
-import FormInput from "@/components/FormInput";
 import { vagaModel } from "@/models/oportunidadeModel";
 import { DialogProps } from "@radix-ui/react-dialog";
 import { showMessage } from "@/adapters/showMessage";
