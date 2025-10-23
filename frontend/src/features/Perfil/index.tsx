@@ -68,14 +68,27 @@ export function Perfil({ perfil }: perfilProps) {
                 )}
                 {dados.tipo === "PROFESSOR" && (
                   <div className="text-blue-400 text-sm">
-                    <p><strong className="">Titulação:</strong> {professor?.titulacao || "Professor(a)"}</p>
-                    <p><strong className="">Área de atuação:</strong> {professor?.areaAtuacao}</p>
+                    <p>
+                      <strong className="">Titulação:</strong>{" "}
+                      {professor?.titulacao || "Professor(a)"}
+                    </p>
+                    <p>
+                      <strong className="">Área de atuação:</strong>{" "}
+                      {professor?.areaAtuacao}
+                    </p>
                   </div>
                 )}
                 {dados.tipo === "EMPRESA" && (
-                  <p className="text-blue-400 text-sm">
-                    {`Empresa de ${empresa?.ramo} - Setor: ${empresa?.setor}`}
-                  </p>
+                  <div className="text-blue-400 text-sm">
+                    <p>
+                      <strong className="">Empresa de:</strong>{" "}
+                      {empresa?.ramo || "Professor(a)"}
+                    </p>
+                    <p>
+                      <strong className="">Setor:</strong>{" "}
+                      {empresa?.setor}
+                    </p>
+                  </div>
                 )}
 
                 {/* Informações extras */}
