@@ -249,4 +249,3 @@ export const updatePerfilEstudanteService = async (userId: string, data: any) =>
     }
   }
 }
-

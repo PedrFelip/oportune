@@ -164,7 +164,7 @@ export const updatePerfilController = async (request: FastifyRequest, reply: Fas
     }
 
     const validation = updateEstudantePerfilSchema.safeParse(body)
-    
+
     if (!validation.success) {
       return reply.status(400).send({
         message: 'Dados inválidos',
@@ -192,4 +192,3 @@ export const updatePerfilController = async (request: FastifyRequest, reply: Fas
     })
   }
 }
-

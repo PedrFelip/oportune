@@ -126,7 +126,9 @@ export type resetPasswordDTO = z.infer<typeof resetPasswordSchema>
 export const updateEstudantePerfilSchema = z.object({
   telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional(),
   fotoPerfil: z.string().url({ message: 'URL da foto de perfil inválida' }).optional().nullable(),
-  dataNascimento: z.preprocess(arg => (typeof arg === 'string' ? new Date(arg) : arg), z.date()).optional(),
+  dataNascimento: z
+    .preprocess(arg => (typeof arg === 'string' ? new Date(arg) : arg), z.date())
+    .optional(),
   genero: z.enum(['MASCULINO', 'FEMININO', 'OUTRO', 'PREFIRO NAO DIZER']).optional(),
   faculdade: z.string().optional().nullable(),
   areasInteresse: z.array(z.string()).optional(),
