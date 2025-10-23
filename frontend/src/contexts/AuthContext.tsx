@@ -7,8 +7,8 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { User } from "@/@types/types";
 import { setAuthHeader } from "@/lib/api";
+import { User } from "@/models/user";
 
 export type AuthContextType = {
   usuario: User | null;
