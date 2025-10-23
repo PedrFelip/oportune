@@ -13,6 +13,7 @@ import dados from "@/utils/informacoes.json";
 import { FormCalendar } from "@/features/Cadastro/components/FormCalendar";
 import { FormTagInput } from "@/components/TagsInputForm";
 import { useLayout } from "@/contexts/LayoutContext";
+import { useRouter } from "next/navigation";
 
 interface profileEdit {
   nome: string;
@@ -40,6 +41,8 @@ export default function EditarPerfilAluno() {
       nome: "",
     },
   });
+
+  const { back } = useRouter();
 
   const { setPageTitle } = useLayout();
   useEffect(() => {
@@ -76,7 +79,7 @@ export default function EditarPerfilAluno() {
       {/* Main */}
       <main className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-          <Button variant={"ghost_red"}>
+          <Button variant={"ghost_red"} onClick={back}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Voltar ao Perfil
           </Button>

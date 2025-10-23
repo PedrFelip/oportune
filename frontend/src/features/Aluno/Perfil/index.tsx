@@ -15,9 +15,11 @@ import { Badge } from "@/components/ui/badge";
 import { primeiraLetraMaiuscula } from "@/utils/validadores";
 import { Experiencia } from "./Experiencia";
 import { ProfileCard } from "./ProfileCard";
+import { useRouter } from "next/navigation";
 
 export function Perfil() {
   const { usuario } = useAuth();
+  const { replace } = useRouter();
 
   if (!usuario) {
     return null;
@@ -52,7 +54,10 @@ export function Perfil() {
               </div>
             </div>
             <div className="flex items-center mr-6">
-              <Button variant={"oportune"}>
+              <Button
+                variant={"oportune"}
+                onClick={() => replace("aluno/perfil/editar-perfil")}
+              >
                 <SquarePenIcon />
                 Editar perfil
               </Button>
