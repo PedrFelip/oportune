@@ -2,145 +2,115 @@
 
 import { Button } from "@/components/ui/button";
 import { CardStatusVaga } from "./CardStatusVaga";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useCandidaturas } from "../hooks/useCandidaturas";
 
-export const variaveis = [
-  {
-    id: 1,
-    titulo: "Desenvolvimento em Front End",
-    status: "Aprovado",
-    empresa: "DevFuture",
-    data: "2025-09-05",
-    mensagem: {
-      titulo: "Parabéns! Sua candidatura foi aprovada.",
-      descricao: "A empresa entrará em contato em breve.",
-      icone: "CircleCheck",
-      cor: "green",
-    },
-    acoes: [
-      {
-        label: "Ver detalhes da vaga",
-        variant: "ghost_blue",
-      },
-      {
-        label: "Ver perfil da empresa",
-        variant: "oportune",
-      },
-    ],
-  },
-  {
-    id: 2,
-    titulo: "Desenvolvedor Back End",
-    status: "Rejeitado",
-    empresa: "TechWave Solutions",
-    data: "2025-08-22",
-    mensagem: {
-      titulo: "Sua candidatura não foi aprovada desta vez.",
-      descricao:
-        "Agradecemos o seu interesse. Continue acompanhando novas oportunidades.",
-      icone: "XCircle",
-      cor: "red",
-    },
-    acoes: [
-      {
-        label: "Ver outras vagas",
-        variant: "ghost_red",
-      },
-      {
-        label: "Tentar novamente",
-        variant: "outline",
-      },
-    ],
-  },
-  {
-    id: 3,
-    titulo: "Analista de QA",
-    status: "Pendente",
-    empresa: "InovaTech",
-    data: "2025-10-02",
-    mensagem: {
-      titulo: "Sua candidatura está em análise.",
-      descricao:
-        "A equipe de recrutamento está avaliando seu perfil. Você receberá uma resposta em breve.",
-      icone: "Clock",
-      cor: "yellow",
-    },
-    acoes: [
-      {
-        label: "Ver status da vaga",
-        variant: "ghost_yellow",
-      },
-      {
-        label: "Cancelar candidatura",
-        variant: "outline",
-      },
-    ],
-  },
-];
+type StatusFilter = "todas" | "aceitas" | "pendentes" | "recusadas";
 
 export function Candidaturas() {
-  console.log("Renderizou Candidaturas no cliente");
+  const { candidaturas, loading, error, refetch } = useCandidaturas();
+  const [filtroStatus, setFiltroStatus] = useState<StatusFilter>("todas");
 
-  const [categoria, setCategoria] = useState("");
+  const candidaturasFiltradas = useMemo(() => {
+    if (filtroStatus === "todas") return candidaturas;
+    
+    const statusMap: Record<Exclude<StatusFilter, "todas">, string> = {
+      aceitas: "ACEITA",
+      pendentes: "PENDENTE",
+      recusadas: "RECUSADA",
+    };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+    return candidaturas.filter(
+      (c) => c.status === statusMap[filtroStatus as Exclude<StatusFilter, "todas">]
+    );
+  }, [candidaturas, filtroStatus]);
 
-    console.log("Valor do botão");
-    console.log(e.currentTarget.value);
-    setCategoria(e.currentTarget.value);
-    console.log(categoria);
+  const handleFiltroClick = (status: StatusFilter) => {
+    setFiltroStatus(status);
   };
 
-  // const variaveisFiltradas = variaveis.filter((item) => {
-  //   const matchesCategory =
-  //     selectedCategory === "todas" || item.category === selectedCategory;
-  //   const matchesSearch =
-  //     searchTerm === "" ||
-  //     item.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     item.answer.toLowerCase().includes(searchTerm.toLowerCase());
-  //   return matchesCategory && matchesSearch;
-  // });
+  const contadores = useMemo(() => {
+    return {
+      todas: candidaturas.length,
+      aceitas: candidaturas.filter((c) => c.status === "ACEITA").length,
+      pendentes: candidaturas.filter((c) => c.status === "PENDENTE").length,
+      recusadas: candidaturas.filter((c) => c.status === "RECUSADA").length,
+    };
+  }, [candidaturas]);
+
+  if (error) {
+    return (
+      <div className="flex flex-col gap-4 text-white">
+        <h2 className="text-3xl text-white font-bold">Minhas Candidaturas</h2>
+        <div className="bg-red-500/20 border border-red-600 rounded-lg p-4 flex flex-col gap-4">
+          <p className="text-red-400">{error}</p>
+          <Button 
+            onClick={refetch}
+            variant="outline"
+            className="w-fit"
+          >
+            Tentar novamente
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4 text-white">
       <header className="flex flex-col gap-4">
         <h2 className="text-3xl text-white font-bold">Minhas Candidaturas</h2>
         <div className="flex gap-8">
           <Button
-            className="border-l-4 border-[#7C3AED] bg-gray-400/10 cursor-pointer hover:bg-gray-700"
-            value={"todas"}
-            onClick={(e) => {
-              console.log("Clicou");
-              handleClick(e);
-            }}
+            className={`border-l-4 border-[#7C3AED] bg-gray-400/10 cursor-pointer hover:bg-gray-700 ${
+              filtroStatus === "todas" ? "bg-gray-700" : ""
+            }`}
+            onClick={() => handleFiltroClick("todas")}
           >
-            Todas
+            Todas ({contadores.todas})
           </Button>
           <Button
-            className="border-l-4 border-green-500 bg-gray-400/10 cursor-pointer hover:bg-gray-700"
-            value={"aprovadas"}
-            onClick={handleClick}
+            className={`border-l-4 border-green-500 bg-gray-400/10 cursor-pointer hover:bg-gray-700 ${
+              filtroStatus === "aceitas" ? "bg-gray-700" : ""
+            }`}
+            onClick={() => handleFiltroClick("aceitas")}
           >
-            Aprovadas
+            Aceitas ({contadores.aceitas})
           </Button>
           <Button
-            className="border-l-4 border-yellow-500 bg-gray-400/10 cursor-pointer hover:bg-gray-700"
-            value={"pendentes"}
-            onClick={handleClick}
+            className={`border-l-4 border-yellow-500 bg-gray-400/10 cursor-pointer hover:bg-gray-700 ${
+              filtroStatus === "pendentes" ? "bg-gray-700" : ""
+            }`}
+            onClick={() => handleFiltroClick("pendentes")}
           >
-            Pendentes
+            Pendentes ({contadores.pendentes})
           </Button>
           <Button
-            className="border-l-4 border-red-500 bg-gray-400/10 cursor-pointer hover:bg-gray-700"
-            value={"rejeitadas"}
-            onClick={handleClick}
+            className={`border-l-4 border-red-500 bg-gray-400/10 cursor-pointer hover:bg-gray-700 ${
+              filtroStatus === "recusadas" ? "bg-gray-700" : ""
+            }`}
+            onClick={() => handleFiltroClick("recusadas")}
           >
-            Rejeitadas
+            Recusadas ({contadores.recusadas})
           </Button>
         </div>
       </header>
       <main className="flex flex-col items-center mt-10">
-        <CardStatusVaga variaveis={variaveis} />
+        {loading ? (
+          <div className="text-center py-10">
+            <p>Carregando candidaturas...</p>
+          </div>
+        ) : candidaturasFiltradas.length === 0 ? (
+          <div className="text-center py-10">
+            <p className="text-gray-400">
+              {filtroStatus === "todas"
+                ? "Você ainda não possui candidaturas."
+                : `Nenhuma candidatura ${filtroStatus}.`}
+            </p>
+          </div>
+        ) : (
+          <CardStatusVaga candidaturas={candidaturasFiltradas} />
+        )}
       </main>
     </div>
   );
