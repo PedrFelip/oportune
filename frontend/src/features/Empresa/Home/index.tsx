@@ -9,12 +9,15 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Uniceplac from "@/assets/Uniceplac.webp";
 import { BriefcaseIcon, UserIcon } from "lucide-react";
+import { useLayout } from "@/contexts/LayoutContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { FormNewOportune } from "../FormVaga";
 // import { showMessage } from "@/adapters/showMessage";
 // import { buscarPerfilProfessor } from "../api/buscarPerfil";
 // import { buscarAlunosOrientados } from "../api/buscarAlunos";
 
-// 🔹 Mock de dados do professor
-const mockProfessor = {
+// 🔹 Mock de dados da empresa
+const mockEmpresa = {
   nome: "Joãozinho Cibita",
   departamento: "Engenharia de Software",
   email: "catarina.souza@universidade.edu.br",
@@ -41,9 +44,12 @@ export function Dashboard() {
     redirectTo: "/login",
     requireRole: "EMPRESA",
   });
+  const { setPageTitle } = useLayout();
+  const { usuario } = useAuth();
 
   const [perfil, setPerfil] = useState<any>(null);
   const [alunosOrientados, setAlunosOrientados] = useState<any[]>([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   // const [loadingPerfil, setLoadingPerfil] = useState(true);
   // const [loadingAlunos, setLoadingAlunos] = useState(true);
@@ -53,9 +59,12 @@ export function Dashboard() {
   useEffect(() => {
     if (carregando) return;
 
-    // 🔸 Mockando dados
-    setPerfil(mockProfessor);
-    setAlunosOrientados(mockProfessor.alunosOrientados);
+    if (usuario?.empresa) {
+      setPerfil({ ...usuario.empresa, porcentagem: 75 });
+    } else {
+      setPerfil(mockEmpresa);
+    }
+    setAlunosOrientados(mockEmpresa.alunosOrientados);
 
     // 🔹 Caso fosse buscar da API:
     /*
@@ -80,12 +89,23 @@ export function Dashboard() {
 
     carregarDados();
     */
-  }, [carregando]);
+  }, [carregando, usuario?.empresa]);
+
+  useEffect(() => {
+    if (usuario?.nome) {
+      setPageTitle(`Olá ${usuario.nome}`);
+    }
+  }, [setPageTitle, usuario?.nome]);
 
   // if (carregando) showMessage.loading("Carregando...");
 
+  if (!usuario) {
+    return null;
+  }
+
   return (
-    <div className="grid grid-cols-3 gap-6">
+    <>
+      <div className="grid grid-cols-3 gap-6">
       {/* 🔹 Coluna Principal */}
       <div className="col-span-3 lg:col-span-2 space-y-6">
         {/* Perfil */}
@@ -97,8 +117,12 @@ export function Dashboard() {
                   <Image src={Uniceplac} alt="Foto" className="rounded-full" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-white">UNICEPLAC</h2>
-                  <p className="text-slate-400">Centro Universitário</p>
+                  <h2 className="text-2xl font-bold text-white">
+                    {usuario.empresa?.nomeFantasia || usuario.nome}
+                  </h2>
+                  <p className="text-slate-400">
+                    {usuario.empresa?.ramo || "Empresa parceira"}
+                  </p>
                 </div>
               </div>
               <Button variant={"oportune"}>Editar perfil</Button>
@@ -182,15 +206,10 @@ export function Dashboard() {
             </div>
             <div className="font-bold text-xl text-white">69</div>
           </div>
-          <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
-            <div className="card flex gap-3 items-center text-white">
-              <BriefcaseIcon className="text-blue-500" />
-              <h3 className="font-bold">Total de visitas ao perfil</h3>
-            </div>
-            <div className="font-bold text-xl text-white">328</div>
-          </div>
         </div>
       </div>
-    </div>
+      </div>
+      <FormNewOportune isOpen={isFormOpen} setIsOpen={setIsFormOpen} />
+    </>
   );
 }
