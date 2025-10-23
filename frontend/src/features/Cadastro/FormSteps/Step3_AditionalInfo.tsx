@@ -1,5 +1,5 @@
 import React from "react";
-import CardHeader from "../components/CardHeader"; 
+import CardHeader from "../components/CardHeader";
 import FormInput from "@/components/FormInput";
 import { FormSelect } from "../components/FormSelect";
 import dados from "@/utils/informacoes.json";
@@ -12,9 +12,8 @@ export function Step3_AditionalInfo({
   onBack,
   register,
   control,
-  errors
+  errors,
 }: StepProps) {
-
   return (
     <div className="animate-fadeIn">
       <CardHeader
@@ -22,44 +21,44 @@ export function Step3_AditionalInfo({
         subtitle="Fale mais sobre você."
       />
       <main>
-          <FormCalendar
-            control={control}
-            name="dataNascimento"
-            label="Data de Nascimento"
-            placeholder="Qual sua data de nascimento"
-          />
-          <FormSelect
-            control={control}
-            name="genero"
-            label="Gênero"
-            options={dados.genero}
-            placeholder="Qual seu gênero"
-          />
-          <FormInput
-            id="telefone"
-            label="Número de telefone"
-            placeholder="Digite seu número de telefone"
-            type="tel"
-            mask={"(__) _____-____"}
-            {...register("telefone")}
-            error={errors.telefone?.message}
-          />
-          <Button
-            type="button"
-            onClick={onNext}
-            variant={"oportune"}
-            className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2"
-          >
-            Continuar
-          </Button>
-          <Button
-            type="button"
-            onClick={onBack}
-            variant={"oportune_blank"}
-            className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2"
-          >
-            Voltar
-          </Button>
+        <FormCalendar
+          control={control}
+          name="dataNascimento"
+          label="Data de Nascimento"
+          placeholder="Qual sua data de nascimento"
+        />
+        <FormSelect
+          control={control}
+          name="genero"
+          label="Gênero"
+          options={dados.genero}
+          placeholder="Qual seu gênero"
+        />
+        <FormInput
+          id="telefone"
+          label="Número de telefone"
+          placeholder="Digite seu número de telefone"
+          type="tel"
+          mask={"(__) _____-____"}
+          {...register("telefone")}
+          error={errors.telefone?.message}
+        />
+        <Button
+          type="button"
+          onClick={onNext}
+          variant={"oportune"}
+          className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2"
+        >
+          Continuar
+        </Button>
+        <Button
+          type="button"
+          onClick={onBack}
+          variant={"oportune_blank"}
+          className="w-full font-semibold transition-all hover:opacity-90 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#2474e4]/20 mt-2"
+        >
+          Voltar
+        </Button>
       </main>
     </div>
   );
