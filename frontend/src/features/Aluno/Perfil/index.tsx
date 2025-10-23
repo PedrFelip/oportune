@@ -16,8 +16,14 @@ import { primeiraLetraMaiuscula } from "@/utils/validadores";
 import { Experiencia } from "./Experiencia";
 import { ProfileCard } from "./ProfileCard";
 import { useRouter } from "next/navigation";
+import { User } from "@/@types/types";
 
-export function Perfil() {
+type perfilProps = {
+  perfil?: User;
+  id?: string;
+};
+
+export function Perfil({ perfil, id }: perfilProps) {
   const { usuario } = useAuth();
   const { replace } = useRouter();
 
@@ -108,9 +114,19 @@ export function Perfil() {
                 <h2 className="text-2xl font-bold mb-3 text-blue-500">
                   Técnicas
                 </h2>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {" "}
                   {/* Badges */}
+                  <Badge variant={"random"}>React</Badge>
+                  <Badge variant={"random"}>Node.js</Badge>
+                  <Badge variant={"random"}>Python</Badge>
+                  <Badge variant={"random"}>SQL</Badge>
+                  <Badge variant={"random"}>Docker</Badge>
+                  <Badge variant={"random"}>React</Badge>
+                  <Badge variant={"random"}>Node.js</Badge>
+                  <Badge variant={"random"}>Python</Badge>
+                  <Badge variant={"random"}>SQL</Badge>
+                  <Badge variant={"random"}>Docker</Badge>
                   <Badge variant={"random"}>React</Badge>
                   <Badge variant={"random"}>Node.js</Badge>
                   <Badge variant={"random"}>Python</Badge>
@@ -122,7 +138,7 @@ export function Perfil() {
                 <h2 className="text-2xl font-bold mb-3 text-purple-500">
                   Comportamentais
                 </h2>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {" "}
                   {/* Badges */}
                   <Badge variant={"random"}>Comunicação</Badge>
