@@ -10,21 +10,6 @@ import FormInput from "@/components/FormInput"; // 👈 Usa seu componente exist
 export default function EditarPerfilAluno() {
   return (
     <div className="bg-gray-900 text-white min-h-screen">
-      {/* Header */}
-      <header className="bg-gray-800/50 backdrop-blur-sm p-4 sticky top-0 z-20 border-b border-gray-700">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">
-            Oportune<span className="text-blue-400">+</span>
-          </h1>
-          <div className="flex items-center space-x-3">
-            <div className="h-9 w-9 rounded-full bg-purple-600 flex items-center justify-center font-bold text-sm">
-              PF
-            </div>
-            <p className="font-semibold text-sm">Pedro Felipe</p>
-          </div>
-        </div>
-      </header>
-
       {/* Main */}
       <main className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
