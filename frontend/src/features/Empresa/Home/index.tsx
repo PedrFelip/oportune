@@ -39,7 +39,7 @@ const mockProfessor = {
 export function Dashboard() {
   const { carregando } = useAuthGuard({
     redirectTo: "/login",
-    requireRole: "ESTUDANTE",
+    requireRole: "EMPRESA",
   });
 
   const [perfil, setPerfil] = useState<any>(null);
