@@ -209,6 +209,8 @@ export function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <FormNewOportune isOpen={isFormOpen} setIsOpen={setIsFormOpen} />
+    </>
   );
 }
