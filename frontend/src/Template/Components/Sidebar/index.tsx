@@ -42,6 +42,18 @@ const baseNavItems = [
   { id: "perfil", label: "Meu Perfil", icon: UserIcon, path: "/perfil" },
 ];
 
+const ProfessorEmpresaNavItems = [
+  { id: "dashboard", label: "Dashboard", icon: HomeIcon, path: "/dashboard" },
+  { id: "alunos", label: "Alunos", icon: UserIcon, path: "/alunos" },
+  {
+    id: "minhas_postagens",
+    label: "Minhas postagens",
+    icon: BriefcaseIcon,
+    path: "/minhas-vagas",
+  },
+  { id: "perfil", label: "Meu Perfil", icon: UserIcon, path: "/perfil" },
+];
+
 const rolePathMap: { [key: string]: string } = {
   ESTUDANTE: "/aluno",
   PROFESSOR: "/professor",
@@ -63,15 +75,24 @@ export function Sidebar({ className }: SidebarProps) {
   useEffect(() => {
     if (usuario?.tipo && rolePathMap[usuario.tipo]) {
       const userPrefix = rolePathMap[usuario.tipo];
-      const userNavItems = baseNavItems.map((item) => ({
-        ...item,
-        path: `${userPrefix}${item.path}`,
-      }));
+      let userNavItems: NavItem[] = [];
+      if (usuario.tipo === "PROFESSOR" || usuario.tipo === "EMPRESA") {
+        userNavItems = ProfessorEmpresaNavItems.map((item) => ({
+          ...item,
+          path: `${userPrefix}${item.path}`,
+        }));
+      } else {
+        userNavItems = baseNavItems.map((item) => ({
+          ...item,
+          path: `${userPrefix}${item.path}`,
+        }));
+      }
       setNavItems(userNavItems);
     }
   }, [usuario?.tipo]);
 
-  useEffect(() => { // UsEffect para atualizar o título da página do template
+  useEffect(() => {
+    // UsEffect para atualizar o título da página do template
     if (!pathname || navItems.length === 0) return;
 
     // Procura o item do menu que corresponde à rota atual

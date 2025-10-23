@@ -48,6 +48,7 @@ export function Dashboard() {
   const { usuario } = useAuth();
 
   const [perfil, setPerfil] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [alunosOrientados, setAlunosOrientados] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -208,8 +209,6 @@ export function Dashboard() {
           </div>
         </div>
       </div>
-      </div>
-      <FormNewOportune isOpen={isFormOpen} setIsOpen={setIsFormOpen} />
-    </>
+    </div>
   );
 }

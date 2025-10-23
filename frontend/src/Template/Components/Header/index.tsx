@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAuth } from "../../../contexts/AuthContext";
 import { useState, useEffect, MouseEventHandler } from "react";
 import { buscarPerfilAluno } from "@/features/Aluno/api/buscarPerfil";
-import { InputModal } from "@/components/InputModal";
+import { SearchVagaCommand } from "@/components/SearchVagaCommand";
+import { SearchIcon } from "lucide-react";
 
 type headerProps = {
   title: string;
@@ -84,20 +86,7 @@ export function Header({ title, onMenuClick }: headerProps) {
           className="text-white mr-4 lg:hidden"
           aria-label="Abrir menu"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
+          <SearchIcon />
         </button>
         <h1 className="text-2xl font-bold text-white">
           {title ? title : `Olá, ${nomeUsuario || "Usuário"}`}
@@ -105,7 +94,7 @@ export function Header({ title, onMenuClick }: headerProps) {
       </div>
       <div className="flex items-center gap-10 justify-around">
         <div className="relative w-full max-w-md">
-          <InputModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+          <SearchVagaCommand />
         </div>
 
         <div className="w-10 h-10 rounded-full bg-blue-400 flex p-4 items-center justify-center text-slate-800 font-bold">
