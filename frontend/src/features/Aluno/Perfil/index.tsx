@@ -44,7 +44,9 @@ export function Perfil() {
                 <h2 className="text-2xl font-bold">{usuario.nome}</h2>
                 <p className="text-blue-400 text-sm">
                   {primeiraLetraMaiuscula(
-                    usuario.estudante?.curso ? usuario.estudante.curso : ""
+                    usuario.estudante?.curso
+                      ? usuario.estudante.curso.split("_").join(" ")
+                      : ""
                   ) || "Erro ao carregar o curso"}
                 </p>
                 <span className="mt-3 text-gray-400 font-semibold">
@@ -56,7 +58,7 @@ export function Perfil() {
             <div className="flex items-center mr-6">
               <Button
                 variant={"oportune"}
-                onClick={() => replace("aluno/perfil/editar-perfil")}
+                onClick={() => replace("perfil/editar-perfil")}
               >
                 <SquarePenIcon />
                 Editar perfil
