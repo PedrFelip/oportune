@@ -2,12 +2,13 @@
 import { InfoVaga } from "@/components/InfoVaga";
 import { Categoria } from "@/components/Categoria";
 import React from "react";
-import { ChevronLeft } from "lucide-react";
+import { ArrowUpRight, Building2, ChevronLeft, UserCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Candidatar } from "../api/candidatar";
 import { showMessage } from "@/adapters/showMessage";
 import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
 
 interface infos {
   titulo: string;
@@ -21,6 +22,11 @@ interface infos {
   bolsa: string;
   prazoInscricao: string;
   sobre: string;
+  responsavel?: {
+    id: string;
+    tipo: "EMPRESA" | "PROFESSOR";
+    nome: string;
+  };
 }
 
 type vagaProps = {
@@ -32,6 +38,14 @@ export function Vaga({ vaga, id }: vagaProps) {
   const { usuario } = useAuth();
   const router = useRouter();
 
+  const perfilLink = vaga.responsavel
+    ? `/perfil/${vaga.responsavel.tipo.toLowerCase()}/${vaga.responsavel.id}`
+    : null;
+  const perfilLabel = vaga.responsavel?.tipo === "EMPRESA"
+    ? "Ver perfil da empresa"
+    : "Ver perfil do professor";
+  const PerfilIcon = vaga.responsavel?.tipo === "EMPRESA" ? Building2 : UserCircle;
+
   const handleVoltar = () => {
     router.back();
   };
@@ -42,10 +56,11 @@ export function Vaga({ vaga, id }: vagaProps) {
 
   const Back = () => (
     <button
-      className="flex items-center gap-4 cursor-pointer"
+      className="flex items-center gap-2 text-sm text-slate-300 transition hover:text-white"
       onClick={handleVoltar}
     >
-      {<ChevronLeft />}
+      <ChevronLeft className="h-5 w-5" />
+      <span className="hidden sm:inline">Voltar</span>
     </button>
   );
 
@@ -67,19 +82,39 @@ export function Vaga({ vaga, id }: vagaProps) {
 
   return (
     <>
-      <header className="flex items-center justify-between gap-3 text-white p-2">
-        <div className="flex w-full gap-4">
-          <h2 className="flex gap-4 text-2xl font-bold">
+      <header className="flex flex-col gap-5 text-white p-2 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-4 w-full">
+          <div className="flex items-center gap-3">
             <Back />
-            {vaga.titulo}
-          </h2>
-          <div className="flex gap-5">
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-2xl font-bold">{vaga.titulo}</h1>
+            </div>
+            {vaga.responsavel && perfilLink && (
+              <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
+                <PerfilIcon className="h-5 w-5 text-blue-300" />
+                <span className="font-medium text-slate-200">
+                  {vaga.responsavel.nome}
+                </span>
+                <Link
+                  href={perfilLink}
+                  title={perfilLabel}
+                  className="inline-flex items-center gap-1 text-blue-300 hover:text-blue-200"
+                >
+                  <span>{perfilLabel}</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-3">
             {vaga.tags.map((tag, index) => (
               <Categoria key={index} caracteristica={tag}></Categoria>
             ))}
           </div>
         </div>
-        <div className="flex">
+        <div className="flex items-center gap-3">
           <Button
             variant={"oportune"}
             className="cursor-pointer duration-300 p-2 rounded-xl w-40"
