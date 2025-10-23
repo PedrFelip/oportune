@@ -17,5 +17,13 @@
     "moduleResolution": "nodenext",
     "isolatedModules": true
   },
-  "include": ["src", "prisma/client.ts", "prisma/seed.ts","server.ts", "__tests__", "vitest.config.ts", "eslint.config.ts"],
+  "include": [
+    "src",
+    "prisma/client.ts",
+    "prisma/seed.ts",
+    "server.ts",
+    "__tests__",
+    "vitest.config.ts",
+    "eslint.config.ts"
+  ]
 }

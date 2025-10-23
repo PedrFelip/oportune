@@ -1,6 +1,6 @@
 import {
   candidaturaVaga,
-  listarCadidaturasPorEstudante
+  listarCadidaturasPorEstudante,
 } from '../repositories/candidaturaRepository.ts'
 
 export const candidaturaVagaService = async (candidaturaData: {
@@ -17,5 +17,23 @@ export const candidaturaVagaService = async (candidaturaData: {
 }
 
 export const listarCadidaturasPorEstudanteService = async (estudanteId: string) => {
-  return await listarCadidaturasPorEstudante(estudanteId)
+  const candidaturas = await listarCadidaturasPorEstudante(estudanteId)
+
+  const candidaturasFormatada = candidaturas.map(c => ({
+    id: c.id,
+    status: c.status,
+    dataCandidatura: new Date(c.dataCandidatura).toLocaleDateString('pt-BR'),
+    vaga: {
+      id: c.vaga.id,
+      titulo: c.vaga.titulo,
+      tipo: c.vaga.tipo,
+    },
+    responsavel: {
+      idResponsavel: c.vaga.empresaId || c.vaga.professorId || ' ',
+      nome: c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome || ' ',
+      tipo: c.vaga.empresa ? 'EMPRESA' : 'PROFESSOR',
+    },
+  }))
+
+  return candidaturasFormatada
 }

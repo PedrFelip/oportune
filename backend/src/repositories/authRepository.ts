@@ -1,5 +1,5 @@
-import prisma from "../../prisma/client.ts";
-import { createUserCleanDTO, loginUserDTO } from "../schemas/userSchemas.ts";
+import prisma from '../../prisma/client.ts'
+import { createUserCleanDTO, loginUserDTO } from '../schemas/userSchemas.ts'
 
 export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
   // Cria o registro base do usuário
@@ -10,10 +10,10 @@ export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
       senha: data.senha,
       tipo: data.tipo,
     },
-  });
+  })
 
   // Cria dados específicos conforme o tipo
-  if (data.tipo === "ESTUDANTE") {
+  if (data.tipo === 'ESTUDANTE') {
     await prisma.estudante.create({
       data: {
         telefone: data.telefone,
@@ -26,10 +26,10 @@ export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
         periodo: data.periodo,
         userId: user.id,
       },
-    });
+    })
   }
 
-  if (data.tipo === "PROFESSOR") {
+  if (data.tipo === 'PROFESSOR') {
     await prisma.professor.create({
       data: {
         telefone: data.telefone,
@@ -42,10 +42,10 @@ export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
         lattes: data.lattes,
         userId: user.id,
       },
-    });
+    })
   }
 
-  if (data.tipo === "EMPRESA") {
+  if (data.tipo === 'EMPRESA') {
     await prisma.empresa.create({
       data: {
         nomeFantasia: data.nomeFantasia,
@@ -58,11 +58,11 @@ export const cadastrarUsuarioRepository = async (data: createUserCleanDTO) => {
         website: data.website,
         userId: user.id,
       },
-    });
+    })
   }
 
-  return user;
-};
+  return user
+}
 
 export const logarUsuarioRepository = async (data: loginUserDTO) => {
   const user = await prisma.user.findUniqueOrThrow({
@@ -74,18 +74,18 @@ export const logarUsuarioRepository = async (data: loginUserDTO) => {
       professor: true,
       empresa: true,
     },
-  });
+  })
 
-  if (user.tipo === "ESTUDANTE") {
-    return { ...user, estudante: user.estudante };
-  } else if (user.tipo === "PROFESSOR") {
-    return { ...user, professor: user.professor };
-  } else if (user.tipo === "EMPRESA") {
-    return { ...user, empresa: user.empresa };
+  if (user.tipo === 'ESTUDANTE') {
+    return { ...user, estudante: user.estudante }
+  } else if (user.tipo === 'PROFESSOR') {
+    return { ...user, professor: user.professor }
+  } else if (user.tipo === 'EMPRESA') {
+    return { ...user, empresa: user.empresa }
   }
 
-  return user;
-};
+  return user
+}
 export const confirmarEmailRepository = async (userId: string) => {
   return await prisma.user.update({
     where: {
@@ -95,8 +95,8 @@ export const confirmarEmailRepository = async (userId: string) => {
     data: {
       emailVerificado: true,
     },
-  });
-};
+  })
+}
 
 export const isVerifiedRepository = async (email: string) => {
   try {
@@ -104,11 +104,11 @@ export const isVerifiedRepository = async (email: string) => {
       where: {
         email: email,
       },
-    });
-    return user.emailVerificado;
+    })
+    return user.emailVerificado
   } catch (error) {
-    console.error("Erro ao verificar status de email:", error);
-    throw new Error("Erro ao verificar status de email");
+    console.error('Erro ao verificar status de email:', error)
+    throw new Error('Erro ao verificar status de email')
   }
 }
 

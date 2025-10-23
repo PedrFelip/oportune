@@ -25,7 +25,7 @@
 
 O Oportune+ é uma plataforma web que conecta alunos, professores e empresas, centralizando a divulgação de oportunidades para quem está no início da carreira.
 
-Muitos alunos enfrentam um dilema clássico: precisam de experiência para conseguir um emprego, mas não conseguem um emprego para ganhar experiência. 
+Muitos alunos enfrentam um dilema clássico: precisam de experiência para conseguir um emprego, mas não conseguem um emprego para ganhar experiência.
 Encontrar as oportunidades certas, como estágios e projetos acadêmicos, é um desafio.
 
 O Oportune+ resolve esse problema ao criar um ecossistema onde:
@@ -37,29 +37,23 @@ Nosso objetivo é ser a ponte que transforma potencial em experiência.
 
 As principais funcionalidades do Oportune + foram definidas com base nos requisitos funcionais e não funcionais, regras de negócio e requisitos de domínio.
 
-### Demonstração
-A plataforma é uma Single-Page Application (SPA) com interface intuitiva. Exemplos de fluxos:
-- **Cadastro e Login**: Formulário multi-etapas adaptado ao tipo de usuário.
-- **Busca e Candidatura**: Filtros avançados e aplicação one-click.
-- **Notificações**: Emails para confirmações e atualizações de status.
-
 ### Requisitos Funcionais
    - [x]  Permitir o cadastro de três tipos de usuários: Alunos, Empresas e Professores, com formulário específico.
-   
+
    - [x]  Interface de login para que usuários cadastrados acessem a plataforma usando email e senha.
 
    - [x]  Enviar notificação por email para confirmar cadastro concluído com sucesso.
-      
+
    - [x]  Mecanismo de recuperação de senha, validando a identidade do usuário antes da redefinição.
-   
+
    - [ ]  Perfis de usuário personalizados e distintos, contendo informações únicas por tipo (currículo, portfólio, projetos).
-   
+
    - [ ]  Permitir que Empresas e Professores publiquem oportunidades de estágio e projetos, respectivamente.
 
    - [ ]  Processo de candidatura simplificado ("one-click application") usando dados do perfil do aluno.
-  
+
    - [ ]  Notificar alunos por email sobre mudanças no status de suas candidaturas (em análise, aprovado, rejeitado).
-   
+
    - [ ]  Funcionalidade de busca avançada de vagas, com filtros por área, semestre e carga horária.
 
 
@@ -72,7 +66,6 @@ Para intalar e rodar siga o passo a passo da [instalação](https://github.com/P
 - **Backend**: Node.js, Fastify (para APIs REST), TypeScript
 - **Banco de Dados**: PostgreSQL, Prisma (ORM)
 - **Outras**: Docker (containerização), Go (microsserviços), Python (validações específicas), Figma (prototipagem)
-- **Gerenciamento**: Scrum, Trello, Discord, Google Drive
 
 ## Contribuição
 
@@ -114,11 +107,11 @@ Se você é novo no open source, confira guias como [First Contributions](https:
 ## Autores e Contatos
 
 - **Equipe de Desenvolvimento**: Responsável pela concepção, implementação e manutenção.
-  - Contato: [oportunecontatos@gmail.com](oportunecontatos@gmail.com) 
+  - Contato: [oportunecontatos@gmail.com](oportunecontatos@gmail.com)
   - GitHub: [Pedro Felipe](https://github.com/PedrFelip)  |  [Gabriel](https://github.com/gabbzin)  |  [Lucas Felipe](https://github.com/Lucasdx7)
 
 Para mais informações, entre em contato via issues no GitHub.
 
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/PedrFelip/oportune/blob/main/LICENSE) para detalhes.
+Este projeto está licenciado sob a Licença Apache License 2.0 - veja o arquivo [LICENSE](https://github.com/PedrFelip/oportune/blob/main/LICENSE) para detalhes.

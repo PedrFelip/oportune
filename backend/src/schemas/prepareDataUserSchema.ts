@@ -6,35 +6,33 @@ export function prepareDataForZod(rawData: any) {
     senhaConfirmada: rawData.senhaConfirmada,
     termos: rawData.termos,
     tipo: rawData.tipo?.trim().toUpperCase(),
-  };
+  }
 
   switch (baseData.tipo) {
-    case "ESTUDANTE":
+    case 'ESTUDANTE':
       return {
         ...baseData,
         dataNascimento: rawData.dataNascimento,
         genero:
-          typeof rawData.genero === "string"
+          typeof rawData.genero === 'string'
             ? rawData.genero.toUpperCase()
             : rawData.genero?.value.toUpperCase(),
         telefone: rawData.telefone,
-        curso: typeof rawData.curso === "string" 
-          ? rawData.curso 
-          : rawData.curso?.value,
+        curso: typeof rawData.curso === 'string' ? rawData.curso : rawData.curso?.value,
         matricula: rawData.matricula,
         semestre: rawData.semestre,
         periodo:
-          typeof rawData.periodo === "string"
+          typeof rawData.periodo === 'string'
             ? rawData.periodo.toUpperCase()
             : rawData.periodo?.value.toUpperCase(),
-      };
+      }
 
-    case "PROFESSOR":
+    case 'PROFESSOR':
       return {
         ...baseData,
         dataNascimento: rawData.dataNascimento,
         genero:
-          typeof rawData.genero === "string"
+          typeof rawData.genero === 'string'
             ? rawData.genero.toUpperCase()
             : rawData.genero?.value.toUpperCase(),
         telefone: rawData.telefone,
@@ -42,9 +40,9 @@ export function prepareDataForZod(rawData: any) {
         departamento: rawData.departamento,
         titulacao: rawData.titulacao,
         lattes: rawData.lattes ? rawData.lattes : null,
-      };
+      }
 
-    case "EMPRESA":
+    case 'EMPRESA':
       return {
         ...baseData,
         nomeFantasia: rawData.nome,
@@ -55,9 +53,9 @@ export function prepareDataForZod(rawData: any) {
         emailContato: rawData.emailContato,
         telefone: rawData.telefone,
         website: rawData.website,
-      };
+      }
 
     default:
-      return baseData;
+      return baseData
   }
 }

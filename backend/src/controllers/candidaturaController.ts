@@ -1,12 +1,12 @@
 import {
   candidaturaVagaService,
-  listarCadidaturasPorEstudanteService
+  listarCadidaturasPorEstudanteService,
 } from '../services/candidaturaService.ts'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export const candidaturaVagaController = async (
-  request: FastifyRequest<{ Body: { vagaId: string; } }>,
-  reply: FastifyReply
+  request: FastifyRequest<{ Body: { vagaId: string } }>,
+  reply: FastifyReply,
 ) => {
   try {
     const { vagaId } = request.body
@@ -30,7 +30,7 @@ export const candidaturaVagaController = async (
 
 export const listarCadidaturasPorEstudanteController = async (
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) => {
   try {
     if (!request.user || !request.user.sub) {
