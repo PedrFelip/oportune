@@ -87,6 +87,11 @@ export const getVagaDetalhes = async (vagaId: string) => {
       bolsa: 'A combinar', // Campo não existe no banco
       prazoInscricao: prazoFormatado,
       sobre: vaga.empresa?.descricao || 'Informações não disponíveis',
+      responsavel: {
+        id: vaga.empresaId || vaga.professorId || '',
+        tipo: vaga.empresa ? 'EMPRESA' : 'PROFESSOR',
+        nome: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || 'Não especificado',
+      },
     }
   } catch (error) {
     console.error('Erro ao obter detalhes da vaga:', error)
