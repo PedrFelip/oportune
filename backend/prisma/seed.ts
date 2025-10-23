@@ -6,15 +6,15 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Limpar dados existentes para evitar conflitos de chave única
-  await prisma.candidatura.deleteMany({});
-  await prisma.vaga.deleteMany({});
-  await prisma.estudante.deleteMany({});
-  await prisma.professor.deleteMany({});
-  await prisma.empresa.deleteMany({});
-  await prisma.user.deleteMany({});
+  await prisma.candidatura.deleteMany({})
+  await prisma.vaga.deleteMany({})
+  await prisma.estudante.deleteMany({})
+  await prisma.professor.deleteMany({})
+  await prisma.empresa.deleteMany({})
+  await prisma.user.deleteMany({})
   // Criar usuário estudante
   const senhaHash = await bcrypt.hash('senha123#', 10)
-  
+
   const aluno = await prisma.user.create({
     data: {
       id: v4(),
@@ -37,8 +37,8 @@ async function main() {
       },
     },
     include: {
-      estudante: true
-    }
+      estudante: true,
+    },
   })
 
   // Criar usuário empresa
@@ -64,8 +64,8 @@ async function main() {
       },
     },
     include: {
-      empresa: true
-    }
+      empresa: true,
+    },
   })
 
   // Criar usuário professor
@@ -90,15 +90,16 @@ async function main() {
       },
     },
     include: {
-      professor: true
-    }
+      professor: true,
+    },
   })
 
   // Criar vagas da empresa
   const vagaEmpresa1 = await prisma.vaga.create({
     data: {
       titulo: 'Estágio em Desenvolvimento Frontend',
-      descricao: 'Oportunidade de estágio para desenvolvimento de interfaces web usando React e TypeScript.',
+      descricao:
+        'Oportunidade de estágio para desenvolvimento de interfaces web usando React e TypeScript.',
       tipo: 'ESTAGIO',
       requisitos: ['React', 'TypeScript', 'HTML/CSS', 'Git'],
       prazoInscricao: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 dias a partir de hoje
@@ -117,7 +118,7 @@ async function main() {
       requisitos: ['Node.js', 'JavaScript', 'PostgreSQL', 'API REST'],
       prazoInscricao: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000), // 45 dias a partir de hoje
       statusVaga: 'ATIVA',
-  cursosAlvo: ['Engenharia de Software'],
+      cursosAlvo: ['Engenharia de Software'],
       semestreMinimo: 3,
       empresaId: empresa.empresa!.id,
     },
@@ -127,12 +128,13 @@ async function main() {
   const vagaProfessor1 = await prisma.vaga.create({
     data: {
       titulo: 'Pesquisa em Inteligência Artificial',
-      descricao: 'Projeto de pesquisa focado em algoritmos de machine learning aplicados à análise de dados.',
+      descricao:
+        'Projeto de pesquisa focado em algoritmos de machine learning aplicados à análise de dados.',
       tipo: 'PESQUISA',
       requisitos: ['Python', 'Machine Learning', 'Estatística', 'Pesquisa Acadêmica'],
       prazoInscricao: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000), // 60 dias a partir de hoje
       statusVaga: 'ATIVA',
-  cursosAlvo: ['Engenharia de Software'],
+      cursosAlvo: ['Engenharia de Software'],
       semestreMinimo: 6,
       professorId: professor.professor!.id,
     },
@@ -146,7 +148,7 @@ async function main() {
       requisitos: ['Programação', 'Didática', 'Comunicação', 'Trabalho em Equipe'],
       prazoInscricao: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000), // 20 dias a partir de hoje
       statusVaga: 'ATIVA',
-  cursosAlvo: ['Engenharia de Software'],
+      cursosAlvo: ['Engenharia de Software'],
       semestreMinimo: 2,
       professorId: professor.professor!.id,
     },
@@ -199,10 +201,12 @@ async function main() {
   })
 }
 
-main().then(async () => {
-  await prisma.$disconnect()
-}).catch(async (e) => {
-  console.error(e)
-  await prisma.$disconnect()
-  process.exit(1)
-})
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async e => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

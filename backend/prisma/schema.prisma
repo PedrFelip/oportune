@@ -157,7 +157,7 @@ model Candidatura {
 
   dataCandidatura DateTime @default(now())
   status StatusCandidatura @default(PENDENTE)
-  
+
   vaga Vaga @relation(fields: [vagaId], references: [id], onDelete: Cascade)
   estudante Estudante @relation(fields: [estudanteId], references: [userId], onDelete: Cascade)
 

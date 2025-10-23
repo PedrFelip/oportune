@@ -1,8 +1,8 @@
-import prisma from "../../prisma/client.ts"
+import prisma from '../../prisma/client.ts'
 
 // Função para buscar dados básicos do estudante (carregamento inicial)
 export const getEstudanteData = async (userId: string) => {
-  console.time("getEstudanteData");
+  console.time('getEstudanteData')
   try {
     const estudanteData = await prisma.estudante.findUnique({
       where: { userId },
@@ -22,16 +22,16 @@ export const getEstudanteData = async (userId: string) => {
         periodo: true,
         dataFormatura: true,
         user: {
-          select: { nome: true }
-        }
-      }
+          select: { nome: true },
+        },
+      },
     })
 
     if (!estudanteData) {
       return null
     }
 
-    console.timeEnd("getEstudanteData");
+    console.timeEnd('getEstudanteData')
     return estudanteData
   } catch (error) {
     console.error('Erro ao buscar dados do estudante:', error)
@@ -44,7 +44,7 @@ const getEstudanteId = async (userId: string): Promise<string | null> => {
   try {
     const estudante = await prisma.estudante.findUnique({
       where: { userId },
-      select: { userId: true }
+      select: { userId: true },
     })
     return estudante?.userId || null
   } catch (error) {
@@ -58,7 +58,7 @@ const getEstudanteCurso = async (userId: string): Promise<{ id: string; curso: s
   try {
     const estudante = await prisma.estudante.findUnique({
       where: { userId },
-      select: { id: true, curso: true }
+      select: { id: true, curso: true },
     })
     return estudante || null
   } catch (error) {
@@ -67,12 +67,12 @@ const getEstudanteCurso = async (userId: string): Promise<{ id: string; curso: s
   }
 }
 
-// Função totalmente independente para buscar candidaturas recentes 
+// Função totalmente independente para buscar candidaturas recentes
 export const getCandidaturasRecentes = async (userId: string) => {
-  console.time("getCandidaturasRecentes");
+  console.time('getCandidaturasRecentes')
   try {
     console.log(`[getCandidaturasRecentes] Iniciando busca para userId: ${userId}`)
-    
+
     // Busca independente do ID do estudante
     const estudanteId = await getEstudanteId(userId)
     if (!estudanteId) {
@@ -92,29 +92,30 @@ export const getCandidaturasRecentes = async (userId: string) => {
           select: {
             titulo: true,
             empresa: {
-              select: { nomeFantasia: true }
+              select: { nomeFantasia: true },
             },
             professor: {
               select: {
                 user: {
-                  select: { nome: true }
-                }
-              }
-            }
-          }
-        }
-      }
+                  select: { nome: true },
+                },
+              },
+            },
+          },
+        },
+      },
     })
 
     // Filtrar candidaturas com dados válidos
-    const candidaturasValidas = candidaturas.filter(c => 
-      c.vaga && 
-      c.vaga.titulo && 
-      (c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome)
+    const candidaturasValidas = candidaturas.filter(
+      c =>
+        c.vaga && c.vaga.titulo && (c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome),
     )
 
-    console.log(`[getCandidaturasRecentes] Encontradas ${candidaturasValidas.length} candidaturas válidas para estudante ${estudanteId}`)
-    console.timeEnd("getCandidaturasRecentes");
+    console.log(
+      `[getCandidaturasRecentes] Encontradas ${candidaturasValidas.length} candidaturas válidas para estudante ${estudanteId}`,
+    )
+    console.timeEnd('getCandidaturasRecentes')
     return candidaturasValidas || []
   } catch (error) {
     console.error('[getCandidaturasRecentes] Erro ao buscar candidaturas:', error)
@@ -124,10 +125,10 @@ export const getCandidaturasRecentes = async (userId: string) => {
 
 // Função totalmente independente para buscar vagas recomendadas
 export const getVagasRecomendadas = async (userId: string) => {
-  console.time("getVagasRecomendadas");
+  console.time('getVagasRecomendadas')
   try {
     console.log(`[getVagasRecomendadas] Iniciando busca para userId: ${userId}`)
-    
+
     // Busca independente dos dados do estudante
     const estudanteData = await getEstudanteCurso(userId)
     if (!estudanteData) {
@@ -143,14 +144,16 @@ export const getVagasRecomendadas = async (userId: string) => {
 
     // Buscar vagas específicas do curso
     const vagasDoCurso = await buscarVagasPorCurso(estudanteData.id, estudanteData.curso)
-    
+
     // Se não encontrou vagas do curso, buscar vagas gerais
     if (vagasDoCurso.length === 0) {
-      console.log(`[getVagasRecomendadas] Nenhuma vaga encontrada para curso ${estudanteData.curso}, buscando vagas gerais`)
+      console.log(
+        `[getVagasRecomendadas] Nenhuma vaga encontrada para curso ${estudanteData.curso}, buscando vagas gerais`,
+      )
       return await buscarVagasGerais(estudanteData.id)
     }
 
-    console.timeEnd("getVagasRecomendadas");
+    console.timeEnd('getVagasRecomendadas')
     return vagasDoCurso
   } catch (error) {
     console.error('[getVagasRecomendadas] Erro ao buscar vagas:', error)
@@ -164,7 +167,7 @@ const buscarVagasPorCurso = async (estudanteId: string, curso: string) => {
     // Buscar IDs de vagas já candidatadas (query independente)
     const candidaturasIds = await prisma.candidatura.findMany({
       where: { estudanteId },
-      select: { vagaId: true }
+      select: { vagaId: true },
     })
 
     const vagasExcluidas = candidaturasIds.map(c => c.vagaId)
@@ -174,11 +177,11 @@ const buscarVagasPorCurso = async (estudanteId: string, curso: string) => {
         AND: [
           { statusVaga: 'ATIVA' },
           { cursosAlvo: { has: curso } },
-          { id: { notIn: vagasExcluidas } }
-        ]
+          { id: { notIn: vagasExcluidas } },
+        ],
       },
-  // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
-  orderBy: { createdAt: 'desc' },
+      // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
+      orderBy: { createdAt: 'desc' },
       take: 3,
       select: {
         id: true,
@@ -187,26 +190,27 @@ const buscarVagasPorCurso = async (estudanteId: string, curso: string) => {
         descricao: true,
         empresa: {
           select: {
-            nomeFantasia: true
-          }
+            nomeFantasia: true,
+          },
         },
         professor: {
           select: {
             user: {
-              select: { nome: true }
-            }
-          }
-        }
-      }
+              select: { nome: true },
+            },
+          },
+        },
+      },
     })
 
     // Filtrar vagas com dados válidos
-    const vagasValidas = vagas.filter(v => 
-      v.titulo && 
-      (v.empresa?.nomeFantasia || v.professor?.user?.nome)
+    const vagasValidas = vagas.filter(
+      v => v.titulo && (v.empresa?.nomeFantasia || v.professor?.user?.nome),
     )
 
-    console.log(`[buscarVagasPorCurso] Encontradas ${vagasValidas.length} vagas válidas para curso ${curso}`)
+    console.log(
+      `[buscarVagasPorCurso] Encontradas ${vagasValidas.length} vagas válidas para curso ${curso}`,
+    )
     return vagasValidas || []
   } catch (error) {
     console.error('[buscarVagasPorCurso] Erro:', error)
@@ -220,20 +224,17 @@ const buscarVagasGerais = async (estudanteId: string) => {
     // Buscar IDs de vagas já candidatadas (query independente)
     const candidaturasIds = await prisma.candidatura.findMany({
       where: { estudanteId },
-      select: { vagaId: true }
+      select: { vagaId: true },
     })
 
     const vagasExcluidas = candidaturasIds.map(c => c.vagaId)
 
     const vagasGerais = await prisma.vaga.findMany({
       where: {
-        AND: [
-          { statusVaga: 'ATIVA' },
-          { id: { notIn: vagasExcluidas } }
-        ]
+        AND: [{ statusVaga: 'ATIVA' }, { id: { notIn: vagasExcluidas } }],
       },
-  // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
-  orderBy: { createdAt: 'desc' },
+      // Preferir ordenação por createdAt para melhor correlação com "recentes" e uso de índice
+      orderBy: { createdAt: 'desc' },
       take: 3,
       select: {
         id: true,
@@ -242,22 +243,21 @@ const buscarVagasGerais = async (estudanteId: string) => {
         descricao: true,
         empresa: {
           select: {
-            nomeFantasia: true
-          }
+            nomeFantasia: true,
+          },
         },
         professor: {
           select: {
             user: {
-              select: { nome: true }
-            }
-          }
-        }
-      }
+              select: { nome: true },
+            },
+          },
+        },
+      },
     })
 
-    const vagasGeraisValidas = vagasGerais.filter(v => 
-      v.titulo && 
-      (v.empresa?.nomeFantasia || v.professor?.user?.nome)
+    const vagasGeraisValidas = vagasGerais.filter(
+      v => v.titulo && (v.empresa?.nomeFantasia || v.professor?.user?.nome),
     )
 
     console.log(`[buscarVagasGerais] Encontradas ${vagasGeraisValidas.length} vagas gerais válidas`)

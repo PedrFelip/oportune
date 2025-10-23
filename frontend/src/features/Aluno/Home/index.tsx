@@ -10,14 +10,13 @@ import { buscarCandidaturasAluno } from "../api/buscarCandidaturas";
 import { buscarVagasRecomendadasAluno } from "../api/buscarVagasRecomendadas";
 import { useLoading } from "@/contexts/LoadingContext";
 import { Vaga } from "@/@types/types";
+import { showMessage } from "@/adapters/showMessage";
 
 export function Dashboard() {
   const { carregando } = useAuthGuard({
     redirectTo: "/login",
     requireRole: "ESTUDANTE",
   });
-
-  // <-- Adicione aqui
 
   const { showLoading, hideLoading } = useLoading();
 
@@ -41,6 +40,7 @@ export function Dashboard() {
       setPerfil(perfilResp?.perfil ?? null);
       setCandidaturas(candidaturasResp?.candidaturasRecentes ?? []);
       setVagasRecomendadas(vagasResp?.vagasRecomendadas ?? []);
+      showMessage.success("Dados carregados com sucesso")
     } catch (e) {
       console.error("Erro ao carregar dados:", e);
       setError("Erro ao carregar informações do painel.");
@@ -51,7 +51,8 @@ export function Dashboard() {
 
   useEffect(() => {
     if (!carregando) carregarDados();
-  }, [carregando, carregarDados]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [carregando]);
 
   if (error) {
     return (

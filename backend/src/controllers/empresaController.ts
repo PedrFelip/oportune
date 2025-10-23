@@ -1,12 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { VagasAtivasService } from '../services/empresaService.ts'
 
-export const VagasAtivasController = async (
-  request: FastifyRequest<{ Params: { id: string } }>,
-  reply: FastifyReply
-) => {
+export const VagasAtivasController = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const { id } = request.params
+    const id = request.user?.sub
 
     if (!id || typeof id !== 'string') {
       return reply.status(400).send({ message: 'Identificador da empresa inválido.' })
@@ -17,7 +14,7 @@ export const VagasAtivasController = async (
   } catch (err: any) {
     request.log.error({ err }, 'Erro ao buscar vagas ativas da empresa')
     return reply.status(500).send({
-      message: 'Erro interno do servidor'
+      message: 'Erro interno do servidor',
     })
   }
 }
