@@ -16,18 +16,20 @@ import { primeiraLetraMaiuscula } from "@/utils/validadores";
 import { Experiencia } from "./Experiencia";
 import { ProfileCard } from "./ProfileCard";
 import { useRouter } from "next/navigation";
-import { User } from "@/@types/types";
+import { User } from "@/models/user";
 
 type perfilProps = {
   perfil?: User;
-  id?: string;
 };
 
-export function Perfil({ perfil, id }: perfilProps) {
+export function Perfil({ perfil }: perfilProps) {
   const { usuario } = useAuth();
   const { replace } = useRouter();
 
-  if (!usuario) {
+  const dados = perfil ?? usuario;
+  const isExternal = !!perfil;
+
+  if (!dados) {
     return null;
   }
 
@@ -47,29 +49,32 @@ export function Perfil({ perfil, id }: perfilProps) {
                 />
               </div>
               <div className="text-white flex flex-col gap-0.5">
-                <h2 className="text-2xl font-bold">{usuario.nome}</h2>
+                <h2 className="text-2xl font-bold">{dados.nome}</h2>
                 <p className="text-blue-400 text-sm">
                   {primeiraLetraMaiuscula(
-                    usuario.estudante?.curso
-                      ? usuario.estudante.curso.split("_").join(" ")
+                    dados.estudante?.curso
+                      ? dados.estudante.curso.split("_").join(" ")
                       : ""
                   ) || "Erro ao carregar o curso"}
                 </p>
                 <span className="mt-3 text-gray-400 font-semibold">
-                  {usuario.estudante?.semestre}º Semestre - Periodo{" "}
-                  {usuario.estudante?.periodo}
+                  {dados.estudante?.semestre}º Semestre - Periodo{" "}
+                  {dados.estudante?.periodo}
                 </span>
               </div>
             </div>
-            <div className="flex items-center mr-6">
-              <Button
-                variant={"oportune"}
-                onClick={() => replace("perfil/editar-perfil")}
-              >
-                <SquarePenIcon />
-                Editar perfil
-              </Button>
-            </div>
+            {/* 🔹 botão só no perfil próprio */}
+            {!isExternal && (
+              <div className="flex items-center mr-6">
+                <Button
+                  variant="oportune"
+                  onClick={() => replace("perfil/editar-perfil")}
+                >
+                  <SquarePenIcon />
+                  Editar perfil
+                </Button>
+              </div>
+            )}
           </div>
         </section>
       </header>
@@ -80,29 +85,30 @@ export function Perfil({ perfil, id }: perfilProps) {
           </h2>
           <main>
             <div className="flex gap-3">
-              <MailIcon /> {usuario.email}
+              <MailIcon /> {dados.email}
             </div>
             <div className="flex gap-3">
               <PhoneIcon />{" "}
-              {usuario.estudante?.telefone || "Telefone não informado"}
+              {dados.estudante?.telefone || "Telefone não informado"}
             </div>
             <div className="flex gap-3">
               <GraduationCapIcon />{" "}
-              {usuario.estudante?.dataFormatura
-                ? usuario.estudante?.dataFormatura
+              {dados.estudante?.dataFormatura
+                ? dados.estudante?.dataFormatura
                 : "Data de formatura não informada"}
             </div>
           </main>
-          <footer className="flex gap-5">
-            <Button className="flex" variant={"oportune"}>
-              {" "}
-              <DownloadIcon />
-              Curriculo
-            </Button>
-            <Button className="flex" variant={"oportune_blank"}>
-              Portfólio
-            </Button>
-          </footer>
+          {!isExternal && (
+            <footer className="flex gap-5">
+              <Button className="flex" variant="oportune">
+                <DownloadIcon />
+                Currículo
+              </Button>
+              <Button className="flex" variant="oportune_blank">
+                Portfólio
+              </Button>
+            </footer>
+          )}
         </ProfileCard>
         <div className="coluna-final flex flex-col gap-5 w-3/5">
           <ProfileCard>

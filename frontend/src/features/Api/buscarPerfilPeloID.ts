@@ -1,14 +1,11 @@
-export async function buscarVagaPeloId(id: string, token?: string) {
+export async function buscarPerfilPeloId(id: string) {
   try {
-    if (!token) throw new Error("Token não encontrado");
-
     const response = await fetch(
-      `${process.env.BACKEND_API_URL}/geral/buscar-perfil-pelo-id/${id}`,
+      `${process.env.BACKEND_API_URL}/profile/${id}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         redirect: "follow",
       }
