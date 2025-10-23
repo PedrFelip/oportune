@@ -26,3 +26,7 @@ export const createVagaSchema = z.object({
 })
 
 export type VagaCreateDTO = z.infer<typeof createVagaSchema>
+
+export const updateVagaSchema = createVagaSchema.partial()
+
+export type VagaUpdateDTO = z.infer<typeof updateVagaSchema>
