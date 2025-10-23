@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Uniceplac from "@/assets/Uniceplac.webp";
 import { BriefcaseIcon, UserIcon } from "lucide-react";
+import { FormNewOportune } from "@/features/Professor/FormVaga";
 // import { showMessage } from "@/adapters/showMessage";
 // import { buscarPerfilProfessor } from "../api/buscarPerfil";
 // import { buscarAlunosOrientados } from "../api/buscarAlunos";
@@ -44,6 +45,7 @@ export function Dashboard() {
 
   const [perfil, setPerfil] = useState<any>(null);
   const [alunosOrientados, setAlunosOrientados] = useState<any[]>([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   // const [loadingPerfil, setLoadingPerfil] = useState(true);
   // const [loadingAlunos, setLoadingAlunos] = useState(true);
@@ -191,6 +193,7 @@ export function Dashboard() {
           </div>
         </div>
       </div>
+      <FormNewOportune isOpen={isFormOpen} setIsOpen={setIsFormOpen} />
     </div>
   );
 }
