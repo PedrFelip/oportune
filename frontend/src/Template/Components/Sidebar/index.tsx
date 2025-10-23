@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLayout } from "@/contexts/LayoutContext";
 
 // Tipagem permanece a mesma
 type NavItem = {
@@ -57,6 +58,8 @@ export function Sidebar({ className }: SidebarProps) {
   // 2. ESTADO INICIAL: Começar com um array vazio é mais seguro para o .map()
   const [navItems, setNavItems] = useState<NavItem[]>([]);
 
+  const { setPageTitle } = useLayout();
+
   useEffect(() => {
     if (usuario?.tipo && rolePathMap[usuario.tipo]) {
       const userPrefix = rolePathMap[usuario.tipo];
@@ -67,6 +70,23 @@ export function Sidebar({ className }: SidebarProps) {
       setNavItems(userNavItems);
     }
   }, [usuario?.tipo]);
+
+  useEffect(() => { // UsEffect para atualizar o título da página do template
+    if (!pathname || navItems.length === 0) return;
+
+    // Procura o item do menu que corresponde à rota atual
+    const currentItem = navItems.find((item) => pathname.startsWith(item.path));
+
+    if (currentItem) {
+      if (currentItem.id === "dashboard") {
+        setPageTitle(`Bem vindo ${usuario?.nome}!`);
+      } else {
+        setPageTitle(currentItem.label);
+      }
+    } else {
+      setPageTitle("Oportune+"); // fallback caso não encontre
+    }
+  }, [pathname, navItems, setPageTitle, usuario?.nome]);
 
   const baseLinkClasses =
     "flex items-center gap-2 w-full px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r to-transparent hover:from-blue-700/80 hover:to-gray-800/20 relative text-white transition";
