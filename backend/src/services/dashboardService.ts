@@ -2,6 +2,7 @@ import {
   getEstudanteData,
   getCandidaturasRecentes,
   getVagasRecomendadas,
+  updateEstudanteProfile,
 } from '../repositories/dashboardRepository.ts'
 import informacoes from '../utils/informacoes.json' with { type: 'json' }
 
@@ -179,3 +180,74 @@ export const getDashboardService = async (userId: string) => {
     vagasRecomendadas: vagasFormatadas,
   }
 }
+
+// Serviço para atualizar o perfil do estudante
+export const updatePerfilService = async (userId: string, data: any) => {
+  try {
+    // Validar se o estudante existe
+    const estudanteExistente = await getEstudanteData(userId)
+    if (!estudanteExistente) {
+      return {
+        success: false,
+        error: 'Estudante não encontrado',
+      }
+    }
+
+    // Preparar dados para atualização (apenas campos que podem ser editados)
+    const dadosAtualizacao: any = {}
+
+    if (data.telefone !== undefined) dadosAtualizacao.telefone = data.telefone
+    if (data.fotoPerfil !== undefined) dadosAtualizacao.fotoPerfil = data.fotoPerfil
+    if (data.dataNascimento !== undefined) {
+      dadosAtualizacao.dataNascimento = new Date(data.dataNascimento)
+    }
+    if (data.genero !== undefined) dadosAtualizacao.genero = data.genero
+    if (data.faculdade !== undefined) dadosAtualizacao.faculdade = data.faculdade
+    if (data.areasInteresse !== undefined) dadosAtualizacao.areasInteresse = data.areasInteresse
+    if (data.habilidadesComportamentais !== undefined) {
+      dadosAtualizacao.habilidadesComportamentais = data.habilidadesComportamentais
+    }
+    if (data.habilidadesTecnicas !== undefined) {
+      dadosAtualizacao.habilidadesTecnicas = data.habilidadesTecnicas
+    }
+    if (data.semestre !== undefined) dadosAtualizacao.semestre = parseInt(data.semestre)
+    if (data.periodo !== undefined) dadosAtualizacao.periodo = data.periodo
+    if (data.dataFormatura !== undefined) {
+      dadosAtualizacao.dataFormatura = data.dataFormatura ? new Date(data.dataFormatura) : null
+    }
+
+    // Atualizar perfil
+    const estudanteAtualizado = await updateEstudanteProfile(userId, dadosAtualizacao)
+
+    return {
+      success: true,
+      perfil: {
+        nome: estudanteAtualizado.user.nome,
+        email: estudanteAtualizado.user.email,
+        telefone: estudanteAtualizado.telefone,
+        fotoPerfil: estudanteAtualizado.fotoPerfil,
+        dataNascimento: estudanteAtualizado.dataNascimento,
+        genero: estudanteAtualizado.genero,
+        faculdade: estudanteAtualizado.faculdade,
+        areasInteresse: estudanteAtualizado.areasInteresse,
+        habilidadesComportamentais: estudanteAtualizado.habilidadesComportamentais,
+        habilidadesTecnicas: estudanteAtualizado.habilidadesTecnicas,
+        matricula: estudanteAtualizado.matricula,
+        curso: formatarNomeCurso(estudanteAtualizado.curso),
+        cursoValue: estudanteAtualizado.curso,
+        semestre: estudanteAtualizado.semestre,
+        periodo: estudanteAtualizado.periodo,
+        dataFormatura: estudanteAtualizado.dataFormatura,
+        porcentagem: perfilPorcentagem(estudanteAtualizado),
+      },
+      message: 'Perfil atualizado com sucesso',
+    }
+  } catch (error) {
+    console.error('Erro ao atualizar perfil:', error)
+    return {
+      success: false,
+      error: 'Erro ao atualizar perfil',
+    }
+  }
+}
+
