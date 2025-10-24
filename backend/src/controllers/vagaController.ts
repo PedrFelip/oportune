@@ -3,8 +3,9 @@ import {
   createServiceVaga,
   getVagaDetalhesService,
   listarServiceVagas,
+  updateServiceVaga,
 } from '../services/vagaServices.ts'
-import { createVagaSchema } from '../schemas/vagasSchema.ts'
+import { createVagaSchema, updateVagaSchema, VagaUpdateDTO } from '../schemas/vagasSchema.ts'
 
 export const createVagaController = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
@@ -49,5 +50,26 @@ export const getVagaDetalhesController = async (
     return reply.status(200).send(vaga)
   } catch (err: any) {
     return reply.status(400).send({ message: 'Erro ao obter detalhes da vaga', error: err.message })
+  }
+}
+
+export const updateVagaController = async (
+  request: FastifyRequest<{ Params: { id: string }; Body: VagaUpdateDTO }>,
+  reply: FastifyReply,
+) => {
+  try {
+    const { id } = request.params
+    const dadosAtualizacao = updateVagaSchema.parse(request.body)
+
+    if (!Object.keys(dadosAtualizacao).length) {
+      return reply.status(400).send({ message: 'Nenhum campo fornecido para atualização' })
+    }
+
+    const vaga = await updateServiceVaga(id, dadosAtualizacao)
+    return reply.status(200).send(vaga)
+  } catch (err: any) {
+    return reply
+      .status(400)
+      .send({ message: 'Erro ao atualizar vaga', error: err.message, details: err.errors || err })
   }
 }

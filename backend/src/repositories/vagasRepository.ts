@@ -1,4 +1,5 @@
 import prisma from '../../prisma/client.ts'
+import { VagaUpdateDTO } from '../schemas/vagasSchema.ts'
 
 export const createVaga = async (vagaData: any) => {
   try {
@@ -96,5 +97,36 @@ export const getVagaDetalhes = async (vagaId: string) => {
   } catch (error) {
     console.error('Erro ao obter detalhes da vaga:', error)
     throw new Error('Erro ao obter detalhes da vaga')
+  }
+}
+
+export const updateVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO) => {
+  try {
+    const data: Record<string, unknown> = {}
+
+    if (typeof dadosAtualizacao.titulo !== 'undefined') data.titulo = dadosAtualizacao.titulo
+    if (typeof dadosAtualizacao.descricao !== 'undefined') data.descricao = dadosAtualizacao.descricao
+    if (typeof dadosAtualizacao.requisitos !== 'undefined') data.requisitos = dadosAtualizacao.requisitos
+    if (typeof dadosAtualizacao.tipo !== 'undefined') data.tipo = dadosAtualizacao.tipo
+    if (typeof dadosAtualizacao.numeroVagas !== 'undefined') data.numeroVagas = dadosAtualizacao.numeroVagas
+    if (typeof dadosAtualizacao.prazoInscricao !== 'undefined') data.prazoInscricao = dadosAtualizacao.prazoInscricao
+    if (typeof dadosAtualizacao.cursosAlvo !== 'undefined') data.cursosAlvo = dadosAtualizacao.cursosAlvo
+    if (typeof dadosAtualizacao.semestreMinimo !== 'undefined') data.semestreMinimo = dadosAtualizacao.semestreMinimo
+    if (typeof dadosAtualizacao.empresaId !== 'undefined') data.empresaId = dadosAtualizacao.empresaId
+    if (typeof dadosAtualizacao.professorId !== 'undefined') data.professorId = dadosAtualizacao.professorId
+
+    if (!Object.keys(data).length) {
+      throw new Error('Nenhum campo informado para atualização')
+    }
+
+    const vaga = await prisma.vaga.update({
+      where: { id: vagaId },
+      data,
+    })
+
+    return vaga
+  } catch (error) {
+    console.error('Erro ao atualizar vaga:', error)
+    throw new Error('Erro ao atualizar vaga')
   }
 }
