@@ -122,7 +122,7 @@ export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
                   <Link href={`/vagas/${vaga.id}`}>
                     <Button variant={"ghost_blue"}>Ver detalhes</Button>
                   </Link>
-                  <Link href={`/vagas/editar/${vaga.id}`}>
+                  <Link href={`/professor/minhas-vagas/editar-vaga/${vaga.id}`}>
                     <Button
                       variant={"oportune"}
                       className="flex items-center gap-2"
@@ -134,7 +134,7 @@ export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
 
                   {!isEncerrada && (
                     <>
-                      <Link href={`/vagas/editar/${vaga.id}`}>
+                      <Link href={`/professor/minhas-vagas/editar-vaga/${vaga.id}`}>
                         <Button
                           variant={"oportune"}
                           className="flex items-center gap-2"

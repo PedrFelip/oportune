@@ -40,7 +40,7 @@ export function EditarVagaForm({
     defaultValues: vaga ?? {
       titulo: "",
       descricao: "",
-      tipo: "ESTAGIO" as TipoVaga,
+      tipo: "Estágio" as TipoVaga,
       categorias: [],
       curso: "",
       semestre: "",
@@ -52,10 +52,11 @@ export function EditarVagaForm({
     return;
   }
 
+  // Usar os mesmos rótulos da criação (o backend normaliza estes valores)
   const tipoOptions = [
-    { value: "ESTAGIO", label: "Estágio" },
-    { value: "EFETIVO", label: "Efetivo" },
-    { value: "TRAINEE", label: "Trainee" },
+    { value: "Estágio", label: "Estágio" },
+    { value: "Pesquisa", label: "Pesquisa" },
+    { value: "Extensão", label: "Extensão" },
   ];
 
   const cursoOptions = [
