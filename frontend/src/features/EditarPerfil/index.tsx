@@ -21,7 +21,6 @@ import { editarPerfil } from "../Api/editarPerfil";
 
 export interface profileEdit {
   nome?: string;
-  email?: string;
   telefone?: string;
   curso?: CursoType;
   semestre?: string;

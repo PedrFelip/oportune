@@ -9,11 +9,11 @@ export function useVagas() {
   async function fetchVagas() {
     try {
       setLoading(true);
-      const res = await fetch("/api/vagas/minhas");
+      const res = await fetch("/api/aluno/buscar-vagas");
       if (!res.ok) throw new Error("Erro ao buscar vagas");
       const data = await res.json();
       setVagas(data);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Erro desconhecido");
     } finally {

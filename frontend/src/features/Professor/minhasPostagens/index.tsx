@@ -43,7 +43,7 @@ export function PostagensVagas() {
         <h2 className="text-3xl font-bold">Minhas Vagas</h2>
         <div className="bg-red-500/20 border border-red-600 rounded-lg p-4 flex flex-col gap-4">
           <p className="text-red-400">{error}</p>
-          <Button onClick={refetch} variant="outline" className="w-fit">
+          <Button onClick={refetch} variant="ghost_red" className="w-fit">
             Tentar novamente
           </Button>
         </div>
