@@ -118,6 +118,15 @@ export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
                   <Link href={`/vagas/${vaga.id}`}>
                     <Button variant={"ghost_blue"}>Ver detalhes</Button>
                   </Link>
+                  <Link href={`/vagas/editar/${vaga.id}`}>
+                    <Button
+                      variant={"oportune"}
+                      className="flex items-center gap-2"
+                    >
+                      <Pencil size={18} />
+                      Editar vaga
+                    </Button>
+                  </Link>
 
                   {!isEncerrada && (
                     <>

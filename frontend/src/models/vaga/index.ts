@@ -14,3 +14,5 @@ export interface Vaga {
   empresa: string;
   candidaturas?: Candidatura[];
 }
+
+export type VagaEdit = Omit<Vaga, "id" | "empresa" | "candidaturas">;
