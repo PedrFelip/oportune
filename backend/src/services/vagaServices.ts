@@ -54,11 +54,28 @@ export const listarVagasPorResponsavelService = async (responsavelId: string, ti
         vagas: [],
       }
     }
-    // pra ajustar a resposta do que retornar
+    const vagasNormalizadas = vagas.map((vaga) => ({
+      id: vaga.id,
+      titulo: vaga.titulo,
+      descricao: vaga.descricao,
+      tipo: vaga.tipo,
+      categorias: [vaga.tipo, ...(vaga.requisitos || [])],
+      prazoInscricao:
+        vaga.prazoInscricao instanceof Date
+          ? vaga.prazoInscricao.toISOString()
+          : String(vaga.prazoInscricao),
+      curso:
+        vaga.cursosAlvo && vaga.cursosAlvo.length > 0
+          ? vaga.cursosAlvo.join(', ')
+          : 'Qualquer',
+      semestre: vaga.semestreMinimo ? vaga.semestreMinimo.toString() : 'Não informado',
+      empresa: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || 'Não informado',
+      candidaturas: vaga.candidaturas || [],
+    }))
 
     return {
       mensagem: 'Vagas encontradas com sucesso',
-      vagas,
+      vagas: vagasNormalizadas,
     }
   } catch (error) {
     console.error('Erro ao listar vagas por responsável:', error)
