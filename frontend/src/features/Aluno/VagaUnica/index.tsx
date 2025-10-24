@@ -38,13 +38,13 @@ export function Vaga({ vaga, id }: vagaProps) {
   const { usuario } = useAuth();
   const router = useRouter();
 
-  const perfilLink = vaga.responsavel
-    ? `/perfil/${vaga.responsavel.tipo.toLowerCase()}/${vaga.responsavel.id}`
-    : null;
-  const perfilLabel = vaga.responsavel?.tipo === "EMPRESA"
-    ? "Ver perfil da empresa"
-    : "Ver perfil do professor";
-  const PerfilIcon = vaga.responsavel?.tipo === "EMPRESA" ? Building2 : UserCircle;
+  const perfilLink = vaga.responsavel ? `/perfil/${vaga.responsavel.id}` : null;
+  const perfilLabel =
+    vaga.responsavel?.tipo === "EMPRESA"
+      ? "Ver perfil da empresa"
+      : "Ver perfil do professor";
+  const PerfilIcon =
+    vaga.responsavel?.tipo === "EMPRESA" ? Building2 : UserCircle;
 
   const handleVoltar = () => {
     router.back();
