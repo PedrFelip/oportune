@@ -1,4 +1,5 @@
-import { createVaga, listatodasVagas, getVagaDetalhes } from '../repositories/vagasRepository.ts'
+import { createVaga, getVagaDetalhes, listatodasVagas, updateVaga } from '../repositories/vagasRepository.ts'
+import { VagaUpdateDTO } from '../schemas/vagasSchema.ts'
 
 export const createServiceVaga = async (vagaData: any) => {
   try {
@@ -27,5 +28,15 @@ export const getVagaDetalhesService = async (vagaId: string) => {
   } catch (error) {
     console.error('Erro ao obter detalhes da vaga:', error)
     throw new Error('Erro ao obter detalhes da vaga')
+  }
+}
+
+export const updateServiceVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO) => {
+  try {
+    const vagaAtualizada = await updateVaga(vagaId, dadosAtualizacao)
+    return vagaAtualizada
+  } catch (error) {
+    console.error('Erro ao atualizar vaga:', error)
+    throw new Error('Erro ao atualizar vaga')
   }
 }
