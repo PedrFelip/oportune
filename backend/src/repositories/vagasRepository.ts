@@ -100,6 +100,23 @@ export const getVagaDetalhes = async (vagaId: string) => {
   }
 }
 
+export const getVagaByIdForAuth = async (vagaId: string) => {
+  // Busca vaga com informações mínimas para verificação de permissão
+  try {
+    const vaga = await prisma.vaga.findUnique({
+      where: { id: vagaId },
+      include: {
+        empresa: true,
+        professor: true,
+      },
+    })
+    return vaga
+  } catch (error) {
+    console.error('Erro ao buscar vaga para autorização:', error)
+    throw new Error('Erro ao buscar vaga')
+  }
+}
+
 export const updateVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO) => {
   try {
     const data: Record<string, unknown> = {}
