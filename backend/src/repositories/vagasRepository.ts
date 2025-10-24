@@ -89,7 +89,7 @@ export const getVagaDetalhes = async (vagaId: string) => {
       prazoInscricao: prazoFormatado,
       sobre: vaga.empresa?.descricao || 'Informações não disponíveis',
       responsavel: {
-        id: vaga.empresaId || vaga.professorId || '',
+        id: vaga.empresa?.userId || vaga.professor?.userId || '',
         tipo: vaga.empresa ? 'EMPRESA' : 'PROFESSOR',
         nome: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || 'Não especificado',
       },
