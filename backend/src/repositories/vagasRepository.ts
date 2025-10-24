@@ -131,15 +131,18 @@ export const updateVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO
   }
 }
 
-export const listarVagasPorResponsavel = async (responsavelId: string, tipoResponsavel: 'EMPRESA' | 'PROFESSOR') => {
+export const listarVagasPorResponsavel = async (
+  responsavelId: string,
+  tipoResponsavel: 'EMPRESA' | 'PROFESSOR',
+) => {
   try {
-    const whereTipo =
+    const whereFiltro =
       tipoResponsavel === 'EMPRESA'
-        ? { empresaId: responsavelId }
-        : { professorId: responsavelId }
+        ? { empresa: { userId: responsavelId } }
+        : { professor: { userId: responsavelId } }
 
     const vagas = await prisma.vaga.findMany({
-      where: whereTipo,
+      where: whereFiltro,
       include: {
         empresa: true,
         professor: {
@@ -147,6 +150,10 @@ export const listarVagasPorResponsavel = async (responsavelId: string, tipoRespo
             user: true,
           },
         },
+        candidaturas: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     })
 
