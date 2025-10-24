@@ -3,6 +3,7 @@ import {
   createServiceVaga,
   getVagaDetalhesService,
   listarServiceVagas,
+  listarVagasPorResponsavelService,
   updateServiceVaga,
 } from '../services/vagaServices.ts'
 import { createVagaSchema, updateVagaSchema, VagaUpdateDTO } from '../schemas/vagasSchema.ts'
@@ -71,5 +72,25 @@ export const updateVagaController = async (
     return reply
       .status(400)
       .send({ message: 'Erro ao atualizar vaga', error: err.message, details: err.errors || err })
+  }
+}
+
+export const listarVagasPorResponsavelController = async (
+  request: FastifyRequest,
+  reply: FastifyReply,
+) => {
+  try {
+    const tipoResponsavel = request.user?.role
+    const responsavelId = request.user?.sub
+
+    if (!tipoResponsavel || !responsavelId) {
+      return reply.status(401).send({ message: 'Usuário não autenticado' })
+    }
+
+    const resultado = await listarVagasPorResponsavelService(responsavelId, tipoResponsavel as 'EMPRESA' | 'PROFESSOR')
+
+    return reply.status(200).send(resultado)
+  } catch (error: any) {
+    return reply.status(400).send({ message: 'Erro ao listar vagas por responsável', error: error.message })
   }
 }

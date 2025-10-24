@@ -1,4 +1,4 @@
-import { createVaga, getVagaDetalhes, listatodasVagas, updateVaga } from '../repositories/vagasRepository.ts'
+import { createVaga, getVagaDetalhes, listarVagasPorResponsavel, listatodasVagas, updateVaga } from '../repositories/vagasRepository.ts'
 import { VagaUpdateDTO } from '../schemas/vagasSchema.ts'
 
 export const createServiceVaga = async (vagaData: any) => {
@@ -38,5 +38,30 @@ export const updateServiceVaga = async (vagaId: string, dadosAtualizacao: VagaUp
   } catch (error) {
     console.error('Erro ao atualizar vaga:', error)
     throw new Error('Erro ao atualizar vaga')
+  }
+}
+
+export const listarVagasPorResponsavelService = async (responsavelId: string, tipoResponsavel: 'EMPRESA' | 'PROFESSOR') => {
+
+  // Pra fazer Paginação depois
+
+  try {
+    const vagas = await listarVagasPorResponsavel(responsavelId, tipoResponsavel)
+
+    if (!vagas || vagas.length === 0) {
+      return {
+        mensagem: 'Nenhuma vaga encontrada para este responsável',
+        vagas: [],
+      }
+    }
+    // pra ajustar a resposta do que retornar
+
+    return {
+      mensagem: 'Vagas encontradas com sucesso',
+      vagas,
+    }
+  } catch (error) {
+    console.error('Erro ao listar vagas por responsável:', error)
+    throw new Error('Erro ao listar vagas por responsável')
   }
 }
