@@ -7,6 +7,7 @@ import {
   updateServiceVaga,
 } from '../services/vagaServices.ts'
 import { createVagaSchema, updateVagaSchema, VagaUpdateDTO } from '../schemas/vagasSchema.ts'
+import { getVagaByIdForAuth } from '../repositories/vagasRepository.ts'
 
 export const createVagaController = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
@@ -62,12 +63,38 @@ export const updateVagaController = async (
     const { id } = request.params
     const dadosAtualizacao = updateVagaSchema.parse(request.body)
 
+    // Requer autenticação e autorização
+    const user = (request as any).user
+    if (!user?.sub || !user?.role) {
+      return reply.status(401).send({ message: 'Usuário não autenticado' })
+    }
+
+    // Buscar vaga e verificar propriedade de acordo com o tipo do responsável
+    const vaga = await getVagaByIdForAuth(id)
+    if (!vaga) {
+      return reply.status(404).send({ message: 'Vaga não encontrada' })
+    }
+
+    if (user.role === 'PROFESSOR') {
+      if (!vaga.professor || vaga.professor.userId !== user.sub) {
+        return reply.status(403).send({ message: 'Sem permissão para editar esta vaga' })
+      }
+    } else if (user.role === 'EMPRESA') {
+      if (!vaga.empresa || vaga.empresa.userId !== user.sub) {
+        return reply.status(403).send({ message: 'Sem permissão para editar esta vaga' })
+      }
+    }
+
+  // Impedir alteração de proprietário via atualização (remoção defensiva)
+  delete (dadosAtualizacao as any).empresaId
+  delete (dadosAtualizacao as any).professorId
+
     if (!Object.keys(dadosAtualizacao).length) {
       return reply.status(400).send({ message: 'Nenhum campo fornecido para atualização' })
     }
 
-    const vaga = await updateServiceVaga(id, dadosAtualizacao)
-    return reply.status(200).send(vaga)
+    const vagaAtualizada = await updateServiceVaga(id, dadosAtualizacao)
+    return reply.status(200).send(vagaAtualizada)
   } catch (err: any) {
     return reply
       .status(400)
