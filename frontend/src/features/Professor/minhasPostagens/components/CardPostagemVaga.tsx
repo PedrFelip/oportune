@@ -39,6 +39,10 @@ export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
         const status = isEncerrada
           ? statusVagaMap.ENCERRADA
           : statusVagaMap.ATIVA;
+        const semestreLabel =
+          vaga.semestre && /^\d+$/.test(vaga.semestre)
+            ? `${vaga.semestre}º`
+            : vaga.semestre || "Não informado";
 
         return (
           <Accordion
@@ -82,7 +86,7 @@ export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
                   </p>
                   <p className="font-bold">
                     Semestre mínimo:{" "}
-                    <span className="font-normal">{vaga.semestre}º</span>
+                    <span className="font-normal">{semestreLabel}</span>
                   </p>
                   <p className="font-bold flex items-center gap-2">
                     <Calendar className="text-blue-400" size={18} />
@@ -103,7 +107,7 @@ export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
                 </div>
 
                 <div className="flex flex-wrap gap-3 mt-3">
-                  {vaga.categorias.map((cat) => (
+                  {(vaga.categorias || []).map((cat) => (
                     <Badge
                       key={cat}
                       variant="outline"
