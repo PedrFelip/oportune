@@ -1,4 +1,4 @@
-import EditarPerfilAluno from "@/features/Aluno/EditarPerfil";
+import EditarPerfilAluno from "@/features/EditarPerfil";
 
 export default function Page() {
   return <EditarPerfilAluno />;
