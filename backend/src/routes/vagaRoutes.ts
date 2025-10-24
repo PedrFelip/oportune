@@ -12,7 +12,11 @@ export async function vagaRoutes(app: FastifyInstance) {
   app.post('/vagas', createVagaController)
   app.get('/vagas', listarVagasController)
   app.get('/vagas/:id', getVagaDetalhesController)
-  app.put('/vagas/:id', updateVagaController)
+  app.put(
+    '/vagas/:id',
+    { preHandler: Authentication },
+    (request, reply) => updateVagaController(request as any, reply as any),
+  )
   app.get(
     '/vagas/responsavel',
     {

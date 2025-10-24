@@ -7,7 +7,8 @@ import { NextRequest } from "next/server";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> | { id: string } }
 ) {
-  return proxyRequest(request, `/vagas/${params.id}`);
+  const params = await context.params;
+  return proxyRequest(request, `/vagas/${params.id}`, { authRequired: false });
 }
