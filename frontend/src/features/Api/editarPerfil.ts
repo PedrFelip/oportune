@@ -2,8 +2,8 @@ import { getAuthToken, parseJsonSafe } from "@/_funcs/funcs";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function editarPerfil(dados: any) {
-  const token = await getAuthToken();
   try {
+    const token = await getAuthToken();
     const reply = await fetch("/api/aluno/editar-perfil", {
       method: "PUT",
       headers: {
