@@ -130,3 +130,29 @@ export const updateVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO
     throw new Error('Erro ao atualizar vaga')
   }
 }
+
+export const listarVagasPorResponsavel = async (responsavelId: string, tipoResponsavel: 'EMPRESA' | 'PROFESSOR') => {
+  try {
+    const whereTipo =
+      tipoResponsavel === 'EMPRESA'
+        ? { empresaId: responsavelId }
+        : { professorId: responsavelId }
+
+    const vagas = await prisma.vaga.findMany({
+      where: whereTipo,
+      include: {
+        empresa: true,
+        professor: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    })
+
+    return vagas
+  } catch (error) {
+    console.error('Erro ao listar vagas por responsável: ', error)
+    throw new Error('Erro ao listar vagas por responsável')
+  }
+}
