@@ -1,4 +1,7 @@
-import { totalCandidaturasVagasEmpresaRepository, VagasAtivasEmpresaRepository } from '../repositories/empresaRepository.ts'
+import {
+  totalCandidaturasVagasEmpresaRepository,
+  VagasAtivasEmpresaRepository,
+} from '../repositories/empresaRepository.ts'
 
 export const VagasAtivasService = async (empresaId: string) => {
   const vagasAtivas = await VagasAtivasEmpresaRepository(empresaId)
@@ -13,11 +16,11 @@ export const totalCandidaturasVagasService = async (empresaId: string) => {
   if (totalCandidaturas === 0) {
     return {
       message: 'Nenhuma candidatura encontrada para as vagas desta empresa.',
-      count: 0
+      count: 0,
     }
   }
   return {
     message: 'Candidaturas encontradas para as vagas desta empresa.',
-    count: totalCandidaturas
+    count: totalCandidaturas,
   }
 }

@@ -1,4 +1,10 @@
-import { createVaga, getVagaDetalhes, listarVagasPorResponsavel, listatodasVagas, updateVaga } from '../repositories/vagasRepository.ts'
+import {
+  createVaga,
+  getVagaDetalhes,
+  listarVagasPorResponsavel,
+  listatodasVagas,
+  updateVaga,
+} from '../repositories/vagasRepository.ts'
 import { VagaUpdateDTO } from '../schemas/vagasSchema.ts'
 
 export const createServiceVaga = async (vagaData: any) => {
@@ -41,8 +47,10 @@ export const updateServiceVaga = async (vagaId: string, dadosAtualizacao: VagaUp
   }
 }
 
-export const listarVagasPorResponsavelService = async (responsavelId: string, tipoResponsavel: 'EMPRESA' | 'PROFESSOR') => {
-
+export const listarVagasPorResponsavelService = async (
+  responsavelId: string,
+  tipoResponsavel: 'EMPRESA' | 'PROFESSOR',
+) => {
   // Pra fazer Paginação depois
 
   try {
@@ -54,7 +62,7 @@ export const listarVagasPorResponsavelService = async (responsavelId: string, ti
         vagas: [],
       }
     }
-    const vagasNormalizadas = vagas.map((vaga) => ({
+    const vagasNormalizadas = vagas.map(vaga => ({
       id: vaga.id,
       titulo: vaga.titulo,
       descricao: vaga.descricao,
@@ -65,9 +73,7 @@ export const listarVagasPorResponsavelService = async (responsavelId: string, ti
           ? vaga.prazoInscricao.toISOString()
           : String(vaga.prazoInscricao),
       curso:
-        vaga.cursosAlvo && vaga.cursosAlvo.length > 0
-          ? vaga.cursosAlvo.join(', ')
-          : 'Qualquer',
+        vaga.cursosAlvo && vaga.cursosAlvo.length > 0 ? vaga.cursosAlvo.join(', ') : 'Qualquer',
       semestre: vaga.semestreMinimo ? vaga.semestreMinimo.toString() : 'Não informado',
       empresa: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || 'Não informado',
       candidaturas: vaga.candidaturas || [],

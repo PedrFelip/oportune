@@ -10,9 +10,7 @@ export const VagasAtivasEmpresaRepository = async (idEmpresa: string) => {
   })
 }
 
-export const totalCandidaturasVagasEmpresaRepository = async (
-  idEmpresa: string
-) => {
+export const totalCandidaturasVagasEmpresaRepository = async (idEmpresa: string) => {
   return prisma.candidatura.count({
     where: {
       vaga: {

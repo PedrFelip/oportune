@@ -122,15 +122,23 @@ export const updateVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO
     const data: Record<string, unknown> = {}
 
     if (typeof dadosAtualizacao.titulo !== 'undefined') data.titulo = dadosAtualizacao.titulo
-    if (typeof dadosAtualizacao.descricao !== 'undefined') data.descricao = dadosAtualizacao.descricao
-    if (typeof dadosAtualizacao.requisitos !== 'undefined') data.requisitos = dadosAtualizacao.requisitos
+    if (typeof dadosAtualizacao.descricao !== 'undefined')
+      data.descricao = dadosAtualizacao.descricao
+    if (typeof dadosAtualizacao.requisitos !== 'undefined')
+      data.requisitos = dadosAtualizacao.requisitos
     if (typeof dadosAtualizacao.tipo !== 'undefined') data.tipo = dadosAtualizacao.tipo
-    if (typeof dadosAtualizacao.numeroVagas !== 'undefined') data.numeroVagas = dadosAtualizacao.numeroVagas
-    if (typeof dadosAtualizacao.prazoInscricao !== 'undefined') data.prazoInscricao = dadosAtualizacao.prazoInscricao
-    if (typeof dadosAtualizacao.cursosAlvo !== 'undefined') data.cursosAlvo = dadosAtualizacao.cursosAlvo
-    if (typeof dadosAtualizacao.semestreMinimo !== 'undefined') data.semestreMinimo = dadosAtualizacao.semestreMinimo
-    if (typeof dadosAtualizacao.empresaId !== 'undefined') data.empresaId = dadosAtualizacao.empresaId
-    if (typeof dadosAtualizacao.professorId !== 'undefined') data.professorId = dadosAtualizacao.professorId
+    if (typeof dadosAtualizacao.numeroVagas !== 'undefined')
+      data.numeroVagas = dadosAtualizacao.numeroVagas
+    if (typeof dadosAtualizacao.prazoInscricao !== 'undefined')
+      data.prazoInscricao = dadosAtualizacao.prazoInscricao
+    if (typeof dadosAtualizacao.cursosAlvo !== 'undefined')
+      data.cursosAlvo = dadosAtualizacao.cursosAlvo
+    if (typeof dadosAtualizacao.semestreMinimo !== 'undefined')
+      data.semestreMinimo = dadosAtualizacao.semestreMinimo
+    if (typeof dadosAtualizacao.empresaId !== 'undefined')
+      data.empresaId = dadosAtualizacao.empresaId
+    if (typeof dadosAtualizacao.professorId !== 'undefined')
+      data.professorId = dadosAtualizacao.professorId
 
     if (!Object.keys(data).length) {
       throw new Error('Nenhum campo informado para atualização')

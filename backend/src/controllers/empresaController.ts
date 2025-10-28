@@ -19,7 +19,10 @@ export const VagasAtivasController = async (request: FastifyRequest, reply: Fast
   }
 }
 
-export const totalCandidaturasVagasController = async (request: FastifyRequest, reply: FastifyReply) => {
+export const totalCandidaturasVagasController = async (
+  request: FastifyRequest,
+  reply: FastifyReply,
+) => {
   try {
     const id = request.user?.sub
 

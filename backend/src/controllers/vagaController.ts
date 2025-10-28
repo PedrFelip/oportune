@@ -85,9 +85,9 @@ export const updateVagaController = async (
       }
     }
 
-  // Impedir alteração de proprietário via atualização (remoção defensiva)
-  delete (dadosAtualizacao as any).empresaId
-  delete (dadosAtualizacao as any).professorId
+    // Impedir alteração de proprietário via atualização (remoção defensiva)
+    delete (dadosAtualizacao as any).empresaId
+    delete (dadosAtualizacao as any).professorId
 
     if (!Object.keys(dadosAtualizacao).length) {
       return reply.status(400).send({ message: 'Nenhum campo fornecido para atualização' })
@@ -114,10 +114,15 @@ export const listarVagasPorResponsavelController = async (
       return reply.status(401).send({ message: 'Usuário não autenticado' })
     }
 
-    const resultado = await listarVagasPorResponsavelService(responsavelId, tipoResponsavel as 'EMPRESA' | 'PROFESSOR')
+    const resultado = await listarVagasPorResponsavelService(
+      responsavelId,
+      tipoResponsavel as 'EMPRESA' | 'PROFESSOR',
+    )
 
     return reply.status(200).send(resultado)
   } catch (error: any) {
-    return reply.status(400).send({ message: 'Erro ao listar vagas por responsável', error: error.message })
+    return reply
+      .status(400)
+      .send({ message: 'Erro ao listar vagas por responsável', error: error.message })
   }
 }
