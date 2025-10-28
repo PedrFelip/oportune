@@ -71,6 +71,18 @@ export const candidaturaRepository = {
       throw new Error('Erro ao listar candidaturas: ' + error)
     }
   },
+
+  async removerCandidatura(candidaturaId: string) {
+    try {
+      await prisma.candidatura.delete({
+        where: {
+          id: candidaturaId,
+        },
+      })
+    } catch (error) {
+      throw new Error('Erro ao remover candidatura: ' + error)
+    }
+  },
 }
 
 // export const candidaturaVaga = async (candidaturaData: { vagaId: string; estudanteId: string }) => {
