@@ -1,7 +1,6 @@
 import { FastifyInstance } from 'fastify'
 import {
-  candidaturaVagaController,
-  listarCadidaturasPorEstudanteController,
+  candidaturaController
 } from '../controllers/candidaturaController.ts'
 import Authentication from '../plugins/tokenValidator.ts'
 
@@ -13,7 +12,7 @@ export async function candidaturaRoutes(fastify: FastifyInstance) {
     {
       preHandler: Authentication,
     },
-    candidaturaVagaController,
+    candidaturaController.candidaturaVaga,
   )
 
   fastify.get(
@@ -21,6 +20,6 @@ export async function candidaturaRoutes(fastify: FastifyInstance) {
     {
       preHandler: Authentication,
     },
-    listarCadidaturasPorEstudanteController,
+    candidaturaController.listarCadidaturasPorEstudante,
   )
 }
