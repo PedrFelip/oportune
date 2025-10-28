@@ -1,13 +1,10 @@
-import {
-  candidaturaVaga,
-  listarCadidaturasPorEstudante,
-} from '../repositories/candidaturaRepository.ts'
+import { candidaturaRepository } from '../repositories/candidaturaRepository.ts'
 
 export const candidaturaVagaService = async (candidaturaData: {
   vagaId: string
   estudanteId: string
 }) => {
-  const candidatura = await candidaturaVaga(candidaturaData)
+  const candidatura = await candidaturaRepository.candidaturaVaga(candidaturaData)
 
   if (!candidatura) {
     return new Error('Erro ao cadastrar candidatura')
@@ -17,7 +14,7 @@ export const candidaturaVagaService = async (candidaturaData: {
 }
 
 export const listarCadidaturasPorEstudanteService = async (estudanteId: string) => {
-  const candidaturas = await listarCadidaturasPorEstudante(estudanteId)
+  const candidaturas = await candidaturaRepository.listarCadidaturasPorEstudante(estudanteId)
 
   const candidaturasFormatada = candidaturas.map(c => ({
     id: c.id,

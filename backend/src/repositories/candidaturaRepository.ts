@@ -1,72 +1,145 @@
 import prisma from '../../prisma/client.ts'
 
-export const candidaturaVaga = async (candidaturaData: { vagaId: string; estudanteId: string }) => {
-  try {
-    //garante que o estudante não se candidate mais de uma vez para a mesma vaga
-    const candidaturaExistente = await prisma.candidatura.findFirst({
-      where: {
-        vagaId: candidaturaData.vagaId,
-        estudanteId: candidaturaData.estudanteId,
-      },
-    })
+export const candidaturaRepository = {
+  async candidaturaVaga(candidaturaData: { vagaId: string; estudanteId: string }) {
+    try {
+      //garante que o estudante não se candidate mais de uma vez para a mesma vaga
+      const candidaturaExistente = await prisma.candidatura.findFirst({
+        where: {
+          vagaId: candidaturaData.vagaId,
+          estudanteId: candidaturaData.estudanteId,
+        },
+      })
 
-    if (candidaturaExistente) {
-      return { message: 'Estudante já cadastrado para essa vaga' }
+      if (candidaturaExistente) {
+        return { message: 'Estudante já cadastrado para essa vaga' }
+      }
+
+      const candidatura = await prisma.candidatura.create({
+        data: {
+          vagaId: candidaturaData.vagaId,
+          estudanteId: candidaturaData.estudanteId,
+        },
+      })
+      return candidatura
+    } catch (error) {
+      throw new Error('Erro ao cadastrar candidatura: ' + error)
     }
+  },
 
-    const candidatura = await prisma.candidatura.create({
-      data: {
-        vagaId: candidaturaData.vagaId,
-        estudanteId: candidaturaData.estudanteId,
-      },
-    })
-    return candidatura
-  } catch (error) {
-    throw new Error('Erro ao cadastrar candidatura: ' + error)
-  }
-}
+  async listarCadidaturasPorEstudante(estudanteId: string) {
+    try {
+      const candidaturas = await prisma.candidatura.findMany({
+        take: 10,
+        where: {
+          estudanteId,
+        },
+        include: {
+          vaga: {
+            select: {
+              id: true,
+              titulo: true,
+              tipo: true,
 
-export const listarCadidaturasPorEstudante = async (estudanteId: string) => {
-  try {
-    const candidaturas = await prisma.candidatura.findMany({
-      take: 10,
-      where: {
-        estudanteId,
-      },
-      include: {
-        vaga: {
-          select: {
-            id: true,
-            titulo: true,
-            tipo: true,
-
-            empresaId: true,
-            empresa: {
-              select: {
-                nomeFantasia: true,
+              empresaId: true,
+              empresa: {
+                select: {
+                  nomeFantasia: true,
+                },
               },
-            },
 
-            professorId: true,
-            professor: {
-              select: {
-                user: {
-                  select: {
-                    nome: true,
+              professorId: true,
+              professor: {
+                select: {
+                  user: {
+                    select: {
+                      nome: true,
+                    },
                   },
                 },
               },
             },
           },
         },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
 
-    return candidaturas
-  } catch (error) {
-    throw new Error('Erro ao listar candidaturas: ' + error)
-  }
+      return candidaturas
+    } catch (error) {
+      throw new Error('Erro ao listar candidaturas: ' + error)
+    }
+  },
 }
+
+// export const candidaturaVaga = async (candidaturaData: { vagaId: string; estudanteId: string }) => {
+//   try {
+//     //garante que o estudante não se candidate mais de uma vez para a mesma vaga
+//     const candidaturaExistente = await prisma.candidatura.findFirst({
+//       where: {
+//         vagaId: candidaturaData.vagaId,
+//         estudanteId: candidaturaData.estudanteId,
+//       },
+//     })
+
+//     if (candidaturaExistente) {
+//       return { message: 'Estudante já cadastrado para essa vaga' }
+//     }
+
+//     const candidatura = await prisma.candidatura.create({
+//       data: {
+//         vagaId: candidaturaData.vagaId,
+//         estudanteId: candidaturaData.estudanteId,
+//       },
+//     })
+//     return candidatura
+//   } catch (error) {
+//     throw new Error('Erro ao cadastrar candidatura: ' + error)
+//   }
+// }
+
+// export const listarCadidaturasPorEstudante = async (estudanteId: string) => {
+//   try {
+//     const candidaturas = await prisma.candidatura.findMany({
+//       take: 10,
+//       where: {
+//         estudanteId,
+//       },
+//       include: {
+//         vaga: {
+//           select: {
+//             id: true,
+//             titulo: true,
+//             tipo: true,
+
+//             empresaId: true,
+//             empresa: {
+//               select: {
+//                 nomeFantasia: true,
+//               },
+//             },
+
+//             professorId: true,
+//             professor: {
+//               select: {
+//                 user: {
+//                   select: {
+//                     nome: true,
+//                   },
+//                 },
+//               },
+//             },
+//           },
+//         },
+//       },
+//       orderBy: {
+//         createdAt: 'desc',
+//       },
+//     })
+
+//     return candidaturas
+//   } catch (error) {
+//     throw new Error('Erro ao listar candidaturas: ' + error)
+//   }
+// }
