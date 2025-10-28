@@ -22,4 +22,14 @@ export async function candidaturaRoutes(fastify: FastifyInstance) {
     },
     candidaturaController.listarCadidaturasPorEstudante,
   )
+
+  fastify.delete<{
+    Params: { candidaturaId: string }
+  }>(
+    '/candidaturas/:candidaturaId',
+    {
+      preHandler: Authentication,
+    },
+    candidaturaController.removerCandidatura,
+  )
 }
