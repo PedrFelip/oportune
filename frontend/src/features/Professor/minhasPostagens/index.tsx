@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
 import { useVagas } from "./hooks/useVagas";
-import { PlusCircle } from "lucide-react";
 import { CardPostagemVaga } from "./components/CardPostagemVaga";
 import { FormNewOportune } from "../FormVaga";
 
@@ -11,6 +10,7 @@ type StatusFilter = "todas" | "ativas" | "encerradas";
 
 export function PostagensVagas() {
   const { vagas, loading, error, refetch } = useVagas(); // Hook semelhante ao de candidaturas
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [filtroStatus, setFiltroStatus] = useState<StatusFilter>("todas");
 
   const vagasFiltradas = useMemo(() => {
@@ -57,7 +57,7 @@ export function PostagensVagas() {
       <header className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-bold">Minhas Vagas</h2>
-          <FormNewOportune isOpen={false} setIsOpen={() => {}} typeButton="standard" />
+          <FormNewOportune isOpen={isFormOpen} setIsOpen={setIsFormOpen} typeButton="standard" />
         </div>
 
         <div className="flex gap-8 flex-wrap">
