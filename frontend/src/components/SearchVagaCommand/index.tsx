@@ -95,7 +95,7 @@ export function SearchVagaCommand() {
               >
                 <Briefcase className="mr-2 h-4 w-4 text-[#2474e4]" />
                 <span>
-                  <Link href={`/vagas/${vaga.id}`}>{vaga.titulo}</Link>
+                  <Link href={`/aluno/vagas/${vaga.id}`}>{vaga.titulo}</Link>
                 </span>
               </CommandItem>
             ))}
