@@ -30,10 +30,12 @@ import informacoes from "@/utils/informacoes.json";
 import { cadastrarVaga } from "../api/cadastrarVaga";
 import { FormCalendar } from "@/features/Professor/components/FormCalendar";
 import { useAuth } from "@/contexts/AuthContext";
+import { PlusCircle } from "lucide-react";
 
 type FormNewEventProps = {
   isOpen: DialogProps["open"];
   setIsOpen: DialogProps["onOpenChange"];
+  typeButton: "floating" | "standard";
 };
 
 const tipoVaga = [
@@ -42,7 +44,7 @@ const tipoVaga = [
   { label: "Estágio", value: "Estágio" },
 ];
 
-export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
+export function FormNewOportune({ isOpen, setIsOpen, typeButton }: FormNewEventProps) {
   const { usuario } = useAuth();
 
   const form = useForm<vagaModel>({
@@ -98,12 +100,25 @@ export function FormNewOportune({ isOpen, setIsOpen }: FormNewEventProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"secondary"}
-          className="absolute bottom-10 right-10 rounded-[50%] w-16 h-16 cursor-pointer active:rotate-360 duration-300"
-        >
-          <Image src={Logo} alt="Botão de criar nova vaga" />
-        </Button>
+        {typeButton === "floating" ? (
+          <Button
+            variant={"secondary"}
+            className="absolute bottom-10 right-10 rounded-[50%] w-16 h-16 cursor-pointer active:rotate-360 duration-300"
+          >
+            <Image src={Logo} alt="Botão de criar nova tarefa" />
+          </Button>
+        ) : (
+          <Button
+            variant="oportune"
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => {
+              // aqui tu redireciona pro form de criação de vaga
+            }}
+          >
+            <PlusCircle className="w-5 h-5" />
+            Nova Vaga
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto scrollbar-modal modal-content-highlight bg-[#1E293B] text-white border border-white/10 rounded-2xl p-0">
         <form
