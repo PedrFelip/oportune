@@ -11,13 +11,14 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import { Vaga } from "@/models/vaga"; // Importe o tipo Vaga se necessário
+import { Vaga } from "@/models/vaga";
 import { buscarVagas } from "@/features/Aluno/api/buscarVagas";
+import Link from "next/link";
 
 export function SearchVagaCommand() {
   const [open, setOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
-  const [vagas, setVagas] = React.useState<Vaga[]>([]); // Corrigido para array de Vaga
+  const [vagas, setVagas] = React.useState<Vaga[]>([]);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -33,7 +34,6 @@ export function SearchVagaCommand() {
   const carregarVagas = async () => {
     try {
       const vagasReq = await buscarVagas();
-
       if (vagasReq === null) {
         throw new Error("Falha na requisição");
       }
@@ -49,7 +49,7 @@ export function SearchVagaCommand() {
 
   // const handleSearch = () => {
   //   console.log("Buscando vaga:", searchValue);
-  //   // 🔍 Aqui entra sua lógica de busca (chamada de API, filtro, etc.)
+  //   // 🔍 Lógica de busca aqui
   //   setOpen(false);
   // };
 
@@ -64,26 +64,41 @@ export function SearchVagaCommand() {
         Buscar Vaga
       </Button>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog
+        open={open}
+        onOpenChange={setOpen}
+        className="bg-[#263243] border border-white/10 rounded-lg shadow-lg"
+      >
         <CommandInput
           placeholder="Digite o nome da vaga..."
           value={searchValue}
           onValueChange={setSearchValue}
+          className="text-black placeholder:text-black/90 border-none focus:ring-0"
         />
-        <CommandList>
-          <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
+        <CommandList className="max-h-64 overflow-y-auto">
+          <CommandEmpty className="text-gray-400 py-4 text-center">
+            Nenhum resultado encontrado.
+          </CommandEmpty>
 
-          <CommandGroup heading="Vagas recentes">
-            {vagas.slice(0, 5).map(
-              (
-                vaga // Exibe as primeiras 3 vagas
-              ) => (
-                <CommandItem key={vaga.id}>
-                  <Briefcase className="mr-2 h-4 w-4" />
-                  <span>{vaga.titulo}</span>
-                </CommandItem>
-              )
-            )}
+          <CommandGroup
+            heading="Vagas recentes"
+            className="text-[#c4d3e6] font-medium bg-slate-800"
+          >
+            {vagas.slice(0, 5).map((vaga) => (
+              <CommandItem
+                key={vaga.id}
+                className="text-white hover:bg-[#2474e4]/20 cursor-pointer px-4 py-2 rounded-md transition-colors"
+                onSelect={() => {
+                  setSearchValue(vaga.titulo);
+                  setOpen(false);
+                }}
+              >
+                <Briefcase className="mr-2 h-4 w-4 text-[#2474e4]" />
+                <span>
+                  <Link href={`/vagas/${vaga.id}`}>{vaga.titulo}</Link>
+                </span>
+              </CommandItem>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>
