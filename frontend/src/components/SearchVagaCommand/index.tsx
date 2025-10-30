@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, Briefcase, XCircle } from "lucide-react";
+import { Search, Briefcase } from "lucide-react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -9,13 +9,15 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
+import { Vaga } from "@/models/vaga"; // Importe o tipo Vaga se necessário
+import { buscarVagas } from "@/features/Aluno/api/buscarVagas";
 
 export function SearchVagaCommand() {
   const [open, setOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
+  const [vagas, setVagas] = React.useState<Vaga[]>([]); // Corrigido para array de Vaga
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -28,11 +30,28 @@ export function SearchVagaCommand() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  const handleSearch = () => {
-    console.log("Buscando vaga:", searchValue);
-    // 🔍 Aqui entra sua lógica de busca (chamada de API, filtro, etc.)
-    setOpen(false);
+  const carregarVagas = async () => {
+    try {
+      const vagasReq = await buscarVagas();
+
+      if (vagasReq === null) {
+        throw new Error("Falha na requisição");
+      }
+      setVagas(vagasReq);
+    } catch (error) {
+      console.error("Erro ao carregar vagas:", error);
+    }
   };
+
+  React.useEffect(() => {
+    carregarVagas();
+  }, []);
+
+  // const handleSearch = () => {
+  //   console.log("Buscando vaga:", searchValue);
+  //   // 🔍 Aqui entra sua lógica de busca (chamada de API, filtro, etc.)
+  //   setOpen(false);
+  // };
 
   return (
     <>
@@ -54,32 +73,17 @@ export function SearchVagaCommand() {
         <CommandList>
           <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
 
-          <CommandGroup heading="Ações rápidas">
-            <CommandItem onSelect={handleSearch}>
-              <Search className="mr-2 h-4 w-4" />
-              <span>Realizar busca</span>
-            </CommandItem>
-            <CommandItem onSelect={() => setOpen(false)}>
-              <XCircle className="mr-2 h-4 w-4" />
-              <span>Cancelar</span>
-            </CommandItem>
-          </CommandGroup>
-
-          <CommandSeparator />
-
           <CommandGroup heading="Vagas recentes">
-            <CommandItem>
-              <Briefcase className="mr-2 h-4 w-4" />
-              <span>Desenvolvedor Front-end</span>
-            </CommandItem>
-            <CommandItem>
-              <Briefcase className="mr-2 h-4 w-4" />
-              <span>Estágio em TI</span>
-            </CommandItem>
-            <CommandItem>
-              <Briefcase className="mr-2 h-4 w-4" />
-              <span>Analista Júnior</span>
-            </CommandItem>
+            {vagas.slice(0, 5).map(
+              (
+                vaga // Exibe as primeiras 3 vagas
+              ) => (
+                <CommandItem key={vaga.id}>
+                  <Briefcase className="mr-2 h-4 w-4" />
+                  <span>{vaga.titulo}</span>
+                </CommandItem>
+              )
+            )}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

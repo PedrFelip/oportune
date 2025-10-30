@@ -1,4 +1,4 @@
-import { Vaga } from "@/@types/types";
+import { Vaga } from "@/models/vaga";
 import { Categoria } from "@/components/Categoria";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
