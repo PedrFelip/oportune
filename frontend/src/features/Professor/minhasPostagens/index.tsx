@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { useVagas } from "./hooks/useVagas";
 import { PlusCircle } from "lucide-react";
 import { CardPostagemVaga } from "./components/CardPostagemVaga";
+import { FormNewOportune } from "../FormVaga";
 
 type StatusFilter = "todas" | "ativas" | "encerradas";
 
@@ -56,16 +57,7 @@ export function PostagensVagas() {
       <header className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-bold">Minhas Vagas</h2>
-          <Button
-            variant="oportune"
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => {
-              // aqui tu redireciona pro form de criação de vaga
-            }}
-          >
-            <PlusCircle className="w-5 h-5" />
-            Nova Vaga
-          </Button>
+          <FormNewOportune isOpen={false} setIsOpen={() => {}} typeButton="standard" />
         </div>
 
         <div className="flex gap-8 flex-wrap">

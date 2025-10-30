@@ -222,7 +222,11 @@ export function Dashboard() {
           </div>
         </div>
       </div>
-      <FormNewOportune isOpen={isFormOpen} setIsOpen={setIsFormOpen} />
+      <FormNewOportune
+        isOpen={isFormOpen}
+        setIsOpen={setIsFormOpen}
+        typeButton="floating"
+      />
     </>
   );
 }
