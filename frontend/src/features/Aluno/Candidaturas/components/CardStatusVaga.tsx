@@ -116,12 +116,12 @@ export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
                     <Button variant={"ghost_blue"}>Ver detalhes da vaga</Button>
                   </Link>
                   {candidatura.responsavel.tipo === "EMPRESA" && (
-                    <Link href={`/perfil/empresa/${candidatura.responsavel.idResponsavel}`}>
+                    <Link href={`/perfil/${candidatura.responsavel.idResponsavel}`}>
                       <Button variant={"oportune"}>Ver perfil da empresa</Button>
                     </Link>
                   )}
                   {candidatura.responsavel.tipo === "PROFESSOR" && (
-                    <Link href={`/perfil/professor/${candidatura.responsavel.idResponsavel}`}>
+                    <Link href={`/perfil/${candidatura.responsavel.idResponsavel}`}>
                       <Button variant={"oportune"}>Ver perfil do professor</Button>
                     </Link>
                   )}
