@@ -27,6 +27,9 @@ export const createVagaSchema = z.object({
 
 export type VagaCreateDTO = z.infer<typeof createVagaSchema>
 
-export const updateVagaSchema = createVagaSchema.partial()
+export const updateVagaSchema = createVagaSchema.partial().transform(data => {
+  const filteredEntries = Object.entries(data).filter(([, value]) => typeof value !== 'undefined')
+  return Object.fromEntries(filteredEntries) as Partial<z.infer<typeof createVagaSchema>>
+})
 
 export type VagaUpdateDTO = z.infer<typeof updateVagaSchema>
