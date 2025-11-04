@@ -49,6 +49,30 @@ export const candidaturaService = {
       throw new Error('Erro ao remover candidatura: ' + error)
     }
   },
+
+  async listarCandidatosPorVaga(vagaId: string) {
+    try {
+      const candidaturas = await candidaturaRepository.listarCandidatosPorVaga(vagaId)
+
+      const candidatosFormatados = candidaturas.map(c => ({
+        id: c.id,
+        status: c.status,
+        dataCandidatura: new Date(c.dataCandidatura).toLocaleDateString('pt-BR'),
+        estudante: {
+          id: c.estudante.id,
+          nome: c.estudante.user.nome,
+          email: c.estudante.user.email,
+          curso: c.estudante.curso,
+          semestre: c.estudante.semestre,
+          matricula: c.estudante.matricula,
+        },
+      }))
+
+      return candidatosFormatados
+    } catch (error) {
+      throw new Error('Erro ao listar candidatos da vaga: ' + error)
+    }
+  },
 }
 
 // export const candidaturaVagaService = async (candidaturaData: {
