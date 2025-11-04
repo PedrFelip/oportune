@@ -119,40 +119,35 @@ export const getVagaByIdForAuth = async (vagaId: string) => {
 
 export const updateVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO) => {
   try {
-    const data: Record<string, unknown> = {}
-
-    if (typeof dadosAtualizacao.titulo !== 'undefined') data.titulo = dadosAtualizacao.titulo
-    if (typeof dadosAtualizacao.descricao !== 'undefined')
-      data.descricao = dadosAtualizacao.descricao
-    if (typeof dadosAtualizacao.requisitos !== 'undefined')
-      data.requisitos = dadosAtualizacao.requisitos
-    if (typeof dadosAtualizacao.tipo !== 'undefined') data.tipo = dadosAtualizacao.tipo
-    if (typeof dadosAtualizacao.numeroVagas !== 'undefined')
-      data.numeroVagas = dadosAtualizacao.numeroVagas
-    if (typeof dadosAtualizacao.prazoInscricao !== 'undefined')
-      data.prazoInscricao = dadosAtualizacao.prazoInscricao
-    if (typeof dadosAtualizacao.cursosAlvo !== 'undefined')
-      data.cursosAlvo = dadosAtualizacao.cursosAlvo
-    if (typeof dadosAtualizacao.semestreMinimo !== 'undefined')
-      data.semestreMinimo = dadosAtualizacao.semestreMinimo
-    if (typeof dadosAtualizacao.empresaId !== 'undefined')
-      data.empresaId = dadosAtualizacao.empresaId
-    if (typeof dadosAtualizacao.professorId !== 'undefined')
-      data.professorId = dadosAtualizacao.professorId
-
-    if (!Object.keys(data).length) {
+    if (!Object.keys(dadosAtualizacao).length) {
       throw new Error('Nenhum campo informado para atualização')
     }
 
     const vaga = await prisma.vaga.update({
       where: { id: vagaId },
-      data,
+      data: dadosAtualizacao,
     })
 
     return vaga
   } catch (error) {
     console.error('Erro ao atualizar vaga:', error)
     throw new Error('Erro ao atualizar vaga')
+  }
+}
+
+export const encerrarVaga = async (vagaId: string) => {
+  try {
+    const vaga = await prisma.vaga.update({
+      where: { id: vagaId },
+      data: {
+        statusVaga: 'ENCERRADA',
+      },
+    })
+
+    return vaga
+  } catch (error) {
+    console.error('Erro ao encerrar vaga:', error)
+    throw new Error('Erro ao encerrar vaga')
   }
 }
 
