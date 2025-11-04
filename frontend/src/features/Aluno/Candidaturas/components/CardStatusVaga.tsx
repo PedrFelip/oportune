@@ -8,12 +8,16 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CircleCheck, Clock, XCircle } from "lucide-react";
+import { CircleCheck, Clock, XCircle, Trash2 } from "lucide-react";
 import { CandidaturaResponse } from "../hooks/useCandidaturas";
 import Link from "next/link";
+import { useState } from "react";
 
 type CardStatusVagaProps = {
   candidaturas: CandidaturaResponse[];
+  onRemoverCandidatura?: (
+    candidaturaId: string,
+  ) => Promise<{ success: boolean; error?: string }>;
 };
 
 const statusColorMap = {
@@ -33,7 +37,8 @@ const statusColorMap = {
     bg: "bg-yellow-500/20",
     icon: Clock,
     titulo: "Sua candidatura está em análise.",
-    descricao: "A equipe de recrutamento está avaliando seu perfil. Você receberá uma resposta em breve.",
+    descricao:
+      "A equipe de recrutamento está avaliando seu perfil. Você receberá uma resposta em breve.",
   },
   RECUSADA: {
     variant: "red" as const,
@@ -42,7 +47,8 @@ const statusColorMap = {
     bg: "bg-red-500/20",
     icon: XCircle,
     titulo: "Sua candidatura não foi aprovada desta vez.",
-    descricao: "Agradecemos o seu interesse. Continue acompanhando novas oportunidades.",
+    descricao:
+      "Agradecemos o seu interesse. Continue acompanhando novas oportunidades.",
   },
 } as const;
 
@@ -52,7 +58,42 @@ const statusLabelMap = {
   RECUSADA: "Recusada",
 } as const;
 
-export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
+export function CardStatusVaga({
+  candidaturas,
+  onRemoverCandidatura,
+}: CardStatusVagaProps) {
+  const [removendoId, setRemovendoId] = useState<string | null>(null);
+
+  const handleRemoverCandidatura = async (
+    candidaturaId: string,
+    titulo: string,
+  ) => {
+    const confirmacao = window.confirm(
+      `Tem certeza que deseja desistir da candidatura para "${titulo}"?\n\nEsta ação não pode ser desfeita.`,
+    );
+
+    if (!confirmacao) return;
+
+    try {
+      setRemovendoId(candidaturaId);
+      if (onRemoverCandidatura) {
+        const result = await onRemoverCandidatura(candidaturaId);
+        if (result.success) {
+          // A candidatura será removida automaticamente da lista pelo hook
+        } else {
+          alert(
+            `Erro ao remover candidatura: ${result.error || "Erro desconhecido"}`,
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao remover candidatura:", error);
+      alert("Erro ao remover candidatura. Tente novamente.");
+    } finally {
+      setRemovendoId(null);
+    }
+  };
+
   return (
     <>
       {candidaturas.map((candidatura) => {
@@ -79,7 +120,10 @@ export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
               </AccordionTrigger>
               <AccordionContent className="flex flex-col gap-4 text-base px-4">
                 <p className="font-bold">
-                  {candidatura.responsavel.tipo === "EMPRESA" ? "Empresa" : "Professor"}:{" "}
+                  {candidatura.responsavel.tipo === "EMPRESA"
+                    ? "Empresa"
+                    : "Professor"}
+                  :{" "}
                   <span className="text-blue-500 font-normal">
                     {candidatura.responsavel.nome}
                   </span>
@@ -90,8 +134,8 @@ export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
                     {candidatura.vaga.tipo === "ESTAGIO"
                       ? "Estágio"
                       : candidatura.vaga.tipo === "PESQUISA"
-                      ? "Pesquisa"
-                      : "Extensão"}
+                        ? "Pesquisa"
+                        : "Extensão"}
                   </span>
                 </p>
                 <p className="font-bold">
@@ -111,20 +155,47 @@ export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
                     <p>{config.descricao}</p>
                   </div>
                 </div>
-                <div className="flex gap-8">
+                <div className="flex gap-4 flex-wrap">
                   <Link href={`/aluno/vagas/${candidatura.vaga.id}`}>
                     <Button variant={"ghost_blue"}>Ver detalhes da vaga</Button>
                   </Link>
                   {candidatura.responsavel.tipo === "EMPRESA" && (
-                    <Link href={`/perfil/${candidatura.responsavel.idResponsavel}`}>
-                      <Button variant={"oportune"}>Ver perfil da empresa</Button>
+                    <Link
+                      href={`/perfil/${candidatura.responsavel.idResponsavel}`}
+                    >
+                      <Button variant={"oportune"}>
+                        Ver perfil da empresa
+                      </Button>
                     </Link>
                   )}
                   {candidatura.responsavel.tipo === "PROFESSOR" && (
-                    <Link href={`/perfil/${candidatura.responsavel.idResponsavel}`}>
-                      <Button variant={"oportune"}>Ver perfil do professor</Button>
+                    <Link
+                      href={`/perfil/${candidatura.responsavel.idResponsavel}`}
+                    >
+                      <Button variant={"oportune"}>
+                        Ver perfil do professor
+                      </Button>
                     </Link>
                   )}
+                  {candidatura.status === "PENDENTE" &&
+                    onRemoverCandidatura && (
+                      <Button
+                        variant={"destructive"}
+                        onClick={() =>
+                          handleRemoverCandidatura(
+                            candidatura.id,
+                            candidatura.vaga.titulo,
+                          )
+                        }
+                        disabled={removendoId === candidatura.id}
+                        className="flex items-center gap-2"
+                      >
+                        <Trash2 size={16} />
+                        {removendoId === candidatura.id
+                          ? "Removendo..."
+                          : "Desistir da vaga"}
+                      </Button>
+                    )}
                 </div>
               </AccordionContent>
             </AccordionItem>
