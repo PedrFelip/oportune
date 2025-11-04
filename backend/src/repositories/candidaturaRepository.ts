@@ -83,6 +83,35 @@ export const candidaturaRepository = {
       throw new Error('Erro ao remover candidatura: ' + error)
     }
   },
+
+  async listarCandidatosPorVaga(vagaId: string) {
+    try {
+      const candidaturas = await prisma.candidatura.findMany({
+        where: {
+          vagaId,
+        },
+        include: {
+          estudante: {
+            include: {
+              user: {
+                select: {
+                  nome: true,
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
+
+      return candidaturas
+    } catch (error) {
+      throw new Error('Erro ao listar candidatos da vaga: ' + error)
+    }
+  },
 }
 
 // export const candidaturaVaga = async (candidaturaData: { vagaId: string; estudanteId: string }) => {
