@@ -1,4 +1,3 @@
-import { a } from 'vitest/dist/chunks/suite.d.FvehnV49.js';
 import { candidaturaRepository } from '../repositories/candidaturaRepository.ts'
 
 export const candidaturaService = {
@@ -50,13 +49,13 @@ export const candidaturaService = {
       throw new Error('Erro ao remover candidatura: ' + error)
     }
   },
-} 
+}
 
 // export const candidaturaVagaService = async (candidaturaData: {
 //   vagaId: string
 //   estudanteId: string
 // }) => {
-//   const candidatura = await candidaturaRepository.candidaturaVaga(candidaturaData) 
+//   const candidatura = await candidaturaRepository.candidaturaVaga(candidaturaData)
 
 //   if (!candidatura) {
 //     return new Error('Erro ao cadastrar candidatura')
