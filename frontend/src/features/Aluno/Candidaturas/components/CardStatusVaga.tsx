@@ -8,10 +8,24 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CircleCheck, Clock, XCircle, Trash2 } from "lucide-react";
+import {
+  CircleCheck,
+  Clock,
+  XCircle,
+  Trash2,
+  AlertTriangle,
+} from "lucide-react";
 import { CandidaturaResponse } from "../hooks/useCandidaturas";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type CardStatusVagaProps = {
   candidaturas: CandidaturaResponse[];
@@ -63,23 +77,31 @@ export function CardStatusVaga({
   onRemoverCandidatura,
 }: CardStatusVagaProps) {
   const [removendoId, setRemovendoId] = useState<string | null>(null);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [candidaturaSelecionada, setCandidaturaSelecionada] = useState<{
+    id: string;
+    titulo: string;
+  } | null>(null);
 
-  const handleRemoverCandidatura = async (
-    candidaturaId: string,
-    titulo: string,
-  ) => {
-    const confirmacao = window.confirm(
-      `Tem certeza que deseja desistir da candidatura para "${titulo}"?\n\nEsta ação não pode ser desfeita.`,
-    );
+  const abrirModalConfirmacao = (candidaturaId: string, titulo: string) => {
+    setCandidaturaSelecionada({ id: candidaturaId, titulo });
+    setModalAberto(true);
+  };
 
-    if (!confirmacao) return;
+  const fecharModal = () => {
+    setModalAberto(false);
+    setCandidaturaSelecionada(null);
+  };
+
+  const confirmarRemocao = async () => {
+    if (!candidaturaSelecionada) return;
 
     try {
-      setRemovendoId(candidaturaId);
+      setRemovendoId(candidaturaSelecionada.id);
       if (onRemoverCandidatura) {
-        const result = await onRemoverCandidatura(candidaturaId);
+        const result = await onRemoverCandidatura(candidaturaSelecionada.id);
         if (result.success) {
-          // A candidatura será removida automaticamente da lista pelo hook
+          fecharModal();
         } else {
           alert(
             `Erro ao remover candidatura: ${result.error || "Erro desconhecido"}`,
@@ -182,7 +204,7 @@ export function CardStatusVaga({
                       <Button
                         variant={"destructive"}
                         onClick={() =>
-                          handleRemoverCandidatura(
+                          abrirModalConfirmacao(
                             candidatura.id,
                             candidatura.vaga.titulo,
                           )
@@ -202,6 +224,57 @@ export function CardStatusVaga({
           </Accordion>
         );
       })}
+
+      <Dialog open={modalAberto} onOpenChange={setModalAberto}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white">
+          <DialogHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-red-500/20 rounded-full">
+                <AlertTriangle className="text-red-500" size={24} />
+              </div>
+              <DialogTitle className="text-xl">
+                Desistir da candidatura?
+              </DialogTitle>
+            </div>
+            <DialogDescription className="text-gray-300 text-base">
+              Tem certeza que deseja desistir da candidatura para{" "}
+              <span className="font-semibold text-white">
+                &ldquo;{candidaturaSelecionada?.titulo}&rdquo;
+              </span>
+              ?
+              <br />
+              <br />
+              Esta ação não pode ser desfeita e você precisará se candidatar
+              novamente caso mude de ideia.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button
+              variant="outline"
+              onClick={fecharModal}
+              disabled={removendoId !== null}
+              className="border-gray-600 hover:bg-gray-800"
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmarRemocao}
+              disabled={removendoId !== null}
+              className="flex items-center gap-2"
+            >
+              {removendoId !== null ? (
+                <>Removendo...</>
+              ) : (
+                <>
+                  <Trash2 size={16} />
+                  Confirmar desistência
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
