@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createServiceVaga,
+  encerrarServiceVaga,
   getVagaDetalhesService,
   listarServiceVagas,
   listarVagasPorResponsavelService,
@@ -124,5 +125,47 @@ export const listarVagasPorResponsavelController = async (
     return reply
       .status(400)
       .send({ message: 'Erro ao listar vagas por responsável', error: error.message })
+  }
+}
+
+export const encerrarVagaController = async (
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply,
+) => {
+  try {
+    const { id } = request.params
+    const user = (request as any).user
+
+    if (!user?.sub || !user?.role) {
+      return reply.status(401).send({ message: 'Usuário não autenticado' })
+    }
+
+    const vaga = await getVagaByIdForAuth(id)
+
+    if (!vaga) {
+      return reply.status(404).send({ message: 'Vaga não encontrada' })
+    }
+
+    if (vaga.statusVaga === 'ENCERRADA') {
+      return reply.status(400).send({ message: 'Vaga já está encerrada' })
+    }
+
+    if (user.role === 'PROFESSOR') {
+      if (!vaga.professor || vaga.professor.userId !== user.sub) {
+        return reply.status(403).send({ message: 'Sem permissão para encerrar esta vaga' })
+      }
+    } else if (user.role === 'EMPRESA') {
+      if (!vaga.empresa || vaga.empresa.userId !== user.sub) {
+        return reply.status(403).send({ message: 'Sem permissão para encerrar esta vaga' })
+      }
+    }
+
+    const vagaEncerrada = await encerrarServiceVaga(id)
+
+    return reply.status(200).send({ message: 'Vaga encerrada com sucesso', vaga: vagaEncerrada })
+  } catch (error: any) {
+    return reply
+      .status(400)
+      .send({ message: 'Erro ao encerrar vaga', error: error.message || 'Erro desconhecido' })
   }
 }
