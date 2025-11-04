@@ -32,4 +32,14 @@ export async function candidaturaRoutes(fastify: FastifyInstance) {
     },
     candidaturaController.removerCandidatura,
   )
+
+  fastify.get<{
+    Params: { vagaId: string }
+  }>(
+    '/vagas/:vagaId/candidatos',
+    {
+      preHandler: Authentication,
+    },
+    candidaturaController.listarCandidatosPorVaga,
+  )
 }

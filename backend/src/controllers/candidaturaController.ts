@@ -1,7 +1,7 @@
 import {
   candidaturaService,
 } from '../services/candidaturaService.ts'
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyRequest, FastifyReply } from 'fastify'
 
 export const candidaturaController = {
   candidaturaVaga: async (
@@ -14,7 +14,7 @@ export const candidaturaController = {
         reply.status(401).send({ error: 'Usuário não autenticado' })
         return
       }
-      
+
       const result = await candidaturaService.candidaturaVaga({ vagaId, estudanteId: request.user.sub })
       if (result) {
         reply.status(201).send(result)
@@ -72,6 +72,29 @@ export const candidaturaController = {
       }
     } catch (error: any) {
       reply.status(500).send({ error: 'Erro ao remover candidatura: ' + error.message })
+    }
+  },
+
+  listarCandidatosPorVaga: async (
+    request: FastifyRequest<{ Params: { vagaId: string } }>,
+    reply: FastifyReply,
+  ) => {
+    try {
+      if (!request.user || !request.user.sub) {
+        return reply.status(401).send({ error: 'Usuário não autenticado' })
+      }
+
+      const { vagaId } = request.params
+
+      if (!vagaId) {
+        return reply.status(400).send({ error: 'ID da vaga é obrigatório' })
+      }
+
+      const candidatos = await candidaturaService.listarCandidatosPorVaga(vagaId)
+
+      reply.status(200).send(candidatos)
+    } catch (error: any) {
+      reply.status(500).send({ error: 'Erro ao listar candidatos: ' + error.message })
     }
   },
 }
