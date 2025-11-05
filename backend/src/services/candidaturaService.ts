@@ -1,4 +1,5 @@
 import { candidaturaRepository } from '../repositories/candidaturaRepository.ts'
+import { AprovarAlunoDTO } from '../schemas/canditadura.Schema.ts'
 
 export const candidaturaService = {
   async candidaturaVaga(candidaturaData: { vagaId: string; estudanteId: string }) {
@@ -71,6 +72,16 @@ export const candidaturaService = {
       return candidatosFormatados
     } catch (error) {
       throw new Error('Erro ao listar candidatos da vaga: ' + error)
+    }
+  },
+
+  async aprovarCandidatura(dados: AprovarAlunoDTO) {
+    try {
+      const candidaturaAprovada = await candidaturaRepository.aprovarCandidatura(dados)
+
+      return candidaturaAprovada
+    } catch (error) {
+      throw new Error('Erro ao aprovar aluno: ' + error)
     }
   },
 }

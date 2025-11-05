@@ -94,4 +94,30 @@ export const candidaturaController = {
       reply.status(500).send({ error: 'Erro ao listar candidatos: ' + error.message })
     }
   },
+
+  aprovarCandidatura: async (
+    request: FastifyRequest<{ Body: { candidaturaId: string; estudanteId: string } }>,
+    reply: FastifyReply,
+  ) => {
+    try {
+      if (!request.user || !request.user.sub) {
+        return reply.status(401).send({ error: 'Usuário não autenticado' })
+      }
+      if (request.user.role === 'ESTUDANTE') {
+        return reply.status(403).send({ error: 'Acesso negado' })
+      }
+
+      const { candidaturaId, estudanteId } = request.body
+
+      if (!candidaturaId || !estudanteId) {
+        return reply.status(400).send({ error: 'candidaturaId e estudanteId são obrigatórios' })
+      }
+
+      const resultado = await candidaturaService.aprovarCandidatura({ candidaturaId, estudanteId })
+
+      reply.status(200).send(resultado)
+    } catch (error: any) {
+      reply.status(500).send({ error: 'Erro ao aprovar candidatura: ' + error.message })
+    }
+  },
 }
