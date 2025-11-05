@@ -1,7 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import {
-  candidaturaController
-} from '../controllers/candidaturaController.ts'
+import { candidaturaController } from '../controllers/candidaturaController.ts'
 import Authentication from '../plugins/tokenValidator.ts'
 
 export async function candidaturaRoutes(fastify: FastifyInstance) {

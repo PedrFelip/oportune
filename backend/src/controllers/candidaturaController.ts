@@ -1,6 +1,4 @@
-import {
-  candidaturaService,
-} from '../services/candidaturaService.ts'
+import { candidaturaService } from '../services/candidaturaService.ts'
 import { FastifyRequest, FastifyReply } from 'fastify'
 
 export const candidaturaController = {
@@ -15,7 +13,10 @@ export const candidaturaController = {
         return
       }
 
-      const result = await candidaturaService.candidaturaVaga({ vagaId, estudanteId: request.user.sub })
+      const result = await candidaturaService.candidaturaVaga({
+        vagaId,
+        estudanteId: request.user.sub,
+      })
       if (result) {
         reply.status(201).send(result)
       } else {
@@ -26,10 +27,7 @@ export const candidaturaController = {
     }
   },
 
-  listarCadidaturasPorEstudante: async (
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ) => {
+  listarCadidaturasPorEstudante: async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       if (!request.user || !request.user.sub) {
         return reply.status(401).send({ error: 'Usuário não autenticado' })
@@ -49,9 +47,8 @@ export const candidaturaController = {
     reply: FastifyReply,
   ) => {
     try {
-
       // Verifica se o usuário está autenticado
-      const estudanteId = request.user?.sub;
+      const estudanteId = request.user?.sub
 
       if (!estudanteId) {
         reply.status(401).send({ error: 'Usuário não autenticado' })
