@@ -1,4 +1,5 @@
 import prisma from '../../prisma/client.ts'
+import { AprovarAlunoDTO } from '../schemas/canditadura.Schema.ts'
 
 export const candidaturaRepository = {
   async candidaturaVaga(candidaturaData: { vagaId: string; estudanteId: string }) {
@@ -110,6 +111,29 @@ export const candidaturaRepository = {
       return candidaturas
     } catch (error) {
       throw new Error('Erro ao listar candidatos da vaga: ' + error)
+    }
+  },
+
+  async aprovarCandidatura(dados: AprovarAlunoDTO) {
+    try {
+      const aceitacao = await prisma.candidatura.update({
+        where: {
+          id: dados.candidaturaId,
+          estudanteId: dados.estudanteId,
+        },
+        data: {
+          status: 'ACEITA',
+          vaga: {
+            update: {
+              numeroVagasPreenchidas: { increment: 1 },
+            },
+          },
+        },
+      })
+
+      return aceitacao
+    } catch (error) {
+      throw new Error('Erro ao aprovar candidatura: ' + error)
     }
   },
 }
