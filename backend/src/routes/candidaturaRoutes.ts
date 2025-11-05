@@ -40,4 +40,14 @@ export async function candidaturaRoutes(fastify: FastifyInstance) {
     },
     candidaturaController.listarCandidatosPorVaga,
   )
+
+  fastify.post<{
+    Body: { candidaturaId: string; estudanteId: string }
+  }>(
+    '/candidaturas/aprovar',
+    {
+      preHandler: Authentication,
+    },
+    candidaturaController.aprovarCandidatura,
+  )
 }
