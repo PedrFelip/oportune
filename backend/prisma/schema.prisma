@@ -127,8 +127,9 @@ model Vaga {
   tipo       TipoVaga
   requisitos String[]
 
-  numeroVagas    Int      @default(1)
-  prazoInscricao DateTime
+  numeroVagas            Int      @default(1)
+  numeroVagasPreenchidas Int      @default(0)
+  prazoInscricao         DateTime
 
   statusVaga     StatusVaga @default(ATIVA)
   cursosAlvo     String[]
