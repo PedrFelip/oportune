@@ -27,6 +27,9 @@ export const createVaga = async (vagaData: any) => {
 export const listatodasVagas = async (page: number, limit: number) => {
   try {
     const vagas = await prisma.vaga.findMany({
+      where: {
+        statusVaga: 'ATIVA',
+      },
       include: {
         empresa: true,
         professor: {
@@ -39,16 +42,7 @@ export const listatodasVagas = async (page: number, limit: number) => {
       take: limit,
     })
     // Mapear para o formato esperado pelo frontend
-    return vagas.map((vaga: any) => ({
-      id: vaga.id,
-      titulo: vaga.titulo,
-      empresa: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || '',
-      categorias: [vaga.tipo, ...(vaga.requisitos || [])],
-      descricao: vaga.descricao,
-      curso:
-        vaga.cursosAlvo && vaga.cursosAlvo.length > 0 ? vaga.cursosAlvo.join(', ') : 'Qualquer',
-      semestre: vaga.semestreMinimo ? `A partir do ${vaga.semestreMinimo}º` : 'Não informado',
-    }))
+    return vagas
   } catch (error) {
     console.error('Erro ao listar vagas:', error)
     throw new Error('Erro ao listar vagas')

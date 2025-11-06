@@ -21,7 +21,24 @@ export const createServiceVaga = async (vagaData: any) => {
 export const listarServiceVagas = async (page: number, limit: number) => {
   try {
     const vagas = await listatodasVagas(page, limit)
-    return vagas
+
+    const vagasNormalizadas = vagas.map(vaga => ({
+      id: vaga.id,
+      titulo: vaga.titulo,
+      descricao: vaga.descricao,
+      tipo: vaga.tipo,
+      categorias: [vaga.tipo, ...(vaga.requisitos || [])],
+      prazoInscricao:
+        vaga.prazoInscricao instanceof Date
+          ? vaga.prazoInscricao.toISOString()
+          : String(vaga.prazoInscricao),
+      curso:
+        vaga.cursosAlvo && vaga.cursosAlvo.length > 0 ? vaga.cursosAlvo.join(', ') : 'Qualquer',
+      semestre: vaga.semestreMinimo ? vaga.semestreMinimo.toString() : 'Não informado',
+      empresa: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || 'Não informado',
+      status: vaga.statusVaga === 'ATIVA',
+    }))
+    return vagasNormalizadas
   } catch (error) {
     console.error('Erro ao listar vagas:', error)
     throw new Error('Erro ao listar vagas')
