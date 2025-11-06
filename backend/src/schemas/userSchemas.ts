@@ -31,11 +31,11 @@ const baseUser = z.object({
 // Campos especificos para cada tipo
 const estudanteSchema = z.object({
   tipo: z.literal('ESTUDANTE'),
-  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional(),
+  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional().nullable(),
 
   dataNascimento: z.preprocess(arg => (typeof arg === 'string' ? new Date(arg) : arg), z.date()),
   genero: z.enum(['MASCULINO', 'FEMININO', 'OUTRO', 'PREFIRO NAO DIZER']),
-  faculdade: z.string().optional(),
+  faculdade: z.string().optional().nullable(),
   curso: z.string().refine(v => listaCursos.includes(v), {
     message: 'Curso inválido',
   }),
@@ -44,22 +44,23 @@ const estudanteSchema = z.object({
   periodo: z.enum(['MATUTINO', 'VESPERTINO', 'NOTURNO']),
   dataFormatura: z
     .preprocess(arg => (typeof arg === 'string' ? new Date(arg) : arg), z.date())
-    .optional(),
+    .optional()
+    .nullable(),
 })
 
 const professorSchema = z.object({
   tipo: z.literal('PROFESSOR'),
-  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional(),
+  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional().nullable(),
 
   dataNascimento: z.preprocess(arg => (typeof arg === 'string' ? new Date(arg) : arg), z.date()),
   genero: z.enum(['MASCULINO', 'FEMININO', 'OUTRO', 'PREFIRO NAO DIZER']),
 
-  areasInteresse: z.array(z.string()).optional(),
+  areasInteresse: z.array(z.string()).optional().nullable(),
 
   areaAtuacao: z.string(),
   departamento: z.string(),
   titulacao: z.string(),
-  lattes: z.string().optional(),
+  lattes: z.string().optional().nullable(),
 })
 
 const empresaSchema = z.object({
@@ -69,13 +70,13 @@ const empresaSchema = z.object({
   cnpj: z.string(),
   ramo: z.string().regex(regex.onlyLettersRegex, FraseComNumerosErro),
   setor: z.string(),
-  descricao: z.string().optional(),
+  descricao: z.string().optional().nullable(),
 
   //   endereco: z.string().optional(), Pode ser extraido com CNPJ
-  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional(),
+  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional().nullable(),
 
   emailContato: z.email({ message: FraseErroEmail }),
-  website: z.httpUrl({ message: 'Url inválida' }),
+  website: z.string().url({ message: 'Url inválida' }).optional().nullable(),
 })
 
 // Union discriminado
@@ -124,16 +125,17 @@ export type resetPasswordDTO = z.infer<typeof resetPasswordSchema>
 
 // Schema para atualizar perfil do estudante
 export const updateEstudantePerfilSchema = z.object({
-  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional(),
+  telefone: z.string().regex(regex.phoneRegex, FraseTelefoneInvalidoErro).optional().nullable(),
   fotoPerfil: z.string().url({ message: 'URL da foto de perfil inválida' }).optional().nullable(),
   dataNascimento: z
     .preprocess(arg => (typeof arg === 'string' ? new Date(arg) : arg), z.date())
-    .optional(),
+    .optional()
+    .nullable(),
   genero: z.enum(['MASCULINO', 'FEMININO', 'OUTRO', 'PREFIRO NAO DIZER']).optional(),
   faculdade: z.string().optional().nullable(),
-  areasInteresse: z.array(z.string()).optional(),
-  habilidadesComportamentais: z.array(z.string()).optional(),
-  habilidadesTecnicas: z.array(z.string()).optional(),
+  areasInteresse: z.array(z.string()).optional().nullable(),
+  habilidadesComportamentais: z.array(z.string()).optional().nullable(),
+  habilidadesTecnicas: z.array(z.string()).optional().nullable(),
   semestre: z.coerce.number().min(1).max(12).optional(),
   periodo: z.enum(['MATUTINO', 'VESPERTINO', 'NOTURNO']).optional(),
   dataFormatura: z
