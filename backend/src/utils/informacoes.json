@@ -13,37 +13,150 @@
     { "value": "PREFIRO NAO DIZER", "label": "Prefiro não dizer" }
   ],
   "cursos": [
-    { "value": null, "label": "Qual seu curso?" },
-    { "value": "administracao", "label": "Administração" },
+    {
+      "value": null,
+      "label": "Qual seu curso?",
+      "maxSemestres": 0
+    },
+    {
+      "value": "administracao",
+      "label": "Administração",
+      "maxSemestres": 8
+    },
     {
       "value": "analise_desenvolvimento_sistemas",
-      "label": "Análise e Desenvolvimento de Sistemas"
+      "label": "Análise e Desenvolvimento de Sistemas",
+      "maxSemestres": 6
     },
-    { "value": "arquitetura_urbanismo", "label": "Arquitetura e Urbanismo" },
-    { "value": "ciencia_computacao", "label": "Ciência da Computação" },
-    { "value": "ciencias_contabeis", "label": "Ciências Contábeis" },
-    { "value": "direito", "label": "Direito" },
-    { "value": "educacao_fisica", "label": "Educação Física" },
-    { "value": "enfermagem", "label": "Enfermagem" },
-    { "value": "biomedicina", "label": "Biomedicina" },
-    { "value": "farmacia", "label": "Farmácia" },
-    { "value": "gestao_empresarial", "label": "Gestão Empresarial" },
-    { "value": "gestao_financeira", "label": "Gestão Financeira" },
+    {
+      "value": "arquitetura_urbanismo",
+      "label": "Arquitetura e Urbanismo",
+      "maxSemestres": 10
+    },
+    {
+      "value": "ciencia_computacao",
+      "label": "Ciência da Computação",
+      "maxSemestres": 8
+    },
+    {
+      "value": "ciencias_contabeis",
+      "label": "Ciências Contábeis",
+      "maxSemestres": 8
+    },
+    {
+      "value": "direito",
+      "label": "Direito",
+      "maxSemestres": 10
+    },
+    {
+      "value": "educacao_fisica",
+      "label": "Educação Física",
+      "maxSemestres": 8
+    },
+    {
+      "value": "enfermagem",
+      "label": "Enfermagem",
+      "maxSemestres": 8
+    },
+    {
+      "value": "biomedicina",
+      "label": "Biomedicina",
+      "maxSemestres": 8
+    },
+    {
+      "value": "farmacia",
+      "label": "Farmácia",
+      "maxSemestres": 10
+    },
+    {
+      "value": "gestao_empresarial",
+      "label": "Gestão Empresarial",
+      "maxSemestres": 6
+    },
+    {
+      "value": "gestao_financeira",
+      "label": "Gestão Financeira",
+      "maxSemestres": 6
+    },
     {
       "value": "marketing_gestao_clientes",
-      "label": "Marketing e Gestão de Clientes"
+      "label": "Marketing e Gestão de Clientes",
+      "maxSemestres": 6
     },
-    { "value": "saude_publica", "label": "Saúde Pública" },
-    { "value": "seguranca_informacao", "label": "Segurança da Informação" },
+    {
+      "value": "saude_publica",
+      "label": "Saúde Pública",
+      "maxSemestres": 8
+    },
+    {
+      "value": "seguranca_informacao",
+      "label": "Segurança da Informação",
+      "maxSemestres": 8
+    },
     {
       "value": "tecnologias_educacao_distancia",
-      "label": "Tecnologias e Educação a Distância"
+      "label": "Tecnologias e Educação a Distância",
+      "maxSemestres": 6
     },
     {
       "value": "marketing_digital_ciencia_dados",
-      "label": "Marketing Digital e Ciência de Dados"
+      "label": "Marketing Digital e Ciência de Dados",
+      "maxSemestres": 6
     },
-    { "value": "processos_gerenciais", "label": "Processos Gerenciais" },
-    { "value": "terapia_ocupacional", "label": "Terapia Ocupacional" }
+    {
+      "value": "processos_gerenciais",
+      "label": "Processos Gerenciais",
+      "maxSemestres": 6
+    },
+    {
+      "value": "terapia_ocupacional",
+      "label": "Terapia Ocupacional",
+      "maxSemestres": 8
+    },
+    {
+      "value": "engenharia_software",
+      "label": "Engenharia de Software",
+      "maxSemestres": 8
+    },
+    {
+      "value": "medicina",
+      "label": "Medicina",
+      "maxSemestres": 12
+    }
+  ],
+  "tipos": [],
+  "modalidade": [
+    { "value": null, "label": "Modalidade" },
+    { "value": "presencial", "label": "Presencial" },
+    { "value": "hibrido", "label": "Híbrido" },
+    { "value": "remoto", "label": "Remoto" }
+  ],
+  "requisitos": [
+    { "label": "Lógica de Programação", "value": "logica_programacao" },
+    {
+      "label": "Algoritmos e Estruturas de Dados",
+      "value": "estruturas_dados"
+    },
+    { "label": "Banco de Dados SQL", "value": "banco_dados_sql" },
+    { "label": "NoSQL (MongoDB, Redis, etc.)", "value": "nosql" },
+    { "label": "Programação Orientada a Objetos (POO)", "value": "poo" },
+    { "label": "APIs RESTful", "value": "api_rest" },
+    { "label": "Versionamento com Git e GitHub", "value": "git_github" },
+    { "label": "HTML, CSS e JavaScript", "value": "frontend_basico" },
+    {
+      "label": "Frameworks Front-end (React, Angular, Vue)",
+      "value": "framework_frontend"
+    },
+    { "label": "Node.js e Express", "value": "backend_node" },
+    { "label": "Segurança da Informação", "value": "seguranca_info" },
+    { "label": "Linux e Linha de Comando", "value": "linux_cli" },
+    { "label": "Redes de Computadores", "value": "redes" },
+    { "label": "Docker e Containers", "value": "docker" },
+    { "label": "CI/CD e DevOps", "value": "devops" },
+    { "label": "Testes Automatizados", "value": "testes_automatizados" },
+    { "label": "Cloud Computing (AWS, Azure, GCP)", "value": "cloud" },
+    { "label": "Metodologias Ágeis (Scrum, Kanban)", "value": "agile" },
+    { "label": "Documentação Técnica", "value": "documentacao" },
+    { "label": "Boas Práticas de Código (Clean Code)", "value": "clean_code" }
   ]
 }

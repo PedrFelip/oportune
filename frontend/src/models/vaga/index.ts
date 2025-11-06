@@ -1,6 +1,8 @@
 import { Candidatura } from "../candidatura";
 import { TipoVaga } from "../enums";
 
+export type StatusVaga = "ATIVA" | "INATIVA" | "ENCERRADA";
+
 export interface Vaga {
   id: string;
   titulo: string;
@@ -10,6 +12,7 @@ export interface Vaga {
   prazoInscricao: string;
   curso: string;
   semestre: string;
+  status?: StatusVaga;
 
   empresa: string;
   candidaturas?: Candidatura[];

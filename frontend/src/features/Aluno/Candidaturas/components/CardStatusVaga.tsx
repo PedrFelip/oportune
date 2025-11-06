@@ -8,12 +8,30 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CircleCheck, Clock, XCircle } from "lucide-react";
+import {
+  CircleCheck,
+  Clock,
+  XCircle,
+  Trash2,
+  AlertTriangle,
+} from "lucide-react";
 import { CandidaturaResponse } from "../hooks/useCandidaturas";
 import Link from "next/link";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type CardStatusVagaProps = {
   candidaturas: CandidaturaResponse[];
+  onRemoverCandidatura?: (
+    candidaturaId: string,
+  ) => Promise<{ success: boolean; error?: string }>;
 };
 
 const statusColorMap = {
@@ -33,7 +51,8 @@ const statusColorMap = {
     bg: "bg-yellow-500/20",
     icon: Clock,
     titulo: "Sua candidatura está em análise.",
-    descricao: "A equipe de recrutamento está avaliando seu perfil. Você receberá uma resposta em breve.",
+    descricao:
+      "A equipe de recrutamento está avaliando seu perfil. Você receberá uma resposta em breve.",
   },
   RECUSADA: {
     variant: "red" as const,
@@ -42,7 +61,8 @@ const statusColorMap = {
     bg: "bg-red-500/20",
     icon: XCircle,
     titulo: "Sua candidatura não foi aprovada desta vez.",
-    descricao: "Agradecemos o seu interesse. Continue acompanhando novas oportunidades.",
+    descricao:
+      "Agradecemos o seu interesse. Continue acompanhando novas oportunidades.",
   },
 } as const;
 
@@ -52,7 +72,50 @@ const statusLabelMap = {
   RECUSADA: "Recusada",
 } as const;
 
-export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
+export function CardStatusVaga({
+  candidaturas,
+  onRemoverCandidatura,
+}: CardStatusVagaProps) {
+  const [removendoId, setRemovendoId] = useState<string | null>(null);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [candidaturaSelecionada, setCandidaturaSelecionada] = useState<{
+    id: string;
+    titulo: string;
+  } | null>(null);
+
+  const abrirModalConfirmacao = (candidaturaId: string, titulo: string) => {
+    setCandidaturaSelecionada({ id: candidaturaId, titulo });
+    setModalAberto(true);
+  };
+
+  const fecharModal = () => {
+    setModalAberto(false);
+    setCandidaturaSelecionada(null);
+  };
+
+  const confirmarRemocao = async () => {
+    if (!candidaturaSelecionada) return;
+
+    try {
+      setRemovendoId(candidaturaSelecionada.id);
+      if (onRemoverCandidatura) {
+        const result = await onRemoverCandidatura(candidaturaSelecionada.id);
+        if (result.success) {
+          fecharModal();
+        } else {
+          alert(
+            `Erro ao remover candidatura: ${result.error || "Erro desconhecido"}`,
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao remover candidatura:", error);
+      alert("Erro ao remover candidatura. Tente novamente.");
+    } finally {
+      setRemovendoId(null);
+    }
+  };
+
   return (
     <>
       {candidaturas.map((candidatura) => {
@@ -79,7 +142,10 @@ export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
               </AccordionTrigger>
               <AccordionContent className="flex flex-col gap-4 text-base px-4">
                 <p className="font-bold">
-                  {candidatura.responsavel.tipo === "EMPRESA" ? "Empresa" : "Professor"}:{" "}
+                  {candidatura.responsavel.tipo === "EMPRESA"
+                    ? "Empresa"
+                    : "Professor"}
+                  :{" "}
                   <span className="text-blue-500 font-normal">
                     {candidatura.responsavel.nome}
                   </span>
@@ -90,8 +156,8 @@ export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
                     {candidatura.vaga.tipo === "ESTAGIO"
                       ? "Estágio"
                       : candidatura.vaga.tipo === "PESQUISA"
-                      ? "Pesquisa"
-                      : "Extensão"}
+                        ? "Pesquisa"
+                        : "Extensão"}
                   </span>
                 </p>
                 <p className="font-bold">
@@ -111,26 +177,104 @@ export function CardStatusVaga({ candidaturas }: CardStatusVagaProps) {
                     <p>{config.descricao}</p>
                   </div>
                 </div>
-                <div className="flex gap-8">
+                <div className="flex gap-4 flex-wrap">
                   <Link href={`/aluno/vagas/${candidatura.vaga.id}`}>
                     <Button variant={"ghost_blue"}>Ver detalhes da vaga</Button>
                   </Link>
                   {candidatura.responsavel.tipo === "EMPRESA" && (
-                    <Link href={`/perfil/${candidatura.responsavel.idResponsavel}`}>
-                      <Button variant={"oportune"}>Ver perfil da empresa</Button>
+                    <Link
+                      href={`/perfil/${candidatura.responsavel.idResponsavel}`}
+                    >
+                      <Button variant={"oportune"}>
+                        Ver perfil da empresa
+                      </Button>
                     </Link>
                   )}
                   {candidatura.responsavel.tipo === "PROFESSOR" && (
-                    <Link href={`/perfil/${candidatura.responsavel.idResponsavel}`}>
-                      <Button variant={"oportune"}>Ver perfil do professor</Button>
+                    <Link
+                      href={`/perfil/${candidatura.responsavel.idResponsavel}`}
+                    >
+                      <Button variant={"oportune"}>
+                        Ver perfil do professor
+                      </Button>
                     </Link>
                   )}
+                  {candidatura.status === "PENDENTE" &&
+                    onRemoverCandidatura && (
+                      <Button
+                        variant={"destructive"}
+                        onClick={() =>
+                          abrirModalConfirmacao(
+                            candidatura.id,
+                            candidatura.vaga.titulo,
+                          )
+                        }
+                        disabled={removendoId === candidatura.id}
+                        className="flex items-center gap-2"
+                      >
+                        <Trash2 size={16} />
+                        {removendoId === candidatura.id
+                          ? "Removendo..."
+                          : "Desistir da vaga"}
+                      </Button>
+                    )}
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         );
       })}
+
+      <Dialog open={modalAberto} onOpenChange={setModalAberto}>
+        <DialogContent className="bg-gray-900 border-gray-700 text-white">
+          <DialogHeader>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-red-500/20 rounded-full">
+                <AlertTriangle className="text-red-500" size={24} />
+              </div>
+              <DialogTitle className="text-xl">
+                Desistir da candidatura?
+              </DialogTitle>
+            </div>
+            <DialogDescription className="text-gray-300 text-base">
+              Tem certeza que deseja desistir da candidatura para{" "}
+              <span className="font-semibold text-white">
+                &ldquo;{candidaturaSelecionada?.titulo}&rdquo;
+              </span>
+              ?
+              <br />
+              <br />
+              Esta ação não pode ser desfeita e você precisará se candidatar
+              novamente caso mude de ideia.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-2">
+            <Button
+              variant="outline"
+              onClick={fecharModal}
+              disabled={removendoId !== null}
+              className="border-gray-600 hover:bg-gray-800"
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmarRemocao}
+              disabled={removendoId !== null}
+              className="flex items-center gap-2"
+            >
+              {removendoId !== null ? (
+                <>Removendo...</>
+              ) : (
+                <>
+                  <Trash2 size={16} />
+                  Confirmar desistência
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

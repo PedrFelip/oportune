@@ -1,18 +1,18 @@
 services:
   db:
-    image: "postgres:latest"
+    image: "postgres:18"
     container_name: db_oportune
     env_file:
       - .env.db.local
     ports:
       - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     networks:
       - oportune_network
 
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend_oportune

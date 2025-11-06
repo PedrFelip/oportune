@@ -1,5 +1,5 @@
-import { a } from 'vitest/dist/chunks/suite.d.FvehnV49.js';
 import { candidaturaRepository } from '../repositories/candidaturaRepository.ts'
+import { AprovarAlunoDTO } from '../schemas/canditadura.Schema.ts'
 
 export const candidaturaService = {
   async candidaturaVaga(candidaturaData: { vagaId: string; estudanteId: string }) {
@@ -50,39 +50,38 @@ export const candidaturaService = {
       throw new Error('Erro ao remover candidatura: ' + error)
     }
   },
-} 
 
-// export const candidaturaVagaService = async (candidaturaData: {
-//   vagaId: string
-//   estudanteId: string
-// }) => {
-//   const candidatura = await candidaturaRepository.candidaturaVaga(candidaturaData) 
+  async listarCandidatosPorVaga(vagaId: string) {
+    try {
+      const candidaturas = await candidaturaRepository.listarCandidatosPorVaga(vagaId)
 
-//   if (!candidatura) {
-//     return new Error('Erro ao cadastrar candidatura')
-//   }
+      const candidatosFormatados = candidaturas.map(c => ({
+        id: c.id,
+        status: c.status,
+        dataCandidatura: new Date(c.dataCandidatura).toLocaleDateString('pt-BR'),
+        estudante: {
+          id: c.estudante.id,
+          nome: c.estudante.user.nome,
+          email: c.estudante.user.email,
+          curso: c.estudante.curso,
+          semestre: c.estudante.semestre,
+          matricula: c.estudante.matricula,
+        },
+      }))
 
-//   return candidatura
-// }
+      return candidatosFormatados
+    } catch (error) {
+      throw new Error('Erro ao listar candidatos da vaga: ' + error)
+    }
+  },
 
-// export const listarCadidaturasPorEstudanteService = async (estudanteId: string) => {
-//   const candidaturas = await candidaturaRepository.listarCadidaturasPorEstudante(estudanteId)
+  async aprovarCandidatura(dados: AprovarAlunoDTO) {
+    try {
+      const candidaturaAprovada = await candidaturaRepository.aprovarCandidatura(dados)
 
-//   const candidaturasFormatada = candidaturas.map(c => ({
-//     id: c.id,
-//     status: c.status,
-//     dataCandidatura: new Date(c.dataCandidatura).toLocaleDateString('pt-BR'),
-//     vaga: {
-//       id: c.vaga.id,
-//       titulo: c.vaga.titulo,
-//       tipo: c.vaga.tipo,
-//     },
-//     responsavel: {
-//       idResponsavel: c.vaga.empresaId || c.vaga.professorId || ' ',
-//       nome: c.vaga.empresa?.nomeFantasia || c.vaga.professor?.user?.nome || ' ',
-//       tipo: c.vaga.empresa ? 'EMPRESA' : 'PROFESSOR',
-//     },
-//   }))
-
-//   return candidaturasFormatada
-// }
+      return candidaturaAprovada
+    } catch (error) {
+      throw new Error('Erro ao aprovar aluno: ' + error)
+    }
+  },
+}

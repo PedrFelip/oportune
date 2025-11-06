@@ -17,7 +17,12 @@ export async function proxyRequest(
   options: ProxyOptions = {}
 ) {
   const { method = 'GET', body = null, authRequired = true } = options;
-  const headers: HeadersInit = { "Content-Type": "application/json" };
+  const headers: HeadersInit = {};
+
+  // Só adiciona Content-Type se houver body
+  if (body !== null) {
+    headers["Content-Type"] = "application/json";
+  }
 
   try {
     if (authRequired) {
@@ -32,7 +37,7 @@ export async function proxyRequest(
     }
 
     const backendUrl = `${process.env.BACKEND_API_URL}${backendPath}`;
-    
+
     const response = await fetch(backendUrl, {
       method: method,
       headers: headers,
@@ -40,7 +45,7 @@ export async function proxyRequest(
     });
 
     const responseText = await response.text();
-    const data = responseText ? JSON.parse(responseText) : null; 
+    const data = responseText ? JSON.parse(responseText) : null;
 
     return NextResponse.json(data, { status: response.status });
 

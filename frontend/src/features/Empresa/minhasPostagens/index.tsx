@@ -5,6 +5,9 @@ import { useMemo, useState } from "react";
 import { useVagas } from "./hooks/useVagas";
 import { CardPostagemVaga } from "./components/CardPostagemVaga";
 import { FormNewOportune } from "../FormVaga";
+import { encerrarVaga } from "@/features/Api/encerrarVaga";
+import { showMessage } from "@/adapters/showMessage";
+import { useLoading } from "@/contexts/LoadingContext";
 
 type StatusFilter = "todas" | "ativas" | "encerradas";
 
@@ -12,15 +15,16 @@ export function PostagensVagas() {
   const { vagas, loading, error, refetch } = useVagas(); // Hook semelhante ao de candidaturas
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [filtroStatus, setFiltroStatus] = useState<StatusFilter>("todas");
+  const { showLoading, hideLoading } = useLoading();
 
   const vagasFiltradas = useMemo(() => {
     if (filtroStatus === "todas") return vagas;
 
     if (filtroStatus === "ativas")
-      return vagas.filter((v) => new Date(v.prazoInscricao) >= new Date());
+      return vagas.filter((v) => (v.status ?? "ATIVA") === "ATIVA");
 
     if (filtroStatus === "encerradas")
-      return vagas.filter((v) => new Date(v.prazoInscricao) < new Date());
+      return vagas.filter((v) => (v.status ?? "ATIVA") === "ENCERRADA");
 
     return vagas;
   }, [vagas, filtroStatus]);
@@ -30,13 +34,29 @@ export function PostagensVagas() {
   };
 
   const contadores = useMemo(() => {
-    const hoje = new Date();
     return {
       todas: vagas.length,
-      ativas: vagas.filter((v) => new Date(v.prazoInscricao) >= hoje).length,
-      encerradas: vagas.filter((v) => new Date(v.prazoInscricao) < hoje).length,
+      ativas: vagas.filter((v) => (v.status ?? "ATIVA") === "ATIVA").length,
+      encerradas: vagas.filter((v) => (v.status ?? "ATIVA") === "ENCERRADA").length,
     };
   }, [vagas]);
+
+  const handleEncerrar = async (vagaId: string) => {
+    const confirmar = window.confirm("Tem certeza que deseja encerrar esta vaga?");
+    if (!confirmar) return;
+
+    showLoading();
+    try {
+      await encerrarVaga(vagaId);
+      showMessage.success("Vaga encerrada com sucesso!");
+      await refetch();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      showMessage.error(err.message || "Erro ao encerrar vaga");
+    } finally {
+      hideLoading();
+    }
+  };
 
   if (error) {
     return (
@@ -102,7 +122,7 @@ export function PostagensVagas() {
             </p>
           </div>
         ) : (
-          <CardPostagemVaga vagas={vagasFiltradas} />
+          <CardPostagemVaga vagas={vagasFiltradas} onEncerrar={handleEncerrar} />
         )}
       </main>
     </div>

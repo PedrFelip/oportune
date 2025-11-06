@@ -8,12 +8,13 @@ import { useCandidaturas } from "../hooks/useCandidaturas";
 type StatusFilter = "todas" | "aceitas" | "pendentes" | "recusadas";
 
 export function Candidaturas() {
-  const { candidaturas, loading, error, refetch } = useCandidaturas();
+  const { candidaturas, loading, error, refetch, removerCandidatura } =
+    useCandidaturas();
   const [filtroStatus, setFiltroStatus] = useState<StatusFilter>("todas");
 
   const candidaturasFiltradas = useMemo(() => {
     if (filtroStatus === "todas") return candidaturas;
-    
+
     const statusMap: Record<Exclude<StatusFilter, "todas">, string> = {
       aceitas: "ACEITA",
       pendentes: "PENDENTE",
@@ -21,7 +22,8 @@ export function Candidaturas() {
     };
 
     return candidaturas.filter(
-      (c) => c.status === statusMap[filtroStatus as Exclude<StatusFilter, "todas">]
+      (c) =>
+        c.status === statusMap[filtroStatus as Exclude<StatusFilter, "todas">],
     );
   }, [candidaturas, filtroStatus]);
 
@@ -44,11 +46,7 @@ export function Candidaturas() {
         <h2 className="text-3xl text-white font-bold">Minhas Candidaturas</h2>
         <div className="bg-red-500/20 border border-red-600 rounded-lg p-4 flex flex-col gap-4">
           <p className="text-red-400">{error}</p>
-          <Button 
-            onClick={refetch}
-            variant="outline"
-            className="w-fit"
-          >
+          <Button onClick={refetch} variant="outline" className="w-fit">
             Tentar novamente
           </Button>
         </div>
@@ -109,7 +107,10 @@ export function Candidaturas() {
             </p>
           </div>
         ) : (
-          <CardStatusVaga candidaturas={candidaturasFiltradas} />
+          <CardStatusVaga
+            candidaturas={candidaturasFiltradas}
+            onRemoverCandidatura={removerCandidatura}
+          />
         )}
       </main>
     </div>

@@ -10,18 +10,25 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Pencil, XCircle, Users } from "lucide-react";
 import Link from "next/link";
-import { Vaga } from "@/models/vaga";
+import { Vaga, StatusVaga } from "@/models/vaga";
 
 type CardPostagemVagaProps = {
   vagas: Vaga[];
+  onEncerrar: (vagaId: string) => void;
 };
 
-const statusVagaMap = {
+const statusVagaMap: Record<StatusVaga, { color: string; border: string; bg: string; label: string }> = {
   ATIVA: {
     color: "text-green-400",
     border: "border-green-600",
     bg: "bg-green-500/20",
     label: "Ativa",
+  },
+  INATIVA: {
+    color: "text-yellow-400",
+    border: "border-yellow-600",
+    bg: "bg-yellow-500/20",
+    label: "Inativa",
   },
   ENCERRADA: {
     color: "text-red-400",
@@ -29,16 +36,14 @@ const statusVagaMap = {
     bg: "bg-red-500/20",
     label: "Encerrada",
   },
-} as const;
+};
 
-export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
+export function CardPostagemVaga({ vagas, onEncerrar }: CardPostagemVagaProps) {
   return (
     <>
       {vagas.map((vaga) => {
-        const isEncerrada = new Date(vaga.prazoInscricao) < new Date();
-        const status = isEncerrada
-          ? statusVagaMap.ENCERRADA
-          : statusVagaMap.ATIVA;
+        const statusKey = (vaga.status ?? "ATIVA") as StatusVaga;
+        const status = statusVagaMap[statusKey] ?? statusVagaMap.ATIVA;
         const semestreLabel =
           vaga.semestre && /^\d+$/.test(vaga.semestre)
             ? `${vaga.semestre}º`
@@ -132,28 +137,15 @@ export function CardPostagemVaga({ vagas }: CardPostagemVagaProps) {
                     </Button>
                   </Link>
 
-                  {!isEncerrada && (
-                    <>
-                      <Link href={`/professor/minhas-vagas/editar-vaga/${vaga.id}`}>
-                        <Button
-                          variant={"oportune"}
-                          className="flex items-center gap-2"
-                        >
-                          <Pencil size={18} />
-                          Editar vaga
-                        </Button>
-                      </Link>
-                      <Button
-                        variant={"destructive"}
-                        className="flex items-center gap-2"
-                        onClick={() => {
-                          // função de encerrar vaga
-                        }}
-                      >
-                        <XCircle size={18} />
-                        Encerrar vaga
-                      </Button>
-                    </>
+                  {statusKey === "ATIVA" && (
+                    <Button
+                      variant={"destructive"}
+                      className="flex items-center gap-2"
+                      onClick={() => onEncerrar(vaga.id)}
+                    >
+                      <XCircle size={18} />
+                      Encerrar vaga
+                    </Button>
                   )}
                 </div>
               </AccordionContent>

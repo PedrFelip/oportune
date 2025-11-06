@@ -41,11 +41,11 @@ model Estudante {
   dataNascimento DateTime
   genero         String
 
-  faculdade     String?
+  faculdade String?
 
-  areasInteresse String[] @default([])
+  areasInteresse             String[] @default([])
   habilidadesComportamentais String[] @default([])
-  habilidadesTecnicas String[] @default([])
+  habilidadesTecnicas        String[] @default([])
 
   matricula     String
   curso         String
@@ -118,23 +118,24 @@ model Empresa {
 }
 
 model Vaga {
-  id String @id @default(uuid())
-  empresaId String?
+  id          String  @id @default(uuid())
+  empresaId   String?
   professorId String?
 
-  titulo       String
-  descricao    String
-  tipo         TipoVaga
-  requisitos   String[]
+  titulo     String
+  descricao  String
+  tipo       TipoVaga
+  requisitos String[]
 
-  numeroVagas Int @default(1)
-  prazoInscricao DateTime
+  numeroVagas            Int      @default(1)
+  numeroVagasPreenchidas Int      @default(0)
+  prazoInscricao         DateTime
 
   statusVaga     StatusVaga @default(ATIVA)
-  cursosAlvo String[]
+  cursosAlvo     String[]
   semestreMinimo Int?
 
-  empresa  Empresa?  @relation(fields: [empresaId], references: [id], onDelete: SetNull)
+  empresa   Empresa?   @relation(fields: [empresaId], references: [id], onDelete: SetNull)
   professor Professor? @relation(fields: [professorId], references: [id], onDelete: SetNull)
 
   candidaturas Candidatura[]
@@ -142,31 +143,31 @@ model Vaga {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("vagas")
   // Index for status filter + recent ordering
   @@index([statusVaga, createdAt(sort: Desc)], name: "vagas_status_created_idx")
   // GIN index to accelerate array membership queries (cursosAlvo @> or has)
   @@index([cursosAlvo], type: Gin, name: "vagas_cursosAlvo_gin")
+  @@map("vagas")
 }
 
 model Candidatura {
   id String @id @default(uuid())
 
-  vagaId String
+  vagaId      String
   estudanteId String
 
-  dataCandidatura DateTime @default(now())
-  status StatusCandidatura @default(PENDENTE)
+  dataCandidatura DateTime          @default(now())
+  status          StatusCandidatura @default(PENDENTE)
 
-  vaga Vaga @relation(fields: [vagaId], references: [id], onDelete: Cascade)
+  vaga      Vaga      @relation(fields: [vagaId], references: [id], onDelete: Cascade)
   estudante Estudante @relation(fields: [estudanteId], references: [userId], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("candidaturas")
   // Rapida busca das candidaturas mais recentes de um estudante
   @@index([estudanteId, dataCandidatura(sort: Desc)], name: "candidaturas_estudante_data_idx")
+  @@map("candidaturas")
 }
 
 enum StatusCandidatura {

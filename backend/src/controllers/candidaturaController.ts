@@ -1,7 +1,5 @@
-import {
-  candidaturaService,
-} from '../services/candidaturaService.ts'
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { candidaturaService } from '../services/candidaturaService.ts'
+import { FastifyRequest, FastifyReply } from 'fastify'
 
 export const candidaturaController = {
   candidaturaVaga: async (
@@ -14,8 +12,11 @@ export const candidaturaController = {
         reply.status(401).send({ error: 'Usuário não autenticado' })
         return
       }
-      
-      const result = await candidaturaService.candidaturaVaga({ vagaId, estudanteId: request.user.sub })
+
+      const result = await candidaturaService.candidaturaVaga({
+        vagaId,
+        estudanteId: request.user.sub,
+      })
       if (result) {
         reply.status(201).send(result)
       } else {
@@ -26,10 +27,7 @@ export const candidaturaController = {
     }
   },
 
-  listarCadidaturasPorEstudante: async (
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ) => {
+  listarCadidaturasPorEstudante: async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       if (!request.user || !request.user.sub) {
         return reply.status(401).send({ error: 'Usuário não autenticado' })
@@ -49,9 +47,8 @@ export const candidaturaController = {
     reply: FastifyReply,
   ) => {
     try {
-
       // Verifica se o usuário está autenticado
-      const estudanteId = request.user?.sub;
+      const estudanteId = request.user?.sub
 
       if (!estudanteId) {
         reply.status(401).send({ error: 'Usuário não autenticado' })
@@ -74,47 +71,53 @@ export const candidaturaController = {
       reply.status(500).send({ error: 'Erro ao remover candidatura: ' + error.message })
     }
   },
+
+  listarCandidatosPorVaga: async (
+    request: FastifyRequest<{ Params: { vagaId: string } }>,
+    reply: FastifyReply,
+  ) => {
+    try {
+      if (!request.user || !request.user.sub) {
+        return reply.status(401).send({ error: 'Usuário não autenticado' })
+      }
+
+      const { vagaId } = request.params
+
+      if (!vagaId) {
+        return reply.status(400).send({ error: 'ID da vaga é obrigatório' })
+      }
+
+      const candidatos = await candidaturaService.listarCandidatosPorVaga(vagaId)
+
+      reply.status(200).send(candidatos)
+    } catch (error: any) {
+      reply.status(500).send({ error: 'Erro ao listar candidatos: ' + error.message })
+    }
+  },
+
+  aprovarCandidatura: async (
+    request: FastifyRequest<{ Body: { candidaturaId: string; estudanteId: string } }>,
+    reply: FastifyReply,
+  ) => {
+    try {
+      if (!request.user || !request.user.sub) {
+        return reply.status(401).send({ error: 'Usuário não autenticado' })
+      }
+      if (request.user.role === 'ESTUDANTE') {
+        return reply.status(403).send({ error: 'Acesso negado' })
+      }
+
+      const { candidaturaId, estudanteId } = request.body
+
+      if (!candidaturaId || !estudanteId) {
+        return reply.status(400).send({ error: 'candidaturaId e estudanteId são obrigatórios' })
+      }
+
+      const resultado = await candidaturaService.aprovarCandidatura({ candidaturaId, estudanteId })
+
+      reply.status(200).send(resultado)
+    } catch (error: any) {
+      reply.status(500).send({ error: 'Erro ao aprovar candidatura: ' + error.message })
+    }
+  },
 }
-
-// export const candidaturaVagaController = async (
-//   request: FastifyRequest<{ Body: { vagaId: string } }>,
-//   reply: FastifyReply,
-// ) => {
-//   try {
-//     const { vagaId } = request.body
-
-//     if (!request.user || !request.user.sub) {
-//       reply.status(401).send({ error: 'Usuário não autenticado' })
-//       return
-//     }
-
-//     const result = await candidaturaService.candidaturaVaga({ vagaId, estudanteId: request.user.sub })
-
-//     if (result) {
-//       reply.status(201).send(result)
-//     } else {
-//       reply.status(400).send({ error: 'Candidatura não pôde ser criada' })
-//     }
-//   } catch (error: any) {
-//     reply.status(500).send({ error: 'Erro ao processar candidatura: ' + error.message })
-//   }
-// }
-
-// export const listarCadidaturasPorEstudanteController = async (
-//   request: FastifyRequest,
-//   reply: FastifyReply,
-// ) => {
-//   try {
-//     if (!request.user || !request.user.sub) {
-//       return reply.status(401).send({ error: 'Usuário não autenticado' })
-//     }
-
-//     const estudanteId = request.user.sub
-
-//     const candidaturas = await candidaturaService.listarCadidaturasPorEstudante(estudanteId)
-
-//     reply.status(200).send(candidaturas)
-//   } catch (error: any) {
-//     reply.status(500).send({ error: 'Erro ao listar candidaturas: ' + error.message })
-//   }
-// }

@@ -1,5 +1,6 @@
 import {
   createVaga,
+  encerrarVaga,
   getVagaDetalhes,
   listarVagasPorResponsavel,
   listatodasVagas,
@@ -47,6 +48,16 @@ export const updateServiceVaga = async (vagaId: string, dadosAtualizacao: VagaUp
   }
 }
 
+export const encerrarServiceVaga = async (vagaId: string) => {
+  try {
+    const vagaEncerrada = await encerrarVaga(vagaId)
+    return vagaEncerrada
+  } catch (error) {
+    console.error('Erro ao encerrar vaga:', error)
+    throw new Error('Erro ao encerrar vaga')
+  }
+}
+
 export const listarVagasPorResponsavelService = async (
   responsavelId: string,
   tipoResponsavel: 'EMPRESA' | 'PROFESSOR',
@@ -77,6 +88,7 @@ export const listarVagasPorResponsavelService = async (
       semestre: vaga.semestreMinimo ? vaga.semestreMinimo.toString() : 'Não informado',
       empresa: vaga.empresa?.nomeFantasia || vaga.professor?.user?.nome || 'Não informado',
       candidaturas: vaga.candidaturas || [],
+      status: vaga.statusVaga,
     }))
 
     return {

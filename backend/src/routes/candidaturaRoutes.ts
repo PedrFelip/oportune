@@ -1,7 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import {
-  candidaturaController
-} from '../controllers/candidaturaController.ts'
+import { candidaturaController } from '../controllers/candidaturaController.ts'
 import Authentication from '../plugins/tokenValidator.ts'
 
 export async function candidaturaRoutes(fastify: FastifyInstance) {
@@ -31,5 +29,25 @@ export async function candidaturaRoutes(fastify: FastifyInstance) {
       preHandler: Authentication,
     },
     candidaturaController.removerCandidatura,
+  )
+
+  fastify.get<{
+    Params: { vagaId: string }
+  }>(
+    '/vagas/:vagaId/candidatos',
+    {
+      preHandler: Authentication,
+    },
+    candidaturaController.listarCandidatosPorVaga,
+  )
+
+  fastify.post<{
+    Body: { candidaturaId: string; estudanteId: string }
+  }>(
+    '/candidaturas/aprovar',
+    {
+      preHandler: Authentication,
+    },
+    candidaturaController.aprovarCandidatura,
   )
 }
