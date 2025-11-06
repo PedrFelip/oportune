@@ -8,7 +8,6 @@ type OportunidadeProps = {
 };
 
 export default function Oportunidade({ vagas }: OportunidadeProps) {
-
   return (
     <>
       {vagas.map((vaga) => (
@@ -20,7 +19,7 @@ export default function Oportunidade({ vagas }: OportunidadeProps) {
             <div className="flex">
               <h2 className="mr-8">{vaga.titulo}</h2>
               <div className="flex items-center gap-6">
-                {vaga.categorias.map((categoria) => (
+                {(vaga.categorias || []).map((categoria) => (
                   <Categoria key={categoria} caracteristica={categoria} />
                 ))}
               </div>
