@@ -19,7 +19,7 @@ tmp/
 temp/
 
 # ========================
-# Logs 
+# Logs
 # ========================
 *.log
 logs
@@ -69,3 +69,5 @@ coverage/
 
 *.exe
 extra/
+
+.directory
