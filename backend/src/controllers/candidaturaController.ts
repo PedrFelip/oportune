@@ -80,6 +80,9 @@ export const candidaturaController = {
       if (!request.user || !request.user.sub) {
         return reply.status(401).send({ error: 'Usuário não autenticado' })
       }
+      if (request.user.role === 'ESTUDANTE') {
+        return reply.status(403).send({ error: 'Acesso negado' })
+      }
 
       const { vagaId } = request.params
 
