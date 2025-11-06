@@ -154,11 +154,66 @@ async function main() {
     },
   })
 
+  // Criar alunos adicionais para demonstração
+  const aluno2 = await prisma.user.create({
+    data: {
+      id: v4(),
+      tipo: 'ESTUDANTE',
+      nome: 'Ana Silva',
+      email: 'ana.silva@exemplo.com',
+      senha: senhaHash,
+      emailVerificado: true,
+      estudante: {
+        create: {
+          curso: 'Engenharia de Software',
+          semestre: 6,
+          periodo: 'MATUTINO',
+          dataNascimento: new Date('1999-05-10'),
+          genero: 'FEMININO',
+          matricula: '20250002',
+          telefone: '(11) 98888-8888',
+          faculdade: 'Universidade Federal de Tecnologia',
+          habilidadesTecnicas: ['Python', 'Machine Learning', 'Docker'],
+        },
+      },
+    },
+    include: {
+      estudante: true,
+    },
+  })
+
+  const aluno3 = await prisma.user.create({
+    data: {
+      id: v4(),
+      tipo: 'ESTUDANTE',
+      nome: 'Carlos Oliveira',
+      email: 'carlos.oliveira@exemplo.com',
+      senha: senhaHash,
+      emailVerificado: true,
+      estudante: {
+        create: {
+          curso: 'Engenharia de Software',
+          semestre: 7,
+          periodo: 'VESPERTINO',
+          dataNascimento: new Date('1998-08-22'),
+          genero: 'MASCULINO',
+          matricula: '20250003',
+          telefone: '(11) 97777-7777',
+          faculdade: 'Universidade Federal de Tecnologia',
+          habilidadesTecnicas: ['React', 'Node.js', 'TypeScript'],
+        },
+      },
+    },
+    include: {
+      estudante: true,
+    },
+  })
+
   // Criar candidaturas do estudante
   const candidatura1 = await prisma.candidatura.create({
     data: {
       vagaId: vagaEmpresa1.id,
-      estudanteId: aluno.estudante!.id,
+      estudanteId: aluno.id, // Usar o userId (aluno.id), não estudante.id
       status: 'PENDENTE',
       dataCandidatura: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 dias atrás
     },
@@ -167,7 +222,7 @@ async function main() {
   const candidatura2 = await prisma.candidatura.create({
     data: {
       vagaId: vagaProfessor2.id,
-      estudanteId: aluno.estudante!.id,
+      estudanteId: aluno.id, // Usar o userId
       status: 'ACEITA',
       dataCandidatura: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 dias atrás
     },
@@ -176,27 +231,51 @@ async function main() {
   const candidatura3 = await prisma.candidatura.create({
     data: {
       vagaId: vagaEmpresa2.id,
-      estudanteId: aluno.estudante!.id,
+      estudanteId: aluno.id, // Usar o userId
       status: 'RECUSADA',
       dataCandidatura: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 dias atrás
     },
   })
 
+  const candidatura4 = await prisma.candidatura.create({
+    data: {
+      vagaId: vagaProfessor1.id,
+      estudanteId: aluno2.id, // Usar o userId
+      status: 'ACEITA',
+      dataCandidatura: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 dias atrás
+    },
+  })
+
+  const candidatura5 = await prisma.candidatura.create({
+    data: {
+      vagaId: vagaProfessor2.id,
+      estudanteId: aluno3.id, // Usar o userId
+      status: 'ACEITA',
+      dataCandidatura: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 dias atrás
+    },
+  })
+
   console.log('Seed executado com sucesso!')
   console.log({
-    aluno: { id: aluno.id, nome: aluno.nome, email: aluno.email },
+    alunos: [
+      { id: aluno.id, nome: aluno.nome, email: aluno.email, curso: aluno.estudante?.curso },
+      { id: aluno2.id, nome: aluno2.nome, email: aluno2.email, curso: aluno2.estudante?.curso },
+      { id: aluno3.id, nome: aluno3.nome, email: aluno3.email, curso: aluno3.estudante?.curso },
+    ],
     empresa: { id: empresa.id, nome: empresa.nome },
-    professor: { id: professor.id, nome: professor.nome },
+    professor: { id: professor.id, nome: professor.nome, email: professor.email },
     vagas: [
-      { id: vagaEmpresa1.id, titulo: vagaEmpresa1.titulo },
-      { id: vagaEmpresa2.id, titulo: vagaEmpresa2.titulo },
-      { id: vagaProfessor1.id, titulo: vagaProfessor1.titulo },
-      { id: vagaProfessor2.id, titulo: vagaProfessor2.titulo },
+      { id: vagaEmpresa1.id, titulo: vagaEmpresa1.titulo, professorId: vagaEmpresa1.professorId },
+      { id: vagaEmpresa2.id, titulo: vagaEmpresa2.titulo, professorId: vagaEmpresa2.professorId },
+      { id: vagaProfessor1.id, titulo: vagaProfessor1.titulo, professorId: vagaProfessor1.professorId },
+      { id: vagaProfessor2.id, titulo: vagaProfessor2.titulo, professorId: vagaProfessor2.professorId },
     ],
     candidaturas: [
       { id: candidatura1.id, status: candidatura1.status },
       { id: candidatura2.id, status: candidatura2.status },
       { id: candidatura3.id, status: candidatura3.status },
+      { id: candidatura4.id, status: candidatura4.status },
+      { id: candidatura5.id, status: candidatura5.status },
     ],
   })
 }
