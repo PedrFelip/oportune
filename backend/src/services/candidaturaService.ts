@@ -60,7 +60,7 @@ export const candidaturaService = {
         status: c.status,
         dataCandidatura: new Date(c.dataCandidatura).toLocaleDateString('pt-BR'),
         estudante: {
-          id: c.estudante.id,
+          id: c.estudante.userId,
           nome: c.estudante.user.nome,
           email: c.estudante.user.email,
           curso: c.estudante.curso,
