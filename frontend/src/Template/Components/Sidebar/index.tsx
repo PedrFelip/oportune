@@ -44,7 +44,6 @@ const baseNavItems = [
 
 const ProfessorEmpresaNavItems = [
   { id: "dashboard", label: "Dashboard", icon: HomeIcon, path: "/dashboard" },
-  { id: "alunos", label: "Alunos", icon: UserIcon, path: "/alunos" },
   {
     id: "minhas_postagens",
     label: "Minhas postagens",
