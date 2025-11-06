@@ -46,6 +46,7 @@ model Estudante {
   areasInteresse             String[] @default([])
   habilidadesComportamentais String[] @default([])
   habilidadesTecnicas        String[] @default([])
+  experienciasProfissionais  String[] @default([])
 
   matricula     String
   curso         String
