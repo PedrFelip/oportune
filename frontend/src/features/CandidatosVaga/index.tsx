@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 import { buscarCandidatos } from "../Api/buscarCandidatos";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { aprovarCandidatura, rejeitarCandidatura } from "../Api/candidaturas"; // 👈 importa suas novas funções
+import { aprovarCandidatura, rejeitarCandidatura } from "../Api/candidaturas";
 import { showMessage } from "@/adapters/showMessage";
 
 type Candidato = {
   id: string;
-  status: "PENDENTE" | "APROVADO" | "REJEITADO";
+  status: "PENDENTE" | "ACEITA" | "RECUSADA";
   dataCandidatura: string;
   estudante: {
     id: string;
@@ -28,7 +28,11 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
   const [candidatos, setCandidatos] = useState<Candidato[]>([]);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
-  // 🔹 Buscar candidatos ao carregar
+  async function refetchCandidatos() {
+    const data = await buscarCandidatos(vagaId);
+    setCandidatos(data);
+  }
+
   useEffect(() => {
     const response = async () => {
       const data = await buscarCandidatos(vagaId);
@@ -45,14 +49,14 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
 
       setCandidatos((prev) =>
         prev.map((c) =>
-          c.id === candidaturaId ? { ...c, status: "APROVADO" } : c
+          c.id === candidaturaId ? { ...c, status: "ACEITA" } : c
         )
       );
 
-      showMessage.success("✅ Candidato aprovado com sucesso!");
+      showMessage.success("Candidato aprovado com sucesso!");
     } catch (err) {
       console.error(err);
-      showMessage.error("❌ Erro ao aprovar candidato.");
+      showMessage.error("Erro ao aprovar candidato.");
     } finally {
       setLoadingId(null);
     }
@@ -66,14 +70,14 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
 
       setCandidatos((prev) =>
         prev.map((c) =>
-          c.id === candidaturaId ? { ...c, status: "REJEITADO" } : c
+          c.id === candidaturaId ? { ...c, status: "RECUSADA" } : c
         )
       );
 
-      showMessage.success("🚫 Candidato rejeitado com sucesso!");
+      showMessage.success("Candidato rejeitado com sucesso!");
     } catch (err) {
       console.error(err);
-      showMessage.error("❌ Erro ao rejeitar candidato.");
+      showMessage.error("Erro ao rejeitar candidato.");
     } finally {
       setLoadingId(null);
     }
@@ -141,9 +145,9 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
                     <td className="p-4">
                       <Badge
                         variant={
-                          candidato.status === "APROVADO"
+                          candidato.status === "ACEITA"
                             ? "green"
-                            : candidato.status === "REJEITADO"
+                            : candidato.status === "RECUSADA"
                             ? "red"
                             : "yellow"
                         }
@@ -178,7 +182,7 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
                               }
                             >
                               {loadingId === candidato.id ? (
-                                <span className="text-xs">Aprovando...</span>
+                                <span className="text-xs">Carregando...</span>
                               ) : (
                                 <>
                                   <Check size={16} />
@@ -201,7 +205,7 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
                               }
                             >
                               {loadingId === candidato.id ? (
-                                <span className="text-xs">Rejeitando...</span>
+                                <span className="text-xs">Carregando...</span>
                               ) : (
                                 <>
                                   <X size={16} />

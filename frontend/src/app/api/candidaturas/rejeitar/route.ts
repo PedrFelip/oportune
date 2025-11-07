@@ -7,7 +7,10 @@ import { NextRequest } from "next/server";
  * Encaminha para o backend real.
  */
 export async function POST(request: NextRequest) {
+  const body = await request.json();
   return proxyRequest(request, "/candidaturas/rejeitar", {
     authRequired: true,
+    body: body,
+    method: "POST",
   });
 }
