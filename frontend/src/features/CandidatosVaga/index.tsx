@@ -1,11 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { MoveLeft } from "lucide-react";
+import { Check, Eye, MoveLeft, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { buscarCandidatos } from "../Api/buscarCandidatos";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { aprovarCandidatura, rejeitarCandidatura } from "../Api/candidaturas"; // 👈 importa suas novas funções
+import { showMessage } from "@/adapters/showMessage";
 
 type Candidato = {
   id: string;
@@ -23,7 +26,9 @@ type Candidato = {
 export function CandidatosVaga({ vagaId }: { vagaId: string }) {
   const { back } = useRouter();
   const [candidatos, setCandidatos] = useState<Candidato[]>([]);
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
+  // 🔹 Buscar candidatos ao carregar
   useEffect(() => {
     const response = async () => {
       const data = await buscarCandidatos(vagaId);
@@ -31,6 +36,48 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
     };
     response();
   }, [vagaId]);
+
+  // 🔹 Função para aprovar candidato
+  async function handleAprovar(candidaturaId: string, estudanteId: string) {
+    try {
+      setLoadingId(candidaturaId);
+      await aprovarCandidatura({ candidaturaId, estudanteId });
+
+      setCandidatos((prev) =>
+        prev.map((c) =>
+          c.id === candidaturaId ? { ...c, status: "APROVADO" } : c
+        )
+      );
+
+      showMessage.success("✅ Candidato aprovado com sucesso!");
+    } catch (err) {
+      console.error(err);
+      showMessage.error("❌ Erro ao aprovar candidato.");
+    } finally {
+      setLoadingId(null);
+    }
+  }
+
+  // 🔹 Função para rejeitar candidato
+  async function handleRejeitar(candidaturaId: string, estudanteId: string) {
+    try {
+      setLoadingId(candidaturaId);
+      await rejeitarCandidatura({ candidaturaId, estudanteId });
+
+      setCandidatos((prev) =>
+        prev.map((c) =>
+          c.id === candidaturaId ? { ...c, status: "REJEITADO" } : c
+        )
+      );
+
+      showMessage.success("🚫 Candidato rejeitado com sucesso!");
+    } catch (err) {
+      console.error(err);
+      showMessage.error("❌ Erro ao rejeitar candidato.");
+    } finally {
+      setLoadingId(null);
+    }
+  }
 
   return (
     <div className="bg-gray-900 text-white min-h-screen font-inter">
@@ -68,15 +115,13 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
               </thead>
 
               <tbody id="candidatos-tbody">
-                {candidatos.map((candidato, i) => (
+                {candidatos.map((candidato) => (
                   <tr
-                    key={i}
+                    key={candidato.id}
                     className="border-b border-gray-700/50 hover:bg-gray-700/40 transition-colors"
                   >
                     <td className="p-4 flex items-center gap-3">
-                      <div
-                        className={`w-10 h-10 rounded-full bg-blue-400 flex-shrink-0 flex items-center justify-center font-bold`}
-                      >
+                      <div className="w-10 h-10 rounded-full bg-blue-400 flex-shrink-0 flex items-center justify-center font-bold">
                         {candidato.estudante.nome
                           .split(" ")
                           .map((n) => n[0])
@@ -109,71 +154,62 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
                     <td className="p-4">
                       <div className="flex justify-end items-center gap-2">
                         {/* Botão Perfil */}
-                        <button
-                          className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-gray-700 hover:bg-gray-600 text-white"
+                        <Link
+                          href={`/vagas/${vagaId}`}
+                          className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
                           title="Ver Perfil"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-4 w-4"
-                          >
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
+                          <Eye size={16} />
                           <span className="hidden md:inline">Perfil</span>
-                        </button>
+                        </Link>
 
                         {/* Botões Condicionais */}
                         {candidato.status === "PENDENTE" && (
                           <>
                             <button
-                              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-green-500/10 hover:bg-green-500/20 text-green-400"
+                              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-green-500/10 hover:bg-green-500/20 text-green-400 disabled:opacity-50 cursor-pointer"
                               title="Aprovar"
+                              disabled={loadingId === candidato.id}
+                              onClick={() =>
+                                handleAprovar(
+                                  candidato.id,
+                                  candidato.estudante.id
+                                )
+                              }
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="h-4 w-4"
-                              >
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                              </svg>
-                              <span className="hidden md:inline">Aprovar</span>
+                              {loadingId === candidato.id ? (
+                                <span className="text-xs">Aprovando...</span>
+                              ) : (
+                                <>
+                                  <Check size={16} />
+                                  <span className="hidden md:inline">
+                                    Aprovar
+                                  </span>
+                                </>
+                              )}
                             </button>
+
                             <button
-                              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-red-500/10 hover:bg-red-500/20 text-red-400"
+                              className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-red-500/10 hover:bg-red-500/20 text-red-400 disabled:opacity-50 cursor-pointer"
                               title="Rejeitar"
+                              disabled={loadingId === candidato.id}
+                              onClick={() =>
+                                handleRejeitar(
+                                  candidato.id,
+                                  candidato.estudante.id
+                                )
+                              }
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="h-4 w-4"
-                              >
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                              </svg>
-                              <span className="hidden md:inline">Rejeitar</span>
+                              {loadingId === candidato.id ? (
+                                <span className="text-xs">Rejeitando...</span>
+                              ) : (
+                                <>
+                                  <X size={16} />
+                                  <span className="hidden md:inline">
+                                    Rejeitar
+                                  </span>
+                                </>
+                              )}
                             </button>
                           </>
                         )}
