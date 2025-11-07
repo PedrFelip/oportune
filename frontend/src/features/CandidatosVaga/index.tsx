@@ -155,7 +155,7 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
                       <div className="flex justify-end items-center gap-2">
                         {/* Botão Perfil */}
                         <Link
-                          href={`/vagas/${vagaId}`}
+                          href={`/perfil/${candidato.estudante.id}`}
                           className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
                           title="Ver Perfil"
                         >
