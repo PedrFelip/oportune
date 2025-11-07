@@ -75,7 +75,7 @@ export function CandidatosVaga({ vagaId }: { vagaId: string }) {
                   >
                     <td className="p-4 flex items-center gap-3">
                       <div
-                        className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-bold`}
+                        className={`w-10 h-10 rounded-full bg-blue-400 flex-shrink-0 flex items-center justify-center font-bold`}
                       >
                         {candidato.estudante.nome
                           .split(" ")
