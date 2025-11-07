@@ -228,6 +228,7 @@ export default function EditarPerfilAluno() {
                       name="dataFormatura"
                       label="Previsão de formatura"
                       placeholder="Qual a previsão de sua formatura?"
+                      toYear={new Date().getFullYear()}
                     />
                   </CardContent>
                 </Card>
