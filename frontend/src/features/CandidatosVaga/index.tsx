@@ -3,9 +3,34 @@
 import { Button } from "@/components/ui/button";
 import { MoveLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { buscarCandidatos } from "../Api/buscarCandidatos";
+import { Badge } from "@/components/ui/badge";
 
-export function CandidatosVaga() {
+type Candidato = {
+  id: string;
+  status: "PENDENTE" | "APROVADO" | "REJEITADO";
+  dataCandidatura: string;
+  estudante: {
+    id: string;
+    nome: string;
+    curso: string;
+    semestre: number;
+    matricula: string;
+  };
+};
+
+export function CandidatosVaga({ vagaId }: { vagaId: string }) {
   const { back } = useRouter();
+  const [candidatos, setCandidatos] = useState<Candidato[]>([]);
+
+  useEffect(() => {
+    const response = async () => {
+      const data = await buscarCandidatos(vagaId);
+      setCandidatos(data);
+    };
+    response();
+  }, [vagaId]);
 
   return (
     <div className="bg-gray-900 text-white min-h-screen font-inter">
@@ -43,70 +68,43 @@ export function CandidatosVaga() {
               </thead>
 
               <tbody id="candidatos-tbody">
-                {[
-                  {
-                    nome: "Ana Silva",
-                    curso: "Engenharia de Software",
-                    semestre: "5º",
-                    status: "Pendente",
-                    cor: "bg-indigo-500",
-                    iniciais: "AS",
-                    statusColor: "text-yellow-400",
-                  },
-                  {
-                    nome: "Carlos Pereira",
-                    curso: "Ciência da Computação",
-                    semestre: "6º",
-                    status: "Aprovado",
-                    cor: "bg-purple-500",
-                    iniciais: "CP",
-                    statusColor: "text-green-400",
-                  },
-                  {
-                    nome: "Juliana Costa",
-                    curso: "Engenharia de Software",
-                    semestre: "5º",
-                    status: "Rejeitado",
-                    cor: "bg-teal-500",
-                    iniciais: "JC",
-                    statusColor: "text-red-400",
-                  },
-                  {
-                    nome: "Ricardo Mendes",
-                    curso: "Análise e Des. de Sistemas",
-                    semestre: "4º",
-                    status: "Pendente",
-                    cor: "bg-orange-500",
-                    iniciais: "RM",
-                    statusColor: "text-yellow-400",
-                  },
-                ].map((candidato, i) => (
+                {candidatos.map((candidato, i) => (
                   <tr
                     key={i}
                     className="border-b border-gray-700/50 hover:bg-gray-700/40 transition-colors"
                   >
                     <td className="p-4 flex items-center gap-3">
                       <div
-                        className={`w-10 h-10 rounded-full ${candidato.cor} flex-shrink-0 flex items-center justify-center font-bold`}
+                        className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-bold`}
                       >
-                        {candidato.iniciais}
+                        {candidato.estudante.nome
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase()}
                       </div>
                       <span className="font-medium text-white">
-                        {candidato.nome}
+                        {candidato.estudante.nome}
                       </span>
                     </td>
                     <td className="p-4 text-gray-400 hidden md:table-cell">
-                      {candidato.curso}
+                      {candidato.estudante.curso}
                     </td>
                     <td className="p-4 text-gray-400 hidden lg:table-cell">
-                      {candidato.semestre}
+                      {candidato.estudante.semestre}
                     </td>
                     <td className="p-4">
-                      <span
-                        className={`font-semibold ${candidato.statusColor}`}
+                      <Badge
+                        variant={
+                          candidato.status === "APROVADO"
+                            ? "green"
+                            : candidato.status === "REJEITADO"
+                            ? "red"
+                            : "yellow"
+                        }
                       >
                         {candidato.status}
-                      </span>
+                      </Badge>
                     </td>
                     <td className="p-4">
                       <div className="flex justify-end items-center gap-2">
@@ -134,7 +132,7 @@ export function CandidatosVaga() {
                         </button>
 
                         {/* Botões Condicionais */}
-                        {candidato.status === "Pendente" && (
+                        {candidato.status === "PENDENTE" && (
                           <>
                             <button
                               className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-colors bg-green-500/10 hover:bg-green-500/20 text-green-400"
