@@ -1,18 +1,39 @@
 import { candidaturaRepository } from '../repositories/candidaturaRepository.ts'
+import { candidaturaValidador } from '../utils/candidaturaValidador.ts'
 import { AprovarAlunoDTO, RecusarAlunoDTO } from '../schemas/canditadura.Schema.ts'
 
 export const candidaturaService = {
   async candidaturaVaga(candidaturaData: { vagaId: string; estudanteId: string }) {
     try {
+      // Validações de negócio
+      let validacao = await candidaturaValidador.validarCandidaturaCompleta(
+        candidaturaData.vagaId,
+        candidaturaData.estudanteId,
+      )
+
+      if (!validacao.isValid) {
+        throw new Error(validacao.error || 'Validação da candidatura falhou')
+      }
+
       const candidatura = await candidaturaRepository.candidaturaVaga(candidaturaData)
 
       if (!candidatura) {
-        throw new Error('Erro ao cadastrar candidatura')
+        throw new Error('Erro ao criar candidatura')
       }
 
-      return candidatura
-    } catch (error) {
-      throw new Error('Erro ao cadastrar candidatura: ' + error)
+      return {
+        id: candidatura.id,
+        vagaId: candidatura.vagaId,
+        status: candidatura.status,
+        dataCandidatura: new Date(candidatura.dataCandidatura).toLocaleDateString('pt-BR'),
+        vaga: {
+          id: candidatura.vaga.id,
+          titulo: candidatura.vaga.titulo,
+          tipo: candidatura.vaga.tipo,
+        },
+      }
+    } catch (error: any) {
+      throw new Error(error.message || 'Erro ao processar candidatura')
     }
   },
 
@@ -37,17 +58,17 @@ export const candidaturaService = {
       }))
 
       return candidaturasFormatada
-    } catch (error) {
-      throw new Error('Erro ao listar candidaturas: ' + error)
+    } catch (error: any) {
+      throw new Error('Erro ao listar candidaturas: ' + error.message)
     }
   },
 
-  async removerCandidatura(candidaturaId: string) {
+  async removerCandidatura(candidaturaId: string, estudanteId: string) {
     try {
-      await candidaturaRepository.removerCandidatura(candidaturaId)
-      return { success: true }
-    } catch (error) {
-      throw new Error('Erro ao remover candidatura: ' + error)
+      const resultado = await candidaturaRepository.removerCandidatura(candidaturaId, estudanteId)
+      return { success: true, message: 'Candidatura removida com sucesso' }
+    } catch (error: any) {
+      throw new Error(error.message || 'Erro ao remover candidatura')
     }
   },
 
@@ -70,23 +91,41 @@ export const candidaturaService = {
       }))
 
       return candidatosFormatados
-    } catch (error) {
-      throw new Error('Erro ao listar candidatos da vaga: ' + error)
+    } catch (error: any) {
+      throw new Error('Erro ao listar candidatos da vaga: ' + error.message)
     }
   },
 
   async aprovarCandidatura(dados: AprovarAlunoDTO) {
     try {
+      // Validação se candidatura está pendente
+      const validacao = await candidaturaValidador.validarCandidaturaPendente(dados.candidaturaId)
+
+      if (!validacao.isValid) {
+        throw new Error(validacao.error || 'Candidatura não pode ser aprovada')
+      }
+
       const candidaturaAprovada = await candidaturaRepository.aprovarCandidatura(dados)
 
-      return candidaturaAprovada
-    } catch (error) {
-      throw new Error('Erro ao aprovar aluno: ' + error)
+      return {
+        id: candidaturaAprovada.id,
+        status: candidaturaAprovada.status,
+        message: 'Candidatura aprovada com sucesso',
+      }
+    } catch (error: any) {
+      throw new Error(error.message || 'Erro ao aprovar candidatura')
     }
   },
 
   async recusarCandidatura(dados: RecusarAlunoDTO) {
     try {
+      // Validação se candidatura está pendente
+      const validacao = await candidaturaValidador.validarCandidaturaPendente(dados.candidaturaId)
+
+      if (!validacao.isValid) {
+        throw new Error(validacao.error || 'Candidatura não pode ser recusada')
+      }
+
       const candidaturaRecusada = await candidaturaRepository.recusarCandidatura(dados)
 
       return {
@@ -94,8 +133,89 @@ export const candidaturaService = {
         status: candidaturaRecusada.status,
         message: 'Candidatura recusada com sucesso',
       }
-    } catch (error) {
-      throw new Error('Erro ao recusar aluno: ' + error)
+    } catch (error: any) {
+      throw new Error(error.message || 'Erro ao recusar candidatura')
+    }
+  },
+
+  async obterDetalhes(candidaturaId: string) {
+    try {
+      const candidatura = await candidaturaRepository.obterCandidaturaPorId(candidaturaId)
+
+      if (!candidatura) {
+        throw new Error('Candidatura não encontrada')
+      }
+
+      return {
+        id: candidatura.id,
+        status: candidatura.status,
+        dataCandidatura: new Date(candidatura.dataCandidatura).toLocaleDateString('pt-BR'),
+        vaga: {
+          id: candidatura.vaga.id,
+          titulo: candidatura.vaga.titulo,
+          tipo: candidatura.vaga.tipo,
+          descricao: candidatura.vaga.descricao,
+          requisitos: candidatura.vaga.requisitos,
+          prazoInscricao: new Date(candidatura.vaga.prazoInscricao).toLocaleDateString('pt-BR'),
+        },
+        estudante: {
+          id: candidatura.estudante.userId,
+          nome: candidatura.estudante.user.nome,
+          email: candidatura.estudante.user.email,
+          curso: candidatura.estudante.curso,
+          semestre: candidatura.estudante.semestre,
+          matricula: candidatura.estudante.matricula,
+        },
+      }
+    } catch (error: any) {
+      throw new Error(error.message || 'Erro ao obter detalhes da candidatura')
+    }
+  },
+
+  async listarComFiltros(filtros: {
+    estudanteId?: string
+    vagaId?: string
+    status?: 'PENDENTE' | 'ACEITA' | 'RECUSADA'
+    limit?: number
+    offset?: number
+  }) {
+    try {
+      const limit = filtros.limit || 10
+      const offset = filtros.offset || 0
+
+      const resultado = await candidaturaRepository.listarCandidaturasComFiltros(
+        filtros.estudanteId,
+        filtros.vagaId,
+        filtros.status,
+        limit,
+        offset,
+      )
+
+      return {
+        candidaturas: resultado.dados.map(c => ({
+          id: c.id,
+          status: c.status,
+          dataCandidatura: new Date(c.dataCandidatura).toLocaleDateString('pt-BR'),
+          vaga: {
+            id: c.vaga.id,
+            titulo: c.vaga.titulo,
+            tipo: c.vaga.tipo,
+          },
+          estudante: {
+            id: c.estudante.userId,
+            nome: c.estudante.user.nome,
+            email: c.estudante.user.email,
+          },
+        })),
+        paginacao: {
+          total: resultado.total,
+          pagina: resultado.pagina,
+          totalPaginas: resultado.totalPaginas,
+          limite: limit,
+        },
+      }
+    } catch (error: any) {
+      throw new Error(error.message || 'Erro ao listar candidaturas com filtros')
     }
   },
 }
