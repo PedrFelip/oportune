@@ -124,7 +124,7 @@ export function CardPostagemVaga({ vagas, onEncerrar }: CardPostagemVagaProps) {
                 </div>
 
                 <div className="flex gap-8 mt-6 flex-wrap">
-                  <Link href={`/vagas/${vaga.id}`}>
+                  <Link href={`minhas-vagas/${vaga.id}/candidaturas`}>
                     <Button variant={"ghost_blue"}>Ver detalhes</Button>
                   </Link>
                   <Link href={`/professor/minhas-vagas/editar-vaga/${vaga.id}`}>

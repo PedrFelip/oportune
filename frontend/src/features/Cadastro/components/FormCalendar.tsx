@@ -25,6 +25,7 @@ interface FormCalendarProps<T extends FieldValues> {
   name: Path<T>;
   label?: string;
   placeholder?: string;
+  toYear?: number;
 }
 
 export function FormCalendar<T extends FieldValues>({
@@ -32,6 +33,7 @@ export function FormCalendar<T extends FieldValues>({
   name,
   label,
   placeholder,
+  toYear
 }: FormCalendarProps<T>) {
   const [open, setOpen] = useState(false);
 
@@ -89,7 +91,7 @@ export function FormCalendar<T extends FieldValues>({
                     }}
                     locale={ptBR}
                     fromYear={1950}
-                    toYear={new Date().getFullYear() - 16}
+                    toYear={toYear || new Date().getFullYear() - 16}
                     captionLayout="dropdown"
                   />
                 </PopoverContent>

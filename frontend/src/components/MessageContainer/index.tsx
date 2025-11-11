@@ -10,20 +10,19 @@ export function MessagesContainer({ children }: MessagesContainerProps) {
       {children}
       <ToastContainer
         position="top-center"
-        autoClose={4500}
+        autoClose={4000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={true}
         rtl={false}
-        pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="light"
         transition={Bounce}
         aria-label={""}
         limit={1}
-      >
-      </ToastContainer>
+        stacked={true}
+      ></ToastContainer>
     </>
   );
 }

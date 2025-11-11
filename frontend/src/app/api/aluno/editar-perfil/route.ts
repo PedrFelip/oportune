@@ -6,5 +6,10 @@ import { NextRequest } from "next/server";
  * Atua como um proxy seguro para o backend.
  */
 export async function PUT(request: NextRequest) {
-  return proxyRequest(request, "/dashboard/perfil");
+  const body = await request.json();
+  return proxyRequest(request, "/dashboard/perfil", {
+    method: "PUT",
+    body,
+    authRequired: true,
+  });
 }
