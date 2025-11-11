@@ -1,6 +1,7 @@
 import { candidaturaRepository } from '../repositories/candidaturaRepository.ts'
 import { candidaturaValidador } from '../utils/candidaturaValidador.ts'
 import { AprovarAlunoDTO, RecusarAlunoDTO } from '../schemas/canditadura.Schema.ts'
+import { notificationService } from './notificationService.ts'
 
 export const candidaturaService = {
   async candidaturaVaga(candidaturaData: { vagaId: string; estudanteId: string }) {
@@ -107,6 +108,32 @@ export const candidaturaService = {
 
       const candidaturaAprovada = await candidaturaRepository.aprovarCandidatura(dados)
 
+      // Enviar notificação de aprovação (de forma assíncrona, sem bloquear)
+      setImmediate(async () => {
+        try {
+          const detalhes = await candidaturaRepository.obterCandidaturaPorId(candidaturaAprovada.id)
+          if (detalhes) {
+            const responsavelNome =
+              detalhes.vaga.empresa?.nomeFantasia ||
+              detalhes.vaga.professor?.user?.nome ||
+              'Responsável'
+            const vagaTipo = detalhes.vaga.tipo
+
+            await notificationService.enviarCandidaturaAprovada({
+              name: detalhes.estudante.user.nome,
+              email: detalhes.estudante.user.email,
+              vagaTitulo: detalhes.vaga.titulo,
+              responsavelNome: responsavelNome,
+              vagaTipo: vagaTipo,
+              dataCandidatura: new Date(detalhes.dataCandidatura).toLocaleDateString('pt-BR'),
+              dashboardURL: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/aluno/candidaturas`,
+            })
+          }
+        } catch (error) {
+          console.error('Erro ao enviar notificação de aprovação:', error)
+        }
+      })
+
       return {
         id: candidaturaAprovada.id,
         status: candidaturaAprovada.status,
@@ -127,6 +154,32 @@ export const candidaturaService = {
       }
 
       const candidaturaRecusada = await candidaturaRepository.recusarCandidatura(dados)
+
+      // Enviar notificação de recusa (de forma assíncrona, sem bloquear)
+      setImmediate(async () => {
+        try {
+          const detalhes = await candidaturaRepository.obterCandidaturaPorId(candidaturaRecusada.id)
+          if (detalhes) {
+            const responsavelNome =
+              detalhes.vaga.empresa?.nomeFantasia ||
+              detalhes.vaga.professor?.user?.nome ||
+              'Responsável'
+            const vagaTipo = detalhes.vaga.tipo
+
+            await notificationService.enviarCandidaturaRecusada({
+              name: detalhes.estudante.user.nome,
+              email: detalhes.estudante.user.email,
+              vagaTitulo: detalhes.vaga.titulo,
+              responsavelNome: responsavelNome,
+              vagaTipo: vagaTipo,
+              dataCandidatura: new Date(detalhes.dataCandidatura).toLocaleDateString('pt-BR'),
+              dashboardURL: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/aluno/candidaturas`,
+            })
+          }
+        } catch (error) {
+          console.error('Erro ao enviar notificação de recusa:', error)
+        }
+      })
 
       return {
         id: candidaturaRecusada.id,
