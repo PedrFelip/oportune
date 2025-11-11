@@ -1,5 +1,5 @@
 import prisma from '../../prisma/client.ts'
-import { AprovarAlunoDTO } from '../schemas/canditadura.Schema.ts'
+import { AprovarAlunoDTO, RecusarAlunoDTO } from '../schemas/canditadura.Schema.ts'
 
 export const candidaturaRepository = {
   async candidaturaVaga(candidaturaData: { vagaId: string; estudanteId: string }) {
@@ -134,6 +134,24 @@ export const candidaturaRepository = {
       return aceitacao
     } catch (error) {
       throw new Error('Erro ao aprovar candidatura: ' + error)
+    }
+  },
+
+  async recusarCandidatura(dados: RecusarAlunoDTO) {
+    try {
+      const recusada = await prisma.candidatura.update({
+        where: {
+          id: dados.candidaturaId,
+          estudanteId: dados.estudanteId,
+        },
+        data: {
+          status: 'RECUSADA',
+        },
+      })
+
+      return recusada
+    } catch (error) {
+      throw new Error('Erro ao recusar candidatura: ' + error)
     }
   },
 }
