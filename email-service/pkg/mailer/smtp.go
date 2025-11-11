@@ -142,3 +142,109 @@ func Enviar(nome, email, userID string) error {
 	log.Printf("Token: %s\n", token)
 	return nil
 }
+
+func CandidaturaAprovada(dados models.CandidaturaAprovadaRequest) error {
+	template := models.CandidaturaAprovadaTemplateData{
+		Name:            dados.Name,
+		Email:           dados.Email,
+		VagaTitulo:      dados.VagaTitulo,
+		ResponsavelNome: dados.ResponsavelNome,
+		VagaTipo:        dados.VagaTipo,
+		DataCandidatura: dados.DataCandidatura,
+		DashboardURL:    dados.DashboardURL,
+	}
+
+	bodyEmail, err := templateProcessCandidaturaAprovada("templates/candidatura_aprovada.html", template)
+	if err != nil {
+		return err
+	}
+
+	m := gomail.NewMessage()
+	m.SetHeader("From", os.Getenv("SMTP_USER"))
+	m.SetHeader("To", dados.Email)
+	m.SetHeader("Subject", "🎉 Candidatura Aprovada - "+dados.VagaTitulo+" - Oportune+")
+	m.SetBody("text/html", bodyEmail)
+
+	smtpPort, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
+	d := gomail.NewDialer(
+		os.Getenv("SMTP_HOST"),
+		smtpPort,
+		os.Getenv("SMTP_USER"),
+		os.Getenv("SMTP_PASS"),
+	)
+
+	if err := d.DialAndSend(m); err != nil {
+		return fmt.Errorf("falha ao enviar email de aprovação: %w", err)
+	}
+
+	log.Printf("E-mail de candidatura aprovada enviado com sucesso para %s \n", dados.Email)
+	return nil
+}
+
+func CandidaturaRecusada(dados models.CandidaturaRecusadaRequest) error {
+	template := models.CandidaturaRecusadaTemplateData{
+		Name:            dados.Name,
+		Email:           dados.Email,
+		VagaTitulo:      dados.VagaTitulo,
+		ResponsavelNome: dados.ResponsavelNome,
+		VagaTipo:        dados.VagaTipo,
+		DataCandidatura: dados.DataCandidatura,
+		DashboardURL:    dados.DashboardURL,
+	}
+
+	bodyEmail, err := templateProcessCandidaturaRecusada("templates/candidatura_recusada.html", template)
+	if err != nil {
+		return err
+	}
+
+	m := gomail.NewMessage()
+	m.SetHeader("From", os.Getenv("SMTP_USER"))
+	m.SetHeader("To", dados.Email)
+	m.SetHeader("Subject", "Atualização de Candidatura - "+dados.VagaTitulo+" - Oportune+")
+	m.SetBody("text/html", bodyEmail)
+
+	smtpPort, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
+	d := gomail.NewDialer(
+		os.Getenv("SMTP_HOST"),
+		smtpPort,
+		os.Getenv("SMTP_USER"),
+		os.Getenv("SMTP_PASS"),
+	)
+
+	if err := d.DialAndSend(m); err != nil {
+		return fmt.Errorf("falha ao enviar email de recusa: %w", err)
+	}
+
+	log.Printf("E-mail de candidatura recusada enviado com sucesso para %s \n", dados.Email)
+	return nil
+}
+
+func templateProcessCandidaturaAprovada(pathTemplate string, data models.CandidaturaAprovadaTemplateData) (string, error) {
+	var body bytes.Buffer
+	caminho, _ := filepath.Abs(pathTemplate)
+
+	t, err := template.ParseFiles(caminho)
+	if err != nil {
+		return "", fmt.Errorf("falha ao carregar template: %w", err)
+	}
+	if err := t.Execute(&body, data); err != nil {
+		return "", fmt.Errorf("falha ao executar template: %w", err)
+	}
+
+	return body.String(), nil
+}
+
+func templateProcessCandidaturaRecusada(pathTemplate string, data models.CandidaturaRecusadaTemplateData) (string, error) {
+	var body bytes.Buffer
+	caminho, _ := filepath.Abs(pathTemplate)
+
+	t, err := template.ParseFiles(caminho)
+	if err != nil {
+		return "", fmt.Errorf("falha ao carregar template: %w", err)
+	}
+	if err := t.Execute(&body, data); err != nil {
+		return "", fmt.Errorf("falha ao executar template: %w", err)
+	}
+
+	return body.String(), nil
+}

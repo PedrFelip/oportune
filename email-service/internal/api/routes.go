@@ -17,6 +17,8 @@ func SetupRoutesApp() *gin.Engine {
 	{
 		api.POST("/enviar-confirmacao", EnviarEmailAivacaoHandler)
 		api.POST("/enviar-recuperacao-senha", EnviarEmailRecuperacaoSenhaHandler)
+		api.POST("/enviar-candidatura-aprovada", EnviarCandidaturaAprovadaHandler)
+		api.POST("/enviar-candidatura-recusada", EnviarCandidaturaRecusadaHandler)
 	}
 
 	return app

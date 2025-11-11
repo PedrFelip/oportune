@@ -54,3 +54,51 @@ func EnviarEmailRecuperacaoSenhaHandler(c *gin.Context) {
 		"message": "email de recuperação enviado para " + req.Email,
 	})
 }
+
+func EnviarCandidaturaAprovadaHandler(c *gin.Context) {
+	var req models.CandidaturaAprovadaRequest
+
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "Corpo da requisição inválido: " + err.Error(),
+		})
+		return
+	}
+
+	err = mailer.CandidaturaAprovada(req)
+	if err != nil {
+		log.Printf("erro ao enviar e-mail de candidatura aprovada: %v", err)
+		c.JSON(500, gin.H{
+			"error": "Erro interno ao enviar o email",
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"message": "email de candidatura aprovada enviado para " + req.Email,
+	})
+}
+
+func EnviarCandidaturaRecusadaHandler(c *gin.Context) {
+	var req models.CandidaturaRecusadaRequest
+
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "Corpo da requisição inválido: " + err.Error(),
+		})
+		return
+	}
+
+	err = mailer.CandidaturaRecusada(req)
+	if err != nil {
+		log.Printf("erro ao enviar e-mail de candidatura recusada: %v", err)
+		c.JSON(500, gin.H{
+			"error": "Erro interno ao enviar o email",
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"message": "email de candidatura recusada enviado para " + req.Email,
+	})
+}
