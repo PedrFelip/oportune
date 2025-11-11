@@ -50,4 +50,14 @@ export async function candidaturaRoutes(fastify: FastifyInstance) {
     },
     candidaturaController.aprovarCandidatura,
   )
+
+  fastify.post<{
+    Body: { candidaturaId: string; estudanteId: string }
+  }>(
+    '/candidaturas/recusar',
+    {
+      preHandler: Authentication,
+    },
+    candidaturaController.recusarCandidatura,
+  )
 }
