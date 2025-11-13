@@ -17,6 +17,7 @@ import { primeiraLetraMaiuscula } from "@/utils/validadores";
 import { ProfileCard } from "./ProfileCard";
 import { useRouter } from "next/navigation";
 import { Estudante, User } from "@/models/user";
+import { format } from "date-fns";
 
 type perfilProps = {
   perfil?: User;
@@ -146,7 +147,7 @@ export function Perfil({ perfil }: perfilProps) {
                 <div className="flex gap-3">
                   <GraduationCapIcon />{" "}
                   {estudante.dataFormatura
-                    ? estudante.dataFormatura
+                    ? format(new Date(estudante.dataFormatura), "dd/MM/yyyy")
                     : "Data de formatura não informada"}
                 </div>
               )}
