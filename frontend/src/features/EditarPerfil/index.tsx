@@ -27,6 +27,9 @@ export interface ProfileEdit {
   dataFormatura?: string | null;
   habilidadesTecnicas?: string[];
   areasInteresse?: string[];
+  areaAtuacao?: string[]; // Para professor
+  departamento?: string; // Para professor
+  titulacao?: string; // Para professor
   linkPortfolio?: string | null;
   curriculo?: File | null;
 }
@@ -146,7 +149,7 @@ export default function EditarPerfilAluno() {
 
       await editarPerfil(payload);
       showMessage.success("Perfil atualizado com sucesso!");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       showMessage.error(err.message || "Erro ao atualizar o perfil.");
@@ -233,6 +236,24 @@ export default function EditarPerfilAluno() {
                   </CardContent>
                 </Card>
               )}
+
+              {usuario?.tipo === "PROFESSOR" && (
+                <Card className="bg-gray-800 border-gray-700">
+                  <CardHeader>
+                    <CardTitle className={cardTitleStyle}>
+                      Informações Acadêmicas
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4 text-white">
+                    <FormTagInput
+                      label="Área de interesse"
+                      placeholder="Adicionar área de interesse"
+                      control={control}
+                      name="areasInteresse"
+                    />
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             {/* ==================== COLUNA DIREITA ==================== */}
@@ -257,6 +278,35 @@ export default function EditarPerfilAluno() {
                       placeholder="Adicionar área de interesse"
                       control={control}
                       name="areasInteresse"
+                    />
+                  </CardContent>
+                </Card>
+              )}
+              {usuario?.tipo === "PROFESSOR" && (
+                <Card className="bg-gray-800 border-gray-700">
+                  <CardHeader>
+                    <CardTitle className={cardTitleStyle}>
+                      Informações Acadêmicas
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <FormInput
+                      id="areaAtuacao"
+                      label="Área de Atuação"
+                      placeholder="Digite sua área de atuação"
+                      {...register("areaAtuacao")}
+                    />
+                    <FormInput
+                      id="departamento"
+                      label="Departamento"
+                      placeholder="Digite seu departamento"
+                      {...register("departamento")}
+                    />
+                    <FormInput
+                      id="titulacao"
+                      label="Titulação"
+                      placeholder="Digite sua titulação"
+                      {...register("titulacao")}
                     />
                   </CardContent>
                 </Card>
