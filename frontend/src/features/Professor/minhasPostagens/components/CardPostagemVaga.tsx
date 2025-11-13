@@ -17,7 +17,10 @@ type CardPostagemVagaProps = {
   onEncerrar: (vagaId: string) => void;
 };
 
-const statusVagaMap: Record<StatusVaga, { color: string; border: string; bg: string; label: string }> = {
+const statusVagaMap: Record<
+  StatusVaga,
+  { color: string; border: string; bg: string; label: string }
+> = {
   ATIVA: {
     color: "text-green-400",
     border: "border-green-600",
@@ -80,8 +83,8 @@ export function CardPostagemVaga({ vagas, onEncerrar }: CardPostagemVagaProps) {
                     {vaga.tipo === "ESTAGIO"
                       ? "Estágio"
                       : vaga.tipo === "PESQUISA"
-                      ? "Pesquisa"
-                      : "Extensão"}
+                        ? "Pesquisa"
+                        : "Extensão"}
                   </span>
                 </p>
 
@@ -124,18 +127,24 @@ export function CardPostagemVaga({ vagas, onEncerrar }: CardPostagemVagaProps) {
                 </div>
 
                 <div className="flex gap-8 mt-6 flex-wrap">
-                  <Link href={`minhas-vagas/${vaga.id}/candidaturas`}>
-                    <Button variant={"ghost_blue"}>Ver detalhes</Button>
-                  </Link>
-                  <Link href={`/professor/minhas-vagas/editar-vaga/${vaga.id}`}>
-                    <Button
-                      variant={"oportune"}
-                      className="flex items-center gap-2"
-                    >
-                      <Pencil size={18} />
-                      Editar vaga
-                    </Button>
-                  </Link>
+                  {statusKey !== "ENCERRADA" && (
+                    <>
+                      <Link href={`minhas-vagas/${vaga.id}/candidaturas`}>
+                        <Button variant={"ghost_blue"}>Ver detalhes</Button>
+                      </Link>
+                      <Link
+                        href={`/professor/minhas-vagas/editar-vaga/${vaga.id}`}
+                      >
+                        <Button
+                          variant={"oportune"}
+                          className="flex items-center gap-2"
+                        >
+                          <Pencil size={18} />
+                          Editar vaga
+                        </Button>
+                      </Link>
+                    </>
+                  )}
 
                   {statusKey === "ATIVA" && (
                     <Button

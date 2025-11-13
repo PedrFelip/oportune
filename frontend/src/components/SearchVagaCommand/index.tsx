@@ -14,11 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Vaga } from "@/models/vaga";
 import { buscarVagas } from "@/features/Aluno/api/buscarVagas";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function SearchVagaCommand() {
   const [open, setOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const [vagas, setVagas] = React.useState<Vaga[]>([]);
+
+  const { usuario } = useAuth();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -52,6 +55,10 @@ export function SearchVagaCommand() {
   //   // 🔍 Lógica de busca aqui
   //   setOpen(false);
   // };
+
+  if (usuario?.tipo !== "ESTUDANTE") {
+    return null;
+  }
 
   return (
     <>

@@ -14,7 +14,6 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "@/components/ui/badge";
 import { primeiraLetraMaiuscula } from "@/utils/validadores";
-import { Experiencia } from "./Experiencia";
 import { ProfileCard } from "./ProfileCard";
 import { useRouter } from "next/navigation";
 import { Estudante, User } from "@/models/user";
@@ -85,8 +84,7 @@ export function Perfil({ perfil }: perfilProps) {
                       {empresa?.ramo || "Professor(a)"}
                     </p>
                     <p>
-                      <strong className="">Setor:</strong>{" "}
-                      {empresa?.setor}
+                      <strong className="">Setor:</strong> {empresa?.setor}
                     </p>
                   </div>
                 )}
@@ -179,7 +177,9 @@ export function Perfil({ perfil }: perfilProps) {
           {(estudante || professor) && (
             <ProfileCard>
               <h2 className="font-bold text-2xl border-b-2 border-b-gray-700 py-2">
-                Habilidades
+                {estudante
+                  ? "Habilidades"
+                  : "Áreas de Interesse e Departamento"}
               </h2>
               <main className="flex flex-col gap-6">
                 {estudante && (
@@ -248,7 +248,7 @@ export function Perfil({ perfil }: perfilProps) {
           )}
 
           {/* EXPERIÊNCIAS */}
-          {empresa ? (
+          {/* {empresa ? (
             <ProfileCard>
               <h2 className="font-bold text-2xl border-b-2 border-b-gray-700 py-2">
                 Vagas publicadas
@@ -286,7 +286,7 @@ export function Perfil({ perfil }: perfilProps) {
                 />
               </main>
             </ProfileCard>
-          )}
+          )} */}
         </div>
       </div>
     </div>

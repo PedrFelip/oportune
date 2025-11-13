@@ -8,7 +8,7 @@ import { NextRequest } from "next/server";
  */
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  return proxyRequest(request, "/candidaturas/rejeitar", {
+  return proxyRequest(request, "/candidaturas/recusar", {
     authRequired: true,
     body: body,
     method: "POST",

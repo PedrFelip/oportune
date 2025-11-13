@@ -4,6 +4,11 @@ const VagaStatus = ({ status }: { status: StatusCandidatura | string }) => {
       label: "Aprovado",
       style: "bg-green-500/10 text-green-400",
     },
+    ACEITA: { // No string enum, StatusCandidatura.APROVADA é "APROVADA"
+      label: "Aceita",
+      style: "bg-green-500/10 text-green-400",
+    },
+
     "ENTREVISTA AGENDADA": {
       label: "Entrevista",
       style: "bg-blue-500/10 text-blue-400",
