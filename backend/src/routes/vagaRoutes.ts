@@ -10,7 +10,7 @@ import { FastifyInstance } from 'fastify'
 import Authentication from '../plugins/tokenValidator.ts'
 
 export async function vagaRoutes(app: FastifyInstance) {
-  app.post('/vagas', createVagaController)
+  app.post('/vagas', { preHandler: Authentication }, createVagaController)
   app.get('/vagas', listarVagasController)
   app.get('/vagas/:id', getVagaDetalhesController)
   app.put('/vagas/:id', { preHandler: Authentication }, (request, reply) =>

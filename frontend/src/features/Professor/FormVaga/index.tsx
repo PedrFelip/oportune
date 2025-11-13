@@ -40,8 +40,7 @@ type FormNewEventProps = {
 
 const tipoVaga = [
   { label: "Extensão", value: "Extensão" },
-  { label: "Pesquisa", value: "Pesquisa" },
-  { label: "Estágio", value: "Estágio" },
+  { label: "Pesquisa", value: "Pesquisa" }
 ];
 
 export function FormNewOportune({

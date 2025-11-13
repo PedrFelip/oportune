@@ -88,7 +88,7 @@ export function FormCalendar({
                       setOpen(false);
                     }}
                     locale={ptBR}
-                    hidden={{ before: new Date() }}
+                    disabled={{ before: new Date() }}
                     captionLayout="dropdown"
                   />
                 </PopoverContent>

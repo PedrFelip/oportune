@@ -1,6 +1,6 @@
 import { z } from "zod";
 import * as regex from "@/utils/validadores";
-import informacoes from "@/utils/informacoes.json" with {type: "json"};
+import informacoes from "@/utils/informacoes.json" with { type: "json" };
 
 const cursoSchema = z.object({
   label: z.string(),
@@ -145,7 +145,8 @@ const empresaSchema = z.object({
   telefone: z
     .string()
     .regex(regex.phoneRegex, FraseTelefoneInvalidoErro)
-    .optional(),
+    .optional()
+    .nullable(),
 
   emailContato: z.email({ message: FraseErroEmail }),
   website: z.httpUrl({ message: "Url inválida" }),

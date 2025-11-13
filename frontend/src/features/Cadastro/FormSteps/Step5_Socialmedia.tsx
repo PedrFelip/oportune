@@ -27,6 +27,7 @@ export function Step5_Socialmedia({
           type="email"
           {...register("emailContato")}
           error={(errors as any).emailContato?.message}
+          required={false}
         />
         <FormInput
           id="telefone"
@@ -35,6 +36,7 @@ export function Step5_Socialmedia({
           mask={"(99) 99999-9999"}
           {...register("telefone")}
           error={(errors as any).telefone?.message}
+          required={false}
         />
         <FormInput
           id="website"
