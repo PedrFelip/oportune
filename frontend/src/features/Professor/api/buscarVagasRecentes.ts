@@ -17,16 +17,13 @@ export async function buscarVagasRecentes(): Promise<VagaRecente[]> {
       throw new Error("Token de autenticação não encontrado");
     }
 
-    const response = await fetch(
-      `/api/professor/dashboard/vagas-recentes`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`/api/professor/dashboard/vagas-recentes`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

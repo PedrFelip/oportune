@@ -42,7 +42,7 @@ export function Dashboard() {
         setLoadingPerfil(true);
         const respPerfil = await buscarPerfilProfessor();
         setPerfil(respPerfil.perfil);
-        
+
         setLoadingAlunos(true);
         const respAlunos = await buscarAlunosOrientados();
         setAlunosOrientados(respAlunos.alunos);
@@ -59,7 +59,7 @@ export function Dashboard() {
         setLoadingVagas(false);
       }
     };
-    
+
     carregarDados();
   }, [carregando]);
 
@@ -129,7 +129,9 @@ export function Dashboard() {
                 <div className="w-full bg-slate-700 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full"
-                    style={{ width: `${perfil.percentualPerfilCompleto || 0}%` }}
+                    style={{
+                      width: `${perfil.percentualPerfilCompleto || 0}%`,
+                    }}
                   ></div>
                 </div>
               </div>
@@ -161,27 +163,35 @@ export function Dashboard() {
                     key={vaga.id}
                     className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors"
                   >
-                    <div>
-                      <p className="font-semibold text-white">{vaga.titulo}</p>
-                      <p className="text-sm text-slate-400">
-                        Inscrições expiram em{" "}
-                        {new Date(vaga.dataLimite).toLocaleDateString("pt-BR")}
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-center gap-2">
-                      <Badge
-                        className={`px-3 py-2 w-4/5 text-xs font-semibold rounded-full whitespace-nowrap ${
-                          vaga.porcentagem >= 75
-                            ? "bg-green-500/10 text-green-400"
-                            : vaga.porcentagem >= 50
-                            ? "bg-yellow-500/10 text-yellow-400"
-                            : "bg-red-500/10 text-red-400"
-                        }`}
-                      >
-                        {vaga.porcentagem.toFixed(0)}%
-                      </Badge>
-                      <Button variant={"oportune"}>Ver detalhes</Button>
-                    </div>
+                    {vaga.status !== "REJEITADA" ? (
+                      <>
+                        <div>
+                          <p className="font-semibold text-white">
+                            {vaga.titulo}
+                          </p>
+                          <p className="text-sm text-slate-400">
+                            Inscrições expiram em{" "}
+                            {new Date(vaga.dataLimite).toLocaleDateString(
+                              "pt-BR"
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-center gap-2">
+                          <Badge
+                            className={`px-3 py-2 w-4/5 text-xs font-semibold rounded-full whitespace-nowrap ${
+                              vaga.porcentagem >= 75
+                                ? "bg-green-500/10 text-green-400"
+                                : vaga.porcentagem >= 50
+                                  ? "bg-yellow-500/10 text-yellow-400"
+                                  : "bg-red-500/10 text-red-400"
+                            }`}
+                          >
+                            {vaga.porcentagem.toFixed(0)}%
+                          </Badge>
+                          <Button variant={"oportune"}>Ver detalhes</Button>
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -213,14 +223,16 @@ export function Dashboard() {
                       {aluno.curso} — {aluno.semestre}º semestre
                     </p>
                     <div className="flex gap-2">
-                      {aluno.habilidadesTecnicas?.slice(0, 3).map((habilidade: string, idx: number) => (
-                        <Badge
-                          key={idx}
-                          className="px-3 py-2 justify-around flex-1 mt-3 text-xs font-semibold rounded-full whitespace-nowrap bg-blue-500/10 text-blue-400"
-                        >
-                          {habilidade}
-                        </Badge>
-                      ))}
+                      {aluno.habilidadesTecnicas
+                        ?.slice(0, 3)
+                        .map((habilidade: string, idx: number) => (
+                          <Badge
+                            key={idx}
+                            className="px-3 py-2 justify-around flex-1 mt-3 text-xs font-semibold rounded-full whitespace-nowrap bg-blue-500/10 text-blue-400"
+                          >
+                            {habilidade}
+                          </Badge>
+                        ))}
                     </div>
                     <Button variant={"oportune_blank"} className="w-full mt-4">
                       Ver detalhes
