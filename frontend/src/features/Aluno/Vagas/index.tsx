@@ -21,8 +21,10 @@ export default function Vagas() {
       if (vagasReq === null) {
         throw new Error("Falha na requisição");
       }
+      // Extrai o array de vagas da resposta
+      const vagasArray = Array.isArray(vagasReq) ? vagasReq : vagasReq.dados || [];
       showMessage.success("Vagas carregadas");
-      setVagas(vagasReq);
+      setVagas(vagasArray);
     } finally {
       hideLoading();
     }

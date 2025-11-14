@@ -40,7 +40,9 @@ export function SearchVagaCommand() {
       if (vagasReq === null) {
         throw new Error("Falha na requisição");
       }
-      setVagas(vagasReq);
+      // Extrai o array de vagas da resposta
+      const vagasArray = Array.isArray(vagasReq) ? vagasReq : vagasReq.dados || [];
+      setVagas(vagasArray);
     } catch (error) {
       console.error("Erro ao carregar vagas:", error);
     }
