@@ -125,20 +125,10 @@ model Candidatura {
   estudante       Estudante         @relation(fields: [estudanteId], references: [userId], onDelete: Cascade)
   vaga            Vaga              @relation(fields: [vagaId], references: [id], onDelete: Cascade)
 
-<<<<<<< HEAD
-  vaga      Vaga      @relation(fields: [vagaId], references: [id], onDelete: Cascade)
-  estudante Estudante @relation(fields: [estudanteId], references: [userId], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
   // Constraint única: um estudante só pode se candidatar uma vez por vaga
   @@unique([vagaId, estudanteId], name: "candidatura_vaga_estudante_unique")
   // Rapida busca das candidaturas mais recentes de um estudante
-  @@index([estudanteId, dataCandidatura(sort: Desc)], name: "candidaturas_estudante_data_idx")
-=======
   @@index([estudanteId, dataCandidatura(sort: Desc)], map: "candidaturas_estudante_data_idx")
->>>>>>> refs/remotes/origin/main
   @@map("candidaturas")
 }
 
