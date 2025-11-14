@@ -26,6 +26,7 @@ interface FormCalendarProps<T extends FieldValues> {
   label?: string;
   placeholder?: string;
   toYear?: number;
+  fromYear?: number;
 }
 
 export function FormCalendar<T extends FieldValues>({
@@ -33,7 +34,8 @@ export function FormCalendar<T extends FieldValues>({
   name,
   label,
   placeholder,
-  toYear
+  toYear,
+  fromYear
 }: FormCalendarProps<T>) {
   const [open, setOpen] = useState(false);
 
@@ -78,7 +80,7 @@ export function FormCalendar<T extends FieldValues>({
                     )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 bg-card border-white/10" align="start">
                   <Calendar
                     mode="single"
                     selected={dateValue}
@@ -90,9 +92,13 @@ export function FormCalendar<T extends FieldValues>({
                       setOpen(false);
                     }}
                     locale={ptBR}
-                    fromYear={1950}
-                    toYear={toYear || new Date().getFullYear() - 16}
+                    fromYear={fromYear || 1950}
+                    toYear={toYear || new Date().getFullYear() - 14}
                     captionLayout="dropdown"
+                    classNames={{
+                      day_selected: "bg-[#2474e4] text-white hover:bg-[#2474e4]/80",
+                      day_today: "bg-[#2474e4]/20 text-[#2474e4]",
+                    }}
                   />
                 </PopoverContent>
               </Popover>

@@ -76,7 +76,7 @@ export function FormCalendar({
                     )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 bg-card border-white/10" align="start">
                   <Calendar
                     mode="single"
                     selected={dateValue}
@@ -90,6 +90,10 @@ export function FormCalendar({
                     locale={ptBR}
                     disabled={{ before: new Date() }}
                     captionLayout="dropdown"
+                    classNames={{
+                      day_selected: "bg-[#2474e4] text-white hover:bg-[#2474e4]/80",
+                      day_today: "bg-[#2474e4]/20 text-[#2474e4]",
+                    }}
                   />
                 </PopoverContent>
               </Popover>
