@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, Save, Upload } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import FormInput from "@/components/FormInput";
 import { useForm } from "react-hook-form";
 import { CursoType } from "@/features/Cadastro/@types/type";
@@ -30,8 +29,6 @@ export interface ProfileEdit {
   areaAtuacao?: string[]; // Para professor
   departamento?: string; // Para professor
   titulacao?: string; // Para professor
-  linkPortfolio?: string | null;
-  curriculo?: File | null;
 }
 
 type SemestreOption = {
@@ -67,8 +64,6 @@ export default function EditarPerfilAluno() {
               dataFormatura: usuario.estudante?.dataFormatura ?? null,
               habilidadesTecnicas: usuario.estudante?.habilidadesTecnicas ?? [],
               areasInteresse: usuario.estudante?.areasInteresse ?? [],
-              linkPortfolio: "",
-              curriculo: null,
             };
 
           // ==================== PROFESSOR ====================
@@ -81,8 +76,6 @@ export default function EditarPerfilAluno() {
               dataFormatura: null,
               habilidadesTecnicas: usuario.professor?.areasInteresse ?? [],
               areasInteresse: usuario.professor?.areasInteresse ?? [],
-              linkPortfolio: usuario.professor?.lattes ?? "",
-              curriculo: null,
             };
 
           // ==================== EMPRESA ====================
@@ -97,8 +90,6 @@ export default function EditarPerfilAluno() {
                 ? [usuario.empresa.setor]
                 : [],
               areasInteresse: usuario.empresa?.redesSociais ?? [],
-              linkPortfolio: usuario.empresa?.website ?? "",
-              curriculo: null,
             };
 
           default:
@@ -312,42 +303,6 @@ export default function EditarPerfilAluno() {
                 </Card>
               )}
 
-              {/* 🔹 Documentos */}
-              {usuario?.tipo === "ESTUDANTE" && (
-                <Card className="bg-gray-800 border-gray-700">
-                  <CardHeader>
-                    <CardTitle className={cardTitleStyle}>Documentos</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <FormInput
-                      id="portfolio"
-                      label="Link do Portfólio"
-                      type="url"
-                      placeholder="https://github.com/seu-usuario"
-                      {...register("linkPortfolio")}
-                    />
-                    <div>
-                      <Label className="block mb-2 text-sm font-medium text-[#c4d3e6]">
-                        Currículo (PDF)
-                      </Label>
-                      <label
-                        htmlFor="curriculo"
-                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer bg-gray-700/50 hover:bg-gray-700 transition-colors"
-                      >
-                        <Upload className="w-8 h-8 mb-2 text-gray-400" />
-                        <p className="text-sm text-gray-400">
-                          <span className="font-semibold">
-                            Clique para enviar
-                          </span>{" "}
-                          ou arraste e solte
-                        </p>
-                        <p className="text-xs text-gray-500">PDF (MAX. 5MB)</p>
-                        <input id="curriculo" type="file" className="hidden" />
-                      </label>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
             </div>
           </div>
         </main>
