@@ -19,9 +19,7 @@ interface infos {
   requisitos: string[];
   curso: string[];
   semestre: string;
-  bolsa: string;
   prazoInscricao: string;
-  sobre: string;
   responsavel?: {
     id: string;
     tipo: "EMPRESA" | "PROFESSOR";
@@ -109,7 +107,7 @@ export function Vaga({ vaga, id }: vagaProps) {
             )}
           </div>
           <div className="flex flex-wrap gap-3">
-            {vaga.tags.map((tag, index) => (
+            {(vaga.tags || []).map((tag, index) => (
               <Categoria key={index} caracteristica={tag}></Categoria>
             ))}
           </div>
@@ -130,11 +128,6 @@ export function Vaga({ vaga, id }: vagaProps) {
         <section className="flex flex-col gap-6 w-65/100 bg-[#1E293B] p-6 rounded-2xl">
           <InfoVaga titulo={"Descrição da vaga"} descricao={vaga.descricao} />
           <InfoVaga
-            titulo={"Responsabilidades"}
-            descricao={vaga.responsabilidades}
-            tipo={"lista"}
-          />
-          <InfoVaga
             titulo={"Requisitos"}
             descricao={vaga.requisitos}
             tipo={"lista"}
@@ -150,12 +143,10 @@ export function Vaga({ vaga, id }: vagaProps) {
             titulo={"Semestre Mínimo"}
             descricao={`A partir do ${vaga.semestre}°`}
           />
-          <InfoVaga titulo={"Bolsa Auxilio"} descricao={vaga.bolsa} />
           <InfoVaga
             titulo={"Prazo de inscrição"}
             descricao={vaga.prazoInscricao}
           />
-          <InfoVaga titulo={"Sobre a empresa"} descricao={vaga.sobre} />
         </section>
       </main>
     </>
