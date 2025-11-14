@@ -9,5 +9,5 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  return proxyRequest(request, `/profile/${params.id}`);
+  return proxyRequest(request, `/profile/${params.id}`, { authRequired: false });
 }
