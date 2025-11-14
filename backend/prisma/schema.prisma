@@ -166,6 +166,8 @@ model Candidatura {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Constraint única: um estudante só pode se candidatar uma vez por vaga
+  @@unique([vagaId, estudanteId], name: "candidatura_vaga_estudante_unique")
   // Rapida busca das candidaturas mais recentes de um estudante
   @@index([estudanteId, dataCandidatura(sort: Desc)], name: "candidaturas_estudante_data_idx")
   @@map("candidaturas")
