@@ -51,12 +51,23 @@ export function FormCalendar<T extends FieldValues>({
         name={name}
         control={control}
         render={({ field, fieldState: { error } }) => {
-          const dateValue =
-            field.value &&
-            typeof field.value === "string" &&
-            isValid(new Date(field.value))
-              ? new Date(`${field.value}T00:00:00`)
-              : undefined;
+          // Normaliza o valor do campo para um Date válido (ou undefined)
+          // Aceita:
+          // - string "YYYY-MM-DD" (adiciona T00:00:00)
+          // - string ISO (contendo "T") -> usa diretamente
+          // - Date -> usa diretamente
+          let dateValue: Date | undefined = undefined;
+          const raw = field.value as unknown;
+
+          if (raw instanceof Date) {
+            dateValue = isValid(raw) ? raw : undefined;
+          } else if (typeof raw === "string") {
+            const normalized = raw.includes("T") ? raw : `${raw}T00:00:00`;
+            const parsed = new Date(normalized);
+            dateValue = isValid(parsed) ? parsed : undefined;
+          } else {
+            dateValue = undefined;
+          }
 
           return (
             <div>

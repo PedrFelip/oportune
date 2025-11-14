@@ -78,17 +78,20 @@ export default function EditarPerfilAluno() {
         const perfilData = await buscarPerfilAtual();
         console.log("Dados do perfil carregados:", perfilData);
 
+        // A API retorna um envelope { perfil: {...} }
+        const perfil = perfilData?.perfil;
+
         // Atualizar o formulário com os dados carregados
-        if (usuario.tipo === "ESTUDANTE" && perfilData) {
+        if (usuario.tipo === "ESTUDANTE" && perfil) {
           reset({
-            nome: perfilData.nome || usuario.nome,
-            telefone: perfilData.telefone || "",
-            curso: perfilData.cursoValue || (usuario.estudante?.curso as CursoType),
-            semestre: perfilData.semestre || 0,
-            dataFormatura: perfilData.dataFormatura || null,
-            habilidadesTecnicas: perfilData.habilidadesTecnicas || [],
-            habilidadesComportamentais: perfilData.habilidadesComportamentais || [],
-            areasInteresse: perfilData.areasInteresse || [],
+            nome: perfil.nome || usuario.nome,
+            telefone: perfil.telefone || "",
+            curso: perfil.cursoValue || (usuario.estudante?.curso as CursoType),
+            semestre: perfil.semestre ?? 0,
+            dataFormatura: perfil.dataFormatura || null,
+            habilidadesTecnicas: perfil.habilidadesTecnicas || [],
+            habilidadesComportamentais: perfil.habilidadesComportamentais || [],
+            areasInteresse: perfil.areasInteresse || [],
           });
         }
       } catch (error) {
@@ -119,6 +122,7 @@ export default function EditarPerfilAluno() {
 
   const [cursoSemestre, setCursoSemestre] = useState<SemestreOption[]>([]);
   const cursoSelecionadoValue = watch("curso");
+  const semestreAtual = watch("semestre");
 
   useEffect(() => {
     const cursoSelecionado = dados.cursos.find(
@@ -135,12 +139,19 @@ export default function EditarPerfilAluno() {
       );
 
       setCursoSemestre(semestres);
-      setValue("semestre", 0);
+      // Não sobrescrever o semestre carregado do perfil.
+      // Apenas defina um padrão se não houver valor válido selecionado.
+      const valoresValidos = semestres.map(s => s.value);
+      const semestreAtualNumero = typeof semestreAtual === "number" ? semestreAtual : 0;
+      if (!valoresValidos.includes(semestreAtualNumero)) {
+        // Define o primeiro semestre como padrão quando não houver um válido
+        setValue("semestre", semestres[0]?.value ?? 1);
+      }
     } else {
       setCursoSemestre([]);
-      setValue("semestre", 0);
+      // Quando não há curso, mantenha o semestre como está (0 indica "não selecionado")
     }
-  }, [cursoSelecionadoValue, setValue]);
+  }, [cursoSelecionadoValue, semestreAtual, setValue]);
 
   const onSubmit = async (data: ProfileEdit) => {
     showLoading();
