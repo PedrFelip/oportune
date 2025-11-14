@@ -1,6 +1,34 @@
 import prisma from '../../prisma/client.ts'
 import { VagaUpdateDTO } from '../schemas/vagasSchema.ts'
 
+// Busca o ID do Professor a partir do userId
+export const getProfessorIdByUserId = async (userId: string): Promise<string | null> => {
+  try {
+    const professor = await prisma.professor.findUnique({
+      where: { userId },
+      select: { id: true },
+    })
+    return professor?.id || null
+  } catch (error) {
+    console.error('Erro ao buscar professor:', error)
+    return null
+  }
+}
+
+// Busca o ID da Empresa a partir do userId
+export const getEmpresaIdByUserId = async (userId: string): Promise<string | null> => {
+  try {
+    const empresa = await prisma.empresa.findUnique({
+      where: { userId },
+      select: { id: true },
+    })
+    return empresa?.id || null
+  } catch (error) {
+    console.error('Erro ao buscar empresa:', error)
+    return null
+  }
+}
+
 export const createVaga = async (vagaData: any) => {
   try {
     const vaga = await prisma.vaga.create({
@@ -79,9 +107,7 @@ export const getVagaDetalhes = async (vagaId: string) => {
       requisitos: vaga.requisitos,
       curso: vaga.cursosAlvo || [],
       semestre: vaga.semestreMinimo?.toString() || '1',
-      bolsa: 'A combinar', // Campo não existe no banco
       prazoInscricao: prazoFormatado,
-      sobre: vaga.empresa?.descricao || 'Informações não disponíveis',
       responsavel: {
         id: vaga.empresa?.userId || vaga.professor?.userId || '',
         tipo: vaga.empresa ? 'EMPRESA' : 'PROFESSOR',

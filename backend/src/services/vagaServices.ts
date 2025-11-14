@@ -7,17 +7,9 @@ import {
   updateVaga,
 } from '../repositories/vagasRepository.ts'
 import { VagaUpdateDTO } from '../schemas/vagasSchema.ts'
-import { vagaValidador } from '../utils/vagaValidador.ts'
 
 export const createServiceVaga = async (vagaData: any) => {
   try {
-    // Validação completa de criação
-    const validacao = await vagaValidador.validarCriacaoCompleta(vagaData)
-
-    if (!validacao.isValid) {
-      throw new Error(validacao.error || 'Validação de vaga falhou')
-    }
-
     const novaVaga = await createVaga(vagaData)
 
     return {
@@ -75,39 +67,24 @@ export const listarServiceVagas = async (page: number, limit: number) => {
 
 export const getVagaDetalhesService = async (vagaId: string) => {
   try {
-    // Validação de existência
-    const validacao = await vagaValidador.validarExistencia(vagaId)
-
-    if (!validacao.isValid) {
-      throw new Error(validacao.error)
-    }
-
     const vaga = await getVagaDetalhes(vagaId)
-
-    // Obtém estatísticas da vaga
-    const stats = await vagaValidador.obterEstatisticas(vagaId)
 
     return {
       sucesso: true,
-      dados: {
-        ...vaga,
-        estatisticas: stats,
-      },
+      dados: vaga,
     }
   } catch (error: any) {
     throw new Error(error.message || 'Erro ao obter detalhes da vaga')
   }
 }
 
-export const updateServiceVaga = async (vagaId: string, dadosAtualizacao: VagaUpdateDTO) => {
+export const updateServiceVaga = async (
+  vagaId: string,
+  dadosAtualizacao: VagaUpdateDTO,
+  usuarioId: string,
+  tipoUsuario: 'EMPRESA' | 'PROFESSOR',
+) => {
   try {
-    // Validação completa de atualização
-    const validacao = await vagaValidador.validarAtualizacaoCompleta(vagaId, dadosAtualizacao)
-
-    if (!validacao.isValid) {
-      throw new Error(validacao.error || 'Validação de atualização falhou')
-    }
-
     const vagaAtualizada = await updateVaga(vagaId, dadosAtualizacao)
 
     return {
@@ -121,15 +98,12 @@ export const updateServiceVaga = async (vagaId: string, dadosAtualizacao: VagaUp
   }
 }
 
-export const encerrarServiceVaga = async (vagaId: string) => {
+export const encerrarServiceVaga = async (
+  vagaId: string,
+  usuarioId: string,
+  tipoUsuario: 'EMPRESA' | 'PROFESSOR',
+) => {
   try {
-    // Validação se pode encerrar
-    const validacao = await vagaValidador.validarPodeEncerrar(vagaId)
-
-    if (!validacao.isValid) {
-      throw new Error(validacao.error || 'Não é possível encerrar esta vaga')
-    }
-
     const vagaEncerrada = await encerrarVaga(vagaId)
 
     return {
@@ -187,100 +161,5 @@ export const listarVagasPorResponsavelService = async (
     }
   } catch (error: any) {
     throw new Error(error.message || 'Erro ao listar vagas por responsável')
-  }
-}
-
-/**
- * Valida se um usuário pode editar uma vaga específica
- */
-export const validarAutorizacaoEditarService = async (
-  vagaId: string,
-  usuarioId: string,
-  tipoUsuario: 'EMPRESA' | 'PROFESSOR',
-) => {
-  try {
-    const validacao = await vagaValidador.validarAutorizacaoEditar(vagaId, usuarioId, tipoUsuario)
-
-    return {
-      autorizado: validacao.isValid,
-      erro: validacao.error,
-      codigo: validacao.errorCode,
-    }
-  } catch (error: any) {
-    throw new Error(error.message || 'Erro ao validar autorização')
-  }
-}
-
-/**
- * Valida se um usuário pode deletar uma vaga específica
- */
-export const validarAutorizacaoDeletarService = async (
-  vagaId: string,
-  usuarioId: string,
-  tipoUsuario: 'EMPRESA' | 'PROFESSOR',
-) => {
-  try {
-    const validacao = await vagaValidador.validarAutorizacaoDeletar(vagaId, usuarioId, tipoUsuario)
-
-    return {
-      autorizado: validacao.isValid,
-      erro: validacao.error,
-      codigo: validacao.errorCode,
-    }
-  } catch (error: any) {
-    throw new Error(error.message || 'Erro ao validar autorização')
-  }
-}
-
-/**
- * Obtém estatísticas de uma vaga
- */
-export const obterEstatisticasVagaService = async (vagaId: string) => {
-  try {
-    const validacao = await vagaValidador.validarExistencia(vagaId)
-
-    if (!validacao.isValid) {
-      throw new Error(validacao.error)
-    }
-
-    const stats = await vagaValidador.obterEstatisticas(vagaId)
-
-    return {
-      sucesso: true,
-      dados: stats,
-    }
-  } catch (error: any) {
-    throw new Error(error.message || 'Erro ao obter estatísticas da vaga')
-  }
-}
-
-/**
- * Valida se um estudante pode se candidatar a uma vaga
- */
-export const validarCandidaturaVagaService = async (vagaId: string, estudanteId: string) => {
-  try {
-    // Validar existência
-    let validacao = await vagaValidador.validarExistencia(vagaId)
-    if (!validacao.isValid) {
-      return { podeCandidata: false, erro: validacao.error, codigo: validacao.errorCode }
-    }
-
-    // Validar status ativo
-    validacao = await vagaValidador.validarStatusAtivo(vagaId)
-    if (!validacao.isValid) {
-      return { podeCandidatar: false, erro: validacao.error, codigo: validacao.errorCode }
-    }
-
-    // Validar prazo não expirou
-    validacao = await vagaValidador.validarPrazoExpirado(vagaId)
-    if (!validacao.isValid) {
-      return { podeCandidatar: false, erro: validacao.error, codigo: validacao.errorCode }
-    }
-
-    return {
-      podeCandidatar: true,
-    }
-  } catch (error: any) {
-    throw new Error(error.message || 'Erro ao validar candidatura')
   }
 }
