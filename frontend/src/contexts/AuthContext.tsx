@@ -16,6 +16,7 @@ export type AuthContextType = {
   // A função login agora aceita o token e os dados do utilizador.
   login: (token: string, user: User) => void;
   logout: () => void;
+  atualizarUsuario: (user: User) => void;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -79,14 +80,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [logout]);
 
+  // Função para atualizar apenas os dados do usuário (sem token)
+  const atualizarUsuario = useCallback((user: User) => {
+    localStorage.setItem("userData", JSON.stringify(user));
+    setUsuario(user);
+    console.log("Usuário atualizado no contexto:", user);
+  }, []);
+
   const value = useMemo(
     () => ({
       usuario,
       carregando,
       login,
       logout,
+      atualizarUsuario,
     }),
-    [usuario, carregando, login, logout]
+    [usuario, carregando, login, logout, atualizarUsuario]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

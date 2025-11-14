@@ -1,15 +1,13 @@
 export async function buscarPerfilPeloId(id: string) {
   try {
-    const response = await fetch(
-      `${process.env.BACKEND_API_URL}/profile/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-      }
-    );
+    const response = await fetch(`/api/geral/buscar-perfil-pelo-id/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
