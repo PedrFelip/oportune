@@ -4,7 +4,6 @@ import Image from "next/image";
 import profCat from "@/assets/prof_cat.jpg";
 import { Button } from "@/components/ui/button";
 import {
-  DownloadIcon,
   GraduationCapIcon,
   MailIcon,
   PhoneIcon,
@@ -158,17 +157,6 @@ export function Perfil({ perfil }: perfilProps) {
                 </div>
               )}
             </main>
-            {!isExternal && (
-              <footer className="flex gap-5 mt-4">
-                <Button className="flex" variant="oportune">
-                  <DownloadIcon />
-                  Currículo
-                </Button>
-                <Button className="flex" variant="oportune_blank">
-                  Portfólio
-                </Button>
-              </footer>
-            )}
           </ProfileCard>
         </div>
 
