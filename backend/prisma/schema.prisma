@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,152 +8,124 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  senha String
-  nome  String
-
-  emailVerificado Boolean @default(false)
-
-  tipo      UserType
-  estudante Estudante?
-  professor Professor?
-  empresa   Empresa?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String     @id @default(uuid())
+  email           String     @unique
+  senha           String
+  nome            String
+  tipo            UserType
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  emailVerificado Boolean    @default(false)
+  empresa         Empresa?
+  estudante       Estudante?
+  professor       Professor?
 
   @@map("users")
 }
 
 model Estudante {
-  id         String  @id @default(uuid())
-  userId     String  @unique
-  telefone   String?
-  fotoPerfil String?
-
-  dataNascimento DateTime
-  genero         String
-
-  faculdade String?
-
-  areasInteresse             String[] @default([])
-  habilidadesComportamentais String[] @default([])
-  habilidadesTecnicas        String[] @default([])
-  experienciasProfissionais  String[] @default([])
-
-  matricula     String
-  curso         String
-  semestre      Int
-  periodo       Periodo
-  dataFormatura DateTime?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  candidaturas Candidatura[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                         String        @id @default(uuid())
+  userId                     String        @unique
+  fotoPerfil                 String?
+  matricula                  String
+  curso                      String
+  createdAt                  DateTime      @default(now())
+  updatedAt                  DateTime      @updatedAt
+  faculdade                  String?
+  dataNascimento             DateTime
+  genero                     String
+  dataFormatura              DateTime?
+  periodo                    Periodo
+  semestre                   Int
+  telefone                   String?
+  areasInteresse             String[]      @default([])
+  habilidadesComportamentais String[]      @default([])
+  habilidadesTecnicas        String[]      @default([])
+  candidaturas               Candidatura[]
+  user                       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("estudantes")
 }
 
 model Professor {
-  id         String  @id @default(uuid())
-  userId     String  @unique
-  telefone   String?
-  fotoPerfil String?
-
-  dataNascimento DateTime
-  genero         String
-
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  fotoPerfil     String?
+  areaAtuacao    String
   areasInteresse String[]
-
-  areaAtuacao  String
-  departamento String
-  titulacao    String
-  lattes       String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  vagas Vaga[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  dataNascimento DateTime
+  departamento   String
+  genero         String
+  lattes         String?
+  titulacao      String
+  telefone       String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vagas          Vaga[]
 
   @@map("professores")
 }
 
 model Empresa {
-  id           String  @id @default(uuid())
-  userId       String  @unique
-  nomeFantasia String  @unique
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  nomeFantasia String   @unique
+  cnpj         String   @unique
   logo         String?
-
-  cnpj      String  @unique
-  ramo      String
-  setor     String
-  descricao String?
-
-  endereco String?
-  telefone String?
-
-  emailContato String? // Por padrão, é o mesmo da conta
-  website      String?
+  endereco     String?
+  descricao    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  ramo         String
+  setor        String
+  emailContato String?
   redesSociais String[]
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  vagas Vaga[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  telefone     String?
+  website      String?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vagas        Vaga[]
 
   @@map("empresas")
 }
 
 model Vaga {
-  id          String  @id @default(uuid())
-  empresaId   String?
-  professorId String?
-
-  titulo     String
-  descricao  String
-  tipo       TipoVaga
-  requisitos String[]
-
-  numeroVagas            Int      @default(1)
-  numeroVagasPreenchidas Int      @default(0)
+  id                     String        @id @default(uuid())
+  empresaId              String?
+  professorId            String?
+  titulo                 String
+  descricao              String
+  tipo                   TipoVaga
+  requisitos             String[]
   prazoInscricao         DateTime
+  statusVaga             StatusVaga    @default(ATIVA)
+  semestreMinimo         Int?
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+  cursosAlvo             String[]
+  numeroVagas            Int           @default(1)
+  numeroVagasPreenchidas Int           @default(0)
+  candidaturas           Candidatura[]
+  empresa                Empresa?      @relation(fields: [empresaId], references: [id])
+  professor              Professor?    @relation(fields: [professorId], references: [id])
 
-  statusVaga     StatusVaga @default(ATIVA)
-  cursosAlvo     String[]
-  semestreMinimo Int?
-
-  empresa   Empresa?   @relation(fields: [empresaId], references: [id], onDelete: SetNull)
-  professor Professor? @relation(fields: [professorId], references: [id], onDelete: SetNull)
-
-  candidaturas Candidatura[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Index for status filter + recent ordering
-  @@index([statusVaga, createdAt(sort: Desc)], name: "vagas_status_created_idx")
-  // GIN index to accelerate array membership queries (cursosAlvo @> or has)
-  @@index([cursosAlvo], type: Gin, name: "vagas_cursosAlvo_gin")
+  @@index([statusVaga, createdAt(sort: Desc)], map: "vagas_status_created_idx")
+  @@index([cursosAlvo], map: "vagas_cursosAlvo_gin", type: Gin)
   @@map("vagas")
 }
 
 model Candidatura {
-  id String @id @default(uuid())
-
-  vagaId      String
-  estudanteId String
-
+  id              String            @id @default(uuid())
+  vagaId          String
+  estudanteId     String
   dataCandidatura DateTime          @default(now())
   status          StatusCandidatura @default(PENDENTE)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  estudante       Estudante         @relation(fields: [estudanteId], references: [userId], onDelete: Cascade)
+  vaga            Vaga              @relation(fields: [vagaId], references: [id], onDelete: Cascade)
 
+<<<<<<< HEAD
   vaga      Vaga      @relation(fields: [vagaId], references: [id], onDelete: Cascade)
   estudante Estudante @relation(fields: [estudanteId], references: [userId], onDelete: Cascade)
 
@@ -170,6 +136,9 @@ model Candidatura {
   @@unique([vagaId, estudanteId], name: "candidatura_vaga_estudante_unique")
   // Rapida busca das candidaturas mais recentes de um estudante
   @@index([estudanteId, dataCandidatura(sort: Desc)], name: "candidaturas_estudante_data_idx")
+=======
+  @@index([estudanteId, dataCandidatura(sort: Desc)], map: "candidaturas_estudante_data_idx")
+>>>>>>> refs/remotes/origin/main
   @@map("candidaturas")
 }
 

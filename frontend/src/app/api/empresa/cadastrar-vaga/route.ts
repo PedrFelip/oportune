@@ -7,5 +7,6 @@ export async function POST(request: NextRequest) {
   return proxyRequest(request, "/vagas", {
     method: "POST",
     body: body,
+    authRequired: true,
   });
 }

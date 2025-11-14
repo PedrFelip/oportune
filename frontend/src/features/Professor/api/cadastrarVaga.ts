@@ -4,9 +4,9 @@ import { vagaModel } from "@/models/oportunidadeModel";
 export async function cadastrarVaga(data: vagaModel) {
   try {
     const token = await getAuthToken();
+
     if (!token) throw new Error("Token não encontrado");
 
-    // Chamamos a nossa rota interna do Next.js, e não o backend diretamente.
     const reply = await fetch(`/api/professor/cadastrar-vaga`, {
       method: "POST",
       headers: {
