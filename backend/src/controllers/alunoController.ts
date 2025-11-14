@@ -163,22 +163,30 @@ export const updatePerfilController = async (request: FastifyRequest, reply: Fas
       })
     }
 
+    console.log('Dados recebidos para atualização:', body)
+
     const validation = updateEstudantePerfilSchema.safeParse(body)
 
     if (!validation.success) {
+      console.error('Erro de validação:', validation.error)
       return reply.status(400).send({
         message: 'Dados inválidos',
         errors: formatZodErrors(validation.error),
       })
     }
 
+    console.log('Dados validados:', validation.data)
+
     const result = await updatePerfilEstudanteService(userId, validation.data)
 
     if (!result.success) {
+      console.error('Erro no serviço:', result.error)
       return reply.status(400).send({
         message: result.error || 'Erro ao atualizar perfil',
       })
     }
+
+    console.log('Perfil atualizado com sucesso:', result.perfil)
 
     return reply.status(200).send({
       message: result.message,
