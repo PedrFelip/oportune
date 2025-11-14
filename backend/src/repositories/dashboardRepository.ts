@@ -22,7 +22,7 @@ export const getEstudanteData = async (userId: string) => {
         periodo: true,
         dataFormatura: true,
         user: {
-          select: { nome: true },
+          select: { nome: true, email: true },
         },
       },
     })
@@ -125,7 +125,8 @@ export const getCandidaturasRecentes = async (userId: string) => {
 
 // Função totalmente independente para buscar vagas recomendadas
 export const getVagasRecomendadas = async (userId: string) => {
-  console.time('getVagasRecomendadas')
+  const timerLabel = `getVagasRecomendadas-${userId}-${Date.now()}`
+  console.time(timerLabel)
   try {
     console.log(`[getVagasRecomendadas] Iniciando busca para userId: ${userId}`)
 
@@ -150,13 +151,15 @@ export const getVagasRecomendadas = async (userId: string) => {
       console.log(
         `[getVagasRecomendadas] Nenhuma vaga encontrada para curso ${estudanteData.curso}, buscando vagas gerais`,
       )
+      console.timeEnd(timerLabel)
       return await buscarVagasGerais(estudanteData.id)
     }
 
-    console.timeEnd('getVagasRecomendadas')
+    console.timeEnd(timerLabel)
     return vagasDoCurso
   } catch (error) {
     console.error('[getVagasRecomendadas] Erro ao buscar vagas:', error)
+    console.timeEnd(timerLabel)
     return []
   }
 }
@@ -271,21 +274,30 @@ const buscarVagasGerais = async (estudanteId: string) => {
 // Função para atualizar o perfil do estudante
 export const updateEstudanteProfile = async (userId: string, data: any) => {
   try {
+    console.log('Repository - Atualizando estudante com userId:', userId)
+    console.log('Repository - Dados para atualização:', data)
+
+    // Filtrar apenas os campos que foram fornecidos (não undefined)
+    const updateData: any = {}
+    
+    if (data.telefone !== undefined) updateData.telefone = data.telefone
+    if (data.fotoPerfil !== undefined) updateData.fotoPerfil = data.fotoPerfil
+    if (data.dataNascimento !== undefined) updateData.dataNascimento = data.dataNascimento
+    if (data.genero !== undefined) updateData.genero = data.genero
+    if (data.faculdade !== undefined) updateData.faculdade = data.faculdade
+    if (data.areasInteresse !== undefined) updateData.areasInteresse = data.areasInteresse
+    if (data.habilidadesComportamentais !== undefined) updateData.habilidadesComportamentais = data.habilidadesComportamentais
+    if (data.habilidadesTecnicas !== undefined) updateData.habilidadesTecnicas = data.habilidadesTecnicas
+    if (data.semestre !== undefined) updateData.semestre = data.semestre
+    if (data.periodo !== undefined) updateData.periodo = data.periodo
+    if (data.curso !== undefined) updateData.curso = data.curso
+    if (data.dataFormatura !== undefined) updateData.dataFormatura = data.dataFormatura
+
+    console.log('Repository - Dados filtrados para update:', updateData)
+
     const updatedEstudante = await prisma.estudante.update({
       where: { userId },
-      data: {
-        telefone: data.telefone,
-        fotoPerfil: data.fotoPerfil,
-        dataNascimento: data.dataNascimento,
-        genero: data.genero,
-        faculdade: data.faculdade,
-        areasInteresse: data.areasInteresse,
-        habilidadesComportamentais: data.habilidadesComportamentais,
-        habilidadesTecnicas: data.habilidadesTecnicas,
-        semestre: data.semestre,
-        periodo: data.periodo,
-        dataFormatura: data.dataFormatura,
-      },
+      data: updateData,
       select: {
         id: true,
         telefone: true,
@@ -307,9 +319,11 @@ export const updateEstudanteProfile = async (userId: string, data: any) => {
       },
     })
 
+    console.log('Repository - Estudante atualizado com sucesso:', updatedEstudante.matricula)
+
     return updatedEstudante
   } catch (error) {
-    console.error('Erro ao atualizar perfil do estudante:', error)
+    console.error('Repository - Erro ao atualizar perfil do estudante:', error)
     throw error
   }
 }

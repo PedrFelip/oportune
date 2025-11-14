@@ -4,6 +4,7 @@ import {
   getVagasRecomendadas,
   updateEstudanteProfile,
 } from '../repositories/dashboardRepository.ts'
+import prisma from '../../prisma/client.ts'
 import informacoes from '../utils/informacoes.json' with { type: 'json' }
 
 const formatarNomeCurso = (cursoValue: string): string => {
@@ -45,9 +46,20 @@ export const getPerfilService = async (userId: string) => {
   return {
     perfil: {
       nome: estudanteData.user.nome,
+      telefone: estudanteData.telefone,
       curso: formatarNomeCurso(estudanteData.curso),
+      cursoValue: estudanteData.curso,
       semestre: estudanteData.semestre,
-      fotoperfil: estudanteData.fotoPerfil,
+      dataFormatura: estudanteData.dataFormatura,
+      fotoPerfil: estudanteData.fotoPerfil,
+      dataNascimento: estudanteData.dataNascimento,
+      genero: estudanteData.genero,
+      faculdade: estudanteData.faculdade,
+      areasInteresse: estudanteData.areasInteresse || [],
+      habilidadesComportamentais: estudanteData.habilidadesComportamentais || [],
+      habilidadesTecnicas: estudanteData.habilidadesTecnicas || [],
+      matricula: estudanteData.matricula,
+      periodo: estudanteData.periodo,
       porcentagem: perfilPorcentagem(estudanteData),
     },
   }
@@ -183,40 +195,108 @@ export const getDashboardService = async (userId: string) => {
 
 export const updatePerfilEstudanteService = async (userId: string, data: any) => {
   try {
+    console.log('Service - Iniciando atualização para userId:', userId)
+    console.log('Service - Dados recebidos:', data)
+
     // Validar se o estudante existe
     const estudanteExistente = await getEstudanteData(userId)
     if (!estudanteExistente) {
+      console.error('Service - Estudante não encontrado')
       return {
         success: false,
         error: 'Estudante não encontrado',
       }
     }
 
+    console.log('Service - Estudante encontrado:', estudanteExistente.matricula)
+
     // Preparar dados para atualização (apenas campos que podem ser editados)
     const dadosAtualizacao: any = {}
 
-    if (data.telefone !== undefined) dadosAtualizacao.telefone = data.telefone
+    if (data.nome !== undefined) {
+      console.log('Service - Atualizando nome:', data.nome)
+      // Atualizar nome no user
+      await prisma.user.update({
+        where: { id: userId },
+        data: { nome: data.nome },
+      })
+    }
+
+    if (data.telefone !== undefined) {
+      console.log('Service - Atualizando telefone')
+      dadosAtualizacao.telefone = data.telefone
+    }
     if (data.fotoPerfil !== undefined) dadosAtualizacao.fotoPerfil = data.fotoPerfil
     if (data.dataNascimento !== undefined) {
       dadosAtualizacao.dataNascimento = new Date(data.dataNascimento)
     }
     if (data.genero !== undefined) dadosAtualizacao.genero = data.genero
     if (data.faculdade !== undefined) dadosAtualizacao.faculdade = data.faculdade
-    if (data.areasInteresse !== undefined) dadosAtualizacao.areasInteresse = data.areasInteresse
+    if (data.areasInteresse !== undefined) {
+      console.log('Service - Atualizando áreas de interesse:', data.areasInteresse)
+      dadosAtualizacao.areasInteresse = data.areasInteresse
+    }
     if (data.habilidadesComportamentais !== undefined) {
+      console.log('Service - Atualizando habilidades comportamentais:', data.habilidadesComportamentais)
       dadosAtualizacao.habilidadesComportamentais = data.habilidadesComportamentais
     }
     if (data.habilidadesTecnicas !== undefined) {
+      console.log('Service - Atualizando habilidades técnicas:', data.habilidadesTecnicas)
       dadosAtualizacao.habilidadesTecnicas = data.habilidadesTecnicas
     }
-    if (data.semestre !== undefined) dadosAtualizacao.semestre = parseInt(data.semestre)
-    if (data.periodo !== undefined) dadosAtualizacao.periodo = data.periodo
+    if (data.semestre !== undefined) {
+      console.log('Service - Atualizando semestre:', data.semestre)
+      dadosAtualizacao.semestre = parseInt(data.semestre)
+    }
+    if (data.periodo !== undefined) {
+      console.log('Service - Atualizando período')
+      dadosAtualizacao.periodo = data.periodo
+    }
+    if (data.curso !== undefined) {
+      console.log('Service - Atualizando curso:', data.curso)
+      dadosAtualizacao.curso = data.curso
+    }
     if (data.dataFormatura !== undefined) {
+      console.log('Service - Atualizando data de formatura')
       dadosAtualizacao.dataFormatura = data.dataFormatura ? new Date(data.dataFormatura) : null
+    }
+
+    console.log('Service - Dados preparados para atualização:', dadosAtualizacao)
+
+    // Verificar se há campos para atualizar
+    if (Object.keys(dadosAtualizacao).length === 0) {
+      console.log('Service - Nenhum campo do estudante para atualizar')
+      // Buscar dados atualizados do estudante
+      const estudanteAtualizado = await updateEstudanteProfile(userId, {})
+      
+      return {
+        success: true,
+        perfil: {
+          nome: estudanteAtualizado.user.nome,
+          email: estudanteAtualizado.user.email,
+          telefone: estudanteAtualizado.telefone,
+          fotoPerfil: estudanteAtualizado.fotoPerfil,
+          dataNascimento: estudanteAtualizado.dataNascimento,
+          genero: estudanteAtualizado.genero,
+          faculdade: estudanteAtualizado.faculdade,
+          areasInteresse: estudanteAtualizado.areasInteresse,
+          habilidadesComportamentais: estudanteAtualizado.habilidadesComportamentais,
+          habilidadesTecnicas: estudanteAtualizado.habilidadesTecnicas,
+          matricula: estudanteAtualizado.matricula,
+          curso: formatarNomeCurso(estudanteAtualizado.curso),
+          cursoValue: estudanteAtualizado.curso,
+          semestre: estudanteAtualizado.semestre,
+          periodo: estudanteAtualizado.periodo,
+          dataFormatura: estudanteAtualizado.dataFormatura,
+          porcentagem: perfilPorcentagem(estudanteAtualizado),
+        },
+        message: 'Perfil atualizado com sucesso',
+      }
     }
 
     // Atualizar perfil
     const estudanteAtualizado = await updateEstudanteProfile(userId, dadosAtualizacao)
+    console.log('Service - Perfil atualizado com sucesso')
 
     return {
       success: true,
