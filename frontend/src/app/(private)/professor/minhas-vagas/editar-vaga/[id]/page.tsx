@@ -30,19 +30,21 @@ export default function EditarVagaPage() {
 	const router = useRouter();
 	const { showLoading, hideLoading } = useLoading();
 
-	const [vaga, setVaga] = useState<VagaDetalheResponse | null>(null);
+		const [vaga, setVaga] = useState<VagaDetalheResponse | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		let mounted = true;
-		async function fetchVaga() {
+				async function fetchVaga() {
 			try {
 				setLoading(true);
-				const res = await fetch(`/api/aluno/buscar-vaga-pelo-id/${id}`);
+						const res = await fetch(`/api/aluno/buscar-vaga-pelo-id/${id}`);
 				if (!res.ok) throw new Error(`Erro ${res.status}`);
-				const data = (await res.json()) as VagaDetalheResponse;
-				if (mounted) setVaga(data);
+						const json = await res.json();
+						const dados = (json?.dados ?? null) as VagaDetalheResponse | null;
+						if (!dados) throw new Error("Resposta inválida do servidor");
+						if (mounted) setVaga(dados);
 			} catch (e: any) {
 				if (mounted) setError(e.message || "Erro ao carregar vaga");
 			} finally {
@@ -56,7 +58,7 @@ export default function EditarVagaPage() {
 	}, [id]);
 
 		const vagaFormDefault = useMemo(() => {
-		if (!vaga) return undefined;
+			if (!vaga) return undefined;
 			const mapTipoToLabel = (t?: string) => {
 				if (!t) return "Estágio";
 				const up = t.toUpperCase();
@@ -68,7 +70,7 @@ export default function EditarVagaPage() {
 		return {
 			titulo: vaga.titulo,
 			descricao: vaga.descricao,
-				tipo: mapTipoToLabel(vaga.tags?.[0]),
+					tipo: mapTipoToLabel(vaga.tags?.[0]),
 			categorias: vaga.requisitos || [],
 			curso: Array.isArray(vaga.curso) ? vaga.curso[0] || "" : "",
 			semestre: vaga.semestre || "",

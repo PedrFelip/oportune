@@ -17,6 +17,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import { showMessage } from "@/adapters/showMessage";
 import { editarPerfil } from "../Api/editarPerfil";
+import { buscarPerfilAtual } from "../Api/buscarPerfilAtual";
+import { User } from "@/models/user";
 
 export interface ProfileEdit {
   nome?: string;
@@ -25,6 +27,7 @@ export interface ProfileEdit {
   semestre?: number;
   dataFormatura?: string | null;
   habilidadesTecnicas?: string[];
+  habilidadesComportamentais?: string[];
   areasInteresse?: string[];
   areaAtuacao?: string[]; // Para professor
   departamento?: string; // Para professor
@@ -39,64 +42,80 @@ type SemestreOption = {
 const cardTitleStyle = "text-xl font-bold mb-3 text-white";
 
 export default function EditarPerfilAluno() {
-  const { usuario } = useAuth();
+  const { usuario, atualizarUsuario } = useAuth();
   const { showLoading, hideLoading } = useLoading();
   const { back } = useRouter();
   const { setPageTitle } = useLayout();
+  const [isLoadingPerfil, setIsLoadingPerfil] = useState(true);
 
   useEffect(() => {
     setPageTitle("Editar perfil");
   }, [setPageTitle]);
 
-  const { register, control, watch, setValue, handleSubmit } =
+  const { register, control, watch, setValue, handleSubmit, reset } =
     useForm<ProfileEdit>({
-      defaultValues: (() => {
-        if (!usuario) return {};
-
-        switch (usuario.tipo) {
-          // ==================== ESTUDANTE ====================
-          case "ESTUDANTE":
-            return {
-              nome: usuario.nome,
-              telefone: usuario.estudante?.telefone ?? "",
-              curso: usuario.estudante?.curso as CursoType,
-              semestre: usuario.estudante?.semestre ?? 0,
-              dataFormatura: usuario.estudante?.dataFormatura ?? null,
-              habilidadesTecnicas: usuario.estudante?.habilidadesTecnicas ?? [],
-              areasInteresse: usuario.estudante?.areasInteresse ?? [],
-            };
-
-          // ==================== PROFESSOR ====================
-          case "PROFESSOR":
-            return {
-              nome: usuario.nome,
-              telefone: usuario.professor?.telefone ?? "",
-              curso: "" as CursoType,
-              semestre: 0,
-              dataFormatura: null,
-              habilidadesTecnicas: usuario.professor?.areasInteresse ?? [],
-              areasInteresse: usuario.professor?.areasInteresse ?? [],
-            };
-
-          // ==================== EMPRESA ====================
-          case "EMPRESA":
-            return {
-              nome: usuario.empresa?.nomeFantasia ?? usuario.nome,
-              telefone: usuario.empresa?.telefone ?? "",
-              curso: "" as CursoType,
-              semestre: 0,
-              dataFormatura: null,
-              habilidadesTecnicas: usuario.empresa?.setor
-                ? [usuario.empresa.setor]
-                : [],
-              areasInteresse: usuario.empresa?.redesSociais ?? [],
-            };
-
-          default:
-            return {};
-        }
-      })(),
+      defaultValues: {
+        nome: "",
+        telefone: "",
+        curso: "" as CursoType,
+        semestre: 0,
+        dataFormatura: null,
+        habilidadesTecnicas: [],
+        habilidadesComportamentais: [],
+        areasInteresse: [],
+      },
     });
+
+  // Carregar dados do perfil ao montar o componente
+  useEffect(() => {
+    const carregarPerfil = async () => {
+      if (!usuario) return;
+
+      try {
+        setIsLoadingPerfil(true);
+        showLoading();
+
+        const perfilData = await buscarPerfilAtual();
+        console.log("Dados do perfil carregados:", perfilData);
+
+        // Atualizar o formulário com os dados carregados
+        if (usuario.tipo === "ESTUDANTE" && perfilData) {
+          reset({
+            nome: perfilData.nome || usuario.nome,
+            telefone: perfilData.telefone || "",
+            curso: perfilData.cursoValue || (usuario.estudante?.curso as CursoType),
+            semestre: perfilData.semestre || 0,
+            dataFormatura: perfilData.dataFormatura || null,
+            habilidadesTecnicas: perfilData.habilidadesTecnicas || [],
+            habilidadesComportamentais: perfilData.habilidadesComportamentais || [],
+            areasInteresse: perfilData.areasInteresse || [],
+          });
+        }
+      } catch (error) {
+        console.error("Erro ao carregar perfil:", error);
+        showMessage.error("Erro ao carregar dados do perfil");
+        
+        // Fallback para dados do contexto
+        if (usuario.tipo === "ESTUDANTE") {
+          reset({
+            nome: usuario.nome,
+            telefone: usuario.estudante?.telefone ?? "",
+            curso: usuario.estudante?.curso as CursoType,
+            semestre: usuario.estudante?.semestre ?? 0,
+            dataFormatura: usuario.estudante?.dataFormatura ?? null,
+            habilidadesTecnicas: usuario.estudante?.habilidadesTecnicas ?? [],
+            habilidadesComportamentais: usuario.estudante?.habilidadesComportamentais ?? [],
+            areasInteresse: usuario.estudante?.areasInteresse ?? [],
+          });
+        }
+      } finally {
+        setIsLoadingPerfil(false);
+        hideLoading();
+      }
+    };
+
+    carregarPerfil();
+  }, [usuario, reset, showLoading, hideLoading]);
 
   const [cursoSemestre, setCursoSemestre] = useState<SemestreOption[]>([]);
   const cursoSelecionadoValue = watch("curso");
@@ -133,21 +152,119 @@ export default function EditarPerfilAluno() {
         );
       }
 
-      const payload = {
-        ...data,
-        semestre: Number(data.semestre),
-      };
+      // Preparar payload com todos os campos que foram modificados
+      const payload: any = {};
+      
+      console.log('Dados do formulário:', data);
+      
+      // Nome
+      if (data.nome && data.nome !== usuario.nome) {
+        payload.nome = data.nome;
+      }
+      
+      // Telefone
+      if (data.telefone !== undefined && data.telefone !== usuario.estudante?.telefone) {
+        payload.telefone = data.telefone;
+      }
+      
+      // Curso
+      if (data.curso && data.curso !== usuario.estudante?.curso) {
+        payload.curso = data.curso;
+      }
+      
+      // Curso e semestre
+      if (data.semestre) {
+        payload.semestre = Number(data.semestre);
+      }
 
-      await editarPerfil(payload);
-      showMessage.success("Perfil atualizado com sucesso!");
+      // Data de formatura (enviar como veio do form)
+      if (data.dataFormatura !== undefined) {
+        payload.dataFormatura = data.dataFormatura;
+      }
+      
+      // Habilidades e áreas de interesse - sempre enviar para permitir limpar
+      if (data.habilidadesTecnicas !== undefined) {
+        console.log('Habilidades técnicas do form:', data.habilidadesTecnicas);
+        payload.habilidadesTecnicas = data.habilidadesTecnicas;
+      }
+      
+      if (data.habilidadesComportamentais !== undefined) {
+        console.log('Habilidades comportamentais do form:', data.habilidadesComportamentais);
+        payload.habilidadesComportamentais = data.habilidadesComportamentais;
+      }
+      
+      if (data.areasInteresse !== undefined) {
+        console.log('Áreas de interesse do form:', data.areasInteresse);
+        payload.areasInteresse = data.areasInteresse;
+      }
+
+      console.log('Payload completo a ser enviado:', payload);
+
+      // Verificar se há algo para atualizar
+      if (Object.keys(payload).length === 0) {
+        showMessage.info("Nenhuma alteração foi feita.");
+        hideLoading();
+        return;
+      }
+
+      const response = await editarPerfil(payload);
+      console.log('Resposta do backend:', response);
+      
+      if (response?.perfil) {
+        showMessage.success("Perfil atualizado com sucesso!");
+        console.log('Perfil atualizado:', response.perfil);
+        
+        // Atualizar o contexto de autenticação com os novos dados
+        if (usuario) {
+          const usuarioAtualizado = {
+            ...usuario,
+            nome: response.perfil.nome || usuario.nome,
+            estudante: {
+              ...usuario.estudante,
+              telefone: response.perfil.telefone,
+              curso: response.perfil.cursoValue,
+              semestre: response.perfil.semestre,
+              dataFormatura: response.perfil.dataFormatura,
+              habilidadesTecnicas: response.perfil.habilidadesTecnicas || [],
+              habilidadesComportamentais: response.perfil.habilidadesComportamentais || [],
+              areasInteresse: response.perfil.areasInteresse || [],
+              faculdade: response.perfil.faculdade,
+              fotoPerfil: response.perfil.fotoPerfil,
+              dataNascimento: response.perfil.dataNascimento,
+              genero: response.perfil.genero,
+              matricula: response.perfil.matricula,
+              periodo: response.perfil.periodo,
+            }
+          };
+          
+          atualizarUsuario(usuarioAtualizado as User);
+          console.log('Contexto atualizado com:', usuarioAtualizado);
+        }
+        
+        // Aguardar antes de voltar
+        setTimeout(() => {
+          back();
+        }, 1000);
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      console.error(err);
+      console.error("Erro ao atualizar perfil:", err);
       showMessage.error(err.message || "Erro ao atualizar o perfil.");
     } finally {
       hideLoading();
     }
   };
+
+  if (isLoadingPerfil) {
+    return (
+      <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-400">Carregando dados do perfil...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -222,7 +339,7 @@ export default function EditarPerfilAluno() {
                       name="dataFormatura"
                       label="Previsão de formatura"
                       placeholder="Qual a previsão de sua formatura?"
-                      toYear={new Date().getFullYear()}
+                      toYear={new Date().getFullYear() + 10}
                     />
                   </CardContent>
                 </Card>
@@ -263,6 +380,12 @@ export default function EditarPerfilAluno() {
                       placeholder="Adicionar habilidade técnica"
                       control={control}
                       name="habilidadesTecnicas"
+                    />
+                    <FormTagInput
+                      label="Habilidades Comportamentais"
+                      placeholder="Adicionar habilidade comportamental"
+                      control={control}
+                      name="habilidadesComportamentais"
                     />
                     <FormTagInput
                       label="Áreas de Interesse"

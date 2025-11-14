@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,7 +37,7 @@ export function EditarVagaForm({
 }: EditarVagaFormProps) {
   const { usuario } = useAuth();
 
-  const { register, control, handleSubmit } = useForm<VagaEdit>({
+  const { register, control, handleSubmit, reset } = useForm<VagaEdit>({
     defaultValues: vaga ?? {
       titulo: "",
       descricao: "",
@@ -47,6 +48,13 @@ export function EditarVagaForm({
       prazoInscricao: "",
     },
   });
+
+  // Quando os dados da vaga chegarem assincronamente, atualiza os valores do formulário
+  useEffect(() => {
+    if (vaga) {
+      reset(vaga);
+    }
+  }, [vaga, reset]);
 
   if (usuario?.tipo === "ESTUDANTE") {
     return;
@@ -128,6 +136,8 @@ export function EditarVagaForm({
                   name="prazoInscricao"
                   label="Prazo de inscrição"
                   placeholder="Selecione a data limite"
+                  fromYear={new Date().getFullYear()}
+                  toYear={new Date().getFullYear() + 10}
                 />
               </div>
 
