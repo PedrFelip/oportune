@@ -12,89 +12,119 @@
     { "value": "OUTRO", "label": "Outro" },
     { "value": "PREFIRO NAO DIZER", "label": "Prefiro não dizer" }
   ],
-
   "cursos": [
-    { "value": null, "label": "Qual seu curso?", "maxSemestres": 0 },
-    { "value": "Administração", "label": "Administração", "maxSemestres": 8 },
     {
-      "value": "Análise e Desenvolvimento de Sistemas",
+      "value": null,
+      "label": "Qual seu curso?",
+      "maxSemestres": 0
+    },
+    {
+      "value": "administracao",
+      "label": "Administração",
+      "maxSemestres": 8
+    },
+    {
+      "value": "analise_desenvolvimento_sistemas",
       "label": "Análise e Desenvolvimento de Sistemas",
       "maxSemestres": 6
     },
     {
-      "value": "Arquitetura e Urbanismo",
+      "value": "arquitetura_urbanismo",
       "label": "Arquitetura e Urbanismo",
       "maxSemestres": 10
     },
     {
-      "value": "Ciência da Computação",
+      "value": "ciencia_computacao",
       "label": "Ciência da Computação",
       "maxSemestres": 8
     },
     {
-      "value": "Ciências Contábeis",
+      "value": "ciencias_contabeis",
       "label": "Ciências Contábeis",
       "maxSemestres": 8
     },
-    { "value": "Direito", "label": "Direito", "maxSemestres": 10 },
     {
-      "value": "Educação Física",
+      "value": "direito",
+      "label": "Direito",
+      "maxSemestres": 10
+    },
+    {
+      "value": "educacao_fisica",
       "label": "Educação Física",
       "maxSemestres": 8
     },
-    { "value": "Enfermagem", "label": "Enfermagem", "maxSemestres": 8 },
-    { "value": "Biomedicina", "label": "Biomedicina", "maxSemestres": 8 },
-    { "value": "Farmácia", "label": "Farmácia", "maxSemestres": 10 },
     {
-      "value": "Gestão Empresarial",
+      "value": "enfermagem",
+      "label": "Enfermagem",
+      "maxSemestres": 8
+    },
+    {
+      "value": "biomedicina",
+      "label": "Biomedicina",
+      "maxSemestres": 8
+    },
+    {
+      "value": "farmacia",
+      "label": "Farmácia",
+      "maxSemestres": 10
+    },
+    {
+      "value": "gestao_empresarial",
       "label": "Gestão Empresarial",
       "maxSemestres": 6
     },
     {
-      "value": "Gestão Financeira",
+      "value": "gestao_financeira",
       "label": "Gestão Financeira",
       "maxSemestres": 6
     },
     {
-      "value": "Marketing e Gestão de Clientes",
+      "value": "marketing_gestao_clientes",
       "label": "Marketing e Gestão de Clientes",
       "maxSemestres": 6
     },
-    { "value": "Saúde Pública", "label": "Saúde Pública", "maxSemestres": 8 },
     {
-      "value": "Segurança da Informação",
+      "value": "saude_publica",
+      "label": "Saúde Pública",
+      "maxSemestres": 8
+    },
+    {
+      "value": "seguranca_informacao",
       "label": "Segurança da Informação",
       "maxSemestres": 8
     },
     {
-      "value": "Tecnologias e Educação a Distância",
+      "value": "tecnologias_educacao_distancia",
       "label": "Tecnologias e Educação a Distância",
       "maxSemestres": 6
     },
     {
-      "value": "Marketing Digital e Ciência de Dados",
+      "value": "marketing_digital_ciencia_dados",
       "label": "Marketing Digital e Ciência de Dados",
       "maxSemestres": 6
     },
     {
-      "value": "Processos Gerenciais",
+      "value": "processos_gerenciais",
       "label": "Processos Gerenciais",
       "maxSemestres": 6
     },
     {
-      "value": "Terapia Ocupacional",
+      "value": "terapia_ocupacional",
       "label": "Terapia Ocupacional",
       "maxSemestres": 8
     },
     {
-      "value": "Engenharia de Software",
+      "value": "engenharia_software",
       "label": "Engenharia de Software",
       "maxSemestres": 8
     },
-    { "value": "Medicina", "label": "Medicina", "maxSemestres": 12 }
+    {
+      "value": "medicina",
+      "label": "Medicina",
+      "maxSemestres": 12
+    }
   ],
   "tipos": [],
-
   "modalidade": [
     { "value": null, "label": "Modalidade" },
     { "value": "presencial", "label": "Presencial" },
