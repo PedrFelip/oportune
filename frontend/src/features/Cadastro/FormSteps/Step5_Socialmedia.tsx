@@ -33,7 +33,7 @@ export function Step5_Socialmedia({
           id="telefone"
           label="Telefone da empresa (Opcional)"
           type="tel"
-          mask={"(99) 99999-9999"}
+          mask={"(__) _____-____"}
           {...register("telefone")}
           error={(errors as any).telefone?.message}
           required={false}
