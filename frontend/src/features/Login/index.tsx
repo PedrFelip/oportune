@@ -27,25 +27,22 @@ export default function Login() {
       login(token, user);
       salveTokenCookie(token);
 
-      showMessage.success("Login realizado com sucesso");
-
       if (user.emailVerificado === false) {
         // router.replace("/confirmacao"); Isso não funciona
+        showMessage.error("Por favor, verifique seu email antes de continuar.");
         return;
       }
 
-      switch (user.tipo) {
-        case "ESTUDANTE":
-          router.replace("/aluno/dashboard");
-          break;
-        case "PROFESSOR":
-          router.replace("/professor/dashboard");
-          break;
-        case "EMPRESA":
-          router.replace("/empresa/dashboard");
-          break;
-        default:
-          router.replace("/");
+      showMessage.success("Login realizado com sucesso");
+
+      if (user.tipo === "ESTUDANTE") {
+        router.replace("/aluno/dashboard");
+        return;
+      } else if (user.tipo === "PROFESSOR") {
+        router.replace("/professor/dashboard");
+        return;
+      } else {
+        router.push("/empresa/dashboard");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
