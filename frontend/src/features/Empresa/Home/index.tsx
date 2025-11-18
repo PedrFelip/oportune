@@ -68,6 +68,8 @@ export function Dashboard() {
 
         // const respAlunos = await buscarAlunosOrientados();
         // setAlunosOrientados(respAlunos.alunos);
+        showMessage.dismiss();
+        showMessage.success("Dados carregados com sucesso!");
       } catch (e) {
         console.error("Erro ao carregar dados:", e);
         setErrorPerfil("Erro ao carregar perfil");

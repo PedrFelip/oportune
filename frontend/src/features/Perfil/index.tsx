@@ -101,7 +101,7 @@ export function Perfil({ perfil }: perfilProps) {
             </div>
 
             {/* 🔹 botão só no perfil próprio */}
-            {!isExternal && (
+            {!isExternal && usuario?.tipo === "ESTUDANTE" && (
               <div className="flex items-center mr-6">
                 <Button
                   variant="oportune"

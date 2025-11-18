@@ -44,7 +44,7 @@ const cardTitleStyle = "text-xl font-bold mb-3 text-white";
 export default function EditarPerfilAluno() {
   const { usuario, atualizarUsuario } = useAuth();
   const { showLoading, hideLoading } = useLoading();
-  const { back } = useRouter();
+  const { replace } = useRouter();
   const { setPageTitle } = useLayout();
   const [isLoadingPerfil, setIsLoadingPerfil] = useState(true);
 
@@ -97,7 +97,7 @@ export default function EditarPerfilAluno() {
       } catch (error) {
         console.error("Erro ao carregar perfil:", error);
         showMessage.error("Erro ao carregar dados do perfil");
-        
+
         // Fallback para dados do contexto
         if (usuario.tipo === "ESTUDANTE") {
           reset({
@@ -107,7 +107,8 @@ export default function EditarPerfilAluno() {
             semestre: usuario.estudante?.semestre ?? 0,
             dataFormatura: usuario.estudante?.dataFormatura ?? null,
             habilidadesTecnicas: usuario.estudante?.habilidadesTecnicas ?? [],
-            habilidadesComportamentais: usuario.estudante?.habilidadesComportamentais ?? [],
+            habilidadesComportamentais:
+              usuario.estudante?.habilidadesComportamentais ?? [],
             areasInteresse: usuario.estudante?.areasInteresse ?? [],
           });
         }
@@ -141,8 +142,9 @@ export default function EditarPerfilAluno() {
       setCursoSemestre(semestres);
       // Não sobrescrever o semestre carregado do perfil.
       // Apenas defina um padrão se não houver valor válido selecionado.
-      const valoresValidos = semestres.map(s => s.value);
-      const semestreAtualNumero = typeof semestreAtual === "number" ? semestreAtual : 0;
+      const valoresValidos = semestres.map((s) => s.value);
+      const semestreAtualNumero =
+        typeof semestreAtual === "number" ? semestreAtual : 0;
       if (!valoresValidos.includes(semestreAtualNumero)) {
         // Define o primeiro semestre como padrão quando não houver um válido
         setValue("semestre", semestres[0]?.value ?? 1);
@@ -166,24 +168,27 @@ export default function EditarPerfilAluno() {
       // Preparar payload com todos os campos que foram modificados
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payload: any = {};
-      
-      console.log('Dados do formulário:', data);
-      
+
+      console.log("Dados do formulário:", data);
+
       // Nome
       if (data.nome && data.nome !== usuario.nome) {
         payload.nome = data.nome;
       }
-      
+
       // Telefone
-      if (data.telefone !== undefined && data.telefone !== usuario.estudante?.telefone) {
+      if (
+        data.telefone !== undefined &&
+        data.telefone !== usuario.estudante?.telefone
+      ) {
         payload.telefone = data.telefone;
       }
-      
+
       // Curso
       if (data.curso && data.curso !== usuario.estudante?.curso) {
         payload.curso = data.curso;
       }
-      
+
       // Curso e semestre
       if (data.semestre) {
         payload.semestre = Number(data.semestre);
@@ -193,24 +198,27 @@ export default function EditarPerfilAluno() {
       if (data.dataFormatura !== undefined) {
         payload.dataFormatura = data.dataFormatura;
       }
-      
+
       // Habilidades e áreas de interesse - sempre enviar para permitir limpar
       if (data.habilidadesTecnicas !== undefined) {
-        console.log('Habilidades técnicas do form:', data.habilidadesTecnicas);
+        console.log("Habilidades técnicas do form:", data.habilidadesTecnicas);
         payload.habilidadesTecnicas = data.habilidadesTecnicas;
       }
-      
+
       if (data.habilidadesComportamentais !== undefined) {
-        console.log('Habilidades comportamentais do form:', data.habilidadesComportamentais);
+        console.log(
+          "Habilidades comportamentais do form:",
+          data.habilidadesComportamentais
+        );
         payload.habilidadesComportamentais = data.habilidadesComportamentais;
       }
-      
+
       if (data.areasInteresse !== undefined) {
-        console.log('Áreas de interesse do form:', data.areasInteresse);
+        console.log("Áreas de interesse do form:", data.areasInteresse);
         payload.areasInteresse = data.areasInteresse;
       }
 
-      console.log('Payload completo a ser enviado:', payload);
+      console.log("Payload completo a ser enviado:", payload);
 
       // Verificar se há algo para atualizar
       if (Object.keys(payload).length === 0) {
@@ -220,12 +228,12 @@ export default function EditarPerfilAluno() {
       }
 
       const response = await editarPerfil(payload);
-      console.log('Resposta do backend:', response);
-      
+      console.log("Resposta do backend:", response);
+
       if (response?.perfil) {
         showMessage.success("Perfil atualizado com sucesso!");
-        console.log('Perfil atualizado:', response.perfil);
-        
+        console.log("Perfil atualizado:", response.perfil);
+
         // Atualizar o contexto de autenticação com os novos dados
         if (usuario) {
           const usuarioAtualizado = {
@@ -238,7 +246,8 @@ export default function EditarPerfilAluno() {
               semestre: response.perfil.semestre,
               dataFormatura: response.perfil.dataFormatura,
               habilidadesTecnicas: response.perfil.habilidadesTecnicas || [],
-              habilidadesComportamentais: response.perfil.habilidadesComportamentais || [],
+              habilidadesComportamentais:
+                response.perfil.habilidadesComportamentais || [],
               areasInteresse: response.perfil.areasInteresse || [],
               faculdade: response.perfil.faculdade,
               fotoPerfil: response.perfil.fotoPerfil,
@@ -246,16 +255,17 @@ export default function EditarPerfilAluno() {
               genero: response.perfil.genero,
               matricula: response.perfil.matricula,
               periodo: response.perfil.periodo,
-            }
+            },
           };
-          
+
           atualizarUsuario(usuarioAtualizado as User);
-          console.log('Contexto atualizado com:', usuarioAtualizado);
+          console.log("Contexto atualizado com:", usuarioAtualizado);
         }
-        
+
         // Aguardar antes de voltar
         setTimeout(() => {
-          back();
+          // Alterar depois
+          // replace(`/perfil/${usuario.id}`);
         }, 1000);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -283,7 +293,10 @@ export default function EditarPerfilAluno() {
       <div className="bg-gray-900 text-white min-h-screen">
         <main className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <Button variant="ghost_red" onClick={back}>
+            <Button
+              variant="ghost_red"
+              onClick={() => replace(`/perfil/${usuario?.id}`)}
+            >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar ao Perfil
             </Button>
@@ -437,7 +450,6 @@ export default function EditarPerfilAluno() {
                   </CardContent>
                 </Card>
               )}
-
             </div>
           </div>
         </main>
