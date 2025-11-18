@@ -12,11 +12,11 @@ import { BriefcaseIcon, UserIcon } from "lucide-react";
 import { useLayout } from "@/contexts/LayoutContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { FormNewOportune } from "../FormVaga";
-import { buscarVagasRecentes } from "@/features/Professor/api/buscarVagasRecentes";
 import { showMessage } from "@/adapters/showMessage";
 import { buscarVagasAtivas } from "../api/buscarVagasAtivas";
 import { buscarPerfilPeloId } from "@/features/Api/buscarPerfilPeloID";
 import { buscarCandidaturas } from "../api/buscarCandidaturas";
+import { buscarVagasRecentes } from "../api/buscarVagasRecentes";
 // import { buscarPerfilProfessor } from "../api/buscarPerfil";
 // import { buscarAlunosOrientados } from "../api/buscarAlunos";
 
@@ -58,7 +58,7 @@ export function Dashboard() {
         setPerfil(
           typeof respPerfil === "object" && respPerfil !== null
             ? respPerfil
-            : {},
+            : {}
         );
 
         const respVagas = await buscarVagasRecentes();
@@ -68,7 +68,7 @@ export function Dashboard() {
             ? respVagas
             : Array.isArray((respVagas as any)?.data)
               ? (respVagas as any).data
-              : [],
+              : []
         );
 
         const totalResp = await buscarVagasAtivas();
@@ -78,7 +78,7 @@ export function Dashboard() {
             ? totalResp.count
             : typeof totalResp === "number"
               ? totalResp
-              : 0,
+              : 0
         );
 
         const candidaturasResp = await buscarCandidaturas();
@@ -86,7 +86,7 @@ export function Dashboard() {
         setCandidaturas(
           typeof candidaturasResp?.count === "number"
             ? candidaturasResp.count
-            : 0,
+            : 0
         );
 
         // const respAlunos = await buscarAlunosOrientados();
