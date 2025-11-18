@@ -4,8 +4,10 @@ import { StatusVaga } from '@prisma/client'
 export const VagasAtivasEmpresaRepository = async (idEmpresa: string) => {
   return prisma.vaga.count({
     where: {
-      empresaId: idEmpresa,
-      statusVaga: StatusVaga.ATIVA,
+      empresa: {
+        userId: idEmpresa,
+      },
+      statusVaga: 'ATIVA' as StatusVaga,
     },
   })
 }
@@ -14,7 +16,9 @@ export const totalCandidaturasVagasEmpresaRepository = async (idEmpresa: string)
   return prisma.candidatura.count({
     where: {
       vaga: {
-        empresaId: idEmpresa,
+        empresa: {
+          userId: idEmpresa,
+        },
       },
     },
   })

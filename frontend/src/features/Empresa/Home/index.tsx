@@ -28,10 +28,10 @@ export function Dashboard() {
   const { setPageTitle } = useLayout();
   const { usuario } = useAuth();
 
-  const [perfil, setPerfil] = useState<any>(null);
+  const [perfil, setPerfil] = useState<any>({ porcentagem: 75 });
   const [totalVagas, setTotalVagas] = useState<number>(0);
   const [vagasRecentes, setVagasRecentes] = useState<any[]>([]);
-  const [candidaturas, setCandidaturas] = useState<any[]>([]);
+  const [candidaturas, setCandidaturas] = useState<number>(0);
   // const [alunosOrientados, setAlunosOrientados] = useState<any[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -54,16 +54,40 @@ export function Dashboard() {
         setLoading(true);
 
         const respPerfil = await buscarPerfilPeloId(usuario?.id || "");
-        setPerfil(respPerfil);
+        console.log("respPerfil:", respPerfil);
+        setPerfil(
+          typeof respPerfil === "object" && respPerfil !== null
+            ? respPerfil
+            : {},
+        );
 
         const respVagas = await buscarVagasRecentes();
-        setVagasRecentes(respVagas);
+        console.log("respVagas:", respVagas);
+        setVagasRecentes(
+          Array.isArray(respVagas)
+            ? respVagas
+            : Array.isArray((respVagas as any)?.data)
+              ? (respVagas as any).data
+              : [],
+        );
 
-        const total = await buscarVagasAtivas();
-        setTotalVagas(total);
+        const totalResp = await buscarVagasAtivas();
+        console.log("totalResp:", totalResp);
+        setTotalVagas(
+          typeof totalResp?.count === "number"
+            ? totalResp.count
+            : typeof totalResp === "number"
+              ? totalResp
+              : 0,
+        );
 
-        const candidaturas = await buscarCandidaturas();
-        setCandidaturas(candidaturas);
+        const candidaturasResp = await buscarCandidaturas();
+        console.log("candidaturasResp:", candidaturasResp);
+        setCandidaturas(
+          typeof candidaturasResp?.count === "number"
+            ? candidaturasResp.count
+            : 0,
+        );
 
         // const respAlunos = await buscarAlunosOrientados();
         // setAlunosOrientados(respAlunos.alunos);
@@ -90,7 +114,7 @@ export function Dashboard() {
 
   // if (carregando) showMessage.loading("Carregando...");
 
-  if (!usuario) {
+  if (!usuario || carregando) {
     return null;
   }
 
@@ -100,7 +124,7 @@ export function Dashboard() {
         {/* 🔹 Coluna Principal */}
         <div className="col-span-3 lg:col-span-2 space-y-6">
           {/* Perfil */}
-          {perfil ? (
+          {perfil && usuario?.empresa ? (
             <div className="bg-slate-800 p-6 rounded-lg">
               <div className="flex items-center gap-4 justify-between">
                 <div className="container flex gap-2 items-center">
@@ -113,10 +137,16 @@ export function Dashboard() {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-white">
-                      {usuario.empresa?.nomeFantasia || usuario.nome}
+                      {typeof usuario.empresa?.nomeFantasia === "string"
+                        ? usuario.empresa.nomeFantasia
+                        : typeof usuario.nome === "string"
+                          ? usuario.nome
+                          : "Empresa"}
                     </h2>
                     <p className="text-slate-400">
-                      {usuario.empresa?.ramo || "Empresa parceira"}
+                      {typeof usuario.empresa?.ramo === "string"
+                        ? usuario.empresa.ramo
+                        : "Empresa parceira"}
                     </p>
                   </div>
                 </div>
@@ -217,14 +247,18 @@ export function Dashboard() {
                 <BriefcaseIcon className="text-blue-500" />
                 <h3 className="font-bold">Vagas ativas</h3>
               </div>
-              <div className="font-bold text-xl text-white">{totalVagas}</div>
+              <div className="font-bold text-xl text-white">
+                {typeof totalVagas === "number" ? totalVagas : 0}
+              </div>
             </div>
             <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
               <div className="card flex gap-3 items-center text-white">
                 <UserIcon className="text-blue-500" />
                 <h3 className="font-bold">Total de candidatos</h3>
               </div>
-              <div className="font-bold text-xl text-white">{candidaturas}</div>
+              <div className="font-bold text-xl text-white">
+                {typeof candidaturas === "number" ? candidaturas : 0}
+              </div>
             </div>
           </div>
         </div>
