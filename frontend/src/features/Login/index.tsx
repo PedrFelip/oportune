@@ -24,15 +24,15 @@ export default function Login() {
       const response = await logarUsuario(data);
       const { token, user } = response;
 
-      login(token, user);
-      salveTokenCookie(token);
-
-      showMessage.success("Login realizado com sucesso");
-
       if (user.emailVerificado === false) {
         // router.replace("/confirmacao"); Isso não funciona
         return;
       }
+
+      login(token, user);
+      salveTokenCookie(token);
+
+      showMessage.success("Login realizado com sucesso");
 
       switch (user.tipo) {
         case "ESTUDANTE":

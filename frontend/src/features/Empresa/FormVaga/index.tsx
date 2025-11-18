@@ -28,9 +28,9 @@ import {
 } from "@/components/ui/select";
 import informacoes from "@/utils/informacoes.json";
 import { cadastrarVaga } from "../api/cadastrarVaga";
-import { FormCalendar } from "@/features/Professor/components/FormCalendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { PlusCircle } from "lucide-react";
+import { FormCalendar } from "@/features/Cadastro/components/FormCalendar";
 
 type FormNewEventProps = {
   isOpen: DialogProps["open"];
@@ -44,7 +44,11 @@ const tipoVaga = [
   { label: "Estágio", value: "Estágio" },
 ];
 
-export function FormNewOportune({ isOpen, setIsOpen, typeButton }: FormNewEventProps) {
+export function FormNewOportune({
+  isOpen,
+  setIsOpen,
+  typeButton,
+}: FormNewEventProps) {
   const { usuario } = useAuth();
 
   const form = useForm<vagaModel>({
@@ -217,6 +221,7 @@ export function FormNewOportune({ isOpen, setIsOpen, typeButton }: FormNewEventP
                   name="prazoInscricao"
                   label=""
                   placeholder="Selecione a data"
+                  toYear={new Date().getFullYear() + 10}
                 />
               </div>
             </div>
@@ -228,7 +233,8 @@ export function FormNewOportune({ isOpen, setIsOpen, typeButton }: FormNewEventP
               >
                 Requisitos
                 <span className="text-white/50 text-xs font-normal">
-                  {" "}(Digite e pressione Enter ou clique em +)
+                  {" "}
+                  (Digite e pressione Enter ou clique em +)
                 </span>
               </Label>
               <Controller
@@ -252,7 +258,8 @@ export function FormNewOportune({ isOpen, setIsOpen, typeButton }: FormNewEventP
               >
                 Cursos alvo
                 <span className="text-white/50 text-xs font-normal">
-                  {" "}(Selecione da lista)
+                  {" "}
+                  (Selecione da lista)
                 </span>
               </Label>
               <Controller
