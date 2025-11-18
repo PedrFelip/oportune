@@ -28,9 +28,9 @@ import {
 } from "@/components/ui/select";
 import informacoes from "@/utils/informacoes.json";
 import { cadastrarVaga } from "../api/cadastrarVaga";
-import { FormCalendar } from "../components/FormCalendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { PlusCircle } from "lucide-react";
+import { FormCalendar } from "@/features/Cadastro/components/FormCalendar";
 
 type FormNewEventProps = {
   isOpen: DialogProps["open"];
@@ -40,7 +40,7 @@ type FormNewEventProps = {
 
 const tipoVaga = [
   { label: "Extensão", value: "Extensão" },
-  { label: "Pesquisa", value: "Pesquisa" }
+  { label: "Pesquisa", value: "Pesquisa" },
 ];
 
 export function FormNewOportune({
@@ -222,6 +222,7 @@ export function FormNewOportune({
                   name="prazoInscricao"
                   label=""
                   placeholder="Selecione a data"
+                  toYear={new Date().getFullYear() + 10}
                 />
               </div>
             </div>

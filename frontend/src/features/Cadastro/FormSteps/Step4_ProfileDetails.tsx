@@ -131,6 +131,7 @@ export function Step4_ProfileDetails({
           // onBlur={handleCnpjBlur}
           disabled={isLoading}
           error={(errors as any).cnpj?.message || cnpjError}
+          mask={"__.___.___/____-__"}
         />
         {isLoading}
         <FormInput

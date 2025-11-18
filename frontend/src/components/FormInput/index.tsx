@@ -48,8 +48,6 @@ export default function FormInput({
             : "w-full px-4 py-2 rounded-lg border border-white/10 bg-[rgba(196,211,230,0.02)] text-white text-base transition-all focus:outline-none focus:border-[#2474e4] focus:ring-2 focus:ring-[#2474e4]/30"
         }
         ref={mask ? inputRef : undefined}
-        value={props.value}
-        onChange={props.onChange}
         {...props}
       />
     </div>

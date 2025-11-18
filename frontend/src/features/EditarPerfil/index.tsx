@@ -164,6 +164,7 @@ export default function EditarPerfilAluno() {
       }
 
       // Preparar payload com todos os campos que foram modificados
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payload: any = {};
       
       console.log('Dados do formulário:', data);
