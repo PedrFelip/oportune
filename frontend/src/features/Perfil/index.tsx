@@ -237,45 +237,48 @@ export function Perfil({ perfil }: perfilProps) {
           )}
 
           {/* EXPERIÊNCIAS */}
-          {/* {empresa ? (
-            <ProfileCard>
-              <h2 className="font-bold text-2xl border-b-2 border-b-gray-700 py-2">
-                Vagas publicadas
-              </h2>
-              <main className="flex flex-col gap-3">
-                {empresa.vagas?.length ? (
-                  empresa.vagas.map((vaga) => (
-                    <div
-                      key={vaga.id}
-                      className="p-3 border border-gray-700 rounded-lg"
-                    >
-                      <h3 className="text-lg font-semibold">{vaga.titulo}</h3>
-                      <p className="text-gray-400 text-sm">
-                        {vaga.tipo} - {vaga.curso}
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-400">
-                    Nenhuma vaga publicada por enquanto.
-                  </p>
-                )}
-              </main>
-            </ProfileCard>
+          {empresa ? (
+            <>
+              <ProfileCard>
+                <h2 className="font-bold text-2xl border-b-2 border-b-gray-700 py-2">
+                  Vagas publicadas
+                </h2>
+                <main className="flex flex-col gap-3">
+                  {empresa.vagas?.length ? (
+                    empresa.vagas.map((vaga) => (
+                      <div
+                        key={vaga.id}
+                        className="p-3 border border-gray-700 rounded-lg"
+                      >
+                        <h3 className="text-lg font-semibold">{vaga.titulo}</h3>
+                        <p className="text-gray-400 text-sm">
+                          {vaga.tipo} - {vaga.curso}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-400">
+                      Nenhuma vaga publicada por enquanto.
+                    </p>
+                  )}
+                </main>
+              </ProfileCard>
+            </>
           ) : (
-            <ProfileCard>
-              <h2 className="font-bold text-2xl border-b-2 border-b-gray-700 py-2">
-                Experiências Profissionais
-              </h2>
-              <main className="flex flex-col gap-6">
-                <Experiencia
-                  titulo={"Desenvolvedor Front-end Jr."}
-                  local={"TechCorp"}
-                  periodo={"2024 - Atualmente"}
-                />
-              </main>
-            </ProfileCard>
-          )} */}
+            <></>
+            // <ProfileCard>
+            //   <h2 className="font-bold text-2xl border-b-2 border-b-gray-700 py-2">
+            //     Experiências Profissionais
+            //   </h2>
+            //   <main className="flex flex-col gap-6">
+            //     <Experiencia
+            //       titulo={"Desenvolvedor Front-end Jr."}
+            //       local={"TechCorp"}
+            //       periodo={"2024 - Atualmente"}
+            //     />
+            //   </main>
+            // </ProfileCard>
+          )}
         </div>
       </div>
     </div>
