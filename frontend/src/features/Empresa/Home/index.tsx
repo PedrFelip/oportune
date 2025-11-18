@@ -36,7 +36,6 @@ export function Dashboard() {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [errorPerfil, setErrorPerfil] = useState<string | null>(null);
   // const [loadingAlunos, setLoadingAlunos] = useState(true);
   // const [errorAlunos, setErrorAlunos] = useState<string | null>(null);
 
@@ -72,7 +71,7 @@ export function Dashboard() {
         showMessage.success("Dados carregados com sucesso!");
       } catch (e) {
         console.error("Erro ao carregar dados:", e);
-        setErrorPerfil("Erro ao carregar perfil");
+        showMessage.error("Erro ao carregar dados");
         // setErrorAlunos("Erro ao carregar alunos");
       } finally {
         setLoading(false);
@@ -121,24 +120,24 @@ export function Dashboard() {
                     </p>
                   </div>
                 </div>
-                <Button variant={"oportune"}>Editar perfil</Button>
+                {/* <Button variant={"oportune"}>Editar perfil</Button> */}
               </div>
-              <div className="mt-6">
+              {/* <div className="mt-6">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm text-slate-400">
                     Perfil Completo
                   </span>
                   <span className="text-sm font-semibold text-white">
-                    {perfil.porcentagem || 75}%
+                    {perfil.porcentagem}%
                   </span>
                 </div>
                 <div className="w-full bg-slate-700 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full"
-                    style={{ width: `${75}%` }}
+                    style={{ width: `${perfil.porcentagem}%` }}
                   ></div>
                 </div>
-              </div>
+              </div> */}
             </div>
           ) : (
             <div className="bg-slate-800 p-6 rounded-lg text-slate-400">
@@ -149,38 +148,61 @@ export function Dashboard() {
           <div className="bg-slate-800 p-6 rounded-lg">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold text-white">
-                Minhas Candidaturas Recentes
+                Minhas Vagas Recentes
               </h3>
               <a
-                href="#"
+                href="/professor/minhas-vagas"
                 className="text-sm font-semibold text-blue-500 hover:underline"
               >
                 Ver todas
               </a>
             </div>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors">
-                <div>
-                  <div className="w-full flex flex-1 items-center gap-2">
-                    <div className="font-semibold text-white text-xl">
-                      Estagio de Suporte de TI
-                    </div>
-                    <Badge className="px-3 py-2 text-xs font-semibold rounded-full whitespace-nowrap bg-green-500/10 text-green-400">
-                      Estágio
-                    </Badge>
+            {loading ? (
+              <div className="text-slate-400">Carregando vagas...</div>
+            ) : vagasRecentes.length > 0 ? (
+              <div className="space-y-3">
+                {vagasRecentes.map((vaga) => (
+                  <div
+                    key={vaga.id}
+                    className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors"
+                  >
+                    {vaga.status !== "REJEITADA" ? (
+                      <>
+                        <div>
+                          <p className="font-semibold text-white">
+                            {vaga.titulo}
+                          </p>
+                          <p className="text-sm text-slate-400">
+                            Inscrições expiram em{" "}
+                            {new Date(vaga.dataLimite).toLocaleDateString(
+                              "pt-BR"
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-center gap-2">
+                          <Badge
+                            className={`px-3 py-2 w-4/5 text-xs font-semibold rounded-full whitespace-nowrap ${
+                              vaga.porcentagem >= 75
+                                ? "bg-green-500/10 text-green-400"
+                                : vaga.porcentagem >= 50
+                                  ? "bg-yellow-500/10 text-yellow-400"
+                                  : "bg-red-500/10 text-red-400"
+                            }`}
+                          >
+                            {vaga.porcentagem.toFixed(0)}%
+                          </Badge>
+                          <Button variant={"oportune"}>Ver detalhes</Button>
+                        </div>
+                      </>
+                    ) : null}
                   </div>
-                  <p className="text-sm text-slate-400">
-                    Inscrições expiram em 10 dias
-                  </p>
-                </div>
-                <div className="flex flex-col items-center gap-2">
-                  <Badge className="px-3 py-2 w-full text-xs font-semibold rounded-full whitespace-nowrap bg-green-500/10 text-green-400">
-                    20 candidatos
-                  </Badge>
-                  <Button variant={"oportune"}>Ver detalhes</Button>
-                </div>
+                ))}
               </div>
-            </div>
+            ) : (
+              <div className="text-slate-400">
+                Nenhuma vaga recente encontrada
+              </div>
+            )}
           </div>
         </div>
 
