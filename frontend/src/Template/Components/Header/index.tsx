@@ -2,7 +2,7 @@
 import { useAuth } from "../../../contexts/AuthContext";
 import { useState, useEffect, MouseEventHandler } from "react";
 import { buscarPerfilAluno } from "@/features/Aluno/api/buscarPerfil";
-import { SearchVagaCommand } from "@/components/SearchVagaCommand";
+// import { SearchVagaCommand } from "@/components/SearchVagaCommand";
 import { SearchIcon } from "lucide-react";
 
 type headerProps = {
@@ -94,7 +94,7 @@ export function Header({ title, onMenuClick }: headerProps) {
       </div>
       <div className="flex items-center gap-10 justify-around">
         <div className="relative w-full max-w-md">
-          <SearchVagaCommand />
+          {/* <SearchVagaCommand /> */}
         </div>
 
         <div className="w-10 h-10 rounded-full bg-blue-400 flex p-4 items-center justify-center text-slate-800 font-bold">
